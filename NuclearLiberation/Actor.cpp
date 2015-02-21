@@ -63,8 +63,11 @@ void Actor::update(float dt)
 	{
 		position += velocity*dt;
 		Identity(&world);
-		D3DXMatrixScaling(&world,scale.x,scale.y,scale.z);
-		Translate(&world, position.x, position.y, position.z);
+		Identity(&w1);
+		Identity(&w2);
+		D3DXMatrixScaling(&w1,scale.x,scale.y,scale.z);
+		Translate(&w2, position.x, position.y, position.z);
+		world = w1*w2;
 		
 	}
 }

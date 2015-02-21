@@ -13,7 +13,7 @@
 #define ToRadian D3DXToRadian
 #define ToDegree D3DXToDegree
 #define Normalize D3DXVec3Normalize
-
+#define Length D3DXVec3Length
 
 
 

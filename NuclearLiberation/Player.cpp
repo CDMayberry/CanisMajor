@@ -9,13 +9,20 @@ void Player::init(NuclearLiberation*game,Geometry *b, float r, Controls c)
 	Actor::init(game,b,r);
 	controls = c;
 	isActive = true;
-	setScale(Vector3(2,1,1));
+	accel = Vector3(0,0,0);
 }
 
 void Player::update(float dt)
 {
 	if(isActive)
 	{
+		Actor::update(dt);
+
+		float x = max(min(position.x,game->worldSize.x),0);
+		float y = max(min(position.y,game->worldSize.y),0);
+
+		setPosition(Vector3(x,y,0));
+
 		weaponCooldown=max(weaponCooldown-dt,0);
 
 		input*=0;
@@ -34,20 +41,28 @@ void Player::update(float dt)
 		}
 
 		Normalize(&input,&input);
-		input*=DEFAULT_SPEED;
-		setVelocity(input);
+		
+		accel += input;
+		accel*=0.5;
 
-		position += velocity*dt;
-
-		float x = max(min(position.x,game->worldSize.x),0);
-		float y = max(min(position.y,game->worldSize.y),0);
-
-		setPosition(Vector3(x,y,0));
-
-		Identity(&world);
-		Vector3 scale = getScale();
-		D3DXMatrixScaling(&world,scale.x,scale.y,scale.z);
-		Translate(&world, position.x, position.y, position.z);
+		if(Length(&accel) < 0.5)
+		{
+			accel = Vector3(0,0,0);
+			velocity*=0.99;
+		}
+		else
+		{
+			velocity+=accel;
+			if(Length(&velocity) > playerNS::MAX_SPEED)
+			{
+				Normalize(&velocity,&velocity);
+				velocity*=playerNS::MAX_SPEED;
+			}
+		}
+		
+		game->cameraDisplacement.x = -velocity.x/6;
+		game->cameraDisplacement.y = -velocity.y/6;		
+		
 
 	}
 }

@@ -12,6 +12,7 @@ namespace NL{
 
 	const int MAX_PLAYER_BULLETS = 1000;
 	const int MAX_WALLS = 1000;
+	const float MAX_PLAYER_CENTER_DISTANCE = 10;
 };
 
 class NuclearLiberation : public D3DApp{
@@ -29,6 +30,8 @@ public:
 	void spawnBullet(Vector3 pos, Vector3 vel);
 
 	Vector3 worldSize;
+	Vector3 cameraDisplacement;
+	Vector3 cameraTarget;
 
 private:
 	void buildFX();
@@ -44,10 +47,6 @@ protected:
 
 	D3DXMATRIX mView;
 	D3DXMATRIX mProj;
-
-	Vector3 cameraDisplacement;
-
-	
 
 	//geometry
 	Cube cube;

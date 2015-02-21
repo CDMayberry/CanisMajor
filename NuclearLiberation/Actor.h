@@ -49,7 +49,7 @@ private:
 	float radiusSquared;
 	Vector3 scale;
 	ID3D10EffectTechnique* mTech;
-	Matrix wvp;//world view projection
+	Matrix wvp, w1,w2;//world view projection
 
 protected:
 	Matrix world;

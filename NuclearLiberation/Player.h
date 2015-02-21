@@ -5,7 +5,7 @@
 class NuclearLiberation;
 
 namespace playerNS{
-	const float DEFAULT_SPEED = 20;
+	const float MAX_SPEED = 40;
 	const float DEFAULT_COOLDOWN = 0.5;
 };
 
@@ -21,6 +21,7 @@ private:
 	Controls controls;
 	int weaponLevel;
 	float weaponCooldown;
-	
+	Vector3 accel;
+	float rotation;
 	
 };

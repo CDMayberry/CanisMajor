@@ -44,6 +44,7 @@ void NuclearLiberation::initApp()
 	worldSize.y = 1000;
 
 	cameraDisplacement = Vector3(0,0,-50);
+	cameraTarget = Vector3(0,0,0);
 
 	cube.init(md3dDevice);
 
@@ -54,10 +55,12 @@ void NuclearLiberation::initApp()
 	c.right = 'D';
 	c.fire = ' ';
 	player.init(this,&cube,1,c);
+	player.setScale(Vector3(2,1,1));
 
 	for(int i = 0 ; i < NL::MAX_PLAYER_BULLETS; i++)
 	{
 		playerBullets[i].init(this,&cube,1);
+		playerBullets[i].setScale(Vector3(0.5,0.5,0.5));
 	}
 
 	for(int i = 0 ; i < NL::MAX_WALLS; i++)
@@ -94,10 +97,23 @@ void NuclearLiberation::updateScene(float dt)
 	}
 
 	// Build the view matrix.
-	D3DXVECTOR3 pos = player.getPosition()+cameraDisplacement;
-	D3DXVECTOR3 target = player.getPosition();
+
+	D3DXVECTOR3 diff = player.getPosition() - cameraTarget;
+	float dist = Length(&diff);
+	Normalize(&diff,&diff);
+	if(dist>NL::MAX_PLAYER_CENTER_DISTANCE)
+	{
+		diff*=(dist-NL::MAX_PLAYER_CENTER_DISTANCE);
+		cameraTarget += diff;
+	}
+	//if(dist > 1)
+	//{
+	//	cameraTarget += diff*5*dt;
+	//}
+
+	D3DXVECTOR3 pos = cameraTarget+cameraDisplacement;
 	D3DXVECTOR3 up(0.0f, 1.0f, 0.0f);
-	D3DXMatrixLookAtLH(&mView, &pos, &target, &up);
+	D3DXMatrixLookAtLH(&mView, &pos, &cameraTarget, &up);
 }
 
 void NuclearLiberation::drawScene()
@@ -105,7 +121,6 @@ void NuclearLiberation::drawScene()
 	D3DApp::drawScene();
 
 	
-
 	// Restore default states, input layout and primitive topology 
 	// because mFont->DrawText changes them.  Note that we can 
 	// restore the default states by passing null.
