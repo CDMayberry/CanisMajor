@@ -6,7 +6,7 @@ class NuclearLiberation;
 
 namespace playerNS{
 	const float MAX_SPEED = 40;
-	const float DEFAULT_COOLDOWN = 0.5;
+	const float DEFAULT_COOLDOWN = 0.2;
 };
 
 class Player : public virtual Actor
@@ -23,5 +23,6 @@ private:
 	float weaponCooldown;
 	Vector3 accel;
 	float rotation;
+	float bulletDisp;
 	
 };

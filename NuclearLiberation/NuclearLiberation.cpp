@@ -47,6 +47,7 @@ void NuclearLiberation::initApp()
 	cameraTarget = Vector3(0,0,0);
 
 	cube.init(md3dDevice);
+	quad.init(md3dDevice);
 
 	Controls c;
 	c.up = 'W';

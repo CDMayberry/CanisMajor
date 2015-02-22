@@ -10,7 +10,7 @@ void Bullet::update(float dt)
 		Actor::update(dt);
 
 		if(getPosition().x < 0 || getPosition().x > game->worldSize.x || getPosition().y < 0 || getPosition().y > game->worldSize.y)
-			isActive=false;
+ 			isActive=false;
 	}
 
 }

@@ -60,8 +60,8 @@ void Player::update(float dt)
 			}
 		}
 		
-		game->cameraDisplacement.x = -velocity.x/6;
-		game->cameraDisplacement.y = -velocity.y/6;		
+		//game->cameraDisplacement.x = -velocity.x/6;
+		//game->cameraDisplacement.y = -velocity.y/6;		
 		
 
 	}

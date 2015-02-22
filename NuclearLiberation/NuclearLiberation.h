@@ -6,6 +6,8 @@
 #include "Player.h"
 #include "Cube.h"
 #include "Wall.h"
+#include "Quad.h"
+#include "Bullet.h"
 #include <d3dx9math.h>
 
 namespace NL{
@@ -50,11 +52,11 @@ protected:
 
 	//geometry
 	Cube cube;
-
+	Quad quad; 
 
 	//game objects
 	Player player;
-	Actor playerBullets[NL::MAX_PLAYER_BULLETS];
+	Bullet playerBullets[NL::MAX_PLAYER_BULLETS];
 	Wall walls[NL::MAX_WALLS];
 
 
