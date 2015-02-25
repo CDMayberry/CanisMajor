@@ -27,11 +27,12 @@ protected:
 
 	void initVectorBuffer(Vertex* vertices);
 	void initIndexBuffer(DWORD * indices);
+	void initRasterState();
 
 	DWORD numVertices;
 	DWORD numIndexes;
 
-	
+	D3D10_RASTERIZER_DESC rasterState;
 
 private:
 

@@ -54,9 +54,9 @@ void NuclearLiberation::initApp()
 
 	cube.init(md3dDevice);
 	quad.init(md3dDevice);
-	rockA.init(md3dDevice,"rockA.obj");
-	bullet.init(md3dDevice,"bullet.obj");
-	sub.init(md3dDevice,"sub.obj");
+	rockA.init(md3dDevice,"rockA.geo");
+	bullet.init(md3dDevice,"bullet.geo");
+	sub.init(md3dDevice,"sub.geo");
 
 	Controls c;
 	c.up = 'W';

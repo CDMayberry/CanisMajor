@@ -113,14 +113,5 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="color.fx" />
-    <None Include="rockA.obj">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="bullet.obj">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="sub.obj">
-      <Filter>Resource Files</Filter>
-    </None>
   </ItemGroup>
 </Project>
