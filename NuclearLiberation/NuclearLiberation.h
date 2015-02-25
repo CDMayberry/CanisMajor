@@ -32,8 +32,7 @@ public:
 	void spawnBullet(Vector3 pos, Vector3 vel);
 
 	Vector3 worldSize;
-	Vector3 cameraDisplacement;
-	Vector3 cameraTarget;
+	
 
 private:
 	void buildFX();
@@ -49,6 +48,9 @@ protected:
 
 	D3DXMATRIX mView;
 	D3DXMATRIX mProj;
+
+	Vector3 cameraDisplacement;
+	Vector3 cameraTarget, cameraPositon, cameraUp;
 
 	//geometry
 	Cube cube;

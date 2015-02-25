@@ -21,7 +21,7 @@ public:
 
 	virtual void init(ID3D10Device* device);
 	virtual void init(ID3D10Device* device, std::string objFile);
-	virtual void draw(D3D_PRIMITIVE_TOPOLOGY topology = D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP, UINT offset = 0);
+	virtual void draw(D3D_PRIMITIVE_TOPOLOGY topology = D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST, UINT offset = 0);
 
 protected:
 

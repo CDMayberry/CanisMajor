@@ -45,7 +45,7 @@ NuclearLiberation::~NuclearLiberation()
 void NuclearLiberation::initApp()
 {
 	D3DApp::initApp();
-	
+
 	worldSize.x = 1000;
 	worldSize.y = 1000;
 
@@ -65,6 +65,7 @@ void NuclearLiberation::initApp()
 	c.right = 'D';
 	c.fire = ' ';
 	player.init(this,&sub,1,c);
+	player.setScale(Vector3(5,5,5));
 
 	for(int i = 0 ; i < NL::MAX_PLAYER_BULLETS; i++)
 	{
@@ -124,6 +125,7 @@ void NuclearLiberation::updateScene(float dt)
 	D3DXVECTOR3 pos = cameraTarget+cameraDisplacement;
 	D3DXVECTOR3 up(0.0f, 1.0f, 0.0f);
 	D3DXMatrixLookAtLH(&mView, &pos, &cameraTarget, &up);
+
 }
 
 void NuclearLiberation::drawScene()
