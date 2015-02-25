@@ -113,5 +113,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="color.fx" />
+    <None Include="rockA.obj">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

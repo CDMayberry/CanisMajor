@@ -12,7 +12,7 @@
 
 namespace NL{
 
-	const int MAX_PLAYER_BULLETS = 1000;
+	const int MAX_PLAYER_BULLETS = 10;
 	const int MAX_WALLS = 1000;
 	const float MAX_PLAYER_CENTER_DISTANCE = 10;
 };
@@ -53,6 +53,7 @@ protected:
 	//geometry
 	Cube cube;
 	Quad quad; 
+	Geometry rockA;
 
 	//game objects
 	Player player;

@@ -48,6 +48,7 @@ void NuclearLiberation::initApp()
 
 	cube.init(md3dDevice);
 	quad.init(md3dDevice);
+	rockA.init(md3dDevice,"rockA.obj");
 
 	Controls c;
 	c.up = 'W';
@@ -66,7 +67,7 @@ void NuclearLiberation::initApp()
 
 	for(int i = 0 ; i < NL::MAX_WALLS; i++)
 	{
-		walls[i].init(this,&cube,1);
+		walls[i].init(this,&rockA,1);
 		walls[i].setPosition(Vector3(rand()%1000,rand()%1000,0));
 		walls[i].isActive = true;
 	}

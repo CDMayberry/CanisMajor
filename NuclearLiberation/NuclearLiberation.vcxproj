@@ -120,6 +120,11 @@
   <ItemGroup>
     <None Include="color.fx" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="rockA.obj">
+      <FileType>Document</FileType>
+    </None>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

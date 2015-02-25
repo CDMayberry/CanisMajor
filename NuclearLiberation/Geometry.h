@@ -3,6 +3,15 @@
 #include "constants.h"
 #include "d3dUtil.h"
 #include "Vertex.h"
+#include <string>
+#include <vector>
+#include <sstream>
+#include <fstream>
+
+using std::fstream;
+using std::stringstream;
+using std::string;
+using std::vector;
 
 class Geometry{
 public:
@@ -11,6 +20,7 @@ public:
 	~Geometry();
 
 	virtual void init(ID3D10Device* device);
+	virtual void init(ID3D10Device* device, std::string objFile);
 	virtual void draw(D3D_PRIMITIVE_TOPOLOGY topology = D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP, UINT offset = 0);
 
 protected:

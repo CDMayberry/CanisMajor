@@ -16,6 +16,65 @@ void Geometry::init(ID3D10Device* device)
 	md3dDevice = device;
 }
 
+void Geometry::init(ID3D10Device* device, std::string objFile)
+{
+	md3dDevice = device;
+	fstream fin(objFile,std::ios::in);
+
+	vector<Vector3> vertices, faces;
+
+	string l,temp;
+	float tx,ty,tz;
+	while(getline(fin,l))
+	{
+		stringstream line;
+		line<<l;
+		line>>temp;
+		if(temp == "v")
+		{
+			line>>tx>>ty>>tz;
+			vertices.push_back(Vector3(tx,ty,tz));
+		}
+		if(temp == "f")
+		{
+			line>>tx>>ty>>tz;
+			faces.push_back(Vector3(tx-1,ty-1,tz-1)); //obj file has 1 based indexes
+		}
+	}
+	fin.close();
+
+	if(vertices.size()>0)
+	{
+		numVertices = vertices.size();
+		Vertex * verts = new Vertex[numVertices];
+
+		for(int i = 0 ; i < numVertices; i++)
+		{
+			verts[i].pos = vertices[i];
+			verts[i].color = WHITE;
+		}
+
+		initVectorBuffer(verts);
+		delete verts;
+	}
+	if(faces.size()>0)
+	{
+		numIndexes = faces.size()*3;
+		DWORD * indexes = new DWORD[numIndexes];
+
+		for(int i = 0 ; i < faces.size(); i++)
+		{
+			indexes[3*i] = faces[i].x;
+			indexes[3*i+1] = faces[i].y;
+			indexes[3*i+2] = faces[i].z;
+		}
+
+		initIndexBuffer(indexes);
+		delete indexes;
+	}
+}
+
+
 void Geometry::draw(D3D_PRIMITIVE_TOPOLOGY topology, UINT offset)
 {
 	UINT stride = sizeof(Vertex);
