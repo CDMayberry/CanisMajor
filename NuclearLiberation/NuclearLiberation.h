@@ -12,7 +12,7 @@
 
 namespace NL{
 
-	const int MAX_PLAYER_BULLETS = 10;
+	const int MAX_PLAYER_BULLETS = 1000;
 	const int MAX_WALLS = 1000;
 	const float MAX_PLAYER_CENTER_DISTANCE = 10;
 };
@@ -54,11 +54,12 @@ protected:
 	Cube cube;
 	Quad quad; 
 	Geometry rockA;
+	Geometry bullet;
 
 	//game objects
 	Player player;
-	Bullet playerBullets[NL::MAX_PLAYER_BULLETS];
-	Wall walls[NL::MAX_WALLS];
+	Bullet* playerBullets;
+	Wall* walls;
 
 
 };

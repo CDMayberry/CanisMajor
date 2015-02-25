@@ -25,6 +25,9 @@ NuclearLiberation::NuclearLiberation(HINSTANCE hInstance)
 {
 	D3DXMatrixIdentity(&mView);
 	D3DXMatrixIdentity(&mProj);
+
+	playerBullets = new Bullet[NL::MAX_PLAYER_BULLETS];
+	walls = new Wall[NL::MAX_WALLS];
 }
 
 NuclearLiberation::~NuclearLiberation()
@@ -34,6 +37,9 @@ NuclearLiberation::~NuclearLiberation()
 
 	ReleaseCOM(mFX);
 	ReleaseCOM(mVertexLayout);
+
+	delete [] playerBullets;
+	delete [] walls;
 }
 
 void NuclearLiberation::initApp()
@@ -49,6 +55,7 @@ void NuclearLiberation::initApp()
 	cube.init(md3dDevice);
 	quad.init(md3dDevice);
 	rockA.init(md3dDevice,"rockA.obj");
+	bullet.init(md3dDevice,"bullet.obj");
 
 	Controls c;
 	c.up = 'W';
@@ -61,7 +68,7 @@ void NuclearLiberation::initApp()
 
 	for(int i = 0 ; i < NL::MAX_PLAYER_BULLETS; i++)
 	{
-		playerBullets[i].init(this,&cube,1);
+		playerBullets[i].init(this,&bullet,1);
 		playerBullets[i].setScale(Vector3(0.5,0.5,0.5));
 	}
 
@@ -70,6 +77,7 @@ void NuclearLiberation::initApp()
 		walls[i].init(this,&rockA,1);
 		walls[i].setPosition(Vector3(rand()%1000,rand()%1000,0));
 		walls[i].isActive = true;
+		walls[i].setScale(Vector3(6,2,1));
 	}
 
 	buildFX();
