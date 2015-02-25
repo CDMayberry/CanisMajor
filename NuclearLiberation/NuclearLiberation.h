@@ -8,6 +8,8 @@
 #include "Wall.h"
 #include "Quad.h"
 #include "Bullet.h"
+#include "RockA Hollabaugh.h"
+#include "RockB Hollabaugh.h"
 #include <d3dx9math.h>
 
 namespace NL{
@@ -55,7 +57,8 @@ protected:
 	//geometry
 	Cube cube;
 	Quad quad; 
-	Geometry rockA;
+	RockA rockA;
+	RockB rockB;
 	Geometry bullet;
 	Geometry sub;
 

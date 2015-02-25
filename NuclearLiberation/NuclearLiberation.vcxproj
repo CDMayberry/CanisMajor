@@ -110,6 +110,8 @@
     <ClInclude Include="Actor.h" />
     <ClInclude Include="GameTimer.h" />
     <ClInclude Include="Geometry.h" />
+    <ClInclude Include="RockA Hollabaugh.h" />
+    <ClInclude Include="RockB Hollabaugh.h" />
     <ClInclude Include="Wall.h" />
     <ClInclude Include="NuclearLiberation.h" />
     <ClInclude Include="Line.h" />

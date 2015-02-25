@@ -55,6 +55,7 @@ void NuclearLiberation::initApp()
 	cube.init(md3dDevice);
 	quad.init(md3dDevice);
 	rockA.init(md3dDevice,"rockA.geo");
+	rockB.init(md3dDevice,"RockB.geo");
 	bullet.init(md3dDevice,"bullet.geo");
 	sub.init(md3dDevice,"sub.geo");
 
@@ -64,8 +65,9 @@ void NuclearLiberation::initApp()
 	c.left = 'A';
 	c.right = 'D';
 	c.fire = ' ';
+	float iter = 0;
 	player.init(this,&sub,1,c);
-	player.setScale(Vector3(5,5,5));
+	player.setScale(Vector3(2,2,2));
 
 	for(int i = 0 ; i < NL::MAX_PLAYER_BULLETS; i++)
 	{
@@ -73,11 +75,22 @@ void NuclearLiberation::initApp()
 		playerBullets[i].setScale(Vector3(0.5,0.5,0.5));
 	}
 
-	for(int i = 0 ; i < NL::MAX_WALLS; i++)
+	for(int i = 0 ; i < 102; i++)
 	{
 		walls[i].init(this,&rockA,1);
-		walls[i].setPosition(Vector3(rand()%1000,rand()%1000,0));
+		walls[i].setPosition(Vector3(iter,0,0));
+		iter += 10;
 		walls[i].isActive = true;
+		walls[i].setScale(Vector3(2,2,1));
+	}
+	iter = 4;
+	for(int i = 103 ; i < 202; i++)
+	{
+		walls[i].init(this,&rockB,1);
+		walls[i].setPosition(Vector3(iter,-1,0));
+		iter += 10;
+		walls[i].isActive = true;
+		walls[i].setScale(Vector3(3,1.5,1));
 		walls[i].setScale(Vector3(2,2,1));
 	}
 
