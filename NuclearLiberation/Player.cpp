@@ -24,19 +24,48 @@ void Player::update(float dt)
 		setPosition(Vector3(x,y,0));
 
 		weaponCooldown=max(weaponCooldown-dt,0);
+		
+		Vector3 rot = getRotation();
 
 		input*=0;
 		if(GetAsyncKeyState(controls.up))
+		{
+			rot.z+= ROTATION_SPEED*dt;
 			input.y=1;
+		}
 		if(GetAsyncKeyState(controls.down))
+		{
+			rot.z-= ROTATION_SPEED*dt;
 			input.y=-1;
+		}
 		if(GetAsyncKeyState(controls.left))
+		{
 			input.x=-1;
+		}
 		if(GetAsyncKeyState(controls.right))
+		{
 			input.x=1;
+		}
+
+		if(rot.z > MAX_ROTATION_ANGLE)
+			rot.z = MAX_ROTATION_ANGLE;
+		if(rot.z < -MAX_ROTATION_ANGLE)
+			rot.z = -MAX_ROTATION_ANGLE;
+
+		if(rot.z > 0)
+			rot.z = max(rot.z-ROTATION_SPEED/2*dt,0);
+		if(rot.z < 0)
+			rot.z = max(rot.z+ROTATION_SPEED/2*dt,0);
+
+		setRotation(rot);
+		Matrix rotTemp;
+		Identity(&rotTemp);
+		D3DXMatrixRotationZ(&rotTemp,rot.z);
+
+
 		if(weaponCooldown==0 && GetAsyncKeyState(controls.fire))
 		{
- 			game->spawnBullet(getPosition(),Vector3(100,0,0));//TODO, figure out better velocity vector
+ 			game->spawnBullet(getPosition(),rotateZ(FIRE_SPEED,rot.z));
 			weaponCooldown = DEFAULT_COOLDOWN;
 		}
 

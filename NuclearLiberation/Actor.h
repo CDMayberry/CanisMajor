@@ -24,6 +24,7 @@ public:
 	void update(float dt);
 	void create(Vector3 pos);
 
+
 	void setPosition (Vector3 pos) {position = pos;}
 	Vector3 getPosition() {return position;}
 	void setVelocity (Vector3 vel) {velocity = vel;}
@@ -40,7 +41,8 @@ public:
 	float getSmallestScale(){return min(min(scale.x,scale.y),scale.z);}
 	void setMTech(ID3D10EffectTechnique* m){ mTech = m;}
 	bool collided(Actor *gameObject);
-
+	void setRotation(Vector3 rot){rotation = rot;}
+	Vector3 getRotation(){return rotation;}
 	bool isActive;
 
 private:
@@ -49,8 +51,8 @@ private:
 	float radiusSquared;
 	Vector3 scale;
 	ID3D10EffectTechnique* mTech;
-	Matrix wvp, w1,w2;//world view projection
-
+	Matrix wvp, s, t,rx,ry,rz;//world view projection
+	Vector3 rotation;
 protected:
 	Matrix world;
 	Vector3 position;

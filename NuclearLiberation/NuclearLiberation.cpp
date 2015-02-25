@@ -55,7 +55,7 @@ void NuclearLiberation::initApp()
 	cube.init(md3dDevice);
 	quad.init(md3dDevice);
 	rockA.init(md3dDevice,"rockA.geo");
-	bullet.init(md3dDevice,"bullet.geo");
+	bullet.init(md3dDevice,"torpedo.geo");
 	sub.init(md3dDevice,"sub.geo");
 
 	Controls c;
@@ -65,12 +65,12 @@ void NuclearLiberation::initApp()
 	c.right = 'D';
 	c.fire = ' ';
 	player.init(this,&sub,1,c);
-	player.setScale(Vector3(5,5,5));
+	player.setScale(Vector3(2,2,2));
 
 	for(int i = 0 ; i < NL::MAX_PLAYER_BULLETS; i++)
 	{
 		playerBullets[i].init(this,&bullet,1);
-		playerBullets[i].setScale(Vector3(0.5,0.5,0.5));
+		playerBullets[i].setScale(Vector3(1,1,1));
 	}
 
 	for(int i = 0 ; i < NL::MAX_WALLS; i++)

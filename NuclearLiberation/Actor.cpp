@@ -9,6 +9,7 @@ Actor::Actor()
 	isActive = false;
 	Identity(&world);
 	Identity(&wvp);
+	rotation = Vector3(0,0,0);
 }
 
 Actor::~Actor()
@@ -63,11 +64,21 @@ void Actor::update(float dt)
 	{
 		position += velocity*dt;
 		Identity(&world);
-		Identity(&w1);
-		Identity(&w2);
-		D3DXMatrixScaling(&w1,scale.x,scale.y,scale.z);
-		Translate(&w2, position.x, position.y, position.z);
-		world = w1*w2;
+		Identity(&s);
+		Identity(&t);
+		Identity(&rx);
+		Identity(&ry);
+		Identity(&rz);
+
+		D3DXMatrixScaling(&s,scale.x,scale.y,scale.z);
+
+		D3DXMatrixRotationX(&rx,rotation.x);
+		D3DXMatrixRotationY(&ry,rotation.y);
+		D3DXMatrixRotationZ(&rz,rotation.z);
+
+		Translate(&t, position.x, position.y, position.z);
+
+		world = s*rx*ry*rz*t;
 		
 	}
 }
