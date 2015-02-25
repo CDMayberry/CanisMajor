@@ -55,6 +55,7 @@ protected:
 	Quad quad; 
 	Geometry rockA;
 	Geometry bullet;
+	Geometry sub;
 
 	//game objects
 	Player player;

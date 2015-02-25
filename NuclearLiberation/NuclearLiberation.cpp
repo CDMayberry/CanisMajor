@@ -56,6 +56,7 @@ void NuclearLiberation::initApp()
 	quad.init(md3dDevice);
 	rockA.init(md3dDevice,"rockA.obj");
 	bullet.init(md3dDevice,"bullet.obj");
+	sub.init(md3dDevice,"sub.obj");
 
 	Controls c;
 	c.up = 'W';
@@ -63,8 +64,7 @@ void NuclearLiberation::initApp()
 	c.left = 'A';
 	c.right = 'D';
 	c.fire = ' ';
-	player.init(this,&cube,1,c);
-	player.setScale(Vector3(2,1,1));
+	player.init(this,&sub,1,c);
 
 	for(int i = 0 ; i < NL::MAX_PLAYER_BULLETS; i++)
 	{
@@ -77,7 +77,7 @@ void NuclearLiberation::initApp()
 		walls[i].init(this,&rockA,1);
 		walls[i].setPosition(Vector3(rand()%1000,rand()%1000,0));
 		walls[i].isActive = true;
-		walls[i].setScale(Vector3(6,2,1));
+		walls[i].setScale(Vector3(2,2,1));
 	}
 
 	buildFX();
