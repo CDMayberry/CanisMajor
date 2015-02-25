@@ -35,7 +35,7 @@ protected:
 	D3D10_RASTERIZER_DESC rasterState;
 
 private:
-
+	ID3D10RasterizerState * g_pRasterState;
 	ID3D10Device* md3dDevice;
 	ID3D10Buffer* mVB;
 	ID3D10Buffer* mIB;

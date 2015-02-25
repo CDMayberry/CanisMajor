@@ -14,11 +14,13 @@ Geometry::~Geometry()
 void Geometry::init(ID3D10Device* device)
 {
 	md3dDevice = device;
+	initRasterState();
 }
 
 void Geometry::init(ID3D10Device* device, std::string objFile)
 {
 	md3dDevice = device;
+	initRasterState();
 	fstream fin(objFile,std::ios::in);
 
 	vector<Vector3> vertices, faces;
@@ -81,6 +83,8 @@ void Geometry::draw(D3D_PRIMITIVE_TOPOLOGY topology, UINT offset)
 
 	md3dDevice->IASetPrimitiveTopology(topology);
     md3dDevice->IASetVertexBuffers(0, 1, &mVB, &stride, &offset);
+	
+	md3dDevice->RSSetState(g_pRasterState);
 
 	if(usesIndexBuffer)
 	{
@@ -116,4 +120,10 @@ void Geometry::initIndexBuffer(DWORD * indices)
     D3D10_SUBRESOURCE_DATA iinitData;
     iinitData.pSysMem = indices;
     HR(md3dDevice->CreateBuffer(&ibd, &iinitData, &mIB));
+}
+
+void Geometry::initRasterState()
+{
+	rasterState.FrontCounterClockwise = true;
+	md3dDevice->CreateRasterizerState(&rasterState,&g_pRasterState);
 }
