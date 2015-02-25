@@ -112,8 +112,6 @@
     <ClInclude Include="GameTimer.h" />
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="mathUtil.h" />
-    <ClInclude Include="RockA Hollabaugh.h" />
-    <ClInclude Include="RockB Hollabaugh.h" />
     <ClInclude Include="Wall.h" />
     <ClInclude Include="NuclearLiberation.h" />
     <ClInclude Include="Line.h" />

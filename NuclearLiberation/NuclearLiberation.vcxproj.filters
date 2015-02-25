@@ -115,11 +115,6 @@
     </ClInclude>
     <ClInclude Include="mathUtil.h">
       <Filter>Header Files\Util</Filter>
-    <ClInclude Include="RockA Hollabaugh.h">
-      <Filter>Header Files\GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="RockB Hollabaugh.h">
-      <Filter>Header Files\GameObjects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
