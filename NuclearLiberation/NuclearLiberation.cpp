@@ -28,6 +28,8 @@ NuclearLiberation::NuclearLiberation(HINSTANCE hInstance)
 
 	playerBullets = new Bullet[NL::MAX_PLAYER_BULLETS];
 	walls = new Wall[NL::MAX_WALLS];
+	enemyBullets = new Bullet[NL::MAX_ENEMY_BULLETS];
+	enemyLight = new EnemyLight[NL::MAX_LIGHT_ENEMIES];
 }
 
 NuclearLiberation::~NuclearLiberation()
@@ -40,23 +42,29 @@ NuclearLiberation::~NuclearLiberation()
 
 	delete [] playerBullets;
 	delete [] walls;
+	delete [] enemyBullets;
+	delete [] enemyLight;
 }
 
 void NuclearLiberation::initApp()
 {
 	D3DApp::initApp();
 
+	origin.init(this,1);
+
 	worldSize.x = 1000;
 	worldSize.y = 1000;
 
-	cameraDisplacement = Vector3(0,0,-50);
+	cameraDisplacement = Vector3(0,0,-75);
 	cameraTarget = Vector3(0,0,0);
 
-	cube.init(md3dDevice);
-	quad.init(md3dDevice);
-	rockA.init(md3dDevice,"rockA.geo");
-	bullet.init(md3dDevice,"torpedo.geo");
-	sub.init(md3dDevice,"sub.geo");
+	//Cube cubeG,cubeR,cubeY,cubeW;
+	//Line lineX, lineY, lineZ;
+
+	cubeG.init(md3dDevice,GREEN);
+	cubeR.init(md3dDevice,RED);
+	cubeY.init(md3dDevice,YELLOW);
+	cubeW.init(md3dDevice,WHITE);
 
 	Controls c;
 	c.up = 'W';
@@ -64,25 +72,41 @@ void NuclearLiberation::initApp()
 	c.left = 'A';
 	c.right = 'D';
 	c.fire = ' ';
-	player.init(this,&sub,1,c);
-	player.setScale(Vector3(2,2,2));
+	player.init(this,&cubeW,1,c);
+	player.setScale(Vector3(2,1,1));
+	player.setRadius(1);
 
 	for(int i = 0 ; i < NL::MAX_PLAYER_BULLETS; i++)
 	{
-		playerBullets[i].init(this,&bullet,1);
-		playerBullets[i].setScale(Vector3(1,1,1));
+		playerBullets[i].init(this,&cubeG,1);
+		playerBullets[i].setScale(Vector3(0.5,0.5,0.5));
+		playerBullets[i].setRadius(1);
+	}
+
+	for(int i = 0 ; i < NL::MAX_ENEMY_BULLETS; i++)
+	{
+		enemyBullets[i].init(this,&cubeR,1);
+		enemyBullets[i].setScale(Vector3(0.5,0.5,0.5));
+		enemyBullets[i].setRadius(0.5);
 	}
 
 	for(int i = 0 ; i < NL::MAX_WALLS; i++)
 	{
-		walls[i].init(this,&rockA,1);
-		walls[i].setPosition(Vector3(rand()%1000,rand()%1000,0));
-		walls[i].isActive = true;
-		walls[i].setScale(Vector3(2,2,1));
+		walls[i].init(this,&cubeY,1);
+		//walls[i].setPosition(Vector3(rand()%1000,rand()%1000,0));
+		//walls[i].isActive = true;
+		walls[i].setScale(Vector3(wallNS::WALL_SCALE,wallNS::WALL_SCALE,1));
+	}
+
+	for(int i = 0; i < NL::MAX_LIGHT_ENEMIES; i++)
+	{
+		enemyLight[i].init(this,&cubeR,2);
+		enemyLight[i].setScale(Vector3(2,2,2));
 	}
 
 	buildFX();
 	buildVertexLayouts();
+	loadLevel1();
 }
 
 void NuclearLiberation::onResize()
@@ -101,10 +125,17 @@ void NuclearLiberation::updateScene(float dt)
 	{
 		playerBullets[i].update(dt);
 	}
-
 	for(int i = 0 ; i < NL::MAX_WALLS; i++)
 	{
 		walls[i].update(dt);
+	}
+	for(int i = 0; i < NL::MAX_LIGHT_ENEMIES; i++)
+	{
+		enemyLight[i].update(dt);
+	}
+	for(int i = 0; i < NL::MAX_ENEMY_BULLETS; i++)
+	{
+		enemyBullets[i].update(dt);
 	}
 
 	// Build the view matrix.
@@ -126,6 +157,32 @@ void NuclearLiberation::updateScene(float dt)
 	D3DXVECTOR3 up(0.0f, 1.0f, 0.0f);
 	D3DXMatrixLookAtLH(&mView, &pos, &cameraTarget, &up);
 
+	collisions();
+}
+
+void NuclearLiberation::collisions()
+{
+	for(int i = 0; i < NL::MAX_ENEMY_BULLETS; i++)
+	{
+		if(enemyBullets[i].collided(&player))
+		{
+			loadLevel1();
+			break;
+		}
+	}
+
+	for(int j = 0; j < NL::MAX_LIGHT_ENEMIES; j++)
+	{
+		for(int i = 0 ; i < NL::MAX_PLAYER_BULLETS; i++)
+		{
+			if(playerBullets[i].collided(&enemyLight[j]))
+			{
+				enemyLight[j].isActive = false;
+				playerBullets[i].isActive = false;
+				break;
+			}
+		}
+	}
 }
 
 void NuclearLiberation::drawScene()
@@ -146,6 +203,7 @@ void NuclearLiberation::drawScene()
 	D3D10_TECHNIQUE_DESC techDesc;
 	mTech->GetDesc(&techDesc);
 
+	origin.draw(mfxWVPVar,mView,mProj,mTech);
 	
 	player.draw(mfxWVPVar,mView,mProj,mTech);
 
@@ -158,6 +216,16 @@ void NuclearLiberation::drawScene()
 	{
 		walls[i].draw(mfxWVPVar,mView,mProj,mTech);
 	}
+
+	for(int i = 0; i < NL::MAX_LIGHT_ENEMIES; i++)
+	{
+		enemyLight[i].draw(mfxWVPVar,mView,mProj,mTech);
+	}
+	for(int i = 0; i < NL::MAX_ENEMY_BULLETS; i++)
+	{
+		enemyBullets[i].draw(mfxWVPVar,mView,mProj,mTech);
+	}
+
 
 	mSwapChain->Present(0, 0);
 }
@@ -216,4 +284,80 @@ void NuclearLiberation::spawnBullet(Vector3 pos, Vector3 vel)
 			break;
 		}
 	}
+}
+
+void NuclearLiberation::spawnEnemyBullet(Vector3 pos, Vector3 vel)
+{
+	for(int i = 0; i<NL::MAX_ENEMY_BULLETS; i++)
+	{
+		if(!enemyBullets[i].isActive)
+		{
+			enemyBullets[i].create(pos);
+			enemyBullets[i].setVelocity(vel);
+			break;
+		}
+	}
+}
+void NuclearLiberation::spawnLightEnemy(Vector3 pos)
+{
+	for(int i = 0; i<NL::MAX_LIGHT_ENEMIES; i++)
+	{
+		if(!enemyLight[i].isActive)
+		{
+			enemyLight[i].create(pos);
+			break;
+		}
+	}
+}
+void NuclearLiberation::spawnWall(Vector3 pos)
+{
+	for(int i = 0; i<NL::MAX_WALLS; i++)
+	{
+		if(!walls[i].isActive)
+		{
+			walls[i].create(pos);
+			break;
+		}
+	}
+}
+void NuclearLiberation::clearLevel()
+{
+	for(int i = 0 ; i < NL::MAX_PLAYER_BULLETS; i++)
+	{
+		playerBullets[i].isActive = false;
+	}
+	for(int i = 0 ; i < NL::MAX_WALLS; i++)
+	{
+		walls[i].isActive = false;
+	}
+	for(int i = 0; i < NL::MAX_LIGHT_ENEMIES; i++)
+	{
+		enemyLight[i].isActive = false;
+	}
+	for(int i = 0; i < NL::MAX_ENEMY_BULLETS; i++)
+	{
+		enemyBullets[i].isActive = false;
+	}
+}
+void NuclearLiberation::loadLevel1()
+{
+	clearLevel();
+	worldSize = Vector3(500,100,0);
+	player.setPosition(Vector3(25,50,0));
+
+	for(int i = 50; i < 500; i+=30)
+	{
+		spawnLightEnemy(Vector3(i+15,30*sin(2*PI*i/50)+50,0));
+		spawnLightEnemy(Vector3(i,30*sin(2*PI*i/50)+60,0));
+	}
+
+	for(int i = -50; i < 550; i+=wallNS::WALL_SCALE)
+	{
+		float y = 5*(sin(2*PI*i/150.0)+2)-10;
+		for(float j = y; j > -40; j-=wallNS::WALL_SCALE)
+		{
+			spawnWall(Vector3(i,j,wallNS::WALL_SCALE));
+		}
+	}
+	
 }

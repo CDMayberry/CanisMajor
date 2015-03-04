@@ -69,28 +69,26 @@ void Player::update(float dt)
 			weaponCooldown = DEFAULT_COOLDOWN;
 		}
 
-		Normalize(&input,&input);
-		
-		accel += input;
-		accel*=0.5;
+		Normalize(&input,&input);	
 
-		if(Length(&accel) < 0.5)
+		velocity = input * MAX_SPEED;
+
+		/*if(Length(&input) < 0.5 )
 		{
-			accel = Vector3(0,0,0);
-			velocity*=0.99;
+			speed = max(speed-FRICTION_RATE*dt,0);
+			Normalize(&velocity,&velocity);
+			velocity*=speed;
 		}
 		else
-		{
-			velocity+=accel;
-			if(Length(&velocity) > playerNS::MAX_SPEED)
-			{
-				Normalize(&velocity,&velocity);
-				velocity*=playerNS::MAX_SPEED;
-			}
-		}
-		
-		//game->cameraDisplacement.x = -velocity.x/6;
-		//game->cameraDisplacement.y = -velocity.y/6;		
+		{	
+			accel += input*dt;
+			speed=min(speed+Length(&accel),MAX_SPEED);
+			velocity += accel;	
+			Normalize(&velocity,&velocity);
+			velocity*=speed;
+		}*/
+
+			
 		
 
 	}

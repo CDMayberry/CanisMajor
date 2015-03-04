@@ -4,7 +4,7 @@
 
 #include "Cube.h"
 
-void Cube::init(ID3D10Device* device)
+void Cube::init(ID3D10Device* device, D3DXCOLOR color)
 {
 	Geometry::init(device);
 	 
@@ -12,14 +12,14 @@ void Cube::init(ID3D10Device* device)
 	// Create vertex buffer
     Vertex vertices[] =
     {
-		{D3DXVECTOR3(-1.0f, -1.0f, -1.0f), WHITE},
-		{D3DXVECTOR3(-1.0f, +1.0f, -1.0f), WHITE},
-		{D3DXVECTOR3(+1.0f, +1.0f, -1.0f), WHITE},
-		{D3DXVECTOR3(+1.0f, -1.0f, -1.0f), WHITE},
-		{D3DXVECTOR3(-1.0f, -1.0f, +1.0f), WHITE},
-		{D3DXVECTOR3(-1.0f, +1.0f, +1.0f), WHITE},
-		{D3DXVECTOR3(+1.0f, +1.0f, +1.0f), WHITE},
-		{D3DXVECTOR3(+1.0f, -1.0f, +1.0f), WHITE},
+		{D3DXVECTOR3(-1.0f, -1.0f, -1.0f), color},
+		{D3DXVECTOR3(-1.0f, +1.0f, -1.0f), color},
+		{D3DXVECTOR3(+1.0f, +1.0f, -1.0f), color},
+		{D3DXVECTOR3(+1.0f, -1.0f, -1.0f), color},
+		{D3DXVECTOR3(-1.0f, -1.0f, +1.0f), color},
+		{D3DXVECTOR3(-1.0f, +1.0f, +1.0f), color},
+		{D3DXVECTOR3(+1.0f, +1.0f, +1.0f), color},
+		{D3DXVECTOR3(+1.0f, -1.0f, +1.0f), color},
     };
 
 	numVertices = 8;

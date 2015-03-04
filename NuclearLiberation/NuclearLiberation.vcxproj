@@ -93,11 +93,13 @@
     <ClCompile Include="Cube.cpp" />
     <ClCompile Include="d3dApp.cpp" />
     <ClCompile Include="Actor.cpp" />
+    <ClCompile Include="EnemyLight.cpp" />
     <ClCompile Include="GameTimer.cpp" />
     <ClCompile Include="Geometry.cpp" />
     <ClCompile Include="Line.cpp" />
     <ClCompile Include="mathUtil.cpp" />
     <ClCompile Include="NuclearLiberation.cpp" />
+    <ClCompile Include="Origin.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Quad.cpp" />
   </ItemGroup>
@@ -109,9 +111,11 @@
     <ClInclude Include="d3dApp.h" />
     <ClInclude Include="d3dUtil.h" />
     <ClInclude Include="Actor.h" />
+    <ClInclude Include="EnemyLight.h" />
     <ClInclude Include="GameTimer.h" />
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="mathUtil.h" />
+    <ClInclude Include="Origin.h" />
     <ClInclude Include="Wall.h" />
     <ClInclude Include="NuclearLiberation.h" />
     <ClInclude Include="Line.h" />

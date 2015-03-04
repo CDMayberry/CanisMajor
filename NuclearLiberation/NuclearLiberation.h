@@ -8,12 +8,17 @@
 #include "Wall.h"
 #include "Quad.h"
 #include "Bullet.h"
+#include "Line.h"
+#include "EnemyLight.h"
+#include "Origin.h"
 #include <d3dx9math.h>
 
 namespace NL{
 
-	const int MAX_PLAYER_BULLETS = 1000;
-	const int MAX_WALLS = 1000;
+	const int MAX_PLAYER_BULLETS = 500;
+	const int MAX_ENEMY_BULLETS = 500;
+	const int MAX_WALLS = 2000;
+	const int MAX_LIGHT_ENEMIES = 500;
 	const float MAX_PLAYER_CENTER_DISTANCE = 10;
 };
 
@@ -27,18 +32,29 @@ public:
 	void onResize();
 	void updateScene(float dt);
 	void drawScene(); 
-
+	void collisions();
 
 	void spawnBullet(Vector3 pos, Vector3 vel);
+	void spawnEnemyBullet(Vector3 pos, Vector3 vel);
+	void spawnLightEnemy(Vector3 pos);
+	void spawnWall(Vector3 pos);
 
 	Vector3 worldSize;
 	
+	Player player;
+
+	ID3D10Device* getDevice(){return md3dDevice;}
 
 private:
 	void buildFX();
 	void buildVertexLayouts();
 
+	Origin origin;
+
 protected:
+
+	void clearLevel();
+	void loadLevel1();
 
 	ID3D10Effect* mFX;
 	ID3D10EffectTechnique* mTech;
@@ -53,16 +69,13 @@ protected:
 	Vector3 cameraTarget, cameraPositon, cameraUp;
 
 	//geometry
-	Cube cube;
-	Quad quad; 
-	Geometry rockA;
-	Geometry bullet;
-	Geometry sub;
+	Cube cubeG,cubeR,cubeY,cubeW;
+	Line lineX, lineY, lineZ;
 
 	//game objects
-	Player player;
 	Bullet* playerBullets;
 	Wall* walls;
-
+	Bullet* enemyBullets;
+	EnemyLight * enemyLight;
 
 };

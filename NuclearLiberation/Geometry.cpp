@@ -11,16 +11,20 @@ Geometry::~Geometry()
 	ReleaseCOM(mIB);
 }
 
-void Geometry::init(ID3D10Device* device)
+void Geometry::init(ID3D10Device* device, D3DXCOLOR color, D3D_PRIMITIVE_TOPOLOGY top)
 {
 	md3dDevice = device;
 	initRasterState();
+	this->color = color;
+	topology = top;
 }
 
-void Geometry::init(ID3D10Device* device, std::string objFile)
+void Geometry::init(ID3D10Device* device, std::string objFile,D3DXCOLOR color)
 {
 	md3dDevice = device;
 	initRasterState();
+	this->color = color;
+
 	fstream fin(objFile,std::ios::in);
 
 	vector<Vector3> vertices, faces;
@@ -53,7 +57,7 @@ void Geometry::init(ID3D10Device* device, std::string objFile)
 		for(int i = 0 ; i < numVertices; i++)
 		{
 			verts[i].pos = vertices[i];
-			verts[i].color = WHITE;
+			verts[i].color = color;
 		}
 
 		initVectorBuffer(verts);
@@ -77,7 +81,7 @@ void Geometry::init(ID3D10Device* device, std::string objFile)
 }
 
 
-void Geometry::draw(D3D_PRIMITIVE_TOPOLOGY topology, UINT offset)
+void Geometry::draw(UINT offset)
 {
 	UINT stride = sizeof(Vertex);
 

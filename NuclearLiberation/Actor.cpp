@@ -78,7 +78,7 @@ void Actor::update(float dt)
 
 		Translate(&t, position.x, position.y, position.z);
 
-		world = s*rx*ry*rz*t;
+		world *= s*rx*ry*rz*t;
 		
 	}
 }
