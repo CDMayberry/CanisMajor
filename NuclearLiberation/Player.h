@@ -6,12 +6,12 @@
 class NuclearLiberation;
 
 namespace playerNS{
-	const float MAX_SPEED = 40;
-	const float FRICTION_RATE = 30;
+	const float MAX_SPEED = 55;
+	const float FRICTION_RATE = 100;
 	const float ACCEL_RATE = 80;
 	const float DEFAULT_COOLDOWN = 0.2;
 	const float MAX_ROTATION_ANGLE = 1;
-	const float ROTATION_SPEED = 0.5;
+	const float ROTATION_SPEED = 0.25;
 	const Vector3 FIRE_SPEED(75,0,0);
 };
 

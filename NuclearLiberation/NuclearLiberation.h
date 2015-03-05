@@ -19,7 +19,10 @@ namespace NL{
 	const int MAX_ENEMY_BULLETS = 500;
 	const int MAX_WALLS = 2000;
 	const int MAX_LIGHT_ENEMIES = 500;
-	const float MAX_PLAYER_CENTER_DISTANCE = 10;
+	const float MAX_PLAYER_CENTER_DISTANCE = 15;
+	const float PRECEIVED_SCREEN_WIDTH = 70;
+	const float PRECEIVED_SCREEN_HEIGHT = 50;
+	const float MIN_SCROLL_SPEED = 3;
 };
 
 class NuclearLiberation : public D3DApp{
@@ -45,6 +48,8 @@ public:
 
 	ID3D10Device* getDevice(){return md3dDevice;}
 
+	float minPlayerPosition;
+
 private:
 	void buildFX();
 	void buildVertexLayouts();
@@ -67,6 +72,8 @@ protected:
 
 	Vector3 cameraDisplacement;
 	Vector3 cameraTarget, cameraPositon, cameraUp;
+	
+	
 
 	//geometry
 	Cube cubeG,cubeR,cubeY,cubeW;
