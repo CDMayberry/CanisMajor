@@ -5,6 +5,7 @@
 *.obj
 
 *.sdf
+*.v11.suo
 
 # Precompiled Headers
 *.gch
@@ -28,3 +29,6 @@
 *.exe
 *.out
 *.app
+
+# Folders
+Debug/
