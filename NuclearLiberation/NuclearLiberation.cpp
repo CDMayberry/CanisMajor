@@ -26,6 +26,8 @@ NuclearLiberation::NuclearLiberation(HINSTANCE hInstance)
 	D3DXMatrixIdentity(&mView);
 	D3DXMatrixIdentity(&mProj);
 
+	minPlayerPosition = 0;
+
 	playerBullets = new Bullet[NL::MAX_PLAYER_BULLETS];
 	walls = new Wall[NL::MAX_WALLS];
 	enemyBullets = new Bullet[NL::MAX_ENEMY_BULLETS];
@@ -129,6 +131,12 @@ void NuclearLiberation::updateScene(float dt)
 {
 	D3DApp::updateScene(dt);
 	player.update(dt);
+
+	//ADVANCE INVISIBLE WALL
+	minPlayerPosition= min(minPlayerPosition+NL::MIN_SCROLL_SPEED*dt,worldSize.x-NL::PRECEIVED_SCREEN_WIDTH);
+	//TRACK INVISIBLE WALL WITH PLAYER
+	minPlayerPosition = max(player.getPosition().x - NL::PRECEIVED_SCREEN_WIDTH*0.7,minPlayerPosition);
+
 	for(int i = 0 ; i < NL::MAX_PLAYER_BULLETS; i++)
 	{
 		playerBullets[i].update(dt);
@@ -155,17 +163,19 @@ void NuclearLiberation::updateScene(float dt)
 	// Build the view matrix.
 
 	D3DXVECTOR3 diff = player.getPosition() - cameraTarget;
-	float dist = Length(&diff);
-	Normalize(&diff,&diff);
-	if(dist>NL::MAX_PLAYER_CENTER_DISTANCE)
-	{
-		diff*=(dist-NL::MAX_PLAYER_CENTER_DISTANCE);
-		cameraTarget += diff;
-	}
-	//if(dist > 1)
-	//{
-	//	cameraTarget += diff*5*dt;
-	//}
+
+	//IF THE PLAYER MOVES TOO FAR UP OR DOWN
+	if(diff.y >  NL::PRECEIVED_SCREEN_HEIGHT*0.2)
+		cameraTarget.y = player.getPosition().y - NL::PRECEIVED_SCREEN_HEIGHT*0.2;
+	if(diff.y < - NL::PRECEIVED_SCREEN_HEIGHT*0.2)
+		cameraTarget.y = player.getPosition().y + NL::PRECEIVED_SCREEN_HEIGHT*0.2;
+
+	//MOVE CAMERA WITH INVISIBLE WALL (THIS HANDLES ALL X MOVEMENT)
+	if(cameraTarget.x < minPlayerPosition + NL::PRECEIVED_SCREEN_WIDTH/2)
+		cameraTarget.x = minPlayerPosition + NL::PRECEIVED_SCREEN_WIDTH/2;
+	//stop camera before end of world
+	if(cameraTarget.x > worldSize.x-NL::PRECEIVED_SCREEN_WIDTH/2)
+		cameraTarget.x = worldSize.x-NL::PRECEIVED_SCREEN_WIDTH/2;
 
 	D3DXVECTOR3 pos = cameraTarget+cameraDisplacement;
 	D3DXVECTOR3 up(0.0f, 1.0f, 0.0f);
@@ -417,10 +427,10 @@ void NuclearLiberation::loadLevel1()
 	for(int i = -50; i < 550; i+=wallNS::WALL_SCALE)
 	{
 		float y = 5*(sin(2*PI*i/150.0)+2)-10;
-		for(float j = y; j > -40; j-=wallNS::WALL_SCALE)
-		{
-			spawnWall(Vector3(i,j,wallNS::WALL_SCALE));
-		}
+		//for(float j = y; j > -40; j-=wallNS::WALL_SCALE)
+		//{
+			spawnWall(Vector3(i,y,wallNS::WALL_SCALE));
+		//}
 	}
 	
 }
