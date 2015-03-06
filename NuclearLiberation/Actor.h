@@ -58,6 +58,9 @@ protected:
 	Vector3 position;
 	Vector3 velocity;
 	float speed;
+	float health;//simple health value. Starts at MAX_HEATH at spawn and object dies if health hits 0
+	//consider 100 health to be the "standard"
+	float MAX_HEALTH;
 	NuclearLiberation* game;
 };
 

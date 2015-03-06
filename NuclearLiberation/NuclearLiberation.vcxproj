@@ -93,7 +93,9 @@
     <ClCompile Include="Cube.cpp" />
     <ClCompile Include="d3dApp.cpp" />
     <ClCompile Include="Actor.cpp" />
+    <ClCompile Include="EnemyHeavy.cpp" />
     <ClCompile Include="EnemyLight.cpp" />
+    <ClCompile Include="EnemySplit.cpp" />
     <ClCompile Include="GameTimer.cpp" />
     <ClCompile Include="Geometry.cpp" />
     <ClCompile Include="Line.cpp" />
@@ -111,7 +113,9 @@
     <ClInclude Include="d3dApp.h" />
     <ClInclude Include="d3dUtil.h" />
     <ClInclude Include="Actor.h" />
+    <ClInclude Include="EnemyHeavy.h" />
     <ClInclude Include="EnemyLight.h" />
+    <ClInclude Include="EnemySplit.h" />
     <ClInclude Include="GameTimer.h" />
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="mathUtil.h" />

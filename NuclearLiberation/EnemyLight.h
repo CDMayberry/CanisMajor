@@ -12,7 +12,7 @@ namespace EnemyLightNS{
 class EnemyLight: public virtual Actor
 {
 public:
-	EnemyLight():Actor(){playerSeen=false;cooldown=0;}
+	EnemyLight():Actor(){playerSeen=false;cooldown=0;MAX_HEALTH = 50.0f; health = MAX_HEALTH; }
 	void update(float dt);
 private:
 	float cooldown;

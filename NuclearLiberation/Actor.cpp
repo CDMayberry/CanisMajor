@@ -10,6 +10,7 @@ Actor::Actor()
 	Identity(&world);
 	Identity(&wvp);
 	rotation = Vector3(0,0,0);
+	health = MAX_HEALTH;
 }
 
 Actor::~Actor()

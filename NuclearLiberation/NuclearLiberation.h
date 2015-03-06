@@ -10,6 +10,8 @@
 #include "Bullet.h"
 #include "Line.h"
 #include "EnemyLight.h"
+#include "EnemyHeavy.h"
+#include "EnemySplit.h"
 #include "Origin.h"
 #include <d3dx9math.h>
 
@@ -19,6 +21,8 @@ namespace NL{
 	const int MAX_ENEMY_BULLETS = 500;
 	const int MAX_WALLS = 2000;
 	const int MAX_LIGHT_ENEMIES = 500;
+	const int MAX_HEAVY_ENEMIES = 500;
+	const int MAX_SPLIT_ENEMEIS = 500;
 	const float MAX_PLAYER_CENTER_DISTANCE = 10;
 };
 
@@ -37,7 +41,11 @@ public:
 	void spawnBullet(Vector3 pos, Vector3 vel);
 	void spawnEnemyBullet(Vector3 pos, Vector3 vel);
 	void spawnLightEnemy(Vector3 pos);
+	void spawnHeavyEnemy(Vector3 pos);
+	void spawnSplitEnemy(Vector3 pos);
 	void spawnWall(Vector3 pos);
+
+	void checkEnemySplit();
 
 	Vector3 worldSize;
 	
@@ -77,5 +85,7 @@ protected:
 	Wall* walls;
 	Bullet* enemyBullets;
 	EnemyLight * enemyLight;
+	EnemyHeavy * enemyHeavy;
+	EnemySplit * enemySplit;
 
 };
