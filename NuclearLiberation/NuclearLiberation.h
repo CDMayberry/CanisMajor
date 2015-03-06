@@ -14,6 +14,7 @@
 #include "EnemySplit.h"
 #include "Origin.h"
 #include <d3dx9math.h>
+#include "Background.h"
 
 namespace NL{
 
@@ -27,6 +28,7 @@ namespace NL{
 	const float PRECEIVED_SCREEN_WIDTH = 70;
 	const float PRECEIVED_SCREEN_HEIGHT = 50;
 	const float MIN_SCROLL_SPEED = 3;
+	const int MAX_BACK = 3;
 };
 
 class NuclearLiberation : public D3DApp{
@@ -63,6 +65,10 @@ private:
 	void buildVertexLayouts();
 
 	Origin origin;
+	Background backgd;
+	Background backgd1;
+	Background backgd2;
+	Background backgd3;
 
 protected:
 
@@ -86,10 +92,12 @@ protected:
 	//geometry
 	Cube cubeG,cubeR,cubeY,cubeW;
 	Line lineX, lineY, lineZ;
+	Quad quad;
 
 	//game objects
 	Bullet* playerBullets;
 	Wall* walls;
+	
 	Bullet* enemyBullets;
 	EnemyLight * enemyLight;
 	EnemyHeavy * enemyHeavy;

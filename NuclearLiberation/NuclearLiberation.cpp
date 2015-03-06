@@ -69,8 +69,18 @@ void NuclearLiberation::initApp()
 
 	cubeG.init(md3dDevice,GREEN);
 	cubeR.init(md3dDevice,RED);
-	cubeY.init(md3dDevice,YELLOW);
+	cubeY.init(md3dDevice,DARKGRAY);
 	cubeW.init(md3dDevice,WHITE);
+
+	//Inititilizes the background colors for the level.
+	//The magic numbers are x and y locations. All x's are -20
+	//to cover the very first portion of the screen
+	backgd.init(this, 1, -20, -25, BLACK, DARKBLUE);
+	backgd1.init(this, 1, -20, 150, DARKBLUE, DARKISHBLUE);
+	backgd2.init(this, 1, -20, 325, DARKISHBLUE, SURFACEBLUE); 
+	backgd3.init(this, 1, -20, 500, AIR, YELLOW); 
+	backgd3.scale(100, 5, 1);
+	
 
 	Controls c;
 	c.up = 'W';
@@ -81,6 +91,8 @@ void NuclearLiberation::initApp()
 	player.init(this,&cubeW,1,c);
 	player.setScale(Vector3(2,1,1));
 	player.setRadius(1);
+	
+	
 
 	for(int i = 0 ; i < NL::MAX_PLAYER_BULLETS; i++)
 	{
@@ -223,7 +235,6 @@ void NuclearLiberation::collisions()
 void NuclearLiberation::drawScene()
 {
 	D3DApp::drawScene();
-
 	
 	// Restore default states, input layout and primitive topology 
 	// because mFont->DrawText changes them.  Note that we can 
@@ -238,9 +249,15 @@ void NuclearLiberation::drawScene()
 	D3D10_TECHNIQUE_DESC techDesc;
 	mTech->GetDesc(&techDesc);
 
+	
 	origin.draw(mfxWVPVar,mView,mProj,mTech);
 	
 	player.draw(mfxWVPVar,mView,mProj,mTech);
+
+	backgd.draw(mfxWVPVar,mView,mProj,mTech);
+	backgd1.draw(mfxWVPVar,mView,mProj,mTech);
+	backgd2.draw(mfxWVPVar,mView,mProj,mTech);
+	backgd3.draw(mfxWVPVar,mView,mProj,mTech);
 
 	for(int i = 0 ; i < NL::MAX_PLAYER_BULLETS; i++)
 	{
@@ -411,7 +428,7 @@ void NuclearLiberation::clearLevel()
 void NuclearLiberation::loadLevel1()
 {
 	clearLevel();
-	worldSize = Vector3(500,100,0);
+	worldSize = Vector3(700,500,0);
 	player.setPosition(Vector3(25,50,0));
 
 	for(int i = 50; i < 500; i+=30)
@@ -424,7 +441,7 @@ void NuclearLiberation::loadLevel1()
 		spawnSplitEnemy(Vector3(i+10, 30*tan(2*PI*i/50)+50,0));
 	}
 
-	for(int i = -50; i < 550; i+=wallNS::WALL_SCALE)
+	for(int i = -50; i < 750; i+=wallNS::WALL_SCALE)
 	{
 		float y = 5*(sin(2*PI*i/150.0)+2)-10;
 		//for(float j = y; j > -40; j-=wallNS::WALL_SCALE)

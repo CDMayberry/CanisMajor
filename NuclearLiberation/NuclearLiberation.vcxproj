@@ -89,6 +89,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Background.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Cube.cpp" />
     <ClCompile Include="d3dApp.cpp" />
@@ -106,6 +107,7 @@
     <ClCompile Include="Quad.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Background.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Controls.h" />
     <ClInclude Include="Cube.h" />
