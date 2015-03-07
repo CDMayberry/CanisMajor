@@ -10,6 +10,7 @@ void Player::init(NuclearLiberation*game,Geometry *b, float r, Controls c)
 	controls = c;
 	isActive = true;
 	accel = Vector3(0,0,0);
+	airLevel = MAX_AIR;
 }
 
 void Player::update(float dt)
@@ -18,8 +19,18 @@ void Player::update(float dt)
 	{
 		Actor::update(dt);
 
+		airLevel = max(airLevel-dt,0);
+		if(airLevel == 0)
+		{
+			game->onPlayerDeath();
+			return;
+		}
+
 		float x = max(min(position.x,game->worldSize.x),game->minPlayerPosition);
 		float y = max(min(position.y,game->worldSize.y),5*(sin(2*PI*x/150.0)+2)-7+wallNS::WALL_SCALE);
+
+		if(y == game->worldSize.y) 
+			refillAir();
 
 		setPosition(Vector3(x,y,0));
 
@@ -84,7 +95,6 @@ void Player::update(float dt)
 		Normalize(&input,&input);	
 
 		//velocity = input * MAX_SPEED;
-
 		
 		if(inputThisFrame)
 		{
