@@ -93,6 +93,7 @@
     <ClCompile Include="Cube.cpp" />
     <ClCompile Include="d3dApp.cpp" />
     <ClCompile Include="Actor.cpp" />
+    <ClCompile Include="Drop.cpp" />
     <ClCompile Include="EnemyHeavy.cpp" />
     <ClCompile Include="EnemyLight.cpp" />
     <ClCompile Include="EnemySplit.cpp" />
@@ -113,6 +114,7 @@
     <ClInclude Include="d3dApp.h" />
     <ClInclude Include="d3dUtil.h" />
     <ClInclude Include="Actor.h" />
+    <ClInclude Include="Drop.h" />
     <ClInclude Include="EnemyHeavy.h" />
     <ClInclude Include="EnemyLight.h" />
     <ClInclude Include="EnemySplit.h" />

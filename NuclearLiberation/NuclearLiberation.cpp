@@ -29,6 +29,7 @@ NuclearLiberation::NuclearLiberation(HINSTANCE hInstance)
 	minPlayerPosition = 0;
 
 	playerBullets = new Bullet[NL::MAX_PLAYER_BULLETS];
+	drops = new Drop[NL::MAX_DROPS];
 	walls = new Wall[NL::MAX_WALLS];
 	enemyBullets = new Bullet[NL::MAX_ENEMY_BULLETS];
 	enemyLight = new EnemyLight[NL::MAX_LIGHT_ENEMIES];
@@ -45,6 +46,7 @@ NuclearLiberation::~NuclearLiberation()
 	ReleaseCOM(mVertexLayout);
 
 	delete [] playerBullets;
+	delete [] drops;
 	delete [] walls;
 	delete [] enemyBullets;
 	delete [] enemyLight;
@@ -71,6 +73,7 @@ void NuclearLiberation::initApp()
 	cubeR.init(md3dDevice,RED);
 	cubeY.init(md3dDevice,YELLOW);
 	cubeW.init(md3dDevice,WHITE);
+	cubeGLD.init(md3dDevice,GOLD);
 
 	Controls c;
 	c.up = 'W';
@@ -87,6 +90,13 @@ void NuclearLiberation::initApp()
 		playerBullets[i].init(this,&cubeG,1);
 		playerBullets[i].setScale(Vector3(0.5,0.5,0.5));
 		playerBullets[i].setRadius(1);
+	}
+
+	for(int i = 0 ; i < NL::MAX_DROPS; i++)
+	{
+		drops[i].init(this,&cubeGLD,1);
+		drops[i].setScale(Vector3(0.25,0.5,0.25));
+		drops[i].setRadius(.5);
 	}
 
 	for(int i = 0 ; i < NL::MAX_ENEMY_BULLETS; i++)
@@ -338,6 +348,20 @@ void NuclearLiberation::spawnEnemyBullet(Vector3 pos, Vector3 vel)
 		}
 	}
 }
+
+void NuclearLiberation::spawnDrop(Vector3 pos, Vector3 vel)
+{
+	for(int i = 0; i<NL::MAX_DROPS; i++)
+	{
+		if(!drops[i].isActive)
+		{
+			drops[i].create(pos);
+			drops[i].setVelocity(vel);
+			break;
+		}
+	}
+}
+
 void NuclearLiberation::spawnLightEnemy(Vector3 pos)
 {
 	for(int i = 0; i<NL::MAX_LIGHT_ENEMIES; i++)

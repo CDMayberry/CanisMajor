@@ -12,6 +12,7 @@
 #include "EnemyLight.h"
 #include "EnemyHeavy.h"
 #include "EnemySplit.h"
+#include "Drop.h"
 #include "Origin.h"
 #include <d3dx9math.h>
 
@@ -23,6 +24,7 @@ namespace NL{
 	const int MAX_LIGHT_ENEMIES = 500;
 	const int MAX_HEAVY_ENEMIES = 500;
 	const int MAX_SPLIT_ENEMEIS = 500;
+	const int MAX_DROPS = 500;
 	const float MAX_PLAYER_CENTER_DISTANCE = 15;
 	const float PRECEIVED_SCREEN_WIDTH = 70;
 	const float PRECEIVED_SCREEN_HEIGHT = 50;
@@ -42,6 +44,7 @@ public:
 	void collisions();
 
 	void spawnBullet(Vector3 pos, Vector3 vel);
+	void spawnDrop(Vector3 pos, Vector3 vel);
 	void spawnEnemyBullet(Vector3 pos, Vector3 vel);
 	void spawnLightEnemy(Vector3 pos);
 	void spawnHeavyEnemy(Vector3 pos);
@@ -84,11 +87,12 @@ protected:
 	
 
 	//geometry
-	Cube cubeG,cubeR,cubeY,cubeW;
+	Cube cubeG,cubeR,cubeY,cubeW, cubeGLD;
 	Line lineX, lineY, lineZ;
 
 	//game objects
 	Bullet* playerBullets;
+	Drop* drops;
 	Wall* walls;
 	Bullet* enemyBullets;
 	EnemyLight * enemyLight;
