@@ -12,6 +12,7 @@
 
 
 #include "d3dUtil.h"
+#include "audio.h"
 #include "GameTimer.h"
 #include <string>
 
@@ -22,8 +23,9 @@ public:
 	D3DApp(HINSTANCE hInstance);
 	virtual ~D3DApp();
 
-	HINSTANCE getAppInst();
-	HWND      getMainWnd();
+	HINSTANCE	getAppInst();
+	HWND		getMainWnd();
+	Audio*		audio;
 
 	int run();
 
@@ -42,12 +44,13 @@ protected:
 	
 protected:
 
-	HINSTANCE mhAppInst;
-	HWND      mhMainWnd;
-	bool      mAppPaused;
-	bool      mMinimized;
-	bool      mMaximized;
-	bool      mResizing;
+	HINSTANCE	mhAppInst;
+	HRESULT		hr;                 // standard return type
+	HWND		mhMainWnd;
+	bool		mAppPaused;
+	bool		mMinimized;
+	bool		mMaximized;
+	bool		mResizing;
 
 	GameTimer mTimer;
 
@@ -59,6 +62,8 @@ protected:
 	ID3D10RenderTargetView* mRenderTargetView;
 	ID3D10DepthStencilView* mDepthStencilView;
 	ID3DX10Font* mFont;
+	
+	
 
 	// Derived class should set these in derived constructor to customize starting values.
 	std::wstring mMainWndCaption;

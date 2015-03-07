@@ -83,7 +83,6 @@ protected:
 	ID3D10InputLayout* mVertexLayout;
 	ID3D10EffectMatrixVariable* mfxWVPVar;
 
-
 	D3DXMATRIX mView;
 	D3DXMATRIX mProj;
 

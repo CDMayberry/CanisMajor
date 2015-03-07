@@ -88,6 +88,7 @@ void Player::update(float dt)
 
 		if(weaponCooldown==0 && GetAsyncKeyState(controls.fire))
 		{
+			game->audio->playCue(FIRING);
  			game->spawnBullet(getPosition(),rotateZ(FIRE_SPEED,rot.z));
 			weaponCooldown = DEFAULT_COOLDOWN;
 		}
