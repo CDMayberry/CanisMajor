@@ -13,6 +13,7 @@ namespace playerNS{
 	const float MAX_ROTATION_ANGLE = 1;
 	const float ROTATION_SPEED = 0.25;
 	const Vector3 FIRE_SPEED(75,0,0);
+	const float MAX_AIR = 30; //AIR DEPLETES AT 1 UNIT PER SECOND
 };
 
 class Player : public virtual Actor
@@ -22,6 +23,9 @@ public:
 	void init(NuclearLiberation*game,Geometry *b, float r, Controls c);
 	void update(float dt);
 
+	void refillAir(){airLevel = playerNS::MAX_AIR;}
+	float getAir(){return airLevel;}
+
 private:
 	Vector3 input;
 	Controls controls;
@@ -29,4 +33,5 @@ private:
 	float weaponCooldown;
 	float bulletDisp;
 	Vector3 accel;
+	float airLevel;
 };

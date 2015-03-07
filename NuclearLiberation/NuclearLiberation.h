@@ -50,6 +50,8 @@ public:
 
 	void checkEnemySplit();
 
+	void onPlayerDeath();
+
 	Vector3 worldSize;
 	
 	Player player;
@@ -80,12 +82,11 @@ protected:
 
 	Vector3 cameraDisplacement;
 	Vector3 cameraTarget, cameraPositon, cameraUp;
-	
-	
 
 	//geometry
 	Cube cubeG,cubeR,cubeY,cubeW;
 	Line lineX, lineY, lineZ;
+	Quad quadLtBlue;
 
 	//game objects
 	Bullet* playerBullets;
@@ -94,5 +95,7 @@ protected:
 	EnemyLight * enemyLight;
 	EnemyHeavy * enemyHeavy;
 	EnemySplit * enemySplit;
+
+	Actor airBar;
 
 };

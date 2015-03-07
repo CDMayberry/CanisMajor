@@ -114,6 +114,11 @@ void NuclearLiberation::initApp()
 		enemySplit[i].setScale(Vector3(2,2,2));
 	}
 
+
+	quadLtBlue.init(md3dDevice,D3DXCOLOR(224/255.0,1,1,1));
+	airBar.init(this,&quadLtBlue,1);
+	airBar.isActive = true;
+
 	buildFX();
 	buildVertexLayouts();
 	loadLevel1();
@@ -131,6 +136,11 @@ void NuclearLiberation::updateScene(float dt)
 {
 	D3DApp::updateScene(dt);
 	player.update(dt);
+
+	//update bar
+	airBar.setPosition(player.getPosition()+Vector3(-5,0,0));
+	airBar.setScale(Vector3(1,2*player.getAir()/playerNS::MAX_AIR,1));
+	airBar.update(dt);
 
 	//ADVANCE INVISIBLE WALL
 	minPlayerPosition= min(minPlayerPosition+NL::MIN_SCROLL_SPEED*dt,worldSize.x-NL::PRECEIVED_SCREEN_WIDTH);
@@ -241,6 +251,8 @@ void NuclearLiberation::drawScene()
 	origin.draw(mfxWVPVar,mView,mProj,mTech);
 	
 	player.draw(mfxWVPVar,mView,mProj,mTech);
+
+	airBar.draw(mfxWVPVar,mView,mProj,mTech);
 
 	for(int i = 0 ; i < NL::MAX_PLAYER_BULLETS; i++)
 	{
@@ -416,12 +428,12 @@ void NuclearLiberation::loadLevel1()
 
 	for(int i = 50; i < 500; i+=30)
 	{
-		spawnLightEnemy(Vector3(i+15,30*sin(2*PI*i/50)+50,0));
-		spawnLightEnemy(Vector3(i,30*sin(2*PI*i/50)+60,0));
+		//spawnLightEnemy(Vector3(i+15,30*sin(2*PI*i/50)+50,0));
+		//spawnLightEnemy(Vector3(i,30*sin(2*PI*i/50)+60,0));
 
-		spawnHeavyEnemy(Vector3(i+15,30*cos(2*PI*i/50)+50,0));
+		//spawnHeavyEnemy(Vector3(i+15,30*cos(2*PI*i/50)+50,0));
 
-		spawnSplitEnemy(Vector3(i+10, 30*tan(2*PI*i/50)+50,0));
+		//spawnSplitEnemy(Vector3(i+10, 30*tan(2*PI*i/50)+50,0));
 	}
 
 	for(int i = -50; i < 550; i+=wallNS::WALL_SCALE)
@@ -433,4 +445,9 @@ void NuclearLiberation::loadLevel1()
 		//}
 	}
 	
+}
+
+void NuclearLiberation::onPlayerDeath()
+{
+	//TODO: something
 }
