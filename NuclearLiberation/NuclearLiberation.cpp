@@ -58,9 +58,6 @@ void NuclearLiberation::initApp()
 
 	origin.init(this,1);
 
-	worldSize.x = 1000;
-	worldSize.y = 1000;
-
 	cameraDisplacement = Vector3(0,0,-75);
 	cameraTarget = Vector3(0,0,0);
 
@@ -69,8 +66,19 @@ void NuclearLiberation::initApp()
 
 	cubeG.init(md3dDevice,GREEN);
 	cubeR.init(md3dDevice,RED);
-	cubeY.init(md3dDevice,YELLOW);
+	cubeY.init(md3dDevice,DARKGRAY);
 	cubeW.init(md3dDevice,WHITE);
+
+	//Inititilizes the background colors for the level.
+	//The magic numbers are x and y locations. All x's are -20
+	//to cover the very first portion of the screen
+	bgQuad[0].init(md3dDevice,BLACK,DARKBLUE);
+	bgQuad[1].init(md3dDevice,DARKBLUE,DARKISHBLUE);
+	bgQuad[2].init(md3dDevice,DARKISHBLUE,SURFACEBLUE);
+	bgQuad[3].init(md3dDevice,YELLOW,WHITE);
+
+	initBackground();
+	
 
 	Controls c;
 	c.up = 'W';
@@ -81,6 +89,8 @@ void NuclearLiberation::initApp()
 	player.init(this,&cubeW,1,c);
 	player.setScale(Vector3(2,1,1));
 	player.setRadius(1);
+	
+	
 
 	for(int i = 0 ; i < NL::MAX_PLAYER_BULLETS; i++)
 	{
@@ -124,6 +134,18 @@ void NuclearLiberation::initApp()
 	loadLevel1();
 }
 
+void NuclearLiberation::initBackground()
+{
+	float halfHeight = worldSize.y/(2*(NL::NUM_BKGD_IMGS-1));
+	for(int i = 0 ; i < NL::NUM_BKGD_IMGS; i++)
+	{
+		bgImg[i].init(this,&bgQuad[i],1);
+		bgImg[i].setPosition(Vector3(worldSize.x/2,(2*i+1)*halfHeight,15));//set in middle, place behind everything
+		bgImg[i].setScale(Vector3(2*worldSize.x,2*halfHeight,1));
+		bgImg[i].isActive = true;
+	}
+}
+
 void NuclearLiberation::onResize()
 {
 	D3DApp::onResize();
@@ -135,6 +157,9 @@ void NuclearLiberation::onResize()
 void NuclearLiberation::updateScene(float dt)
 {
 	D3DApp::updateScene(dt);
+	for(int i = 0 ; i < NL::NUM_BKGD_IMGS; i++)
+		bgImg[i].update(dt);
+
 	player.update(dt);
 
 	//update bar
@@ -187,6 +212,8 @@ void NuclearLiberation::updateScene(float dt)
 	if(cameraTarget.x > worldSize.x-NL::PRECEIVED_SCREEN_WIDTH/2)
 		cameraTarget.x = worldSize.x-NL::PRECEIVED_SCREEN_WIDTH/2;
 
+
+
 	D3DXVECTOR3 pos = cameraTarget+cameraDisplacement;
 	D3DXVECTOR3 up(0.0f, 1.0f, 0.0f);
 	D3DXMatrixLookAtLH(&mView, &pos, &cameraTarget, &up);
@@ -200,6 +227,7 @@ void NuclearLiberation::checkEnemySplit(){//check to see if splitting enemies ne
 
 }
 
+//COLLISIONS GIVE LOADS OF FALSE POSITIVES
 void NuclearLiberation::collisions()
 {
 	for(int i = 0; i < NL::MAX_ENEMY_BULLETS; i++)
@@ -233,7 +261,6 @@ void NuclearLiberation::collisions()
 void NuclearLiberation::drawScene()
 {
 	D3DApp::drawScene();
-
 	
 	// Restore default states, input layout and primitive topology 
 	// because mFont->DrawText changes them.  Note that we can 
@@ -247,12 +274,15 @@ void NuclearLiberation::drawScene()
 	// set the point to the shader technique
 	D3D10_TECHNIQUE_DESC techDesc;
 	mTech->GetDesc(&techDesc);
-
+	
 	origin.draw(mfxWVPVar,mView,mProj,mTech);
 	
 	player.draw(mfxWVPVar,mView,mProj,mTech);
 
 	airBar.draw(mfxWVPVar,mView,mProj,mTech);
+
+	for(int i = 0 ; i < NL::NUM_BKGD_IMGS; i++)
+		bgImg[i].draw(mfxWVPVar,mView,mProj,mTech);
 
 	for(int i = 0 ; i < NL::MAX_PLAYER_BULLETS; i++)
 	{
@@ -423,20 +453,21 @@ void NuclearLiberation::clearLevel()
 void NuclearLiberation::loadLevel1()
 {
 	clearLevel();
-	worldSize = Vector3(500,100,0);
-	player.setPosition(Vector3(25,50,0));
+	worldSize = Vector3(700,500,0);
+	player.setPosition(Vector3(25,250,0));
+
+	initBackground();
 
 	for(int i = 50; i < 500; i+=30)
 	{
-		//spawnLightEnemy(Vector3(i+15,30*sin(2*PI*i/50)+50,0));
-		//spawnLightEnemy(Vector3(i,30*sin(2*PI*i/50)+60,0));
+		spawnLightEnemy(Vector3(i+15,30*sin(2*PI*i/50)+50,0));
 
-		//spawnHeavyEnemy(Vector3(i+15,30*cos(2*PI*i/50)+50,0));
+		spawnHeavyEnemy(Vector3(i+15,30*cos(2*PI*i/50)+50,0));
 
-		//spawnSplitEnemy(Vector3(i+10, 30*tan(2*PI*i/50)+50,0));
+		spawnSplitEnemy(Vector3(i+10, 30*tan(2*PI*i/50)+50,0));
 	}
 
-	for(int i = -50; i < 550; i+=wallNS::WALL_SCALE)
+	for(int i = -50; i < 750; i+=wallNS::WALL_SCALE)
 	{
 		float y = 5*(sin(2*PI*i/150.0)+2)-10;
 		//for(float j = y; j > -40; j-=wallNS::WALL_SCALE)
@@ -450,4 +481,5 @@ void NuclearLiberation::loadLevel1()
 void NuclearLiberation::onPlayerDeath()
 {
 	//TODO: something
+	loadLevel1();
 }

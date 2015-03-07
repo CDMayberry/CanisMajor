@@ -29,7 +29,8 @@ void Player::update(float dt)
 		float x = max(min(position.x,game->worldSize.x),game->minPlayerPosition);
 		float y = max(min(position.y,game->worldSize.y),5*(sin(2*PI*x/150.0)+2)-7+wallNS::WALL_SCALE);
 
-		if(y == game->worldSize.y) refillAir();
+		if(y == game->worldSize.y) 
+			refillAir();
 
 		setPosition(Vector3(x,y,0));
 

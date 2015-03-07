@@ -27,6 +27,8 @@ namespace NL{
 	const float PRECEIVED_SCREEN_WIDTH = 70;
 	const float PRECEIVED_SCREEN_HEIGHT = 50;
 	const float MIN_SCROLL_SPEED = 3;
+	const int MAX_BACK = 3;
+	const int NUM_BKGD_IMGS = 4;
 };
 
 class NuclearLiberation : public D3DApp{
@@ -36,6 +38,7 @@ public:
 	~NuclearLiberation();
 
 	void initApp();
+	void initBackground();
 	void onResize();
 	void updateScene(float dt);
 	void drawScene(); 
@@ -59,6 +62,7 @@ public:
 	ID3D10Device* getDevice(){return md3dDevice;}
 
 	float minPlayerPosition;
+
 
 private:
 	void buildFX();
@@ -87,15 +91,18 @@ protected:
 	Cube cubeG,cubeR,cubeY,cubeW;
 	Line lineX, lineY, lineZ;
 	Quad quadLtBlue;
+	Quad bgQuad[NL::NUM_BKGD_IMGS];
 
 	//game objects
 	Bullet* playerBullets;
 	Wall* walls;
+	
 	Bullet* enemyBullets;
 	EnemyLight * enemyLight;
 	EnemyHeavy * enemyHeavy;
 	EnemySplit * enemySplit;
 
 	Actor airBar;
+	Actor bgImg[NL::NUM_BKGD_IMGS];
 
 };
