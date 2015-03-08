@@ -44,6 +44,9 @@ public:
 	void setRotation(Vector3 rot){rotation = rot;}
 	Vector3 getRotation(){return rotation;}
 	bool isActive;
+	float getHealth(){return health;}
+	void setHealth(float H){health = H;}
+
 
 private:
 	Geometry *geometry; 
