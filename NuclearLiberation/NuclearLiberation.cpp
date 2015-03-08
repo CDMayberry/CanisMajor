@@ -130,7 +130,7 @@ void NuclearLiberation::initApp()
 		enemyLight[i].setScale(Vector3(2,2,2));
 		enemyHeavy[i].init(this,&cubeG, 2);
 		enemyHeavy[i].setScale(Vector3(2,2,2));
-		enemySplit[i].init(this,&cubeW,2);
+		enemySplit[i].init(this,&cubeY,2);
 		enemySplit[i].setScale(Vector3(2,2,2));
 	}
 
@@ -228,42 +228,59 @@ void NuclearLiberation::updateScene(float dt)
 	D3DXVECTOR3 up(0.0f, 1.0f, 0.0f);
 	D3DXMatrixLookAtLH(&mView, &pos, &cameraTarget, &up);
 
-	//collisions();
-
-
-}
-
-void NuclearLiberation::checkEnemySplit(){//check to see if splitting enemies need to split
+	collisions();
 
 }
 
 //COLLISIONS GIVE LOADS OF FALSE POSITIVES
 void NuclearLiberation::collisions()
 {
-	for(int i = 0; i < NL::MAX_ENEMY_BULLETS; i++)
-	{
-		if(enemyBullets[i].collided(&player))
-		{
-			loadLevel1();
-			break;
-		}
-	}
+	//for(int i = 0; i < nl::max_enemy_bullets; i++)
+	//{
+	//	if(enemybullets[i].collided(&player))
+	//	{
+	//		loadlevel1();
+	//		break;
+	//	}
+	//}
 
 	for (int i = 0; i<NL::MAX_PLAYER_BULLETS;i++){
-		for (int j = 0;j< NL::MAX_HEAVY_ENEMIES;j++){
-				enemyHeavy[j].isActive = false;
-				playerBullets[i].isActive = false;
-				break;
-		}
-		for (int j = 0;j<NL::MAX_LIGHT_ENEMIES;j++){
-				enemyLight[j].isActive = false;
-				playerBullets[i].isActive = false;
-				break;
-		}
-		for (int j = 0;j<NL::MAX_SPLIT_ENEMEIS;j++){
-			enemySplit[j].isActive = false;
-			playerBullets[i].isActive = false;
-			break;
+		if(playerBullets[i].isActive){//don't bother checking if the bullet isn't active
+			for (int j = 0;j< NL::MAX_HEAVY_ENEMIES;j++){
+				if(enemyHeavy[j].collided(&playerBullets[i])){
+					enemyHeavy[j].setHealth(enemyHeavy[j].getHealth() - bulletNS::DAMAGE);
+					if(enemyHeavy[j].getHealth() <= 0)
+						enemyHeavy[j].isActive = false;
+					playerBullets[i].isActive = false;
+					break;
+				}
+			}
+			for (int j = 0;j<NL::MAX_LIGHT_ENEMIES;j++){
+				if (enemyLight[j].collided(&playerBullets[i])){
+					enemyLight[j].setHealth(enemyLight[j].getHealth() - bulletNS::DAMAGE);
+					if (enemyLight[j].getHealth() <= 0)
+						enemyLight[j].isActive = false;
+					playerBullets[i].isActive = false;
+					break;
+				}
+			}
+			for (int j = 0;j<NL::MAX_SPLIT_ENEMEIS;j++){
+				if (enemySplit[j].collided(&playerBullets[i])){
+					enemySplit[j].setHealth(enemySplit[j].getHealth() - bulletNS::DAMAGE);
+					if(enemySplit[j].getHealth() <= 75 && enemySplit[j].getGen() ==1){
+						enemySplit[j].setGen(2);
+						spawnSplitEnemy(enemySplit[j].getPosition()+D3DXVECTOR3(3,3,3), 2);
+					}
+					else if(enemySplit[j].getHealth() <= 50 && enemySplit[j].getGen() ==2){
+						enemySplit[j].setGen(3);
+						spawnSplitEnemy(enemySplit[j].getPosition()+D3DXVECTOR3(3,3,3), 3);
+					}
+					else if(enemySplit[j].getHealth() <= 25)
+						enemySplit[j].isActive = false;
+					playerBullets[i].isActive = false;
+					break;
+				}
+			}
 		}
 	}
 }
@@ -428,10 +445,11 @@ void NuclearLiberation::spawnHeavyEnemy(Vector3 pos)
 	}
 }
 
-void NuclearLiberation::spawnSplitEnemy(Vector3 pos){
+void NuclearLiberation::spawnSplitEnemy(Vector3 pos, int gen){
 	for (int i=0;i<NL::MAX_SPLIT_ENEMEIS;i++){
 		if (!enemySplit[i].isActive){
 			enemySplit[i].create(pos);
+			enemySplit[i].setGen(gen);
 			break;
 		}
 	}
@@ -488,7 +506,7 @@ void NuclearLiberation::loadLevel1()
 
 		spawnHeavyEnemy(Vector3(i+15,30*cos(2*PI*i/50)+50,0));
 
-		spawnSplitEnemy(Vector3(i+10, 30*tan(2*PI*i/50)+50,0));
+		spawnSplitEnemy(Vector3(i+10, 30*tan(2*PI*i/50)+50,0), 1);
 	}
 
 	for(int i = -50; i < 750; i+=wallNS::WALL_SCALE)

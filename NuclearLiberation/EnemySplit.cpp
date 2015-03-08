@@ -44,3 +44,8 @@ void EnemySplit::update(float dt)
 }
 
 
+void EnemySplit::setGen(int g){
+	generation = g;
+	float size = pow(2, 1.0f/g);
+	setScale(D3DXVECTOR3(size,size,size));
+}

@@ -51,7 +51,7 @@ public:
 	void spawnEnemyBullet(Vector3 pos, Vector3 vel);
 	void spawnLightEnemy(Vector3 pos);
 	void spawnHeavyEnemy(Vector3 pos);
-	void spawnSplitEnemy(Vector3 pos);
+	void spawnSplitEnemy(Vector3 pos, int gen);
 	void spawnWall(Vector3 pos);
 
 	void checkEnemySplit();

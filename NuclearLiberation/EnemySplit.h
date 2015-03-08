@@ -14,7 +14,10 @@ class EnemySplit: public virtual Actor
 public:
 	EnemySplit():Actor(){playerSeen=false;cooldown=0;MAX_HEALTH = 50.0f; health = MAX_HEALTH; }
 	void update(float dt);
+	void setGen(int g);
+	int getGen(){return generation;}
 private:
+	int generation;
 	float cooldown;
 	bool playerSeen;
 };
