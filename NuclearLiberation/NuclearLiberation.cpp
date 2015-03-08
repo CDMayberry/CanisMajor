@@ -470,11 +470,18 @@ void NuclearLiberation::loadLevel1()
 	for(int i = -50; i < 750; i+=wallNS::WALL_SCALE)
 	{
 		float y = 5*(sin(2*PI*i/150.0)+2)-10;
-		//for(float j = y; j > -40; j-=wallNS::WALL_SCALE)
-		//{
-			spawnWall(Vector3(i,y,wallNS::WALL_SCALE));
-		//}
+		spawnWall(Vector3(i,y,wallNS::WALL_SCALE));
 	}
+
+	for(int i = -40; i < 750; i+=wallNS::WALL_SCALE)
+	{
+		float y = 5*(sin(2*PI*i/150.0)+2)+30;
+
+		//I don't know why this works for the first gap, but not subsequent gaps
+		if(!(i > 100 && i<150) && !(i > 250 && i<270))
+			spawnWall(Vector3(i,y,wallNS::WALL_SCALE));
+	}
+
 	
 }
 

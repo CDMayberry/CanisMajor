@@ -15,8 +15,10 @@ void Player::init(NuclearLiberation*game,Geometry *b, float r, Controls c)
 
 void Player::update(float dt)
 {
+	bool inWall = false;
 	if(isActive)
 	{
+		oldPos = getPosition();
 		Actor::update(dt);
 
 		airLevel = max(airLevel-dt,0);
@@ -29,10 +31,28 @@ void Player::update(float dt)
 		float x = max(min(position.x,game->worldSize.x),game->minPlayerPosition);
 		float y = max(min(position.y,game->worldSize.y),5*(sin(2*PI*x/150.0)+2)-7+wallNS::WALL_SCALE);
 
+		position.x = x;
+		position.y = y;
+
 		if(y == game->worldSize.y) 
 			refillAir();
 
-		setPosition(Vector3(x,y,0));
+		int iter = oldPos.x;
+
+		while(iter < position.x + wallNS::WALL_SCALE)
+		{
+			if(topDef(iter)-position.y > 47 && topDef(iter)-position.y < 70 && !inGap())
+			{
+				position = oldPos;
+				break;
+			}
+
+			iter++;
+		}
+
+		inWall = false;
+
+		setPosition(position);
 
 		weaponCooldown=max(weaponCooldown-dt,0);
 		
@@ -107,10 +127,27 @@ void Player::update(float dt)
 			Normalize(&velocity,&velocity);
 			velocity*=speed;
 		}
-
-		
-			
-		
-
 	}
+}
+
+float Player::topDef(float x)
+{
+	float y = 5*(sin(2*PI*x/150.0)+2)+90;
+	return y;
+}
+
+float Player::bottomWall(float x)
+{
+	float y = 5*(sin(2*PI*x/150.0)+2)+30;
+	return y;
+}
+
+bool Player::inGap()
+{
+	if(position.x > 100 && position.x < 150)
+		return true;
+	else if(position.x > 250 && position.x < 270)
+		return true;
+	else 
+		return false;
 }

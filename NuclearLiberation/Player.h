@@ -25,6 +25,9 @@ public:
 
 	void refillAir(){airLevel = playerNS::MAX_AIR;}
 	float getAir(){return airLevel;}
+	float topDef(float x);
+	float bottomWall(float x);
+	bool inGap();
 
 private:
 	Vector3 input;
@@ -33,5 +36,6 @@ private:
 	float weaponCooldown;
 	float bulletDisp;
 	Vector3 accel;
+	Vector3 oldPos;
 	float airLevel;
 };
