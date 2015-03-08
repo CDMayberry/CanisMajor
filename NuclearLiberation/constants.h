@@ -3,7 +3,7 @@
 
 //Defines to make life easier
 
-	#define Vector3 D3DXVECTOR3
+#define Vector3 D3DXVECTOR3
 #define Matrix D3DXMATRIX
 #define Identity D3DXMatrixIdentity
 #define Translate D3DXMatrixTranslation
@@ -14,7 +14,18 @@
 #define ToDegree D3DXToDegree
 #define Normalize D3DXVec3Normalize
 #define Length D3DXVec3Length
+#define FAILED(hr) (((HRESULT)(hr)) < 0)
 
+// WAVE_BANK must be location of .xwb file.
+const char WAVE_BANK[]  = "audio\\Win\\waveBank.xwb";
+// SOUND_BANK must be location of .xsb file.
+const char SOUND_BANK[] = "audio\\Win\\soundBank.xsb";
+// XGS_FILE must be location of .xgs file.
+const char XGS_FILE[]   = "audio\\Win\\audioProject.xgs";
+
+//Audio cues
+const char FIRING[] = "firing";
+const char EXP1[] = "exp1";
 
 
 #endif

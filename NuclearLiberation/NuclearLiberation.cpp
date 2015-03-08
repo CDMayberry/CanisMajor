@@ -29,6 +29,7 @@ NuclearLiberation::NuclearLiberation(HINSTANCE hInstance)
 	minPlayerPosition = 0;
 
 	playerBullets = new Bullet[NL::MAX_PLAYER_BULLETS];
+	drops = new Drop[NL::MAX_DROPS];
 	walls = new Wall[NL::MAX_WALLS];
 	enemyBullets = new Bullet[NL::MAX_ENEMY_BULLETS];
 	enemyLight = new EnemyLight[NL::MAX_LIGHT_ENEMIES];
@@ -45,6 +46,7 @@ NuclearLiberation::~NuclearLiberation()
 	ReleaseCOM(mVertexLayout);
 
 	delete [] playerBullets;
+	delete [] drops;
 	delete [] walls;
 	delete [] enemyBullets;
 	delete [] enemyLight;
@@ -68,6 +70,7 @@ void NuclearLiberation::initApp()
 	cubeR.init(md3dDevice,RED);
 	cubeY.init(md3dDevice,DARKGRAY);
 	cubeW.init(md3dDevice,WHITE);
+	cubeGLD.init(md3dDevice,GOLD);
 
 	//Inititilizes the background colors for the level.
 	//The magic numbers are x and y locations. All x's are -20
@@ -99,6 +102,13 @@ void NuclearLiberation::initApp()
 		playerBullets[i].setRadius(1);
 	}
 
+	for(int i = 0 ; i < NL::MAX_DROPS; i++)
+	{
+		drops[i].init(this,&cubeGLD,1);
+		drops[i].setScale(Vector3(0.25,0.5,0.25));
+		drops[i].setRadius(.5);
+	}
+
 	for(int i = 0 ; i < NL::MAX_ENEMY_BULLETS; i++)
 	{
 		enemyBullets[i].init(this,&cubeR,1);
@@ -114,16 +124,24 @@ void NuclearLiberation::initApp()
 		walls[i].setScale(Vector3(wallNS::WALL_SCALE,wallNS::WALL_SCALE,1));
 	}
 
+	//THIS IS TERRIBLE           vvvvvvvvv     MAKE DIFFERENT CONSTANTS
 	for(int i = 0; i < NL::MAX_LIGHT_ENEMIES; i++)
 	{
 		enemyLight[i].init(this,&cubeR,2);
 		enemyLight[i].setScale(Vector3(2,2,2));
 		enemyHeavy[i].init(this,&cubeG, 2);
 		enemyHeavy[i].setScale(Vector3(2,2,2));
-		enemySplit[i].init(this,&cubeW,2);
+		enemySplit[i].init(this,&cubeY,2);
 		enemySplit[i].setScale(Vector3(2,2,2));
 	}
 
+	menuQuad.init(md3dDevice,D3DXCOLOR(41/255.0,187/255.0,255/255.0,1));
+
+	for(int i = 0 ; i < NL::NUM_MENU_ITEMS; i++)
+	{
+		menuItems[i].init(this,&menuQuad,1);
+		menuItems[i].isActive = true;
+	}
 
 	quadLtBlue.init(md3dDevice,D3DXCOLOR(224/255.0,1,1,1));
 	airBar.init(this,&quadLtBlue,1);
@@ -131,7 +149,7 @@ void NuclearLiberation::initApp()
 
 	buildFX();
 	buildVertexLayouts();
-	loadLevel1();
+	menuLoad();
 }
 
 void NuclearLiberation::initBackground()
@@ -155,6 +173,101 @@ void NuclearLiberation::onResize()
 }
 
 void NuclearLiberation::updateScene(float dt)
+{
+	if(GetAsyncKeyState(VK_ESCAPE))
+		PostQuitMessage(0);
+	switch(state){
+	case MENU:
+		menuUpdate(dt);
+		break;
+	default:
+		levelsUpdate(dt);
+		break;
+	}
+	D3DXVECTOR3 pos = cameraTarget+cameraDisplacement;
+	D3DXVECTOR3 up(0.0f, 1.0f, 0.0f);
+	D3DXMatrixLookAtLH(&mView, &pos, &cameraTarget, &up);
+}
+
+void NuclearLiberation::menuUpdate(float dt, bool reset)
+{
+	static int menuChoice = 0;
+	static bool isKeyDown = false;
+	static float coolDown = 0;
+	static int fireCounter = 0;
+
+	if(reset)
+	{
+		menuChoice = 0;
+		isKeyDown = false;
+		coolDown = 0;
+		fireCounter = 0;
+		return;
+	}
+
+	for(int i = 0 ; i < NL::MAX_PLAYER_BULLETS; i++)
+		playerBullets[i].update(dt);
+	for(int i = 0 ; i < NL::NUM_BKGD_IMGS; i++)
+		bgImg[i].update(dt);
+	for(int i = 0 ; i < NL::NUM_MENU_ITEMS; i++)
+		menuItems[i].update(dt);
+
+
+
+	coolDown = max(coolDown-dt,0);
+	if(coolDown==0)
+	{
+		float dispBetweenItems = (worldSize.y*0.5)/(NL::NUM_MENU_ITEMS-1);
+		Vector3 cursorPosition(Vector3(0,worldSize.y*0.5-menuChoice*dispBetweenItems,0));
+		float fireAngle = (fireCounter-3)*PI/6;
+
+		spawnBullet(cursorPosition+rotateZ(playerNS::HELIX_DISP,fireAngle),playerNS::FIRE_SPEED);
+		spawnBullet(cursorPosition+rotateZ(playerNS::HELIX_DISP,-fireAngle),playerNS::FIRE_SPEED);
+		fireCounter++;
+		if(fireCounter>6)fireCounter = 0;
+		coolDown = playerNS::DEFAULT_COOLDOWN/2;
+	}
+
+	
+	if(GetAsyncKeyState(VK_RETURN)||GetAsyncKeyState(' '))
+	{
+		switch(menuChoice)
+		{
+		case 0://play
+			loadLevel1();
+			break;
+		case 1://feeling lucky
+			//TODO::SOMETHING
+			break;
+		case 2://quit
+			PostQuitMessage(0);
+			break;
+		}
+	}
+	else if(GetAsyncKeyState('W')||GetAsyncKeyState(VK_UP))
+	{
+		if(!isKeyDown)
+		{
+			menuChoice--;
+			isKeyDown = true;
+		}
+	}
+	else if(GetAsyncKeyState('S')||GetAsyncKeyState(VK_DOWN))
+	{
+		if(!isKeyDown)
+		{
+			menuChoice++;
+			isKeyDown = true;
+		}
+	}
+	else
+		isKeyDown = false;
+
+	if(menuChoice >= (NL::NUM_MENU_ITEMS-1)) menuChoice = 0;
+	if(menuChoice < 0) menuChoice = NL::NUM_MENU_ITEMS-2;
+}
+
+void NuclearLiberation::levelsUpdate(float dt)
 {
 	D3DApp::updateScene(dt);
 	for(int i = 0 ; i < NL::NUM_BKGD_IMGS; i++)
@@ -214,17 +327,7 @@ void NuclearLiberation::updateScene(float dt)
 
 
 
-	D3DXVECTOR3 pos = cameraTarget+cameraDisplacement;
-	D3DXVECTOR3 up(0.0f, 1.0f, 0.0f);
-	D3DXMatrixLookAtLH(&mView, &pos, &cameraTarget, &up);
-
-	//collisions();
-
-
-}
-
-void NuclearLiberation::checkEnemySplit(){//check to see if splitting enemies need to split
-
+	collisions();
 }
 
 //COLLISIONS GIVE LOADS OF FALSE POSITIVES
@@ -234,26 +337,48 @@ void NuclearLiberation::collisions()
 	{
 		if(enemyBullets[i].collided(&player))
 		{
-			loadLevel1();
+			//onPlayerDeath();
 			break;
 		}
 	}
 
 	for (int i = 0; i<NL::MAX_PLAYER_BULLETS;i++){
-		for (int j = 0;j< NL::MAX_HEAVY_ENEMIES;j++){
-				enemyHeavy[j].isActive = false;
-				playerBullets[i].isActive = false;
-				break;
-		}
-		for (int j = 0;j<NL::MAX_LIGHT_ENEMIES;j++){
-				enemyLight[j].isActive = false;
-				playerBullets[i].isActive = false;
-				break;
-		}
-		for (int j = 0;j<NL::MAX_SPLIT_ENEMEIS;j++){
-			enemySplit[j].isActive = false;
-			playerBullets[i].isActive = false;
-			break;
+		if(playerBullets[i].isActive){//don't bother checking if the bullet isn't active
+			for (int j = 0;j< NL::MAX_HEAVY_ENEMIES;j++){
+				if(enemyHeavy[j].collided(&playerBullets[i])){
+					enemyHeavy[j].setHealth(enemyHeavy[j].getHealth() - bulletNS::DAMAGE);
+					if(enemyHeavy[j].getHealth() <= 0)
+						enemyHeavy[j].isActive = false;
+					playerBullets[i].isActive = false;
+					break;
+				}
+			}
+			for (int j = 0;j<NL::MAX_LIGHT_ENEMIES;j++){
+				if (enemyLight[j].collided(&playerBullets[i])){
+					enemyLight[j].setHealth(enemyLight[j].getHealth() - bulletNS::DAMAGE);
+					if (enemyLight[j].getHealth() <= 0)
+						enemyLight[j].isActive = false;
+					playerBullets[i].isActive = false;
+					break;
+				}
+			}
+			for (int j = 0;j<NL::MAX_SPLIT_ENEMEIS;j++){
+				if (enemySplit[j].collided(&playerBullets[i])){
+					enemySplit[j].setHealth(enemySplit[j].getHealth() - bulletNS::DAMAGE);
+					if(enemySplit[j].getHealth() <= 75 && enemySplit[j].getGen() ==1){
+						enemySplit[j].setGen(2);
+						spawnSplitEnemy(enemySplit[j].getPosition()+D3DXVECTOR3(3,3,3), 2);
+					}
+					else if(enemySplit[j].getHealth() <= 50 && enemySplit[j].getGen() ==2){
+						enemySplit[j].setGen(3);
+						spawnSplitEnemy(enemySplit[j].getPosition()+D3DXVECTOR3(3,3,3), 3);
+					}
+					else if(enemySplit[j].getHealth() <= 25)
+						enemySplit[j].isActive = false;
+					playerBullets[i].isActive = false;
+					break;
+				}
+			}
 		}
 	}
 }
@@ -261,7 +386,7 @@ void NuclearLiberation::collisions()
 void NuclearLiberation::drawScene()
 {
 	D3DApp::drawScene();
-	
+
 	// Restore default states, input layout and primitive topology 
 	// because mFont->DrawText changes them.  Note that we can 
 	// restore the default states by passing null.
@@ -274,6 +399,41 @@ void NuclearLiberation::drawScene()
 	// set the point to the shader technique
 	D3D10_TECHNIQUE_DESC techDesc;
 	mTech->GetDesc(&techDesc);
+
+	switch(state){
+	case MENU:
+		menuDraw();
+		break;
+	default:
+		levelsDraw();
+		break;
+	}
+	mSwapChain->Present(0, 0);
+}
+
+void NuclearLiberation::menuDraw()
+{
+	for(int i = 0 ; i < NL::NUM_BKGD_IMGS; i++)
+		bgImg[i].draw(mfxWVPVar,mView,mProj,mTech);
+	for(int i = 0; i < NL::NUM_MENU_ITEMS; i++)
+	{
+		menuItems[i].draw(mfxWVPVar,mView,mProj,mTech);
+	}
+	for(int i = 0; i < NL::MAX_PLAYER_BULLETS;i++)
+		playerBullets[i].draw(mfxWVPVar,mView,mProj,mTech);
+	for(int i = 0; i < NL::NUM_MENU_ITEMS; i++)
+	{
+		Vector3 corner = menuItems[i].getPosition()-menuItems[i].getScale()/2;
+		corner*=10;
+		corner.y = mClientHeight - corner.y - 60;
+		corner.x+= 40;
+		RECT r = {corner.x,corner.y,0,0};
+		mFont->DrawText(0,menuText[i].c_str(),-1,&r,DT_NOCLIP,WHITE);
+	}
+}
+
+void NuclearLiberation::levelsDraw()
+{
 	
 	origin.draw(mfxWVPVar,mView,mProj,mTech);
 	
@@ -309,7 +469,6 @@ void NuclearLiberation::drawScene()
 		enemyBullets[i].draw(mfxWVPVar,mView,mProj,mTech);
 	}
 
-	mSwapChain->Present(0, 0);
 }
 
 void NuclearLiberation::buildFX()
@@ -355,7 +514,7 @@ void NuclearLiberation::buildVertexLayouts()
 		PassDesc.IAInputSignatureSize, &mVertexLayout));
 }
 
-void NuclearLiberation::spawnBullet(Vector3 pos, Vector3 vel)
+void NuclearLiberation::spawnBullet(Vector3 pos, Vector3 vel, float scale)
 {
 	for(int i = 0; i<NL::MAX_PLAYER_BULLETS; i++)
 	{
@@ -363,6 +522,7 @@ void NuclearLiberation::spawnBullet(Vector3 pos, Vector3 vel)
 		{
 			playerBullets[i].create(pos);
 			playerBullets[i].setVelocity(vel);
+			playerBullets[i].setScale(Vector3(scale,scale,scale));
 			break;
 		}
 	}
@@ -380,6 +540,20 @@ void NuclearLiberation::spawnEnemyBullet(Vector3 pos, Vector3 vel)
 		}
 	}
 }
+
+void NuclearLiberation::spawnDrop(Vector3 pos, Vector3 vel)
+{
+	for(int i = 0; i<NL::MAX_DROPS; i++)
+	{
+		if(!drops[i].isActive)
+		{
+			drops[i].create(pos);
+			drops[i].setVelocity(vel);
+			break;
+		}
+	}
+}
+
 void NuclearLiberation::spawnLightEnemy(Vector3 pos)
 {
 	for(int i = 0; i<NL::MAX_LIGHT_ENEMIES; i++)
@@ -404,10 +578,11 @@ void NuclearLiberation::spawnHeavyEnemy(Vector3 pos)
 	}
 }
 
-void NuclearLiberation::spawnSplitEnemy(Vector3 pos){
+void NuclearLiberation::spawnSplitEnemy(Vector3 pos, int gen){
 	for (int i=0;i<NL::MAX_SPLIT_ENEMEIS;i++){
 		if (!enemySplit[i].isActive){
 			enemySplit[i].create(pos);
+			enemySplit[i].setGen(gen);
 			break;
 		}
 	}
@@ -450,12 +625,44 @@ void NuclearLiberation::clearLevel()
 		enemyBullets[i].isActive = false;
 	}
 }
+
+void NuclearLiberation::menuLoad()
+{
+	state = GameState::MENU;
+	clearLevel();
+	worldSize = Vector3(NL::PRECEIVED_SCREEN_WIDTH,NL::PRECEIVED_SCREEN_HEIGHT,0);
+	initBackground();
+	cameraTarget = worldSize/2;
+	menuUpdate(0,true);
+
+	menuText[0] = L"NUCLEAR LIBERATION";
+	menuText[1] = L"PLAY";
+	menuText[2] = L"FEELING LUCKY";
+	menuText[3] = L"QUIT";
+
+	//title
+	menuItems[0].setScale(Vector3(NL::PRECEIVED_SCREEN_WIDTH*0.85,NL::PRECEIVED_SCREEN_HEIGHT*0.15,1));
+	menuItems[0].setPosition(Vector3(NL::PRECEIVED_SCREEN_WIDTH*0.5,NL::PRECEIVED_SCREEN_HEIGHT*0.9,-1));
+
+	float dispBetweenItems = (NL::PRECEIVED_SCREEN_HEIGHT*0.5)/(NL::NUM_MENU_ITEMS-1);
+
+	for(int i = 1; i < NL::NUM_MENU_ITEMS; i++)
+	{
+		menuItems[i].setScale(Vector3(NL::PRECEIVED_SCREEN_WIDTH*0.35,NL::PRECEIVED_SCREEN_HEIGHT*0.15,1));
+		menuItems[i].setPosition(Vector3(NL::PRECEIVED_SCREEN_WIDTH*0.85,NL::PRECEIVED_SCREEN_HEIGHT*0.5-(i-1)*dispBetweenItems,-1));
+	}
+
+}
+
 void NuclearLiberation::loadLevel1()
 {
+	state = GameState::L1;
 	clearLevel();
 	worldSize = Vector3(700,500,0);
 	player.setPosition(Vector3(25,250,0));
-
+	minPlayerPosition = 0;
+	cameraTarget = player.getPosition();
+	player.refillAir();
 	initBackground();
 
 	for(int i = 50; i < 500; i+=30)
@@ -464,7 +671,7 @@ void NuclearLiberation::loadLevel1()
 
 		spawnHeavyEnemy(Vector3(i+15,30*cos(2*PI*i/50)+50,0));
 
-		spawnSplitEnemy(Vector3(i+10, 30*tan(2*PI*i/50)+50,0));
+		spawnSplitEnemy(Vector3(i+10, 30*tan(2*PI*i/50)+50,0), 1);
 	}
 
 	for(int i = -50; i < 750; i+=wallNS::WALL_SCALE)
@@ -488,5 +695,6 @@ void NuclearLiberation::loadLevel1()
 void NuclearLiberation::onPlayerDeath()
 {
 	//TODO: something
-	loadLevel1();
+	menuLoad();
+	player.resetAll();
 }

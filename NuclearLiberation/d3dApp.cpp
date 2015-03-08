@@ -3,6 +3,7 @@
 //=======================================================================================
 
 #include "d3dApp.h"
+#include "gameError.h"
 #include <sstream>
 
 LRESULT CALLBACK
@@ -31,6 +32,7 @@ MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 D3DApp::D3DApp(HINSTANCE hInstance)
 {
 	mhAppInst   = hInstance;
+	audio = NULL;
 	mhMainWnd   = 0;
 	mAppPaused  = false;
 	mMinimized  = false;
@@ -100,6 +102,7 @@ int D3DApp::run()
 			drawScene();
         }
     }
+	audio->run();					// Runs the audio
 	return (int)msg.wParam;
 }
 
@@ -121,6 +124,18 @@ void D3DApp::initApp()
     wcscpy(fontDesc.FaceName, L"Times New Roman");
 
 	D3DX10CreateFontIndirect(md3dDevice, &fontDesc, &mFont);
+
+	audio = new Audio();
+    if (*WAVE_BANK != '\0' && *SOUND_BANK != '\0')  // if sound files defined
+    {
+        if( hr = audio->initialize() == S_FALSE)
+        {
+            if( hr == HRESULT_FROM_WIN32( ERROR_FILE_NOT_FOUND ) )
+                throw(GameError(gameErrorNS::FATAL_ERROR, "Failed to initialize sound system because media file not found."));
+            else
+                throw(GameError(gameErrorNS::FATAL_ERROR, "Failed to initialize sound system."));
+        }
+    }
 }
  
 void D3DApp::onResize()

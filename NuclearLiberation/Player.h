@@ -14,6 +14,8 @@ namespace playerNS{
 	const float ROTATION_SPEED = 0.25;
 	const Vector3 FIRE_SPEED(75,0,0);
 	const float MAX_AIR = 30; //AIR DEPLETES AT 1 UNIT PER SECOND
+	const Vector3 HELIX_DISP(3,0,0);
+	const int MAX_WEAPON_LEVEL = 6;
 };
 
 class Player : public virtual Actor
@@ -29,13 +31,19 @@ public:
 	float bottomWall(float x);
 	bool inGap();
 
+	void resetAll(){weaponLevel=1;weaponCooldown=0;fireCounter=0;refillAir();}
+	void refresh(){weaponCooldown=0;fireCounter=0;refillAir();}
+
+	void grantWeaponLevel(){weaponLevel = min(weaponLevel+1,playerNS::MAX_WEAPON_LEVEL);}
+
 private:
 	Vector3 input;
 	Controls controls;
 	int weaponLevel;
 	float weaponCooldown;
-	float bulletDisp;
 	Vector3 accel;
 	Vector3 oldPos;
 	float airLevel;
+	int fireCounter;//used to distinguish shots when firing
+	float fireAngle;//used to make helix
 };

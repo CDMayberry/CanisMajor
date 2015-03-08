@@ -1,16 +1,15 @@
 #pragma once
 
-#include"Bullet.h"
+#include"Drop.h"
 #include"NuclearLiberation.h"
 
-void Bullet::update(float dt)
+void Drop::update(float dt)
 {
 	if(isActive)
 	{
 		Actor::update(dt);
-
-		lifeTime+= dt;
-		if(lifeTime > bulletNS::LINESPAN)
+		despawner -= dt;
+		if(despawner <= 0)
 			isActive = false;
 
 		if(getPosition().x < 0 || getPosition().x > game->worldSize.x || getPosition().y < 0 || getPosition().y > game->worldSize.y)
