@@ -13,6 +13,15 @@ void EnemySplit::update(float dt)
 			Normalize(&velocity,&velocity);
 			velocity += disp*0.5;//move in the general direction of player
 			Normalize(&velocity,&velocity);
+
+			// ----- Randomize movement a bit
+			float xrand = rand()%6 - 3;
+			float yrand = rand()%6 - 3;
+			velocity.x += xrand* 0.1f;
+			velocity.y += yrand * 0.1f;
+			// -----
+			Normalize(&velocity,&velocity);
+
 			velocity*=(SPEED_BASE + SPEED_BUFF);
 
 			cooldown = max(cooldown-dt,0);

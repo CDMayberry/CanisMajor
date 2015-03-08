@@ -337,7 +337,7 @@ void NuclearLiberation::collisions()
 	{
 		if(enemyBullets[i].collided(&player))
 		{
-			onPlayerDeath();
+			//onPlayerDeath();
 			break;
 		}
 	}
