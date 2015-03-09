@@ -26,5 +26,5 @@ Vector3 rotateZ(Vector3 v, float deg)
 }
 
 int random(int num) {
-	return rand()%num;
+	return rand()%num+1;
 }

@@ -26,6 +26,7 @@ void Player::update(float dt)
 		airLevel = max(airLevel-dt,0);
 		if(airLevel == 0)
 		{
+			onDeath();
 			game->onPlayerDeath();
 			return;
 		}

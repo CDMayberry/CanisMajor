@@ -60,5 +60,7 @@ void Enemy::onDeath() {
 		case 3:
 			game->audio->playCue(EXP3);
 			break;
+		default:
+			game->audio->playCue(EXP1);
 	}
 }

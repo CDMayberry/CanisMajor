@@ -54,8 +54,7 @@ void Actor::init(NuclearLiberation* game,Geometry *b, float r)
 	isActive = false;
 }
 
-void Actor::create(Vector3 pos)
-{
+void Actor::create(Vector3 pos) {
 	isActive = true;
 	position = pos;
 }
@@ -69,6 +68,7 @@ void Actor::update(float dt)
 		if(health <= 0) {
 			isActive = false;
  			onDeath();
+			return;
 		}
 		position += velocity*dt;
 		Identity(&world);
@@ -105,16 +105,16 @@ bool Actor::collided(Actor *gameObject)
 }
 
 void Actor::onDeath() {
-	int rander = random(3);
-	switch(rander) {
-		case 1:
-			game->audio->playCue(EXP1);
-			break;
-		case 2:
-			game->audio->playCue(EXP2);
-			break;
-		case 3:
-			game->audio->playCue(EXP3);
-			break;
-	}
+	//int rander = random(3);
+	//switch(rander) {
+	//	case 1:
+	//		game->audio->playCue(EXP1);
+	//		break;
+	//	case 2:
+	//		game->audio->playCue(EXP2);
+	//		break;
+	//	case 3:
+	//		game->audio->playCue(EXP3);
+	//		break;
+	//}
 }
