@@ -19,7 +19,7 @@
 namespace NL{
 
 	const int MAX_PLAYER_BULLETS = 500;
-	const int MAX_ENEMY_BULLETS = 500;
+	const int MAX_ENEMY_BULLETS = 5000;
 	const int MAX_WALLS = 2000;
 	const int MAX_LIGHT_ENEMIES = 500;
 	const int MAX_HEAVY_ENEMIES = 500;
@@ -124,6 +124,6 @@ protected:
 
 	Actor airBar;
 	Actor bgImg[NL::NUM_BKGD_IMGS];
-	Actor menuItems[NL::NUM_MENU_ITEMS];
 	std::wstring menuText[NL::NUM_MENU_ITEMS];
+	int selectedMenuItem;
 };
