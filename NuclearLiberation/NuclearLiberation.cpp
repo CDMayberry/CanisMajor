@@ -58,6 +58,8 @@ void NuclearLiberation::initApp()
 {
 	D3DApp::initApp();
 
+	test = false;
+
 	origin.init(this,1);
 
 	cameraDisplacement = Vector3(0,0,-75);
@@ -135,13 +137,6 @@ void NuclearLiberation::initApp()
 		enemySplit[i].setScale(Vector3(2,2,2));
 	}
 
-	menuQuad.init(md3dDevice,D3DXCOLOR(41/255.0,187/255.0,255/255.0,1));
-
-	for(int i = 0 ; i < NL::NUM_MENU_ITEMS; i++)
-	{
-		menuItems[i].init(this,&menuQuad,1);
-		menuItems[i].isActive = true;
-	}
 
 	quadLtBlue.init(md3dDevice,D3DXCOLOR(224/255.0,1,1,1));
 	airBar.init(this,&quadLtBlue,1);
@@ -170,6 +165,9 @@ void NuclearLiberation::onResize()
 
 	float aspect = (float)mClientWidth/mClientHeight;
 	D3DXMatrixPerspectiveFovLH(&mProj, 0.25f*PI, aspect, 1.0f, 1000.0f);
+
+	if(state==MENU)
+		menuLoad();
 }
 
 void NuclearLiberation::updateScene(float dt)
@@ -209,8 +207,6 @@ void NuclearLiberation::menuUpdate(float dt, bool reset)
 		playerBullets[i].update(dt);
 	for(int i = 0 ; i < NL::NUM_BKGD_IMGS; i++)
 		bgImg[i].update(dt);
-	for(int i = 0 ; i < NL::NUM_MENU_ITEMS; i++)
-		menuItems[i].update(dt);
 
 
 
@@ -337,7 +333,7 @@ void NuclearLiberation::collisions()
 	{
 		if(enemyBullets[i].collided(&player))
 		{
-			//onPlayerDeath();
+			//onPlayerDeath(); //Actor has a new onDeath class, use it.
 			break;
 		}
 	}
@@ -347,8 +343,6 @@ void NuclearLiberation::collisions()
 			for (int j = 0;j< NL::MAX_HEAVY_ENEMIES;j++){
 				if(enemyHeavy[j].collided(&playerBullets[i])){
 					enemyHeavy[j].setHealth(enemyHeavy[j].getHealth() - bulletNS::DAMAGE);
-					if(enemyHeavy[j].getHealth() <= 0)
-						enemyHeavy[j].isActive = false;
 					playerBullets[i].isActive = false;
 					break;
 				}
@@ -356,8 +350,6 @@ void NuclearLiberation::collisions()
 			for (int j = 0;j<NL::MAX_LIGHT_ENEMIES;j++){
 				if (enemyLight[j].collided(&playerBullets[i])){
 					enemyLight[j].setHealth(enemyLight[j].getHealth() - bulletNS::DAMAGE);
-					if (enemyLight[j].getHealth() <= 0)
-						enemyLight[j].isActive = false;
 					playerBullets[i].isActive = false;
 					break;
 				}
@@ -415,20 +407,26 @@ void NuclearLiberation::menuDraw()
 {
 	for(int i = 0 ; i < NL::NUM_BKGD_IMGS; i++)
 		bgImg[i].draw(mfxWVPVar,mView,mProj,mTech);
-	for(int i = 0; i < NL::NUM_MENU_ITEMS; i++)
-	{
-		menuItems[i].draw(mfxWVPVar,mView,mProj,mTech);
-	}
 	for(int i = 0; i < NL::MAX_PLAYER_BULLETS;i++)
 		playerBullets[i].draw(mfxWVPVar,mView,mProj,mTech);
 	for(int i = 0; i < NL::NUM_MENU_ITEMS; i++)
 	{
-		Vector3 corner = menuItems[i].getPosition()-menuItems[i].getScale()/2;
-		corner*=10;
-		corner.y = mClientHeight - corner.y - 60;
-		corner.x+= 40;
-		RECT r = {corner.x,corner.y,0,0};
-		mFont->DrawText(0,menuText[i].c_str(),-1,&r,DT_NOCLIP,WHITE);
+		RECT r; //its a point because DT_NOCLIP
+		if(i==0)
+		{
+			r.right = r.left = mClientWidth*0.5;
+			r.top = r.bottom = mClientHeight*0.2;
+			
+		}
+		else
+		{
+			r.right = r.left = mClientWidth*0.5;
+			r.top = r.bottom = mClientHeight*0.5 + (i-1)*mClientHeight*0.15;
+		}
+		if(selectedMenuItem == i)
+			mFont->DrawText(0,menuText[i].c_str(),-1,&r,DT_NOCLIP|DT_CENTER,RED);
+		else
+			mFont->DrawText(0,menuText[i].c_str(),-1,&r,DT_NOCLIP|DT_CENTER,WHITE);
 	}
 }
 
@@ -630,7 +628,7 @@ void NuclearLiberation::menuLoad()
 {
 	state = GameState::MENU;
 	clearLevel();
-	worldSize = Vector3(NL::PRECEIVED_SCREEN_WIDTH,NL::PRECEIVED_SCREEN_HEIGHT,0);
+	worldSize = Vector3(mClientWidth/10.0,mClientHeight/10.0,0);//world should be approximatly as large as screen
 	initBackground();
 	cameraTarget = worldSize/2;
 	menuUpdate(0,true);
@@ -640,22 +638,11 @@ void NuclearLiberation::menuLoad()
 	menuText[2] = L"FEELING LUCKY";
 	menuText[3] = L"QUIT";
 
-	//title
-	menuItems[0].setScale(Vector3(NL::PRECEIVED_SCREEN_WIDTH*0.85,NL::PRECEIVED_SCREEN_HEIGHT*0.15,1));
-	menuItems[0].setPosition(Vector3(NL::PRECEIVED_SCREEN_WIDTH*0.5,NL::PRECEIVED_SCREEN_HEIGHT*0.9,-1));
-
-	float dispBetweenItems = (NL::PRECEIVED_SCREEN_HEIGHT*0.5)/(NL::NUM_MENU_ITEMS-1);
-
-	for(int i = 1; i < NL::NUM_MENU_ITEMS; i++)
-	{
-		menuItems[i].setScale(Vector3(NL::PRECEIVED_SCREEN_WIDTH*0.35,NL::PRECEIVED_SCREEN_HEIGHT*0.15,1));
-		menuItems[i].setPosition(Vector3(NL::PRECEIVED_SCREEN_WIDTH*0.85,NL::PRECEIVED_SCREEN_HEIGHT*0.5-(i-1)*dispBetweenItems,-1));
-	}
-
 }
 
 void NuclearLiberation::loadLevel1()
 {
+	audio->stopCue(PEXP);
 	state = GameState::L1;
 	clearLevel();
 	worldSize = Vector3(700,500,0);
@@ -664,6 +651,7 @@ void NuclearLiberation::loadLevel1()
 	cameraTarget = player.getPosition();
 	player.refillAir();
 	initBackground();
+	player.isActive = true;
 
 	for(int i = 50; i < 500; i+=30)
 	{
@@ -731,7 +719,7 @@ float NuclearLiberation::ceiling(float x)
 bool NuclearLiberation::inGap()
 {
 	float xPos = player.getPosition().x;
-	if(xPos > 320 && xPos < 355)
+	if(xPos > 320 && xPos < 355 && player.getPosition().y > 170)
 		return true;
 	else 
 		return false;

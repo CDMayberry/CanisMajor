@@ -7,14 +7,13 @@ using namespace playerNS;
 void Player::init(NuclearLiberation*game,Geometry *b, float r, Controls c)
 {
 	Actor::init(game,b,r);
-	ceilingP = &(NuclearLiberation::ceiling);
-	floorP = &(NuclearLiberation::floor);
 	controls = c;
 	isActive = true;
 	accel = Vector3(0,0,0);
 	airLevel = MAX_AIR;
 	weaponLevel = 1;
 	fireCounter = 0;
+	drowning = false;
 }
 
 void Player::update(float dt)
@@ -27,8 +26,14 @@ void Player::update(float dt)
 
 		airLevel = max(airLevel-dt,0);
 
+		if(airLevel < 14 && drowning == false) {
+			game->audio->playCue(DROWN);
+			drowning = true;
+		}
+
 		if(airLevel == 0)
 		{
+			onDeath();
 			game->onPlayerDeath();
 			return;
 		}
@@ -39,9 +44,9 @@ void Player::update(float dt)
 		if(game->inGap())
 			y = position.y;
 		else if(position.y > -0.6*x + 390+wallNS::WALL_SCALE)
-			y = (game->*ceilingP)(x);
+			y = (game->ceiling(x));
 		else
-			y = (game->*floorP)(x);
+			y = (game->floor(x));
 		
 
 		position.x = x;
@@ -229,3 +234,12 @@ float Player::bottomWall(float x)
 	return y;
 }
 
+void Player::onDeath() {
+	game->audio->playCue(PEXP);
+}
+
+void Player::refillAir() {
+	airLevel = playerNS::MAX_AIR; 
+	game->audio->stopCue(DROWN); 
+	drowning = false;
+}
