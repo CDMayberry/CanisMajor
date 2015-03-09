@@ -29,7 +29,7 @@ public:
 	float getAir(){return airLevel;}
 	float topDef(float x);
 	float bottomWall(float x);
-	bool inGap();
+
 
 	void resetAll(){weaponLevel=1;weaponCooldown=0;fireCounter=0;refillAir();}
 	void refresh(){weaponCooldown=0;fireCounter=0;refillAir();}
@@ -46,4 +46,8 @@ private:
 	float airLevel;
 	int fireCounter;//used to distinguish shots when firing
 	float fireAngle;//used to make helix
+	typedef float (NuclearLiberation::*fPtr)(float);
+	typedef bool (NuclearLiberation::*fPtr2)(bool);
+	fPtr ceilingP, floorP;
+	fPtr2 gapP;
 };

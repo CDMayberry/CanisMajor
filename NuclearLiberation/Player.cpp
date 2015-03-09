@@ -7,6 +7,8 @@ using namespace playerNS;
 void Player::init(NuclearLiberation*game,Geometry *b, float r, Controls c)
 {
 	Actor::init(game,b,r);
+	ceilingP = &(NuclearLiberation::ceiling);
+	floorP = &(NuclearLiberation::floor);
 	controls = c;
 	isActive = true;
 	accel = Vector3(0,0,0);
@@ -24,14 +26,23 @@ void Player::update(float dt)
 		Actor::update(dt);
 
 		airLevel = max(airLevel-dt,0);
+
 		if(airLevel == 0)
 		{
 			game->onPlayerDeath();
 			return;
 		}
 
+		float theta = 20;
+		float y = 0.0f;
 		float x = max(min(position.x,game->worldSize.x),game->minPlayerPosition);
-		float y = max(min(position.y,game->worldSize.y),5*(sin(2*PI*x/150.0)+2)-7+wallNS::WALL_SCALE);
+		if(game->inGap())
+			y = position.y;
+		else if(position.y > -0.6*x + 390+wallNS::WALL_SCALE)
+			y = (game->*ceilingP)(x);
+		else
+			y = (game->*floorP)(x);
+		
 
 		position.x = x;
 		position.y = y;
@@ -43,7 +54,7 @@ void Player::update(float dt)
 
 		while(iter < position.x + wallNS::WALL_SCALE)
 		{
-			if(topDef(iter)-position.y > 47 && topDef(iter)-position.y < 70 && !inGap())
+			if(topDef(iter)-position.y > 47 && topDef(iter)-position.y < 70 && !game->inGap())
 			{
 				position = oldPos;
 				break;
@@ -218,12 +229,3 @@ float Player::bottomWall(float x)
 	return y;
 }
 
-bool Player::inGap()
-{
-	if(position.x > 100 && position.x < 150)
-		return true;
-	else if(position.x > 250 && position.x < 270)
-		return true;
-	else 
-		return false;
-}

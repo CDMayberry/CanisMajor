@@ -676,17 +676,26 @@ void NuclearLiberation::loadLevel1()
 
 	for(int i = -50; i < 750; i+=wallNS::WALL_SCALE)
 	{
-		float y = 5*(sin(2*PI*i/150.0)+2)-10;
+		float y = 5*(sin(2*PI*i/150.0)+2)+30;
 		spawnWall(Vector3(i,y,wallNS::WALL_SCALE));
 	}
 
-	for(int i = -40; i < 750; i+=wallNS::WALL_SCALE)
+	for(int i = -100; i < 1000; i+=wallNS::WALL_SCALE)
 	{
-		float y = 5*(sin(2*PI*i/150.0)+2)+30;
+		float y = 0.0f;
+		y = -0.6*i + 400;
 
 		//I don't know why this works for the first gap, but not subsequent gaps
-		if(!(i > 100 && i<150) && !(i > 250 && i<270))
+		if(!(i > 310 && i<370))
 			spawnWall(Vector3(i,y,wallNS::WALL_SCALE));
+	}
+
+	for(int i = -100; i < 380; i+=wallNS::WALL_SCALE)
+	{
+		float y = 0.0f;
+		y = i-200;
+
+		spawnWall(Vector3(i,y,wallNS::WALL_SCALE));
 	}
 
 	
@@ -697,4 +706,33 @@ void NuclearLiberation::onPlayerDeath()
 	//TODO: something
 	menuLoad();
 	player.resetAll();
+}
+
+float NuclearLiberation::floor(float x)
+{
+	float yPos = player.getPosition().y;
+	float y = 0.0f;
+	if(yPos<173)
+		y = max(yPos, x-170);
+	else
+		y = min(max(yPos,x-185),-0.6*x + 370+wallNS::WALL_SCALE);
+	if(yPos < 10)
+		y = 10;
+	return y;
+}
+
+float NuclearLiberation::ceiling(float x)
+{
+	float yPos = player.getPosition().y;
+	float y =  max(min(yPos,worldSize.y),-0.6*x + 410+wallNS::WALL_SCALE);
+	return y;
+}
+
+bool NuclearLiberation::inGap()
+{
+	float xPos = player.getPosition().x;
+	if(xPos > 320 && xPos < 355)
+		return true;
+	else 
+		return false;
 }

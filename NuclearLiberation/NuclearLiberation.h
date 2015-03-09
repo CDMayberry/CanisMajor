@@ -82,6 +82,9 @@ public:
 	ID3D10Device* getDevice(){return md3dDevice;}
 
 	float minPlayerPosition;
+	float ceiling(float x);
+	float floor(float x);
+	bool inGap();
 
 
 private:
