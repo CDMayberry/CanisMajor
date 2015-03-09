@@ -95,14 +95,17 @@ int D3DApp::run()
 			mTimer.tick();
 
 			if( !mAppPaused )
+			{
 				updateScene(mTimer.getDeltaTime());	
+				audio->run();
+			}
 			else
 				Sleep(50);
 
 			drawScene();
         }
     }
-	audio->run();					// Runs the audio
+						// Runs the audio
 	return (int)msg.wParam;
 }
 

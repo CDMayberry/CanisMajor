@@ -129,5 +129,5 @@ protected:
 	Actor airBar;
 	Actor bgImg[NL::NUM_BKGD_IMGS];
 	std::wstring menuText[NL::NUM_MENU_ITEMS];
-	int selectedMenuItem;
+	int menuChoice;
 };
