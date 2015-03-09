@@ -337,7 +337,7 @@ void NuclearLiberation::collisions()
 	{
 		if(enemyBullets[i].collided(&player))
 		{
-			//onPlayerDeath();
+			//onPlayerDeath(); //Actor has a new onDeath class, use it.
 			break;
 		}
 	}
@@ -347,8 +347,6 @@ void NuclearLiberation::collisions()
 			for (int j = 0;j< NL::MAX_HEAVY_ENEMIES;j++){
 				if(enemyHeavy[j].collided(&playerBullets[i])){
 					enemyHeavy[j].setHealth(enemyHeavy[j].getHealth() - bulletNS::DAMAGE);
-					if(enemyHeavy[j].getHealth() <= 0)
-						enemyHeavy[j].isActive = false;
 					playerBullets[i].isActive = false;
 					break;
 				}
@@ -356,8 +354,6 @@ void NuclearLiberation::collisions()
 			for (int j = 0;j<NL::MAX_LIGHT_ENEMIES;j++){
 				if (enemyLight[j].collided(&playerBullets[i])){
 					enemyLight[j].setHealth(enemyLight[j].getHealth() - bulletNS::DAMAGE);
-					if (enemyLight[j].getHealth() <= 0)
-						enemyLight[j].isActive = false;
 					playerBullets[i].isActive = false;
 					break;
 				}

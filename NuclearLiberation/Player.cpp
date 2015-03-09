@@ -227,3 +227,7 @@ bool Player::inGap()
 	else 
 		return false;
 }
+
+void Player::onDeath() {
+	game->audio->playCue(PEXP);
+}

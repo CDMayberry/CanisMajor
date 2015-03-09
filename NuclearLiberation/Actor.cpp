@@ -1,6 +1,7 @@
+#pragma once
 
 #include "Actor.h"
-
+#include "NuclearLiberation.h"
 
 Actor::Actor()
 {
@@ -48,6 +49,7 @@ void Actor::init(NuclearLiberation* game,Geometry *b, float r)
 	velocity = Vector3(0,0,0);
 	speed = 0;
 	scale = Vector3(1,1,1);
+	health = 1;													//THIS MIGHT SCREW SOMETHING UP: CAELAN
 	radiusSquared = radius * radius;
 	isActive = false;
 }
@@ -61,8 +63,13 @@ void Actor::create(Vector3 pos)
 
 void Actor::update(float dt)
 {
+
 	if(isActive)
 	{
+		if(health <= 0) {
+			isActive = false;
+ 			onDeath();
+		}
 		position += velocity*dt;
 		Identity(&world);
 		Identity(&s);
@@ -95,4 +102,19 @@ bool Actor::collided(Actor *gameObject)
 			return true;
 	}
 	return false;
+}
+
+void Actor::onDeath() {
+	int rander = random(3);
+	switch(rander) {
+		case 1:
+			game->audio->playCue(EXP1);
+			break;
+		case 2:
+			game->audio->playCue(EXP2);
+			break;
+		case 3:
+			game->audio->playCue(EXP3);
+			break;
+	}
 }

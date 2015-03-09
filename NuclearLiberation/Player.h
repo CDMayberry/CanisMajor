@@ -36,6 +36,8 @@ public:
 
 	void grantWeaponLevel(){weaponLevel = min(weaponLevel+1,playerNS::MAX_WEAPON_LEVEL);}
 
+	void onDeath();
+
 private:
 	Vector3 input;
 	Controls controls;

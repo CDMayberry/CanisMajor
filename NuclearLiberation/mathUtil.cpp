@@ -24,3 +24,7 @@ Vector3 rotateZ(Vector3 v, float deg)
 	ret.z = v.z;
 	return ret;
 }
+
+int random(int num) {
+	return rand()%num;
+}
