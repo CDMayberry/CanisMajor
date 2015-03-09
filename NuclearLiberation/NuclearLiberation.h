@@ -89,6 +89,7 @@ private:
 	void buildVertexLayouts();
 
 	Origin origin;
+	bool test;
 
 protected:
 

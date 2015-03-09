@@ -13,6 +13,7 @@ void Player::init(NuclearLiberation*game,Geometry *b, float r, Controls c)
 	airLevel = MAX_AIR;
 	weaponLevel = 1;
 	fireCounter = 0;
+	drowning = false;
 }
 
 void Player::update(float dt)
@@ -24,6 +25,10 @@ void Player::update(float dt)
 		Actor::update(dt);
 
 		airLevel = max(airLevel-dt,0);
+		if(airLevel < 14 && drowning == false) {
+			game->audio->playCue(DROWN);
+			drowning = true;
+		}
 		if(airLevel == 0)
 		{
 			onDeath();
@@ -231,4 +236,10 @@ bool Player::inGap()
 
 void Player::onDeath() {
 	game->audio->playCue(PEXP);
+}
+
+void Player::refillAir() {
+	airLevel = playerNS::MAX_AIR; 
+	game->audio->stopCue(DROWN); 
+	drowning = false;
 }

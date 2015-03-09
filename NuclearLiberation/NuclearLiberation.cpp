@@ -58,6 +58,8 @@ void NuclearLiberation::initApp()
 {
 	D3DApp::initApp();
 
+	test = false;
+
 	origin.init(this,1);
 
 	cameraDisplacement = Vector3(0,0,-75);
@@ -652,6 +654,7 @@ void NuclearLiberation::menuLoad()
 
 void NuclearLiberation::loadLevel1()
 {
+	audio->stopCue(PEXP);
 	state = GameState::L1;
 	clearLevel();
 	worldSize = Vector3(700,500,0);
@@ -660,6 +663,7 @@ void NuclearLiberation::loadLevel1()
 	cameraTarget = player.getPosition();
 	player.refillAir();
 	initBackground();
+	player.isActive = true;
 
 	for(int i = 50; i < 500; i+=30)
 	{

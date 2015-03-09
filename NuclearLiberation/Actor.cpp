@@ -56,6 +56,7 @@ void Actor::init(NuclearLiberation* game,Geometry *b, float r)
 
 void Actor::create(Vector3 pos) {
 	isActive = true;
+	health = 1;
 	position = pos;
 }
 
