@@ -80,7 +80,7 @@ void NuclearLiberation::initApp()
 	bgQuad[0].init(md3dDevice,BLACK,DARKBLUE);
 	bgQuad[1].init(md3dDevice,DARKBLUE,DARKISHBLUE);
 	bgQuad[2].init(md3dDevice,DARKISHBLUE,SURFACEBLUE);
-	bgQuad[3].init(md3dDevice,YELLOW,WHITE);
+	bgQuad[3].init(md3dDevice,WHITE,YELLOW);
 
 	initBackground();
 	
@@ -678,7 +678,7 @@ void NuclearLiberation::loadLevel1()
 			spawnWall(Vector3(i,y,wallNS::WALL_SCALE));
 	}
 
-	for(int i = -100; i < 380; i+=wallNS::WALL_SCALE)
+	for(int i = -100; i < 390; i+=wallNS::WALL_SCALE)
 	{
 		float y = 0.0f;
 		y = i-200;
@@ -719,7 +719,7 @@ float NuclearLiberation::ceiling(float x)
 bool NuclearLiberation::inGap()
 {
 	float xPos = player.getPosition().x;
-	if(xPos > 320 && xPos < 355 && player.getPosition().y > 170)
+	if(xPos > 320 && xPos < 365 && player.getPosition().y > 170 && player.getPosition().y < 470)
 		return true;
 	else 
 		return false;
