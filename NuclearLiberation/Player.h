@@ -25,16 +25,18 @@ public:
 	void init(NuclearLiberation*game,Geometry *b, float r, Controls c);
 	void update(float dt);
 
-	void refillAir(){airLevel = playerNS::MAX_AIR;}
+	void refillAir();
 	float getAir(){return airLevel;}
 	float topDef(float x);
 	float bottomWall(float x);
 	bool inGap();
 
-	void resetAll(){weaponLevel=1;weaponCooldown=0;fireCounter=0;refillAir();}
+	void resetAll(){weaponLevel=1;weaponCooldown=0;fireCounter=0;refillAir(); health = 1; isActive = false;}
 	void refresh(){weaponCooldown=0;fireCounter=0;refillAir();}
 
 	void grantWeaponLevel(){weaponLevel = min(weaponLevel+1,playerNS::MAX_WEAPON_LEVEL);}
+
+	void onDeath();
 
 private:
 	Vector3 input;
@@ -46,4 +48,5 @@ private:
 	float airLevel;
 	int fireCounter;//used to distinguish shots when firing
 	float fireAngle;//used to make helix
+	bool drowning;
 };

@@ -12,8 +12,25 @@ class NuclearLiberation;
 
 static int foo[1];
 
-class Actor
-{
+class Actor {
+private:
+	Geometry *geometry; 
+	float radius;
+	float radiusSquared;
+	Vector3 scale;
+	ID3D10EffectTechnique* mTech;
+	Matrix wvp, s, t,rx,ry,rz;//world view projection
+	Vector3 rotation;
+protected:
+	Matrix world;
+	Vector3 position;
+	Vector3 velocity;
+	float speed;
+	float health;//simple health value. Starts at MAX_HEATH at spawn and object dies if health hits 0
+	//consider 100 health to be the "standard"
+	float MAX_HEALTH;
+	NuclearLiberation* game;
+
 public:
 
 	Actor();
@@ -41,30 +58,13 @@ public:
 	float getSmallestScale(){return min(min(scale.x,scale.y),scale.z);}
 	void setMTech(ID3D10EffectTechnique* m){ mTech = m;}
 	bool collided(Actor *gameObject);
+	void virtual onDeath();
 	void setRotation(Vector3 rot){rotation = rot;}
 	Vector3 getRotation(){return rotation;}
 	bool isActive;
 	float getHealth(){return health;}
 	void setHealth(float H){health = H;}
 
-
-private:
-	Geometry *geometry; 
-	float radius;
-	float radiusSquared;
-	Vector3 scale;
-	ID3D10EffectTechnique* mTech;
-	Matrix wvp, s, t,rx,ry,rz;//world view projection
-	Vector3 rotation;
-protected:
-	Matrix world;
-	Vector3 position;
-	Vector3 velocity;
-	float speed;
-	float health;//simple health value. Starts at MAX_HEATH at spawn and object dies if health hits 0
-	//consider 100 health to be the "standard"
-	float MAX_HEALTH;
-	NuclearLiberation* game;
 };
 
 

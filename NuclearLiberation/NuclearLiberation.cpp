@@ -58,6 +58,8 @@ void NuclearLiberation::initApp()
 {
 	D3DApp::initApp();
 
+	test = false;
+
 	origin.init(this,1);
 
 	cameraDisplacement = Vector3(0,0,-75);
@@ -331,7 +333,7 @@ void NuclearLiberation::collisions()
 	{
 		if(enemyBullets[i].collided(&player))
 		{
-			//onPlayerDeath();
+			//onPlayerDeath(); //Actor has a new onDeath class, use it.
 			break;
 		}
 	}
@@ -341,8 +343,6 @@ void NuclearLiberation::collisions()
 			for (int j = 0;j< NL::MAX_HEAVY_ENEMIES;j++){
 				if(enemyHeavy[j].collided(&playerBullets[i])){
 					enemyHeavy[j].setHealth(enemyHeavy[j].getHealth() - bulletNS::DAMAGE);
-					if(enemyHeavy[j].getHealth() <= 0)
-						enemyHeavy[j].isActive = false;
 					playerBullets[i].isActive = false;
 					break;
 				}
@@ -350,8 +350,6 @@ void NuclearLiberation::collisions()
 			for (int j = 0;j<NL::MAX_LIGHT_ENEMIES;j++){
 				if (enemyLight[j].collided(&playerBullets[i])){
 					enemyLight[j].setHealth(enemyLight[j].getHealth() - bulletNS::DAMAGE);
-					if (enemyLight[j].getHealth() <= 0)
-						enemyLight[j].isActive = false;
 					playerBullets[i].isActive = false;
 					break;
 				}
@@ -644,6 +642,7 @@ void NuclearLiberation::menuLoad()
 
 void NuclearLiberation::loadLevel1()
 {
+	audio->stopCue(PEXP);
 	state = GameState::L1;
 	clearLevel();
 	worldSize = Vector3(700,500,0);
@@ -652,6 +651,7 @@ void NuclearLiberation::loadLevel1()
 	cameraTarget = player.getPosition();
 	player.refillAir();
 	initBackground();
+	player.isActive = true;
 
 	for(int i = 50; i < 500; i+=30)
 	{
