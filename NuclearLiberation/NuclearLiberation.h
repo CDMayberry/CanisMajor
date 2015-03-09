@@ -26,11 +26,19 @@ namespace NL{
 	const int MAX_SPLIT_ENEMEIS = 500;
 	const int MAX_DROPS = 500;
 	const float MAX_PLAYER_CENTER_DISTANCE = 15;
-	const float PRECEIVED_SCREEN_WIDTH = 70;
-	const float PRECEIVED_SCREEN_HEIGHT = 50;
+	const float PRECEIVED_SCREEN_WIDTH = 80;
+	const float PRECEIVED_SCREEN_HEIGHT = 60;
 	const float MIN_SCROLL_SPEED = 3;
 	const int MAX_BACK = 3;
 	const int NUM_BKGD_IMGS = 4;
+	const int NUM_MENU_ITEMS = 4;//title, play, imFeelingLucky, quit
+};
+
+enum GameState{
+	MENU,
+	L1,
+	L2,
+	L3
 };
 
 class NuclearLiberation : public D3DApp{
@@ -46,15 +54,24 @@ public:
 	void drawScene(); 
 	void collisions();
 
-	void spawnBullet(Vector3 pos, Vector3 vel);
+	void menuLoad();
+	void menuUpdate(float dt,bool reset = false);
+	void menuDraw();
+
+	void clearLevel();
+	void levelsUpdate(float dt);
+	void levelsDraw();
+	void loadLevel1();
+
+	GameState state;
+	
+	void spawnBullet(Vector3 pos, Vector3 vel,float scale = 0.5);
 	void spawnDrop(Vector3 pos, Vector3 vel);
 	void spawnEnemyBullet(Vector3 pos, Vector3 vel);
 	void spawnLightEnemy(Vector3 pos);
 	void spawnHeavyEnemy(Vector3 pos);
-	void spawnSplitEnemy(Vector3 pos);
+	void spawnSplitEnemy(Vector3 pos, int gen);
 	void spawnWall(Vector3 pos);
-
-	void checkEnemySplit();
 
 	void onPlayerDeath();
 
@@ -75,8 +92,7 @@ private:
 
 protected:
 
-	void clearLevel();
-	void loadLevel1();
+	
 
 	ID3D10Effect* mFX;
 	ID3D10EffectTechnique* mTech;
@@ -94,6 +110,7 @@ protected:
 	Line lineX, lineY, lineZ;
 	Quad quadLtBlue;
 	Quad bgQuad[NL::NUM_BKGD_IMGS];
+	Quad menuQuad;
 
 	//game objects
 	Bullet* playerBullets;
@@ -107,5 +124,6 @@ protected:
 
 	Actor airBar;
 	Actor bgImg[NL::NUM_BKGD_IMGS];
-
+	Actor menuItems[NL::NUM_MENU_ITEMS];
+	std::wstring menuText[NL::NUM_MENU_ITEMS];
 };

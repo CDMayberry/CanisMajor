@@ -1,20 +1,21 @@
 #pragma once
-#include "Actor.h"
+#include "Enemy.h"
 
 namespace EnemySplitNS{
-	const float SPEED = 30;
-	const float BULLET_SPEED = 50;
-	const float FIRE_RATE = 1;
-	const float FIRE_CHANCE = 50;
-	const float ACTIVATION_RANGE = 100;
+	const float SPEED_BUFF = 0;
+	const float BULLET_SPEED_BUFF = 0;
+	const float FIRE_RATE_BUFF = 0;
+	const float FIRE_CHANCE_BUFF = -10;
+	const float ACTIVATION_RANGE_BUFF = 0;
 };
 
-class EnemySplit: public virtual Actor
+class EnemySplit: public virtual Enemy
 {
 public:
-	EnemySplit():Actor(){playerSeen=false;cooldown=0;MAX_HEALTH = 50.0f; health = MAX_HEALTH; }
+	EnemySplit():Enemy(){MAX_HEALTH = 50.0f; health = MAX_HEALTH; }
 	void update(float dt);
+	void setGen(int g);
+	int getGen(){return generation;}
 private:
-	float cooldown;
-	bool playerSeen;
+	int generation;
 };
