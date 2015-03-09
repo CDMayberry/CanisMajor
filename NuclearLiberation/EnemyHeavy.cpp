@@ -18,13 +18,6 @@ void EnemyHeavy::update(float dt)
 			Normalize(&velocity,&velocity);
 			velocity += disp*0.5;//move in the general direction of player
 			Normalize(&velocity,&velocity);
-			// ----- Randomize movement a bit
-			float xrand = rand()%10 - 5;
-			float yrand = rand()%10 - 5;
-			velocity.x += xrand* 0.1f;
-			velocity.y += yrand * 0.1f;
-			// -----
-			Normalize(&velocity,&velocity);
 
 			velocity*=(SPEED_BASE + SPEED_BUFF);
 
@@ -33,7 +26,19 @@ void EnemyHeavy::update(float dt)
 			{
 				if(rand()%100 < (FIRE_CHANCE_BASE + FIRE_CHANCE_BUFF))
 				{
-					game->spawnEnemyBullet(getPosition(),disp*(BULLET_SPEED_BASE + BULLET_SPEED_BUFF));
+					BulletSpiralTheta += PI/10;
+					if(BulletSpiralTheta > 2*PI)
+						BulletSpiralTheta = BulletSpiralTheta - 2*PI;
+
+					float x,y;
+					D3DXVECTOR3 temp;
+					for (float f = 0;f<2*PI;f+=PI){
+						x = cos(BulletSpiralTheta+f);
+						y = sin(BulletSpiralTheta+f);
+						temp = D3DXVECTOR3(x,y,0.0f);
+						game->spawnEnemyBullet(getPosition()+5*temp,temp*(BULLET_SPEED_BASE + BULLET_SPEED_BUFF) + velocity);
+					}
+
 					cooldown = (FIRE_RATE_BASE + FIRE_RATE_BUFF);
 				}
 				else

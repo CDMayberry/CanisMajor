@@ -209,7 +209,6 @@ void NuclearLiberation::menuUpdate(float dt, bool reset)
 		bgImg[i].update(dt);
 
 
-
 	coolDown = max(coolDown-dt,0);
 	if(coolDown==0)
 	{
