@@ -17,3 +17,16 @@ void Drop::update(float dt)
 	}
 
 }
+
+void Drop::onDeath() {
+	game->audio->playCue(COIN);
+}
+
+void Drop::pickUp() {
+	//game->
+}
+
+void Drop::create(Vector3 pos) {
+	despawner = dropNS::despawnTime;
+	Actor::create(pos);
+}

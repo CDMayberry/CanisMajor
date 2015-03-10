@@ -89,6 +89,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Air.cpp" />
     <ClCompile Include="audio.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Cube.cpp" />
@@ -109,6 +110,7 @@
     <ClCompile Include="Quad.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Air.h" />
     <ClInclude Include="audio.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Controls.h" />
@@ -127,6 +129,7 @@
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="mathUtil.h" />
     <ClInclude Include="Origin.h" />
+    <ClInclude Include="Power.h" />
     <ClInclude Include="Wall.h" />
     <ClInclude Include="NuclearLiberation.h" />
     <ClInclude Include="Line.h" />
