@@ -11,7 +11,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 
 
 	NuclearLiberation theApp(hInstance);
-	
+
 	theApp.initApp();
 
 	return theApp.run();
@@ -20,8 +20,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 
 
 NuclearLiberation::NuclearLiberation(HINSTANCE hInstance)
-: D3DApp(hInstance), mFX(0), mTech(0), mVertexLayout(0),
-  mfxWVPVar(0)
+	: D3DApp(hInstance), mFX(0), mTech(0), mVertexLayout(0),
+	mfxWVPVar(0)
 {
 	D3DXMatrixIdentity(&mView);
 	D3DXMatrixIdentity(&mProj);
@@ -98,7 +98,7 @@ void NuclearLiberation::initApp()
 	bgQuad[3].init(md3dDevice,GOLD,VIOLENTVIOLET);
 
 	initBackground();
-	
+
 
 	Controls c;
 	c.up = 'W';
@@ -109,8 +109,8 @@ void NuclearLiberation::initApp()
 	player.init(this,&cubeSub,&redCoin,&cyanCoin,1,c);
 	player.setScale(Vector3(2,1,1));
 	player.setRadius(1);
-	
-	
+
+
 
 	for(int i = 0 ; i < NL::MAX_PLAYER_BULLETS; i++)
 	{
@@ -226,7 +226,7 @@ void NuclearLiberation::menuUpdate(float dt, bool reset)
 		menuChoice = 1;
 		isKeyDown = true;
 	}
-	
+
 	if(GetAsyncKeyState(VK_RETURN)||GetAsyncKeyState(' '))
 	{ 
 		if(!isKeyDown)
@@ -270,7 +270,7 @@ void NuclearLiberation::menuUpdate(float dt, bool reset)
 
 void NuclearLiberation::levelsUpdate(float dt)
 {
-	
+
 	for(int i = 0 ; i < NL::NUM_BKGD_IMGS; i++)
 		bgImg[i].update(dt);
 
@@ -436,9 +436,9 @@ void NuclearLiberation::drawScene()
 	md3dDevice->OMSetDepthStencilState(0, 0);
 	float blendFactors[] = {0.0f, 0.0f, 0.0f, 0.0f};
 	md3dDevice->OMSetBlendState(0, blendFactors, 0xffffffff);
-    md3dDevice->IASetInputLayout(mVertexLayout);
+	md3dDevice->IASetInputLayout(mVertexLayout);
 
-	
+
 	// set the point to the shader technique
 	D3D10_TECHNIQUE_DESC techDesc;
 	mTech->GetDesc(&techDesc);
@@ -463,7 +463,7 @@ void NuclearLiberation::menuDraw()
 		{
 			r.right = r.left = mClientWidth*0.5;
 			r.top = r.bottom = mClientHeight*0.2;
-			
+
 		}
 		else
 		{
@@ -479,9 +479,9 @@ void NuclearLiberation::menuDraw()
 
 void NuclearLiberation::levelsDraw()
 {
-	
+
 	origin.draw(mfxWVPVar,mView,mProj,mTech);
-	
+
 	player.draw(mfxWVPVar,mView,mProj,mTech);
 
 	airBar.draw(mfxWVPVar,mView,mProj,mTech);
@@ -537,10 +537,10 @@ void NuclearLiberation::buildFX()
 {
 	DWORD shaderFlags = D3D10_SHADER_ENABLE_STRICTNESS;
 #if defined( DEBUG ) || defined( _DEBUG )
-    shaderFlags |= D3D10_SHADER_DEBUG;
+	shaderFlags |= D3D10_SHADER_DEBUG;
 	shaderFlags |= D3D10_SHADER_SKIP_OPTIMIZATION;
 #endif
- 
+
 	ID3D10Blob* compilationErrors = 0;
 	HRESULT hr = 0;
 	hr = D3DX10CreateEffectFromFile(L"color.fx", 0, 0, 
@@ -556,7 +556,7 @@ void NuclearLiberation::buildFX()
 	} 
 
 	mTech = mFX->GetTechniqueByName("ColorTech");
-	
+
 	mfxWVPVar = mFX->GetVariableByName("gWVP")->AsMatrix();
 }
 
@@ -570,9 +570,9 @@ void NuclearLiberation::buildVertexLayouts()
 	};
 
 	// Create the input layout
-    D3D10_PASS_DESC PassDesc;
-    mTech->GetPassByIndex(0)->GetDesc(&PassDesc);
-    HR(md3dDevice->CreateInputLayout(vertexDesc, 2, PassDesc.pIAInputSignature,
+	D3D10_PASS_DESC PassDesc;
+	mTech->GetPassByIndex(0)->GetDesc(&PassDesc);
+	HR(md3dDevice->CreateInputLayout(vertexDesc, 2, PassDesc.pIAInputSignature,
 		PassDesc.IAInputSignatureSize, &mVertexLayout));
 }
 
@@ -774,18 +774,37 @@ void NuclearLiberation::loadLevel1()
 			spawnSplitEnemy(Vector3(i+10, 30*tan(2*PI*i/50)+50,0), 1);
 			break;
 		}
-		
+
 		which++;
 	}
-		
+
 	spawnAllWallsOnMap();
+}
+
+void NuclearLiberation::resetLevel() {
+	clearLevel();
+	switch(state) {
+	case L1:
+		loadLevel1();
+		break;
+	default:
+		menuLoad();
+		break;
+	}
 }
 
 void NuclearLiberation::onPlayerDeath()
 {
+
 	audio->playCue(PEXP);
-	player.resetAll();
-	menuLoad();
+	if(player.getLives() > 0) {
+		player.setLives() -= 1;
+		resetLevel();
+	}
+	else {
+		player.resetAll();
+		menuLoad();
+	}
 }
 
 float NuclearLiberation::getFloor(float x)

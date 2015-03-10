@@ -67,6 +67,7 @@ public:
 	void levelsUpdate(float dt);
 	void levelsDraw();
 	void loadLevel1();
+	void resetLevel();
 
 	GameState state;
 	
