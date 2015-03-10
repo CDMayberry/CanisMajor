@@ -17,7 +17,7 @@ void Enemy::update(float dt)
             Normalize(&velocity,&velocity);
             velocity += disp*0.5;//move in the general direction of player
             Normalize(&velocity,&velocity);
-            velocity*=(SPEED_BASE);
+            velocity*=(MOVEMENT_SPEED);
 
             cooldown = max(cooldown-dt,0);
             if(cooldown == 0)
@@ -32,7 +32,7 @@ void Enemy::update(float dt)
                 playerSeen = true;
                 velocity = disp;
                 Normalize(&velocity,&velocity);
-                velocity*=(SPEED_BASE);
+                velocity*=(MOVEMENT_SPEED);
             }
         }
         
