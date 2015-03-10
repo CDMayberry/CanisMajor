@@ -75,6 +75,7 @@ void NuclearLiberation::initApp()
 	cubeY.init(md3dDevice,DARKGRAY);
 	cubeW.init(md3dDevice,WHITE);
 	cubeLGRY.init(md3dDevice,LTEGRAY);
+	whiteCoin.init(md3dDevice,WHITE);
 
 	//Inititilizes the background colors for the level.
 	//The magic numbers are x and y locations. All x's are -20

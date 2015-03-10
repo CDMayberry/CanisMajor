@@ -15,6 +15,7 @@
 #include "Air.h"
 #include "Power.h"
 #include "Origin.h"
+#include "Coin.h"
 #include <d3dx9math.h>
 
 namespace NL{
@@ -116,6 +117,7 @@ protected:
 	Quad quadLtBlue;
 	Quad bgQuad[NL::NUM_BKGD_IMGS];
 	Quad menuQuad;
+	Coin whiteCoin;
 
 	//game objects
 	Bullet* playerBullets;

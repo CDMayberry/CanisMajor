@@ -92,6 +92,7 @@
     <ClCompile Include="Air.cpp" />
     <ClCompile Include="audio.cpp" />
     <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="Coin.cpp" />
     <ClCompile Include="Cube.cpp" />
     <ClCompile Include="d3dApp.cpp" />
     <ClCompile Include="Actor.cpp" />
@@ -114,6 +115,7 @@
     <ClInclude Include="Air.h" />
     <ClInclude Include="audio.h" />
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="Coin.h" />
     <ClInclude Include="Controls.h" />
     <ClInclude Include="Cube.h" />
     <ClInclude Include="constants.h" />
