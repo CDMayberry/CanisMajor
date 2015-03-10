@@ -21,7 +21,7 @@ namespace NL{
 
 	const int MAX_PLAYER_BULLETS = 500;
 	const int MAX_ENEMY_BULLETS = 5000;
-	const int MAX_WALLS = 2000;
+	const int MAX_WALLS = 4000;
 	const int MAX_LIGHT_ENEMIES = 500;
 	const int MAX_HEAVY_ENEMIES = 500;
 	const int MAX_SPLIT_ENEMEIS = 500;
@@ -32,7 +32,7 @@ namespace NL{
 	const float MIN_SCROLL_SPEED = 3;
 	const int MAX_BACK = 3;
 	const int NUM_BKGD_IMGS = 4;
-	const int NUM_MENU_ITEMS = 4;//title, play, imFeelingLucky, quit
+	const int NUM_MENU_ITEMS = 7;//title, play, imFeelingLucky, quit, ___, howto
 };
 
 enum GameState{
@@ -83,10 +83,9 @@ public:
 
 	ID3D10Device* getDevice(){return md3dDevice;}
 
-	float minPlayerPosition;
-	float ceiling(float x);
-	float floor(float x);
-	bool inGap();
+	float invisibleWallLocation;
+	float getCeiling(float x);
+	float getFloor(float x);
 
 
 private:
@@ -133,4 +132,5 @@ protected:
 	Actor bgImg[NL::NUM_BKGD_IMGS];
 	std::wstring menuText[NL::NUM_MENU_ITEMS];
 	int menuChoice;
+	void spawnAllWallsOnMap();
 };

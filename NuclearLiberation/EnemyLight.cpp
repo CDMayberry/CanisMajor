@@ -22,7 +22,7 @@ void EnemyLight::update(float dt)
 			{
 				if(rand()%100 < (FIRE_CHANCE_BASE + FIRE_CHANCE_BUFF))
 				{
-					for (int i=0;i<360;i+=20){
+					for (int i=0;i<360;i+=360/NUM_BULLETS_IN_CIRCLE){
 						float x = cos((i/180.0)*PI);
 						float y = sin((i/180.0)*PI);
 						D3DXVECTOR3 temp(x,y,0.0f);

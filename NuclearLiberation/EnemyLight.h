@@ -3,10 +3,11 @@
 
 namespace EnemyLightNS{
 	const float SPEED_BUFF = 10;
-	const float BULLET_SPEED_BUFF = 0;
+	const float BULLET_SPEED_BUFF = -20;
 	const float FIRE_RATE_BUFF = 0;
 	const float FIRE_CHANCE_BUFF = 10;
 	const float ACTIVATION_RANGE_BUFF = 0;
+	const float NUM_BULLETS_IN_CIRCLE = 8;
 };
 
 class EnemyLight: public virtual Enemy
