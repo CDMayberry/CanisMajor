@@ -112,7 +112,7 @@ protected:
 	Vector3 cameraTarget, cameraPositon, cameraUp;
 
 	//geometry
-	Cube cubeG,cubeR,cubeY,cubeW, cubeLGRY;
+	Cube cubeG,cubeR,cubeY,cubeW, cubeGLD, cubeLGRY;
 	Line lineX, lineY, lineZ;
 	Quad quadLtBlue;
 	Quad bgQuad[NL::NUM_BKGD_IMGS];
