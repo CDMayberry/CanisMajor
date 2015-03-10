@@ -14,9 +14,10 @@
 #include "EnemySplit.h"
 #include "Air.h"
 #include "Power.h"
-#include "Points.h"
+#include "Shield.h"
 #include "Origin.h"
 #include "Coin.h"
+#include "EnemyBoat.h"
 #include <d3dx9math.h>
 
 namespace NL{
@@ -27,6 +28,7 @@ namespace NL{
 	const int MAX_LIGHT_ENEMIES = 500;
 	const int MAX_HEAVY_ENEMIES = 500;
 	const int MAX_SPLIT_ENEMEIS = 500;
+	const int MAX_BOAT_ENEMEIS = 500;
 	const int MAX_DROPS = 500;
 	const float MAX_PLAYER_CENTER_DISTANCE = 15;
 	const float PRECEIVED_SCREEN_WIDTH = 80;
@@ -73,12 +75,13 @@ public:
 	void spawnBullet(Vector3 pos, Vector3 vel,float scale = 0.5);
 	void spawnAir(Vector3 pos, Vector3 vel);
 	void spawnPower(Vector3 pos, Vector3 vel);
-	void spawnPoints(Vector3 pos, Vector3 vel);
+	void spawnShield(Vector3 pos, Vector3 vel);
 	void spawnEnemyBullet(Vector3 pos, Vector3 vel);
 	void spawnLightEnemy(Vector3 pos);
 	void spawnHeavyEnemy(Vector3 pos);
 	void spawnSplitEnemy(Vector3 pos, int gen);
 	void spawnWall(Vector3 pos);
+	void spawnEnemyBoat(float x);//boat will always spawn at surface
 
 	void onPlayerDeath();
 
@@ -120,19 +123,20 @@ protected:
 	Line lineX, lineY, lineZ;
 	Quad bgQuad[NL::NUM_BKGD_IMGS];
 	Quad menuQuad, goldQuad, quadLtBlue;
-	Coin whiteCoin, goldCoin, cyanCoin, redCoin;
+	Coin whiteCoin, greenCoin, cyanCoin, redCoin;
 
 	//game objects
 	Bullet* playerBullets;
 	Air* air;
 	Power* power;
-	Points* points;
+	Shield* shield;
 	Wall* walls;
 	
 	Bullet* enemyBullets;
 	EnemyLight * enemyLight;
 	EnemyHeavy * enemyHeavy;
 	EnemySplit * enemySplit;
+	EnemyBoat * enemyBoat;
 
 	Actor finishLine;
 	Actor airBar;
@@ -141,4 +145,5 @@ protected:
 	int menuChoice;
 	void spawnAllWallsOnMap();
 	void placeFinishLine();
+	void placeEnemyBoats(int numBoats);
 };

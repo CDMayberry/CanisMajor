@@ -98,6 +98,7 @@
     <ClCompile Include="Actor.cpp" />
     <ClCompile Include="Drop.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="EnemyBoat.cpp" />
     <ClCompile Include="EnemyHeavy.cpp" />
     <ClCompile Include="EnemyLight.cpp" />
     <ClCompile Include="EnemySplit.cpp" />
@@ -108,7 +109,7 @@
     <ClCompile Include="NuclearLiberation.cpp" />
     <ClCompile Include="Origin.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Points.cpp" />
+    <ClCompile Include="Shield.cpp" />
     <ClCompile Include="Power.cpp" />
     <ClCompile Include="Quad.cpp" />
   </ItemGroup>
@@ -125,6 +126,7 @@
     <ClInclude Include="Actor.h" />
     <ClInclude Include="Drop.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EnemyBoat.h" />
     <ClInclude Include="EnemyHeavy.h" />
     <ClInclude Include="EnemyLight.h" />
     <ClInclude Include="EnemySplit.h" />
@@ -133,7 +135,7 @@
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="mathUtil.h" />
     <ClInclude Include="Origin.h" />
-    <ClInclude Include="Points.h" />
+    <ClInclude Include="Shield.h" />
     <ClInclude Include="Power.h" />
     <ClInclude Include="Wall.h" />
     <ClInclude Include="NuclearLiberation.h" />

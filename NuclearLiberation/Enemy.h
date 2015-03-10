@@ -13,7 +13,6 @@ class Enemy: public virtual Actor
 {
 public:
 	Enemy():Actor(){playerSeen=false;cooldown=0;MAX_HEALTH = 100.0f; health = MAX_HEALTH; }
-	virtual void update(float dt) = 0;
 	void onDeath();
 protected:
 	float cooldown;
