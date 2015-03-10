@@ -624,6 +624,13 @@ void NuclearLiberation::levelsDraw()
 		enemyBoat[i].draw(mfxWVPVar,mView,mProj,mTech);
 	}
 	finishLine.draw(mfxWVPVar,mView,mProj,mTech);
+
+	std::wstring lives = L"LIVES:";
+	for(int i = 0 ; i < player.getLives();i++)
+		lives+=L" O ";
+	RECT r = {0,0,0,0};
+	mFont->DrawText(0,lives.c_str(),-1,&r,DT_NOCLIP,WHITE);
+
 }
 
 void NuclearLiberation::buildFX()
@@ -975,7 +982,7 @@ void NuclearLiberation::onPlayerDeath()
 {
 
 	audio->playCue(PEXP);
-	if(player.getLives() > 0) {
+	if(player.getLives() > 1) {
 		player.setLives() -= 1;
 		resetLevel();
 	}
