@@ -18,5 +18,5 @@ void Shield::onDeath() {
 }
 
 void Shield::pickUp() {
-	//game->player.grantWeaponLevel();
+	game->player.grantShield();
 }

@@ -4,10 +4,15 @@
 
 using namespace playerNS;
 
-void Player::init(NuclearLiberation*game,Geometry *hull, Geometry *point, float r, Controls c)
+void Player::init(NuclearLiberation*game,Geometry *hull, Geometry *point, Geometry *shield, float r, Controls c)
 {
 	Actor::init(game,hull,r);
 	hitBoxIndicatior.init(game,point,r);
+	hitBoxIndicatior.isActive = true;
+	hitBoxIndicatior.setScale(Vector3(r,r,1));
+	shieldIndicator.init(game,shield,SHIELD_SIZE);
+	shieldIndicator.setScale(Vector3(SHIELD_SIZE,SHIELD_SIZE,1));
+	shieldIndicator.isActive = true;
 	controls = c;
 	isActive = true;
 	accel = Vector3(0,0,0);
@@ -15,8 +20,8 @@ void Player::init(NuclearLiberation*game,Geometry *hull, Geometry *point, float 
 	weaponLevel = 1;
 	fireCounter = 0;
 	drowning = false;
-	hitBoxIndicatior.isActive = true;
-	hitBoxIndicatior.setScale(Vector3(r,r,1));
+	shieldActive=false;
+	
 }
 
 void Player::draw(ID3D10EffectMatrixVariable* fx, Matrix& camera, Matrix& projection, ID3D10EffectTechnique* mTech)
@@ -24,19 +29,15 @@ void Player::draw(ID3D10EffectMatrixVariable* fx, Matrix& camera, Matrix& projec
 	if(isActive){
 		Actor::draw(fx,camera,projection,mTech);
 		hitBoxIndicatior.draw(fx,camera,projection,mTech);
+		if(shieldActive)shieldIndicator.draw(fx,camera,projection,mTech);
 	}
 }
 
 void Player::update(float dt)
 {
-	bool inWall = false;
 	if(isActive)
 	{
-		
-		Actor::update(dt);
-		hitBoxIndicatior.update(dt);
-
-		airLevel = max(airLevel-dt,0);
+				airLevel = max(airLevel-dt,0);
 		weaponCooldown=max(weaponCooldown-dt,0);
 
 		Vector3 pos = getPosition();
@@ -47,7 +48,8 @@ void Player::update(float dt)
 		setPosition(pos);
 		pos.z-=getScale().z+0.01;
 		hitBoxIndicatior.setPosition(pos);
-
+		pos.z+=getScale().z+0.01;
+		shieldIndicator.setPosition(pos);
 		if(getPosition().y == game->worldSize.y) 
 			refillAir();
 
@@ -128,15 +130,14 @@ void Player::update(float dt)
 
 		setRotation(rot);
 
-		//Matrix rotTemp;
-		//Identity(&rotTemp);
-		//D3DXMatrixRotationZ(&rotTemp,rot.z);
-
 		if(weaponCooldown==0 && GetAsyncKeyState(controls.fire))
 		{
 			fireBullets();
 		}
 
+		Actor::update(dt);
+		hitBoxIndicatior.update(dt);
+		shieldIndicator.update(dt);
 		
 	}
 }
@@ -215,4 +216,11 @@ void Player::fireBullets()
 		weaponCooldown = DEFAULT_COOLDOWN/2;
 		break;
 	}
+}
+
+void Player::takeDamage(){
+	if(shieldActive)
+		shieldActive=false;
+	else
+		game->onPlayerDeath();
 }
