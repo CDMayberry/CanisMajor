@@ -106,7 +106,7 @@ void NuclearLiberation::initApp()
 	c.left = 'A';
 	c.right = 'D';
 	c.fire = ' ';
-	player.init(this,&cubeSub,&redCoin,1,c);
+	player.init(this,&cubeSub,&redCoin,&cyanCoin,1,c);
 	player.setScale(Vector3(2,1,1));
 	player.setRadius(1);
 	
@@ -349,7 +349,8 @@ void NuclearLiberation::collisions()
 	{
 		if(enemyBullets[i].collided(&player))
 		{
-			onPlayerDeath(); //Actor has a new onDeath class, use it.
+			player.takeDamage();//will call onPlayerDeath if dead
+			enemyBullets[i].isActive=false;
 			break;
 		}
 	}
