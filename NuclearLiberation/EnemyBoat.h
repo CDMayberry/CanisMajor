@@ -13,4 +13,5 @@ class EnemyBoat : public virtual Enemy
 public:
 	void update(float dt);
 	void create(Vector3 pos);
+	void Fire();
 };
