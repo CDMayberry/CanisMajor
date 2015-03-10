@@ -30,6 +30,7 @@ NuclearLiberation::NuclearLiberation(HINSTANCE hInstance)
 
 	playerBullets = new Bullet[NL::MAX_PLAYER_BULLETS];
 	air = new Air[NL::MAX_DROPS];
+	power = new Power[NL::MAX_DROPS];
 	walls = new Wall[NL::MAX_WALLS];
 	enemyBullets = new Bullet[NL::MAX_ENEMY_BULLETS];
 	enemyLight = new EnemyLight[NL::MAX_LIGHT_ENEMIES];
@@ -47,6 +48,7 @@ NuclearLiberation::~NuclearLiberation()
 
 	delete [] playerBullets;
 	delete [] air;
+	delete 
 	delete [] walls;
 	delete [] enemyBullets;
 	delete [] enemyLight;
@@ -529,6 +531,19 @@ void NuclearLiberation::spawnAir(Vector3 pos, Vector3 vel)
 		{
 			air[i].create(pos);
 			air[i].setVelocity(vel);
+			break;
+		}
+	}
+}
+
+void NuclearLiberation::spawnPower(Vector3 pos, Vector3 vel)
+{
+	for(int i = 0; i<NL::MAX_DROPS; i++)
+	{
+		if(!power[i].isActive)
+		{
+			power[i].create(pos);
+			power[i].setVelocity(vel);
 			break;
 		}
 	}

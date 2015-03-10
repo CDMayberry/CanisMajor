@@ -13,7 +13,7 @@
 #include "EnemyHeavy.h"
 #include "EnemySplit.h"
 #include "Air.h"
-//#include "Power.h"
+#include "Power.h"
 #include "Origin.h"
 #include <d3dx9math.h>
 
@@ -121,6 +121,7 @@ protected:
 	//game objects
 	Bullet* playerBullets;
 	Air* air;
+	Power* power;
 	Wall* walls;
 	
 	Bullet* enemyBullets;
