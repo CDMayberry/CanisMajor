@@ -14,6 +14,7 @@
 #include "EnemySplit.h"
 #include "Air.h"
 #include "Power.h"
+#include "Points.h"
 #include "Origin.h"
 #include "Coin.h"
 #include <d3dx9math.h>
@@ -70,6 +71,7 @@ public:
 	void spawnBullet(Vector3 pos, Vector3 vel,float scale = 0.5);
 	void spawnAir(Vector3 pos, Vector3 vel);
 	void spawnPower(Vector3 pos, Vector3 vel);
+	void spawnPoints(Vector3 pos, Vector3 vel);
 	void spawnEnemyBullet(Vector3 pos, Vector3 vel);
 	void spawnLightEnemy(Vector3 pos);
 	void spawnHeavyEnemy(Vector3 pos);
@@ -116,12 +118,13 @@ protected:
 	Line lineX, lineY, lineZ;
 	Quad bgQuad[NL::NUM_BKGD_IMGS];
 	Quad menuQuad, goldQuad, quadLtBlue;
-	Coin whiteCoin,redCoin;
+	Coin whiteCoin, goldCoin, cyanCoin, redCoin;
 
 	//game objects
 	Bullet* playerBullets;
 	Air* air;
 	Power* power;
+	Points* points;
 	Wall* walls;
 	
 	Bullet* enemyBullets;

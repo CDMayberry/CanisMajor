@@ -13,7 +13,7 @@ void Power::update(float dt)
 }
 
 void Power::onDeath() {
-	game->audio->playCue(COIN);
+	game->audio->playCue(COCK);
 	pickUp();
 }
 

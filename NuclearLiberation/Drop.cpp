@@ -13,7 +13,13 @@ void Drop::update(float dt)
 			isActive = false;
 
 		if(getPosition().x < 0 || getPosition().x > game->worldSize.x || getPosition().y < 0 || getPosition().y > game->worldSize.y)
- 			isActive=false;
+			isActive=false;
+
+		//Vector3 rot = getRotation();
+
+		//rot.y += dt;
+
+		//setRotation(rot);
 	}
 
 }
