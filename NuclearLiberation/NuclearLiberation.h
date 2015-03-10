@@ -37,7 +37,7 @@ namespace NL{
 	const int MAX_BACK = 3;
 	const int NUM_BKGD_IMGS = 4;
 	const int NUM_MENU_ITEMS = 7;//title, play, imFeelingLucky, quit, ___, howto
-	const int VICTORY_MENU_ITEMS = 3;//title, continue, quit
+	const int NUM_SPLASH_MENU_ITEMS = 3;//title, continue, quit
 };
 
 enum GameState{
@@ -65,9 +65,9 @@ public:
 	void menuUpdate(float dt,bool reset = false);
 	void menuDraw();
 
-	void victoryScreenLoad();
-	void victoryUpdate(float dt,bool reset = false);
-	void victoryDraw();
+	void loadSplashScreen(bool status);
+	void splashUpdate(float dt,bool reset = false);
+	void splashDraw();
 
 	void clearLevel();
 	void levelsUpdate(float dt);
