@@ -876,14 +876,14 @@ void NuclearLiberation::loadLevel1()
 	placeEnemyBoats(20);
 	for(int i = 100; i < 700; i+=25) 
 	{
-		if(i >= 200 && i < 300)
-			spawnLightEnemy(Vector3(i,rand()%250,0));
+		if(i >= 100 && i < 200)
+			spawnLightEnemy(Vector3(i,rand()%50+60,0));
 
 		if(i >= 600)
-			spawnHeavyEnemy(Vector3(i,rand()%250,0));
+			spawnHeavyEnemy(Vector3(i,rand()%70+80,0));
 
 		if(i >= 400 && i < 500)
-			spawnSplitEnemy(Vector3(i, rand()%250,0), 0);
+			spawnSplitEnemy(Vector3(i, rand()%80+90,0), 1);
 	}
 	
 	spawnAllWallsOnMap();
@@ -902,23 +902,54 @@ void NuclearLiberation::loadLevel2()
 	initBackground();
 	player.isActive = true;
 	placeFinishLine();
-	int which = 0;
-	for(int i = 50; i < 500; i+=100)
+	
+	for(int i = 100; i < 700; i+=100)
 	{
-		switch(which%3)
+		if(i == 100)
 		{
-		case 0:
-			spawnLightEnemy(Vector3(i+15,30*sin(2*PI*i/50)+50,0));
-			break;
-		case 1:
-			spawnHeavyEnemy(Vector3(i+15,30*cos(2*PI*i/50)+50,0));
-			break;
-		case 2:
-			spawnSplitEnemy(Vector3(i+10, 30*tan(2*PI*i/50)+50,0), 1);
-			break;
+			spawnLightEnemy(Vector3(i,rand()%70+30,0));
+			spawnSplitEnemy(Vector3(i,rand()%70+30,0),1);
+			spawnHeavyEnemy(Vector3(i,rand()%70+30,0));
+		}
+
+		if(i == 200)
+		{
+			spawnLightEnemy(Vector3(i,rand()%45+30,0));
+			spawnSplitEnemy(Vector3(i,rand()%45+30,0),1);
+			spawnHeavyEnemy(Vector3(i,rand()%45+30,0));
+		}
+
+		if(i == 300)
+		{
+			spawnLightEnemy(Vector3(i,rand()%90+30,0));
+			spawnSplitEnemy(Vector3(i,rand()%90+30,0),1);
+			spawnHeavyEnemy(Vector3(i,rand()%90+30,0));
+		}
+
+		if(i == 400)
+		{
+			spawnLightEnemy(Vector3(i,rand()%100+100,0));
+			spawnSplitEnemy(Vector3(i,rand()%100+100,0),1);
+			spawnHeavyEnemy(Vector3(i,rand()%100+100,0));
+		}
+
+		if(i == 500)
+		{
+			spawnLightEnemy(Vector3(i,rand()%175+75,0));
+			spawnSplitEnemy(Vector3(i,rand()%175+75,0),1);
+			spawnHeavyEnemy(Vector3(i,rand()%175+75,0));
+		}
+
+		if(i == 600)
+		{
+			spawnLightEnemy(Vector3(i,rand()%220+30,0));
+			spawnLightEnemy(Vector3(i,rand()%220+30,0));
+			spawnLightEnemy(Vector3(i,rand()%220+30,0));
+			spawnSplitEnemy(Vector3(i,rand()%220+30,0),1);
+			spawnSplitEnemy(Vector3(i,rand()%220+30,0),1);
+			spawnHeavyEnemy(Vector3(i,rand()%220+30,0));
 		}
 		
-		which++;
 	}
 	
 	spawnAllWallsOnMap();
