@@ -31,7 +31,7 @@ void Player::update(float dt)
 		pos.y=min(pos.y,game->getCeiling(pos.x));
 		pos.y=max(pos.y,game->getFloor(pos.x));
 		pos.x=min(pos.x,game->worldSize.x);
-
+		pos.x=max(pos.x,game->invisibleWallLocation);
 		setPosition(pos);
 
 		if(getPosition().y == game->worldSize.y) 

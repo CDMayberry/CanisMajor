@@ -31,7 +31,7 @@ namespace NL{
 	const float MIN_SCROLL_SPEED = 3;
 	const int MAX_BACK = 3;
 	const int NUM_BKGD_IMGS = 4;
-	const int NUM_MENU_ITEMS = 4;//title, play, imFeelingLucky, quit
+	const int NUM_MENU_ITEMS = 7;//title, play, imFeelingLucky, quit, ___, howto
 };
 
 enum GameState{
