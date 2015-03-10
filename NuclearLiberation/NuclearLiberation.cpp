@@ -285,7 +285,7 @@ void NuclearLiberation::menuUpdate(float dt, bool reset)
 			switch(menuChoice)
 			{
 			case 1://play
-				loadLevel3();
+				loadLevel1();
 				break;
 			case 2://feeling lucky
 				//TODO::SOMETHING
@@ -322,7 +322,7 @@ void NuclearLiberation::menuUpdate(float dt, bool reset)
 void NuclearLiberation::levelsUpdate(float dt)
 {
 	
-	if(player.getPosition().x==worldSize.x)
+	if(player.getPosition().x>=worldSize.x)
 	{
 		switch(state)
 		{
@@ -887,7 +887,7 @@ void NuclearLiberation::loadLevel1()
 
 void NuclearLiberation::loadLevel2()
 {
-		audio->stopCue(PEXP);
+	audio->stopCue(PEXP);
 	state = GameState::L2;
 	clearLevel();
 	worldSize = Vector3(700,250,0);
@@ -952,37 +952,6 @@ void NuclearLiberation::loadLevel3()
 		which++;
 	}
 
-	spawnAllWallsOnMap();
-}
-
-void NuclearLiberation::loadLevel2()
-{
-	audio->stopCue(PEXP);
-	state = GameState::L2;
-	clearLevel();
-	worldSize = Vector3(100,250,0);
-	player.setPosition(Vector3(25,100,0));
-	invisibleWallLocation = 0;
-	cameraTarget = player.getPosition();
-	player.refresh();
-	initBackground();
-	placeFinishLine();
-	placeEnemyBoats(20);
-	spawnAllWallsOnMap();
-}
-void NuclearLiberation::loadLevel3()
-{
-	audio->stopCue(PEXP);
-	state = GameState::L3;
-	clearLevel();
-	worldSize = Vector3(100,250,0);
-	player.setPosition(Vector3(25,100,0));
-	invisibleWallLocation = 0;
-	cameraTarget = player.getPosition();
-	player.refresh();
-	initBackground();
-	placeFinishLine();
-	placeEnemyBoats(20);
 	spawnAllWallsOnMap();
 }
 
