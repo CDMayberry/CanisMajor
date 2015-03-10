@@ -107,7 +107,7 @@ private:
 	void buildFX();
 	void buildVertexLayouts();
 
-	Origin origin;
+	//Origin origin;
 	bool test;
 
 protected:

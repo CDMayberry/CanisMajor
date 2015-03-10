@@ -66,7 +66,7 @@ void NuclearLiberation::initApp()
 
 	test = false;
 
-	origin.init(this,1);
+//	origin.init(this,1);
 
 	cameraDisplacement = Vector3(0,0,-75);
 	cameraTarget = Vector3(0,0,0);
@@ -578,7 +578,7 @@ void NuclearLiberation::menuDraw()
 void NuclearLiberation::levelsDraw()
 {
 
-	origin.draw(mfxWVPVar,mView,mProj,mTech);
+//	origin.draw(mfxWVPVar,mView,mProj,mTech);
 
 	player.draw(mfxWVPVar,mView,mProj,mTech);
 
