@@ -107,6 +107,7 @@
     <ClCompile Include="NuclearLiberation.cpp" />
     <ClCompile Include="Origin.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Power.cpp" />
     <ClCompile Include="Quad.cpp" />
   </ItemGroup>
   <ItemGroup>

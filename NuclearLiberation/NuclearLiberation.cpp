@@ -48,7 +48,7 @@ NuclearLiberation::~NuclearLiberation()
 
 	delete [] playerBullets;
 	delete [] air;
-	delete 
+	delete [] power;
 	delete [] walls;
 	delete [] enemyBullets;
 	delete [] enemyLight;
