@@ -84,7 +84,7 @@ void NuclearLiberation::initApp()
 	redCoin.init(md3dDevice,RED);
 	cubeSub.init(md3dDevice,D3DXCOLOR(184/255.0,115/255.0,51/255.0,1));
 	purpleCube.init(md3dDevice,VIOLENTVIOLET);
-	goldCoin.init(md3dDevice,GOLD);
+	//goldCoin.init(md3dDevice,GOLD);
 	cyanCoin.init(md3dDevice,CYAN);
 
 	//Inititilizes the background colors for the level.
@@ -124,7 +124,6 @@ void NuclearLiberation::initApp()
 		air[i].setScale(Vector3(2,2,1));
 		air[i].setRadius(2);
 
-<<<<<<< HEAD
 		power[i].init(this,&greenCoin,1);
 		power[i].setScale(Vector3(1,1,1));
 		power[i].setRadius(2);
@@ -132,15 +131,6 @@ void NuclearLiberation::initApp()
 		shield[i].init(this,&cyanCoin,1);
 		shield[i].setScale(Vector3(1,1,1));
 		shield[i].setRadius(2);
-=======
-		power[i].init(this,&goldCoin,1);
-		power[i].setScale(Vector3(2,2,1));
-		power[i].setRadius(2);
-
-		points[i].init(this,&cyanCoin,1);
-		points[i].setScale(Vector3(2,2,1));
-		points[i].setRadius(2);
->>>>>>> 893a7ec34d3e5f6e2c7aa961a3de32ff11e2e234
 	}
 
 	for(int i = 0 ; i < NL::MAX_ENEMY_BULLETS; i++)
@@ -700,7 +690,7 @@ void NuclearLiberation::clearLevel()
 		enemyBullets[i].isActive = false;
 	}
 	for(int i = 0 ; i < NL::MAX_DROPS; i++)
-		air[i].isActive=power[i].isActive=points[i].isActive=false;
+		air[i].isActive=power[i].isActive=shield[i].isActive=false;
 }
 
 void NuclearLiberation::menuLoad()

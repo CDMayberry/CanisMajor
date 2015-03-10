@@ -117,10 +117,8 @@ protected:
 	Cube cubeG,cubeR,cubeY,cubeW, cubeGLD, cubeLGRY,cubeSub, purpleCube;
 	Line lineX, lineY, lineZ;
 	Quad bgQuad[NL::NUM_BKGD_IMGS];
-	Quad menuQuad;
-	Coin whiteCoin, greenCoin, cyanCoin;
 	Quad menuQuad, goldQuad, quadLtBlue;
-	Coin whiteCoin, goldCoin, cyanCoin, redCoin;
+	Coin whiteCoin, greenCoin, cyanCoin, redCoin;
 
 	//game objects
 	Bullet* playerBullets;
