@@ -821,7 +821,7 @@ void NuclearLiberation::loadLevel3()
 	audio->stopCue(PEXP);
 	state = GameState::L3;
 	clearLevel();
-	worldSize = Vector3(1000,400,0);
+	worldSize = Vector3(1000,375,0);
 	player.setPosition(Vector3(25,100,0));
 	invisibleWallLocation = 0;
 	cameraTarget = player.getPosition();
@@ -913,8 +913,8 @@ float NuclearLiberation::getFloor(float x)
 			return 30+1.5*(x -425);
 		else if(x >= 550 && x < 675)
 			return 217.5 -1.5*(x-550);
-		else if(x >= 850)
-			return 30 + (x-850);
+		else if(x >= 925)
+			return 30 + 1.5*(x-925);
 		else
 			return 5*(sin(2*PI*x/150.0)+2)+30;
 		break;
@@ -950,12 +950,12 @@ float NuclearLiberation::getCeiling(float x)
 			return worldSize.y;
 		break;
 	case L3:
-		if(x >= 150 && x < 400)
+		if(x >= 150 && x < 375)
 			return worldSize.y -(x-150);
-		else if(x >= 400 && x < 650)
-			return worldSize.y - 250 + (x -400);
-		else if(x >= 850)
-			return worldSize.y -(x-850);
+		else if(x >= 375 && x < 600)
+			return worldSize.y - 225 + (x -375);
+		else if(x >= 925)
+			return worldSize.y -1.5*(x-925);
 		else
 			return worldSize.y;
 		break;

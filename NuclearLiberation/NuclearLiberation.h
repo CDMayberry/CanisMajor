@@ -23,8 +23,8 @@
 namespace NL{
 
 	const int MAX_PLAYER_BULLETS = 500;
-	const int MAX_ENEMY_BULLETS = 5000;
-	const int MAX_WALLS = 7000;
+	const int MAX_ENEMY_BULLETS = 2000;
+	const int MAX_WALLS = 6000;
 	const int MAX_LIGHT_ENEMIES = 500;
 	const int MAX_HEAVY_ENEMIES = 500;
 	const int MAX_SPLIT_ENEMEIS = 500;
