@@ -108,6 +108,7 @@
     <ClCompile Include="NuclearLiberation.cpp" />
     <ClCompile Include="Origin.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Points.cpp" />
     <ClCompile Include="Power.cpp" />
     <ClCompile Include="Quad.cpp" />
   </ItemGroup>
@@ -132,6 +133,7 @@
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="mathUtil.h" />
     <ClInclude Include="Origin.h" />
+    <ClInclude Include="Points.h" />
     <ClInclude Include="Power.h" />
     <ClInclude Include="Wall.h" />
     <ClInclude Include="NuclearLiberation.h" />

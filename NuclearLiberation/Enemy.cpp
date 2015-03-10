@@ -19,6 +19,8 @@ void Enemy::onDeath() {
 	}
 	if(rand()%2 == 0)
 		game->spawnAir(getPosition(), Vector3(0,1,0));
-	if(rand()%4 == 0)
+	else if(rand()%2 == 0)
+		game->spawnPoints(getPosition(), Vector3(0,0,0));
+	else if(rand()%2 == 0)
 		game->spawnPower(getPosition(), Vector3(0,-2,0));
 }

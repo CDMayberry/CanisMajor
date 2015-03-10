@@ -32,5 +32,6 @@ const char PEXP[] = "expPlayer";
 const char DROWN[] = "drown";
 const char COIN[] = "coin";
 const char BUB[] = "bubble";
+const char COCK[] = "power";
 
 #endif
