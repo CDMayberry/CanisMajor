@@ -37,7 +37,7 @@ void Player::update(float dt)
 {
 	if(isActive)
 	{
-				airLevel = max(airLevel-dt,0);
+		airLevel = max(airLevel-dt,0);
 		weaponCooldown=max(weaponCooldown-dt,0);
 
 		Vector3 pos = getPosition();
