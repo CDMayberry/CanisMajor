@@ -847,8 +847,6 @@ void NuclearLiberation::loadLevel3()
 
 		which++;
 	}
->>>>>>> 695d33136bdb7724cf30b76d60e47d8bb037817f
-
 	spawnAllWallsOnMap();
 }
 
