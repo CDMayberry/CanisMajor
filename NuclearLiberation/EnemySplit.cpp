@@ -5,10 +5,10 @@ using namespace EnemyNS;
 
 void EnemySplit::Fire(){
 	        Vector3 disp = game->player.getPosition()-getPosition();
-
+			D3DXVec3Normalize(&disp,&disp);
 				if(rand()%100 < (FIRE_CHANCE_BASE + FIRE_CHANCE_BUFF))
 				{
-					game->spawnEnemyBullet(getPosition(),disp*(BULLET_SPEED_BASE + BULLET_SPEED_BUFF));
+					game->spawnEnemyBullet(getPosition(),getVelocity()+ disp*(BULLET_SPEED_BASE + BULLET_SPEED_BUFF));
 					cooldown = (FIRE_RATE_BASE + FIRE_RATE_BUFF);
 				}
 				else
