@@ -11,6 +11,7 @@ Actor::Actor()
 	Identity(&world);
 	Identity(&wvp);
 	rotation = Vector3(0,0,0);
+	MAX_HEALTH = 100;
 	health = MAX_HEALTH;
 }
 
@@ -56,7 +57,7 @@ void Actor::init(NuclearLiberation* game,Geometry *b, float r)
 
 void Actor::create(Vector3 pos) {
 	isActive = true;
-	health = 1;
+	health = MAX_HEALTH;
 	position = pos;
 }
 
