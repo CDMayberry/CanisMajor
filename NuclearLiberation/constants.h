@@ -33,5 +33,7 @@ const char DROWN[] = "drown";
 const char COIN[] = "coin";
 const char BUB[] = "bubble";
 const char COCK[] = "power";
+const char SHIELD[] = "shield";
+const char BLOCK[] = "block";
 
 #endif
