@@ -17,6 +17,7 @@
 #include "Points.h"
 #include "Origin.h"
 #include "Coin.h"
+#include "EnemyBoat.h"
 #include <d3dx9math.h>
 
 namespace NL{
@@ -27,6 +28,7 @@ namespace NL{
 	const int MAX_LIGHT_ENEMIES = 500;
 	const int MAX_HEAVY_ENEMIES = 500;
 	const int MAX_SPLIT_ENEMEIS = 500;
+	const int MAX_BOAT_ENEMEIS = 500;
 	const int MAX_DROPS = 500;
 	const float MAX_PLAYER_CENTER_DISTANCE = 15;
 	const float PRECEIVED_SCREEN_WIDTH = 80;
@@ -77,6 +79,7 @@ public:
 	void spawnHeavyEnemy(Vector3 pos);
 	void spawnSplitEnemy(Vector3 pos, int gen);
 	void spawnWall(Vector3 pos);
+	void spawnEnemyBoat(float x);//boat will always spawn at surface
 
 	void onPlayerDeath();
 
@@ -131,6 +134,7 @@ protected:
 	EnemyLight * enemyLight;
 	EnemyHeavy * enemyHeavy;
 	EnemySplit * enemySplit;
+	EnemyBoat * enemyBoat;
 
 	Actor finishLine;
 	Actor airBar;
@@ -139,4 +143,5 @@ protected:
 	int menuChoice;
 	void spawnAllWallsOnMap();
 	void placeFinishLine();
+	void placeEnemyBoats(int numBoats);
 };

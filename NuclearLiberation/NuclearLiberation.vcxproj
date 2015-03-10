@@ -98,6 +98,7 @@
     <ClCompile Include="Actor.cpp" />
     <ClCompile Include="Drop.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="EnemyBoat.cpp" />
     <ClCompile Include="EnemyHeavy.cpp" />
     <ClCompile Include="EnemyLight.cpp" />
     <ClCompile Include="EnemySplit.cpp" />
@@ -125,6 +126,7 @@
     <ClInclude Include="Actor.h" />
     <ClInclude Include="Drop.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EnemyBoat.h" />
     <ClInclude Include="EnemyHeavy.h" />
     <ClInclude Include="EnemyLight.h" />
     <ClInclude Include="EnemySplit.h" />

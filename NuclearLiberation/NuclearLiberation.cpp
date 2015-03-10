@@ -37,6 +37,7 @@ NuclearLiberation::NuclearLiberation(HINSTANCE hInstance)
 	enemyLight = new EnemyLight[NL::MAX_LIGHT_ENEMIES];
 	enemyHeavy = new EnemyHeavy[NL::MAX_HEAVY_ENEMIES];
 	enemySplit = new EnemySplit[NL::MAX_SPLIT_ENEMEIS];
+	enemyBoat = new EnemyBoat[NL::MAX_BOAT_ENEMEIS];
 }
 
 NuclearLiberation::~NuclearLiberation()
@@ -56,6 +57,7 @@ NuclearLiberation::~NuclearLiberation()
 	delete [] enemyLight;
 	delete [] enemyHeavy;
 	delete [] enemySplit;
+	delete [] enemyBoat;
 }
 
 void NuclearLiberation::initApp()
@@ -158,6 +160,11 @@ void NuclearLiberation::initApp()
 		enemySplit[i].setScale(Vector3(2,2,2));
 	}
 
+	for(int i = 0 ; i < NL::MAX_BOAT_ENEMEIS;i++)
+	{
+		enemyBoat[i].init(this,&cubeR,3);
+		enemyBoat[i].setScale(Vector3(3,2,1));
+	}
 
 	finishLine.init(this,&goldQuad,1);
 
@@ -307,6 +314,10 @@ void NuclearLiberation::levelsUpdate(float dt)
 	{
 		enemyBullets[i].update(dt);
 	}
+	for(int i = 0; i < NL::MAX_BOAT_ENEMEIS; i++)
+	{
+		enemyBoat[i].update(dt);
+	}
 
 	// Build the view matrix.
 
@@ -381,6 +392,13 @@ void NuclearLiberation::collisions()
 			for (int j = 0;j<NL::MAX_LIGHT_ENEMIES;j++){
 				if (enemyLight[j].collided(&playerBullets[i])){
 					enemyLight[j].setHealth(enemyLight[j].getHealth() - bulletNS::DAMAGE);
+					playerBullets[i].isActive = false;
+					break;
+				}
+			}
+			for (int j = 0;j<NL::MAX_BOAT_ENEMEIS;j++){
+				if (enemyBoat[j].collided(&playerBullets[i])){
+					enemyBoat[j].setHealth(enemyBoat[j].getHealth() - bulletNS::DAMAGE);
 					playerBullets[i].isActive = false;
 					break;
 				}
@@ -505,6 +523,10 @@ void NuclearLiberation::levelsDraw()
 	for(int i = 0; i < NL::MAX_ENEMY_BULLETS; i++)
 	{
 		enemyBullets[i].draw(mfxWVPVar,mView,mProj,mTech);
+	}
+	for(int i = 0; i < NL::MAX_BOAT_ENEMEIS; i++)
+	{
+		enemyBoat[i].draw(mfxWVPVar,mView,mProj,mTech);
 	}
 	finishLine.draw(mfxWVPVar,mView,mProj,mTech);
 }
@@ -663,6 +685,19 @@ void NuclearLiberation::spawnWall(Vector3 pos)
 		}
 	}
 }
+
+void NuclearLiberation::spawnEnemyBoat(float pos)
+{
+	for(int i = 0; i<NL::MAX_BOAT_ENEMEIS; i++)
+	{
+		if(!enemyBoat[i].isActive)
+		{
+			enemyBoat[i].create(Vector3(pos,0,0));//enemy boat auto places the y coord and removes if blocked
+			break;
+		}
+	}
+}
+
 void NuclearLiberation::clearLevel()
 {
 	for(int i = 0 ; i < NL::MAX_PLAYER_BULLETS; i++)
@@ -677,12 +712,15 @@ void NuclearLiberation::clearLevel()
 	{
 		enemyLight[i].isActive = false;
 	}
-	
 	for(int i = 0; i< NL::MAX_HEAVY_ENEMIES;i++){
 		enemyHeavy[i].isActive = false;
 	}
 	for (int i=0;i<NL::MAX_SPLIT_ENEMEIS;i++){
 		enemySplit[i].isActive = false;
+	}
+	for(int i = 0; i < NL::MAX_BOAT_ENEMEIS; i++)
+	{
+		enemyBoat[i].isActive = false;
 	}
 	for(int i = 0; i < NL::MAX_ENEMY_BULLETS; i++)
 	{
@@ -720,6 +758,7 @@ void NuclearLiberation::loadLevel1()
 	initBackground();
 	player.isActive = true;
 	placeFinishLine();
+	placeEnemyBoats(20);
 	int which = 0;
 	for(int i = 50; i < 500; i+=100)
 	{
@@ -783,7 +822,7 @@ float NuclearLiberation::getCeiling(float x)
 		break;
 	case L1:
 		if(x >= 100 && x < 200)
-			return worldSize.y-(x-100);
+			return worldSize.y-x+100;
 		else if(x >= 200 && x < 300)
 			return worldSize.y-100+(x-200);
 		else
@@ -818,4 +857,16 @@ void NuclearLiberation::placeFinishLine()
 	finishLine.setScale(Vector3(5,worldSize.y,1));
 	finishLine.setPosition(Vector3(worldSize.x,worldSize.y/2,10));
 	finishLine.isActive = true;
+}
+
+void NuclearLiberation::placeEnemyBoats(int numBoats)
+{
+	//need buffers from first and last
+	float boatDisp = (worldSize.x - 20)/numBoats;
+
+	for(float i = 10 ; i < worldSize.x; i+=boatDisp)
+	{
+		//remeber, enemy boat auto deletes itself if blocked
+		spawnEnemyBoat(i);
+	}
 }
