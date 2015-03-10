@@ -59,24 +59,24 @@ public:
 	void onResize();
 	void updateScene(float dt);
 	void drawScene(); 
-	void collisions();
+	void collisions();//Stuart / Justin
 
-	void menuLoad();
-	void menuUpdate(float dt,bool reset = false);
-	void menuDraw();
+	void menuLoad(); //Justin
+	void menuUpdate(float dt,bool reset = false);//Justin
+	void menuDraw();//Justin
 
-	void loadSplashScreen(bool status);
-	void splashUpdate(float dt,bool reset = false);
-	void splashDraw();
+	void loadSplashScreen(bool status);//Justin
+	void splashUpdate(float dt,bool reset = false);//Justin
+	void splashDraw();//Justin
 
 	void clearLevel();
-	void levelsUpdate(float dt);
-	void levelsDraw();
+	void levelsUpdate(float dt);//Justin
+	void levelsDraw();//Justin
 
-	void resetLevel();
-	void loadLevel1();
-	void loadLevel2();
-	void loadLevel3();
+	void resetLevel();//Justin
+	void loadLevel1();//Zared
+	void loadLevel2();//Zared
+	void loadLevel3();//Zared
 	GameState state;
 	
 	void spawnBullet(Vector3 pos, Vector3 vel,float scale = 0.5);
@@ -99,8 +99,8 @@ public:
 	ID3D10Device* getDevice(){return md3dDevice;}
 
 	float invisibleWallLocation;
-	float getCeiling(float x);
-	float getFloor(float x);
+	float getCeiling(float x);//Zared
+	float getFloor(float x);//Zared
 
 
 private:
@@ -112,7 +112,9 @@ private:
 
 protected:
 
-	
+	void spawnAllWallsOnMap();//Justin
+	void placeFinishLine();//Justin
+	void placeEnemyBoats(int numBoats);//Justin
 
 	ID3D10Effect* mFX;
 	ID3D10EffectTechnique* mTech;
@@ -150,7 +152,5 @@ protected:
 	Actor bgImg[NL::NUM_BKGD_IMGS];
 	std::wstring menuText[NL::NUM_MENU_ITEMS];
 	int menuChoice;
-	void spawnAllWallsOnMap();
-	void placeFinishLine();
-	void placeEnemyBoats(int numBoats);
+	
 };

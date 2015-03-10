@@ -89,29 +89,29 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Air.cpp" />
-    <ClCompile Include="audio.cpp" />
-    <ClCompile Include="Bullet.cpp" />
-    <ClCompile Include="Coin.cpp" />
-    <ClCompile Include="Cube.cpp" />
+    <ClCompile Include="Air%28Caelan%29.cpp" />
+    <ClCompile Include="audio%28Caelan%29.cpp" />
+    <ClCompile Include="Bullet%28Justin%29.cpp" />
+    <ClCompile Include="Coin%28Stuart%29.cpp" />
+    <ClCompile Include="Cube%28Justin%29.cpp" />
     <ClCompile Include="d3dApp.cpp" />
-    <ClCompile Include="Actor.cpp" />
-    <ClCompile Include="Drop.cpp" />
-    <ClCompile Include="Enemy.cpp" />
-    <ClCompile Include="EnemyBoat.cpp" />
-    <ClCompile Include="EnemyHeavy.cpp" />
-    <ClCompile Include="EnemyLight.cpp" />
-    <ClCompile Include="EnemySplit.cpp" />
+    <ClCompile Include="Actor%28Justin%29.cpp" />
+    <ClCompile Include="Drop%28Caelan%29.cpp" />
+    <ClCompile Include="Enemy%28Stuart%29.cpp" />
+    <ClCompile Include="EnemyBoat%28Justin%29.cpp" />
+    <ClCompile Include="EnemyHeavy%28Stuart%29.cpp" />
+    <ClCompile Include="EnemyLight%28Stuart%29.cpp" />
+    <ClCompile Include="EnemySplit%28Stuart%29.cpp" />
     <ClCompile Include="GameTimer.cpp" />
-    <ClCompile Include="Geometry.cpp" />
-    <ClCompile Include="Line.cpp" />
-    <ClCompile Include="mathUtil.cpp" />
-    <ClCompile Include="NuclearLiberation.cpp" />
-    <ClCompile Include="Origin.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Shield.cpp" />
-    <ClCompile Include="Power.cpp" />
-    <ClCompile Include="Quad.cpp" />
+    <ClCompile Include="Geometry%28Justin%29.cpp" />
+    <ClCompile Include="Line%28Caelan%29.cpp" />
+    <ClCompile Include="mathUtil%28Justin%29.cpp" />
+    <ClCompile Include="NuclearLiberation%28See Header Comments%29.cpp" />
+    <ClCompile Include="Origin%28Justin%29.cpp" />
+    <ClCompile Include="Player%28Justin%29.cpp" />
+    <ClCompile Include="Shield%28Caelan%29.cpp" />
+    <ClCompile Include="Power%28Caelan%29.cpp" />
+    <ClCompile Include="Quad%28Zared%29.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Air.h" />

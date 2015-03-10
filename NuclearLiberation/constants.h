@@ -24,17 +24,17 @@ const char SOUND_BANK[] = "audio\\Win\\sound Bank.xsb";
 const char XGS_FILE[]   = "audio\\Win\\audioProject.xgs";
 
 //Audio cues
-const char FIRING[] = "firing";
-const char EXP1[] = "exp1";
-const char EXP2[] = "exp2";
-const char EXP3[] = "exp3";
-const char PEXP[] = "expPlayer";
-const char DROWN[] = "drown";
-const char COIN[] = "coin";
-const char BUB[] = "bubble";
-const char COCK[] = "power";
-const char SHIELD[] = "shield";
-const char BLOCK[] = "block";
-const char BACKGROUND[] = "background";
+const char FIRING[] = "firing";//Caelan
+const char EXP1[] = "exp1";//Caelan
+const char EXP2[] = "exp2";//Stuart
+const char EXP3[] = "exp3";//Caelan
+const char PEXP[] = "expPlayer";//Caelan
+const char DROWN[] = "drown";//Caelan
+const char COIN[] = "coin";//Caelan
+const char BUB[] = "bubble";//Zared
+const char COCK[] = "power";//Caelan
+const char SHIELD[] = "shield";//Caelan
+const char BLOCK[] = "block";//Caelan
+const char BACKGROUND[] = "background";//Justin
 
 #endif
