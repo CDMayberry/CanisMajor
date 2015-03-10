@@ -226,6 +226,7 @@ void NuclearLiberation::victoryUpdate(float dt, bool reset)
 
 	if(reset)
 	{
+		audio->stopCue(DROWN);
 		menuChoice = 1;
 		isKeyDown = true;
 	}
