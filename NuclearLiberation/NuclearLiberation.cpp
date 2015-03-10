@@ -74,6 +74,7 @@ void NuclearLiberation::initApp()
 	cubeR.init(md3dDevice,RED);
 	cubeY.init(md3dDevice,DARKGRAY);
 	cubeW.init(md3dDevice,WHITE);
+	cubeGLD.init(md3dDevice,GOLD);
 	cubeLGRY.init(md3dDevice,LTEGRAY);
 
 	//Inititilizes the background colors for the level.
@@ -110,7 +111,11 @@ void NuclearLiberation::initApp()
 	{
 		air[i].init(this,&cubeLGRY,1);
 		air[i].setScale(Vector3(0.5,1,0.5));
-		air[i].setRadius(.75);
+		air[i].setRadius(2);
+
+		power[i].init(this,&cubeGLD,1);
+		power[i].setScale(Vector3(0.5,1,0.5));
+		power[i].setRadius(2);
 	}
 
 	for(int i = 0 ; i < NL::MAX_ENEMY_BULLETS; i++)
@@ -267,6 +272,9 @@ void NuclearLiberation::levelsUpdate(float dt)
 	for(int i = 0; i < NL::MAX_DROPS; i++) {
 		air[i].update(dt);
 	}
+	for(int i = 0; i < NL::MAX_DROPS; i++) {
+		power[i].update(dt);
+	}
 	for(int i = 0; i < NL::MAX_LIGHT_ENEMIES; i++)
 	{
 		enemyLight[i].update(dt);
@@ -320,6 +328,15 @@ void NuclearLiberation::collisions()
 		if(air[i].collided(&player))
 		{
 			air[i].setHealth(0);
+			break;
+		}
+
+	}
+
+	for(int i = 0; i < NL::MAX_DROPS; i++) {
+		if(power[i].collided(&player))
+		{
+			power[i].setHealth(0);
 			break;
 		}
 
@@ -437,6 +454,10 @@ void NuclearLiberation::levelsDraw()
 	for(int i = 0 ; i < NL::MAX_DROPS; i++)
 	{
 		air[i].draw(mfxWVPVar,mView,mProj,mTech);
+	}
+	for(int i = 0 ; i < NL::MAX_DROPS; i++)
+	{
+		power[i].draw(mfxWVPVar,mView,mProj,mTech);
 	}
 
 	for(int i = 0; i < NL::MAX_LIGHT_ENEMIES; i++)

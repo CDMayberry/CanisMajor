@@ -17,6 +17,8 @@ void Enemy::onDeath() {
 		default:
 			game->audio->playCue(EXP1);
 	}
-	if(rand()%5 == 0)
+	if(rand()%2 == 0)
 		game->spawnAir(getPosition(), Vector3(0,1,0));
+	if(rand()%4 == 0)
+		game->spawnPower(getPosition(), Vector3(0,-2,0));
 }
