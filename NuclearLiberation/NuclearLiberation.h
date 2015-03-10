@@ -37,13 +37,15 @@ namespace NL{
 	const int MAX_BACK = 3;
 	const int NUM_BKGD_IMGS = 4;
 	const int NUM_MENU_ITEMS = 7;//title, play, imFeelingLucky, quit, ___, howto
+	const int VICTORY_MENU_ITEMS = 3;//title, continue, quit
 };
 
 enum GameState{
 	MENU,
 	L1,
 	L2,
-	L3
+	L3,
+	VICTORY
 };
 
 class NuclearLiberation : public D3DApp{
@@ -63,9 +65,14 @@ public:
 	void menuUpdate(float dt,bool reset = false);
 	void menuDraw();
 
+	void victoryScreenLoad();
+	void victoryUpdate(float dt,bool reset = false);
+	void victoryDraw();
+
 	void clearLevel();
 	void levelsUpdate(float dt);
 	void levelsDraw();
+
 	void resetLevel();
 	void loadLevel1();
 	void loadLevel2();

@@ -208,6 +208,9 @@ void NuclearLiberation::updateScene(float dt)
 	case MENU:
 		menuUpdate(dt);
 		break;
+	case VICTORY:
+		victoryUpdate(dt);
+		break;
 	default:
 		levelsUpdate(dt);
 		break;
@@ -215,6 +218,54 @@ void NuclearLiberation::updateScene(float dt)
 	D3DXVECTOR3 pos = cameraTarget+cameraDisplacement;
 	D3DXVECTOR3 up(0.0f, 1.0f, 0.0f);
 	D3DXMatrixLookAtLH(&mView, &pos, &cameraTarget, &up);
+}
+
+void NuclearLiberation::victoryUpdate(float dt, bool reset)
+{
+	static bool isKeyDown = true;
+
+	if(reset)
+	{
+		menuChoice = 1;
+		isKeyDown = true;
+	}
+	
+	if(GetAsyncKeyState(VK_RETURN)||GetAsyncKeyState(' '))
+	{ 
+		if(!isKeyDown)
+		{
+			switch(menuChoice)
+			{
+			case 1://play
+				menuLoad();
+				break;
+			case 2:
+				PostQuitMessage(0);
+				break;
+			}
+		}
+	}
+	else if(GetAsyncKeyState('W')||GetAsyncKeyState(VK_UP))
+	{
+		if(!isKeyDown)
+		{
+			menuChoice--;
+			isKeyDown = true;
+		}
+	}
+	else if(GetAsyncKeyState('S')||GetAsyncKeyState(VK_DOWN))
+	{
+		if(!isKeyDown)
+		{
+			menuChoice++;
+			isKeyDown = true;
+		}
+	}
+	else
+		isKeyDown = false;
+
+	if(menuChoice > 2) menuChoice = 1;
+	if(menuChoice < 1) menuChoice = 2;
 }
 
 void NuclearLiberation::menuUpdate(float dt, bool reset)
@@ -234,7 +285,7 @@ void NuclearLiberation::menuUpdate(float dt, bool reset)
 			switch(menuChoice)
 			{
 			case 1://play
-				loadLevel3();
+				loadLevel1();
 				break;
 			case 2://feeling lucky
 				//TODO::SOMETHING
@@ -264,12 +315,28 @@ void NuclearLiberation::menuUpdate(float dt, bool reset)
 	else
 		isKeyDown = false;
 
-	if(menuChoice >= (NL::NUM_MENU_ITEMS)) menuChoice = 1;
-	if(menuChoice <= 0) menuChoice = NL::NUM_MENU_ITEMS-2;
+	if(menuChoice > 3) menuChoice = 1;
+	if(menuChoice < 1) menuChoice = 3;
 }
 
 void NuclearLiberation::levelsUpdate(float dt)
-{
+{	
+	if(player.getPosition().x>=worldSize.x)
+	{
+		switch(state)
+		{
+		case L1:
+			loadLevel2();
+			break;
+		case L2:
+			loadLevel3();
+			break;
+		case L3:
+			victoryScreenLoad();
+			break;
+		}
+		return;
+	}
 
 	for(int i = 0 ; i < NL::NUM_BKGD_IMGS; i++)
 		bgImg[i].update(dt);
@@ -447,11 +514,37 @@ void NuclearLiberation::drawScene()
 	case MENU:
 		menuDraw();
 		break;
+	case VICTORY:
+		victoryDraw();
+		break;
 	default:
 		levelsDraw();
 		break;
 	}
 	mSwapChain->Present(0, 0);
+}
+
+void NuclearLiberation::victoryDraw()
+{
+	for(int i = 0; i < NL::VICTORY_MENU_ITEMS; i++)
+	{
+		RECT r; //its a point because DT_NOCLIP
+		if(i==0)
+		{
+			r.right = r.left = mClientWidth*0.5;
+			r.top = r.bottom = mClientHeight*0.2;
+			
+		}
+		else
+		{
+			r.right = r.left = mClientWidth*0.5;
+			r.top = r.bottom = mClientHeight*0.4 + (i-1)*mClientHeight*0.07;
+		}
+		if(menuChoice == i)
+			mFont->DrawText(0,menuText[i].c_str(),-1,&r,DT_NOCLIP|DT_CENTER,RED);
+		else
+			mFont->DrawText(0,menuText[i].c_str(),-1,&r,DT_NOCLIP|DT_CENTER,WHITE);
+	}
 }
 
 void NuclearLiberation::menuDraw()
@@ -732,6 +825,17 @@ void NuclearLiberation::clearLevel()
 		air[i].isActive=power[i].isActive=shield[i].isActive=false;
 }
 
+void NuclearLiberation::victoryScreenLoad()
+{
+	state = GameState::VICTORY;
+	clearLevel();
+	victoryUpdate(0,true);
+
+	menuText[0] = L"VICTORY";
+	menuText[1] = L"CONTINUE";
+	menuText[2] = L"QUIT";
+}
+
 void NuclearLiberation::menuLoad()
 {
 	state = GameState::MENU;
@@ -756,9 +860,8 @@ void NuclearLiberation::loadLevel1()
 	player.setPosition(Vector3(25,100,0));
 	invisibleWallLocation = 0;
 	cameraTarget = player.getPosition();
-	player.refillAir();
+	player.refresh();
 	initBackground();
-	player.isActive = true;
 	placeFinishLine();
 	placeEnemyBoats(20);
 	int which = 0;
@@ -783,7 +886,7 @@ void NuclearLiberation::loadLevel1()
 
 void NuclearLiberation::loadLevel2()
 {
-		audio->stopCue(PEXP);
+	audio->stopCue(PEXP);
 	state = GameState::L2;
 	clearLevel();
 	worldSize = Vector3(700,250,0);
@@ -980,7 +1083,7 @@ void NuclearLiberation::spawnAllWallsOnMap()
 void NuclearLiberation::placeFinishLine()
 {
 	finishLine.setScale(Vector3(5,worldSize.y,1));
-	finishLine.setPosition(Vector3(worldSize.x,worldSize.y/2,10));
+	finishLine.setPosition(Vector3(worldSize.x,worldSize.y/2,3));
 	finishLine.isActive = true;
 }
 

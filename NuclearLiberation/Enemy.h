@@ -12,9 +12,12 @@ namespace EnemyNS{
 class Enemy: public virtual Actor
 {
 public:
-	Enemy():Actor(){playerSeen=false;cooldown=0;MAX_HEALTH = 100.0f; health = MAX_HEALTH; }
+	Enemy():Actor(){playerSeen=false;cooldown=0;MAX_HEALTH = 100.0f; health = MAX_HEALTH; MOVEMENT_SPEED = EnemyNS::SPEED_BASE;}
+	virtual void update(float dt);
 	void onDeath();
+	virtual void Fire() = 0;
 protected:
+	float MOVEMENT_SPEED;
 	float cooldown;
 	bool playerSeen;
 };
