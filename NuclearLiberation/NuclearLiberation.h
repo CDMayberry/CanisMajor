@@ -73,10 +73,10 @@ public:
 	void levelsUpdate(float dt);
 	void levelsDraw();
 
+	void resetLevel();
 	void loadLevel1();
 	void loadLevel2();
 	void loadLevel3();
-
 	GameState state;
 	
 	void spawnBullet(Vector3 pos, Vector3 vel,float scale = 0.5);

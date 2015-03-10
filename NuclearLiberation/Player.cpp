@@ -21,7 +21,7 @@ void Player::init(NuclearLiberation*game,Geometry *hull, Geometry *point, Geomet
 	fireCounter = 0;
 	drowning = false;
 	shieldActive=false;
-	
+	lives = 3;
 }
 
 void Player::draw(ID3D10EffectMatrixVariable* fx, Matrix& camera, Matrix& projection, ID3D10EffectTechnique* mTech)
