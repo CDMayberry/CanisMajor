@@ -29,7 +29,7 @@ NuclearLiberation::NuclearLiberation(HINSTANCE hInstance)
 	invisibleWallLocation = 0;
 
 	playerBullets = new Bullet[NL::MAX_PLAYER_BULLETS];
-	drops = new Drop[NL::MAX_DROPS];
+	air = new Air[NL::MAX_DROPS];
 	walls = new Wall[NL::MAX_WALLS];
 	enemyBullets = new Bullet[NL::MAX_ENEMY_BULLETS];
 	enemyLight = new EnemyLight[NL::MAX_LIGHT_ENEMIES];
@@ -46,7 +46,7 @@ NuclearLiberation::~NuclearLiberation()
 	ReleaseCOM(mVertexLayout);
 
 	delete [] playerBullets;
-	delete [] drops;
+	delete [] air;
 	delete [] walls;
 	delete [] enemyBullets;
 	delete [] enemyLight;
@@ -72,7 +72,7 @@ void NuclearLiberation::initApp()
 	cubeR.init(md3dDevice,RED);
 	cubeY.init(md3dDevice,DARKGRAY);
 	cubeW.init(md3dDevice,WHITE);
-	cubeGLD.init(md3dDevice,GOLD);
+	cubeLGRY.init(md3dDevice,LTEGRAY);
 
 	//Inititilizes the background colors for the level.
 	//The magic numbers are x and y locations. All x's are -20
@@ -106,9 +106,9 @@ void NuclearLiberation::initApp()
 
 	for(int i = 0 ; i < NL::MAX_DROPS; i++)
 	{
-		drops[i].init(this,&cubeGLD,1);
-		drops[i].setScale(Vector3(0.25,0.5,0.25));
-		drops[i].setRadius(.5);
+		air[i].init(this,&cubeLGRY,1);
+		air[i].setScale(Vector3(0.5,1,0.5));
+		air[i].setRadius(.75);
 	}
 
 	for(int i = 0 ; i < NL::MAX_ENEMY_BULLETS; i++)
@@ -262,6 +262,9 @@ void NuclearLiberation::levelsUpdate(float dt)
 	{
 		walls[i].update(dt);
 	}
+	for(int i = 0; i < NL::MAX_DROPS; i++) {
+		air[i].update(dt);
+	}
 	for(int i = 0; i < NL::MAX_LIGHT_ENEMIES; i++)
 	{
 		enemyLight[i].update(dt);
@@ -309,6 +312,15 @@ void NuclearLiberation::collisions()
 			//onPlayerDeath(); //Actor has a new onDeath class, use it.
 			break;
 		}
+	}
+
+	for(int i = 0; i < NL::MAX_DROPS; i++) {
+		if(air[i].collided(&player))
+		{
+			air[i].setHealth(0);
+			break;
+		}
+
 	}
 
 	for (int i = 0; i<NL::MAX_PLAYER_BULLETS;i++){
@@ -420,6 +432,10 @@ void NuclearLiberation::levelsDraw()
 	{
 		walls[i].draw(mfxWVPVar,mView,mProj,mTech);
 	}
+	for(int i = 0 ; i < NL::MAX_DROPS; i++)
+	{
+		air[i].draw(mfxWVPVar,mView,mProj,mTech);
+	}
 
 	for(int i = 0; i < NL::MAX_LIGHT_ENEMIES; i++)
 	{
@@ -508,14 +524,14 @@ void NuclearLiberation::spawnEnemyBullet(Vector3 pos, Vector3 vel)
 	}
 }
 
-void NuclearLiberation::spawnDrop(Vector3 pos, Vector3 vel)
+void NuclearLiberation::spawnAir(Vector3 pos, Vector3 vel)
 {
 	for(int i = 0; i<NL::MAX_DROPS; i++)
 	{
-		if(!drops[i].isActive)
+		if(!air[i].isActive)
 		{
-			drops[i].create(pos);
-			drops[i].setVelocity(vel);
+			air[i].create(pos);
+			air[i].setVelocity(vel);
 			break;
 		}
 	}

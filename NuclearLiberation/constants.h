@@ -30,6 +30,7 @@ const char EXP2[] = "exp2";
 const char EXP3[] = "exp3";
 const char PEXP[] = "expPlayer";
 const char DROWN[] = "drown";
-
+const char COIN[] = "coin";
+const char BUB[] = "bubble";
 
 #endif

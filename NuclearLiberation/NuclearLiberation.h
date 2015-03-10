@@ -12,7 +12,8 @@
 #include "EnemyLight.h"
 #include "EnemyHeavy.h"
 #include "EnemySplit.h"
-#include "Drop.h"
+#include "Air.h"
+//#include "Power.h"
 #include "Origin.h"
 #include <d3dx9math.h>
 
@@ -66,7 +67,8 @@ public:
 	GameState state;
 	
 	void spawnBullet(Vector3 pos, Vector3 vel,float scale = 0.5);
-	void spawnDrop(Vector3 pos, Vector3 vel);
+	void spawnAir(Vector3 pos, Vector3 vel);
+	void spawnPower(Vector3 pos, Vector3 vel);
 	void spawnEnemyBullet(Vector3 pos, Vector3 vel);
 	void spawnLightEnemy(Vector3 pos);
 	void spawnHeavyEnemy(Vector3 pos);
@@ -109,7 +111,7 @@ protected:
 	Vector3 cameraTarget, cameraPositon, cameraUp;
 
 	//geometry
-	Cube cubeG,cubeR,cubeY,cubeW, cubeGLD;
+	Cube cubeG,cubeR,cubeY,cubeW, cubeLGRY;
 	Line lineX, lineY, lineZ;
 	Quad quadLtBlue;
 	Quad bgQuad[NL::NUM_BKGD_IMGS];
@@ -117,7 +119,7 @@ protected:
 
 	//game objects
 	Bullet* playerBullets;
-	Drop* drops;
+	Air* air;
 	Wall* walls;
 	
 	Bullet* enemyBullets;

@@ -14,6 +14,9 @@ class Drop : public virtual Actor
 public:
 	void init(NuclearLiberation* game,Geometry *b, float r){Actor::init(game,b,r); setScale(Vector3(dropNS::SCALE_X,dropNS::SCALE_Y,dropNS::SCALE_Z)); despawner = dropNS::despawnTime;}
 	void update(float dt);
-private:
+	virtual void onDeath();
+	virtual void pickUp();
+	virtual void create(Vector3 pos);
+protected:
 	float despawner;
 };
