@@ -13,7 +13,7 @@ namespace EnemyLightNS{
 class EnemyLight: public virtual Enemy
 {
 public:
-	EnemyLight():Enemy(){MAX_HEALTH = 50.0f; health = MAX_HEALTH; }
+	EnemyLight():Enemy(){MAX_HEALTH = 50.0f; health = MAX_HEALTH;  MOVEMENT_SPEED = EnemyNS::SPEED_BASE + EnemyLightNS::SPEED_BUFF;}
 	void Fire();
 private:
 };
