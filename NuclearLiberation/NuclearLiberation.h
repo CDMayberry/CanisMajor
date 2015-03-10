@@ -23,7 +23,7 @@ namespace NL{
 
 	const int MAX_PLAYER_BULLETS = 500;
 	const int MAX_ENEMY_BULLETS = 5000;
-	const int MAX_WALLS = 4000;
+	const int MAX_WALLS = 7000;
 	const int MAX_LIGHT_ENEMIES = 500;
 	const int MAX_HEAVY_ENEMIES = 500;
 	const int MAX_SPLIT_ENEMEIS = 500;
@@ -65,6 +65,8 @@ public:
 	void levelsUpdate(float dt);
 	void levelsDraw();
 	void loadLevel1();
+	void loadLevel2();
+	void loadLevel3();
 
 	GameState state;
 	

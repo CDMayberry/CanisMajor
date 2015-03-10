@@ -226,7 +226,7 @@ void NuclearLiberation::menuUpdate(float dt, bool reset)
 			switch(menuChoice)
 			{
 			case 1://play
-				loadLevel1();
+				loadLevel3();
 				break;
 			case 2://feeling lucky
 				//TODO::SOMETHING
@@ -738,11 +738,79 @@ void NuclearLiberation::loadLevel1()
 		
 		which++;
 	}
-
-
 	
 	spawnAllWallsOnMap();
 	
+}
+
+void NuclearLiberation::loadLevel2()
+{
+		audio->stopCue(PEXP);
+	state = GameState::L2;
+	clearLevel();
+	worldSize = Vector3(700,250,0);
+	player.setPosition(Vector3(25,100,0));
+	invisibleWallLocation = 0;
+	cameraTarget = player.getPosition();
+	player.refillAir();
+	initBackground();
+	player.isActive = true;
+	placeFinishLine();
+	int which = 0;
+	for(int i = 50; i < 500; i+=100)
+	{
+		switch(which%3)
+		{
+		case 0:
+			spawnLightEnemy(Vector3(i+15,30*sin(2*PI*i/50)+50,0));
+			break;
+		case 1:
+			spawnHeavyEnemy(Vector3(i+15,30*cos(2*PI*i/50)+50,0));
+			break;
+		case 2:
+			spawnSplitEnemy(Vector3(i+10, 30*tan(2*PI*i/50)+50,0), 1);
+			break;
+		}
+		
+		which++;
+	}
+	
+	spawnAllWallsOnMap();
+}
+
+void NuclearLiberation::loadLevel3()
+{
+	audio->stopCue(PEXP);
+	state = GameState::L3;
+	clearLevel();
+	worldSize = Vector3(1000,400,0);
+	player.setPosition(Vector3(25,100,0));
+	invisibleWallLocation = 0;
+	cameraTarget = player.getPosition();
+	player.refillAir();
+	initBackground();
+	player.isActive = true;
+	placeFinishLine();
+	int which = 0;
+	for(int i = 50; i < 500; i+=100)
+	{
+		switch(which%3)
+		{
+		case 0:
+			spawnLightEnemy(Vector3(i+15,30*sin(2*PI*i/50)+50,0));
+			break;
+		case 1:
+			spawnHeavyEnemy(Vector3(i+15,30*cos(2*PI*i/50)+50,0));
+			break;
+		case 2:
+			spawnSplitEnemy(Vector3(i+10, 30*tan(2*PI*i/50)+50,0), 1);
+			break;
+		}
+
+		which++;
+	}
+
+	spawnAllWallsOnMap();
 }
 
 void NuclearLiberation::onPlayerDeath()
@@ -760,13 +828,33 @@ float NuclearLiberation::getFloor(float x)
 		return 0;
 		break;
 	case L1:
-		return 5*(sin(2*PI*x/150.0)+2)+30;
+		if(x >= 150 && x < 275)
+			return 30+(x-150);
+		else if(x >= 275 && x < 400)
+			return 155-(x-275);
+		else
+			return 5*(sin(2*PI*x/150.0)+2)+30;
 		break;
 	case L2:
-		return 0;
+		if(x >= 325 && x < 450)
+			return 35+(x-325);
+		else if(x >= 450 && x < 575)
+			return 160 -(x-450);
+		return 5*(sin(2*PI*x/150.0)+2)+30;
 		break;
 	case L3:
-		return 0;
+		if(x >=0 && x < 200)
+			return 30 + x;
+		else if(x >=200 && x<400)
+			return 230 -(x-200);
+		else if(x >= 425 && x < 550)
+			return 30+1.5*(x -425);
+		else if(x >= 550 && x < 675)
+			return 217.5 -1.5*(x-550);
+		else if(x >= 850)
+			return 30 + (x-850);
+		else
+			return 5*(sin(2*PI*x/150.0)+2)+30;
 		break;
 	default:
 		return 0;
@@ -790,10 +878,24 @@ float NuclearLiberation::getCeiling(float x)
 			return worldSize.y;
 		break;
 	case L2:
-		return worldSize.y;
+		if(x >= 0 && x < 175)
+			return worldSize.y-x;
+		else if(x >= 175 && x < 350)
+			return worldSize.y-175+(x-175);
+		else if(x >=600)
+			return worldSize.y -(x-600);
+		else
+			return worldSize.y;
 		break;
 	case L3:
-		return worldSize.y;
+		if(x >= 150 && x < 400)
+			return worldSize.y -(x-150);
+		else if(x >= 400 && x < 650)
+			return worldSize.y - 250 + (x -400);
+		else if(x >= 850)
+			return worldSize.y -(x-850);
+		else
+			return worldSize.y;
 		break;
 	default:
 		return worldSize.y;
