@@ -31,7 +31,7 @@ NuclearLiberation::NuclearLiberation(HINSTANCE hInstance)
 	playerBullets = new Bullet[NL::MAX_PLAYER_BULLETS];
 	air = new Air[NL::MAX_DROPS];
 	power = new Power[NL::MAX_DROPS];
-	points = new Points[NL::MAX_DROPS];
+	shield = new Shield[NL::MAX_DROPS];
 	walls = new Wall[NL::MAX_WALLS];
 	enemyBullets = new Bullet[NL::MAX_ENEMY_BULLETS];
 	enemyLight = new EnemyLight[NL::MAX_LIGHT_ENEMIES];
@@ -50,7 +50,7 @@ NuclearLiberation::~NuclearLiberation()
 	delete [] playerBullets;
 	delete [] air;
 	delete [] power;
-	delete [] points;
+	delete [] shield;
 	delete [] walls;
 	delete [] enemyBullets;
 	delete [] enemyLight;
@@ -79,7 +79,7 @@ void NuclearLiberation::initApp()
 	cubeGLD.init(md3dDevice,GOLD);
 	cubeLGRY.init(md3dDevice,LTEGRAY);
 	whiteCoin.init(md3dDevice,WHITE);
-	goldCoin.init(md3dDevice,GOLD);
+	greenCoin.init(md3dDevice,GREEN);
 	cyanCoin.init(md3dDevice,CYAN);
 
 	//Inititilizes the background colors for the level.
@@ -118,13 +118,13 @@ void NuclearLiberation::initApp()
 		air[i].setScale(Vector3(1,1,1));
 		air[i].setRadius(2);
 
-		power[i].init(this,&goldCoin,1);
+		power[i].init(this,&greenCoin,1);
 		power[i].setScale(Vector3(1,1,1));
 		power[i].setRadius(2);
 
-		points[i].init(this,&cyanCoin,1);
-		points[i].setScale(Vector3(1,1,1));
-		points[i].setRadius(2);
+		shield[i].init(this,&cyanCoin,1);
+		shield[i].setScale(Vector3(1,1,1));
+		shield[i].setRadius(2);
 	}
 
 	for(int i = 0 ; i < NL::MAX_ENEMY_BULLETS; i++)
@@ -281,7 +281,7 @@ void NuclearLiberation::levelsUpdate(float dt)
 	for(int i = 0; i < NL::MAX_DROPS; i++) {
 		air[i].update(dt);
 		power[i].update(dt);				//Making it easier unless we require them to be different sizes
-		points[i].update(dt);
+		shield[i].update(dt);
 	}
 	for(int i = 0; i < NL::MAX_LIGHT_ENEMIES; i++)
 	{
@@ -342,9 +342,9 @@ void NuclearLiberation::collisions()
 	}
 
 	for(int i = 0; i < NL::MAX_DROPS; i++) {
-		if(points[i].collided(&player))
+		if(shield[i].collided(&player))
 		{
-			points[i].setHealth(0);
+			shield[i].setHealth(0);
 			break;
 		}
 
@@ -479,7 +479,7 @@ void NuclearLiberation::levelsDraw()
 
 	for(int i = 0 ; i < NL::MAX_DROPS; i++)
 	{
-		points[i].draw(mfxWVPVar,mView,mProj,mTech);
+		shield[i].draw(mfxWVPVar,mView,mProj,mTech);
 	}
 
 	for(int i = 0; i < NL::MAX_LIGHT_ENEMIES; i++)
@@ -595,14 +595,14 @@ void NuclearLiberation::spawnPower(Vector3 pos, Vector3 vel)
 	}
 }
 
-void NuclearLiberation::spawnPoints(Vector3 pos, Vector3 vel)
+void NuclearLiberation::spawnShield(Vector3 pos, Vector3 vel)
 {
 	for(int i = 0; i<NL::MAX_DROPS; i++)
 	{
-		if(!points[i].isActive)
+		if(!shield[i].isActive)
 		{
-			points[i].create(pos);
-			points[i].setVelocity(vel);
+			shield[i].create(pos);
+			shield[i].setVelocity(vel);
 			break;
 		}
 	}
