@@ -7,6 +7,9 @@ namespace EnemyNS{
 	const float FIRE_RATE_BASE = 1;
 	const float FIRE_CHANCE_BASE = 50;
 	const float ACTIVATION_RANGE_BASE = 100;
+	const float SHL_RATE = 75;
+	const float AIR_RATE = 100;
+	const float POW_RATE = 75;
 };
 
 class Enemy: public virtual Actor
