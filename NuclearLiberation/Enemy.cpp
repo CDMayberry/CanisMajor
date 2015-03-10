@@ -61,27 +61,27 @@ void Enemy::onDeath() {
 		game->audio->playCue(EXP1);
 		if(rand()%100 <= h*100 && flip)
 			game->spawnAir(getPosition(), Vector3(0,1,0));
-		else if(rand()%100 == h*100 && flip)
+		else if(rand()%100 <= h*75 && flip)
 			game->spawnShield(getPosition(), Vector3(0,0,0));
-		else if(rand()%100 == h*100 && flip)
+		else if(rand()%100 <= h*50 && flip)
 			game->spawnPower(getPosition(), Vector3(0,-2,0));
 		break;
 	case 2:
 		game->audio->playCue(EXP2);
-		if(rand()%100 <= h*100 && flip)
+		if(rand()%100 <= h*50 && flip)
 			game->spawnPower(getPosition(), Vector3(0,1,0));
-		else if(rand()%100 == h*100 && flip)
+		else if(rand()%100 <= h*100 && flip)
 			game->spawnAir(getPosition(), Vector3(0,0,0));
-		else if(rand()%100 == h*100 && flip)
+		else if(rand()%100 <= h*75 && flip)
 			game->spawnShield(getPosition(), Vector3(0,-2,0));
 		break;
 	case 3:
 		game->audio->playCue(EXP3);
-		if(rand()%100 <= h*100 && flip)
+		if(rand()%100 <= h*75 && flip)
 			game->spawnShield(getPosition(), Vector3(0,1,0));
-		else if(rand()%100 == h*100 && flip)
+		else if(rand()%100 <= h*50 && flip)
 			game->spawnPower(getPosition(), Vector3(0,0,0));
-		else if(rand()%100 == h*100 && flip)
+		else if(rand()%100 <= h*100 && flip)
 			game->spawnAir(getPosition(), Vector3(0,-2,0));
 		break;
 	default:
