@@ -209,7 +209,7 @@ void NuclearLiberation::updateScene(float dt)
 		menuUpdate(dt);
 		break;
 	case VICTORY:
-		victoryUpdate(dt);
+		splashUpdate(dt);
 		break;
 	default:
 		levelsUpdate(dt);
@@ -220,7 +220,7 @@ void NuclearLiberation::updateScene(float dt)
 	D3DXMatrixLookAtLH(&mView, &pos, &cameraTarget, &up);
 }
 
-void NuclearLiberation::victoryUpdate(float dt, bool reset)
+void NuclearLiberation::splashUpdate(float dt, bool reset)
 {
 	static bool isKeyDown = true;
 
@@ -332,7 +332,7 @@ void NuclearLiberation::levelsUpdate(float dt)
 			loadLevel3();
 			break;
 		case L3:
-			victoryScreenLoad();
+			loadSplashScreen(true);
 			break;
 		}
 		return;
@@ -515,7 +515,7 @@ void NuclearLiberation::drawScene()
 		menuDraw();
 		break;
 	case VICTORY:
-		victoryDraw();
+		splashDraw();
 		break;
 	default:
 		levelsDraw();
@@ -524,9 +524,9 @@ void NuclearLiberation::drawScene()
 	mSwapChain->Present(0, 0);
 }
 
-void NuclearLiberation::victoryDraw()
+void NuclearLiberation::splashDraw()
 {
-	for(int i = 0; i < NL::VICTORY_MENU_ITEMS; i++)
+	for(int i = 0; i < NL::NUM_SPLASH_MENU_ITEMS; i++)
 	{
 		RECT r; //its a point because DT_NOCLIP
 		if(i==0)
@@ -832,13 +832,16 @@ void NuclearLiberation::clearLevel()
 		air[i].isActive=power[i].isActive=shield[i].isActive=false;
 }
 
-void NuclearLiberation::victoryScreenLoad()
+void NuclearLiberation::loadSplashScreen(bool status)
 {
 	state = GameState::VICTORY;
 	clearLevel();
-	victoryUpdate(0,true);
+	splashUpdate(0,true);
 
-	menuText[0] = L"VICTORY";
+	if(status)
+		menuText[0] = L"VICTORY";
+	else
+		menuText[0] = L"DEFEAT";
 	menuText[1] = L"CONTINUE";
 	menuText[2] = L"QUIT";
 }
@@ -988,7 +991,7 @@ void NuclearLiberation::onPlayerDeath()
 	}
 	else {
 		player.resetAll();
-		menuLoad();
+		loadSplashScreen(false);
 	}
 }
 
