@@ -185,7 +185,7 @@ void NuclearLiberation::initBackground()
 	for(int i = 0 ; i < NL::NUM_BKGD_IMGS; i++)
 	{
 		bgImg[i].init(this,&bgQuad[i],1);
-		bgImg[i].setPosition(Vector3(worldSize.x/2,(2*i+1)*halfHeight,15));//set in middle, place behind everything
+		bgImg[i].setPosition(Vector3(worldSize.x/2,(2*i+1)*halfHeight,5));//set in middle, place behind everything
 		bgImg[i].setScale(Vector3(2*worldSize.x,2*halfHeight,1));
 		bgImg[i].isActive = true;
 	}

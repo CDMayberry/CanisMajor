@@ -11,10 +11,10 @@ void EnemyBoat::update(float dt)
 		Vector3 diffToPlayer = game->player.getPosition()-getPosition();
 		if(cooldown==0 && Length(&diffToPlayer)<ACTIVATION_RANGE)
 		{
-			if(game->player.getPosition().y == game->worldSize.y)
+			if(game->player.getPosition().y > game->worldSize.y-5)
 			{
-				float sign = (diffToPlayer.x > 0? 1:-1);
-				game->spawnEnemyBullet(getPosition(),Vector3(sign*BULLET_SPEED,0,0));
+				Normalize(&diffToPlayer,&diffToPlayer);
+				game->spawnEnemyBullet(getPosition(),diffToPlayer*BULLET_SPEED);
 			}
 			game->spawnEnemyBullet(getPosition(),Vector3(0,-BULLET_SPEED,0));
 			cooldown=COOLDOWN;
