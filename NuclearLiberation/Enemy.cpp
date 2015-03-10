@@ -69,20 +69,20 @@ void Enemy::onDeath() {
 	case 2:
 		game->audio->playCue(EXP2);
 		if(rand()%100 <= h*POW_RATE && flip)
-			game->spawnPower(getPosition(), Vector3(0,1,0));
+			game->spawnPower(getPosition(), Vector3(0,-2,0));
 		else if(rand()%100 <= h*AIR_RATE && flip)
-			game->spawnAir(getPosition(), Vector3(0,0,0));
+			game->spawnAir(getPosition(), Vector3(0,1,0));
 		else if(rand()%100 <= h*SHL_RATE && flip)
-			game->spawnShield(getPosition(), Vector3(0,-2,0));
+			game->spawnShield(getPosition(), Vector3(0,1,0));
 		break;
 	case 3:
 		game->audio->playCue(EXP3);
 		if(rand()%100 <= h*SHL_RATE && flip)
-			game->spawnShield(getPosition(), Vector3(0,1,0));
+			game->spawnShield(getPosition(), Vector3(0,0,0));
 		else if(rand()%100 <= h*POW_RATE && flip)
-			game->spawnPower(getPosition(), Vector3(0,0,0));
+			game->spawnPower(getPosition(), Vector3(0,-2,0));
 		else if(rand()%100 <= h*AIR_RATE && flip)
-			game->spawnAir(getPosition(), Vector3(0,-2,0));
+			game->spawnAir(getPosition(), Vector3(0,1,0));
 		break;
 	default:
 		game->audio->playCue(EXP1);
