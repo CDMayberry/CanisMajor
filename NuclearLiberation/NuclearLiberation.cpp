@@ -177,6 +177,7 @@ void NuclearLiberation::initApp()
 	buildFX();
 	buildVertexLayouts();
 	menuLoad();
+	audio->playCue(BACKGROUND);
 }
 
 void NuclearLiberation::initBackground()
@@ -485,7 +486,10 @@ void NuclearLiberation::collisions()
 						spawnSplitEnemy(enemySplit[j].getPosition()+D3DXVECTOR3(3,3,3), 3);
 					}
 					else if(enemySplit[j].getHealth() <= 25)
+					{
 						enemySplit[j].isActive = false;
+						enemySplit[i].onDeath();
+					}
 					playerBullets[i].isActive = false;
 					break;
 				}

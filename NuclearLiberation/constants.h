@@ -35,5 +35,6 @@ const char BUB[] = "bubble";
 const char COCK[] = "power";
 const char SHIELD[] = "shield";
 const char BLOCK[] = "block";
+const char BACKGROUND[] = "background";
 
 #endif
