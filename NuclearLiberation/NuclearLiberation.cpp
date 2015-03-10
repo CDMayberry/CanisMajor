@@ -461,7 +461,7 @@ void NuclearLiberation::collisions()
 			}
 			for (int j = 0;j<NL::MAX_LIGHT_ENEMIES;j++){
 				if (enemyLight[j].collided(&playerBullets[i])){
-					enemyLight[j].setHealth(enemyLight[j].getHealth() - bulletNS::DAMAGE);
+    					enemyLight[j].setHealth(enemyLight[j].getHealth() - bulletNS::DAMAGE);
 					playerBullets[i].isActive = false;
 					break;
 				}

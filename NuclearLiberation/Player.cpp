@@ -21,6 +21,7 @@ void Player::init(NuclearLiberation*game,Geometry *hull, Geometry *point, Geomet
 	fireCounter = 0;
 	drowning = false;
 	shieldActive=false;
+	airAudio = false;
 	lives = 3;
 }
 
@@ -37,7 +38,7 @@ void Player::update(float dt)
 {
 	if(isActive)
 	{
-				airLevel = max(airLevel-dt,0);
+		airLevel = max(airLevel-dt,0);
 		weaponCooldown=max(weaponCooldown-dt,0);
 
 		Vector3 pos = getPosition();
@@ -50,8 +51,12 @@ void Player::update(float dt)
 		hitBoxIndicatior.setPosition(pos);
 		pos.z+=getScale().z+0.01;
 		shieldIndicator.setPosition(pos);
-		if(getPosition().y == game->worldSize.y) 
+		if(getPosition().y == game->worldSize.y) {
 			refillAir();
+			airAudio = true;
+		}
+		else
+			airAudio = false;
 
 		if(airLevel < 14 && drowning == false) {
 			game->audio->playCue(DROWN);
@@ -145,6 +150,8 @@ void Player::update(float dt)
 
 void Player::refillAir() {
 	airLevel = playerNS::MAX_AIR; 
+	if(!airAudio)
+		game->audio->playCue(BUB);
 	game->audio->stopCue(DROWN); 
 	drowning = false;
 }
