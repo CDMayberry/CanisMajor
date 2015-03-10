@@ -219,8 +219,10 @@ void Player::fireBullets()
 }
 
 void Player::takeDamage(){
-	if(shieldActive)
+	if(shieldActive) {
 		shieldActive=false;
+		game->audio->playCue(BLOCK);
+	}
 	else
 		game->onPlayerDeath();
 }
