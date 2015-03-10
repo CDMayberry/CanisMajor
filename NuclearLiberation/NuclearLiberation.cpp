@@ -856,6 +856,12 @@ void NuclearLiberation::resetLevel() {
 	case L1:
 		loadLevel1();
 		break;
+	case L2:
+		loadLevel2();
+		break;
+	case L3:
+		loadLevel3();
+		break;
 	default:
 		menuLoad();
 		break;
