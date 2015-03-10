@@ -36,6 +36,15 @@ void Enemy::update(float dt)
             }
         }
         
+		if( game->getFloor(getPosition().x) >
+			getPosition().y){
+			position.y = game->getFloor(position.x);
+		}
+		else if (game->getCeiling(getPosition().x) < getPosition().y){
+			position.y = game->getCeiling(position.x);
+		}
+			
+
         Actor::update(dt);
     }
 
