@@ -22,6 +22,8 @@ void EnemyBoat::update(float dt)
 	}
 }
 
+void EnemyBoat::Fire(){}
+
 void EnemyBoat::create(Vector3 pos)
 {
 	Enemy::create(pos);

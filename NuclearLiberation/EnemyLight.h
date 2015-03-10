@@ -2,7 +2,7 @@
 #include "Enemy.H"
 
 namespace EnemyLightNS{
-	const float SPEED_BUFF = 10;
+	const float SPEED_BUFF = -30;
 	const float BULLET_SPEED_BUFF = -20;
 	const float FIRE_RATE_BUFF = 0;
 	const float FIRE_CHANCE_BUFF = 10;
@@ -14,6 +14,6 @@ class EnemyLight: public virtual Enemy
 {
 public:
 	EnemyLight():Enemy(){MAX_HEALTH = 50.0f; health = MAX_HEALTH; }
-	void update(float dt);
+	void Fire();
 private:
 };
