@@ -21,10 +21,21 @@ void Player::update(float dt)
 	bool inWall = false;
 	if(isActive)
 	{
-		oldPos = getPosition();
+		
 		Actor::update(dt);
 
 		airLevel = max(airLevel-dt,0);
+		weaponCooldown=max(weaponCooldown-dt,0);
+
+		Vector3 pos = getPosition();
+		pos.y=min(pos.y,game->getCeiling(pos.x));
+		pos.y=max(pos.y,game->getFloor(pos.x));
+		pos.x=min(pos.x,game->worldSize.x);
+
+		setPosition(pos);
+
+		if(getPosition().y == game->worldSize.y) 
+			refillAir();
 
 		if(airLevel < 14 && drowning == false) {
 			game->audio->playCue(DROWN);
@@ -38,56 +49,17 @@ void Player::update(float dt)
 			return;
 		}
 
-		float theta = 20;
-		float y = 0.0f;
-		float x = max(min(position.x,game->worldSize.x),game->minPlayerPosition);
-		if(game->inGap())
-			y = position.y;
-		else if(position.y > -0.6*x + 390+wallNS::WALL_SCALE)
-			y = (game->ceiling(x));
-		else
-			y = (game->floor(x));
-		
-
-		position.x = x;
-		position.y = y;
-
-		if(y == game->worldSize.y) 
-			refillAir();
-
-		int iter = oldPos.x;
-
-		while(iter < position.x + wallNS::WALL_SCALE)
-		{
-			if(topDef(iter)-position.y > 47 && topDef(iter)-position.y < 70 && !game->inGap())
-			{
-				position = oldPos;
-				break;
-			}
-
-			iter++;
-		}
-
-		inWall = false;
-
-		setPosition(position);
-
-		weaponCooldown=max(weaponCooldown-dt,0);
-		
-		
-
 		input*=0;
 
-		bool inputRotation = false;
 		bool inputThisFrame = false;
 		if(GetAsyncKeyState(controls.up))
 		{
-			inputThisFrame = inputRotation = true;
+			inputThisFrame = true;
 			input.y+=1;
 		}
 		if(GetAsyncKeyState(controls.down))
 		{
-			inputThisFrame = inputRotation = true;
+			inputThisFrame = true;
 			input.y+=-1;
 		}
 		if(GetAsyncKeyState(controls.left))
@@ -116,8 +88,6 @@ void Player::update(float dt)
 		
 
 		Normalize(&input,&input);	
-
-		//velocity = input * MAX_SPEED;
 		
 		if(inputThisFrame)
 		{
@@ -131,6 +101,7 @@ void Player::update(float dt)
 			velocity*=speed;
 		}
 
+
 		Vector3 rot = getRotation();
 
 		float goal = MAX_ROTATION_ANGLE*input.y;
@@ -143,28 +114,19 @@ void Player::update(float dt)
 
 		setRotation(rot);
 
-		Matrix rotTemp;
-		Identity(&rotTemp);
-		D3DXMatrixRotationZ(&rotTemp,rot.z);
+		//Matrix rotTemp;
+		//Identity(&rotTemp);
+		//D3DXMatrixRotationZ(&rotTemp,rot.z);
 
 		if(weaponCooldown==0 && GetAsyncKeyState(controls.fire))
 		{
 			fireBullets();
 		}
+
+		
 	}
 }
 
-float Player::topDef(float x)
-{
-	float y = 5*(sin(2*PI*x/150.0)+2)+90;
-	return y;
-}
-
-float Player::bottomWall(float x)
-{
-	float y = 5*(sin(2*PI*x/150.0)+2)+30;
-	return y;
-}
 
 void Player::refillAir() {
 	airLevel = playerNS::MAX_AIR; 

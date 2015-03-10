@@ -26,7 +26,7 @@ NuclearLiberation::NuclearLiberation(HINSTANCE hInstance)
 	D3DXMatrixIdentity(&mView);
 	D3DXMatrixIdentity(&mProj);
 
-	minPlayerPosition = 0;
+	invisibleWallLocation = 0;
 
 	playerBullets = new Bullet[NL::MAX_PLAYER_BULLETS];
 	drops = new Drop[NL::MAX_DROPS];
@@ -80,7 +80,7 @@ void NuclearLiberation::initApp()
 	bgQuad[0].init(md3dDevice,BLACK,DARKBLUE);
 	bgQuad[1].init(md3dDevice,DARKBLUE,DARKISHBLUE);
 	bgQuad[2].init(md3dDevice,DARKISHBLUE,SURFACEBLUE);
-	bgQuad[3].init(md3dDevice,WHITE,YELLOW);
+	bgQuad[3].init(md3dDevice,GOLD,BLACK);
 
 	initBackground();
 	
@@ -196,18 +196,21 @@ void NuclearLiberation::menuUpdate(float dt, bool reset)
 	}
 	
 	if(GetAsyncKeyState(VK_RETURN)||GetAsyncKeyState(' '))
-	{
-		switch(menuChoice)
+	{ 
+		if(!isKeyDown)
 		{
-		case 1://play
-			loadLevel1();
-			break;
-		case 2://feeling lucky
-			//TODO::SOMETHING
-			break;
-		case 3://quit
-			PostQuitMessage(0);
-			break;
+			switch(menuChoice)
+			{
+			case 1://play
+				loadLevel1();
+				break;
+			case 2://feeling lucky
+				//TODO::SOMETHING
+				break;
+			case 3://quit
+				PostQuitMessage(0);
+				break;
+			}
 		}
 	}
 	else if(GetAsyncKeyState('W')||GetAsyncKeyState(VK_UP))
@@ -247,9 +250,9 @@ void NuclearLiberation::levelsUpdate(float dt)
 	airBar.update(dt);
 
 	//ADVANCE INVISIBLE WALL
-	minPlayerPosition= min(minPlayerPosition+NL::MIN_SCROLL_SPEED*dt,worldSize.x-NL::PRECEIVED_SCREEN_WIDTH);
+	invisibleWallLocation= min(invisibleWallLocation+NL::MIN_SCROLL_SPEED*dt,worldSize.x-NL::PRECEIVED_SCREEN_WIDTH);
 	//TRACK INVISIBLE WALL WITH PLAYER
-	minPlayerPosition = max(player.getPosition().x - NL::PRECEIVED_SCREEN_WIDTH*0.7,minPlayerPosition);
+	invisibleWallLocation = max(player.getPosition().x - NL::PRECEIVED_SCREEN_WIDTH*0.7,invisibleWallLocation);
 
 	for(int i = 0 ; i < NL::MAX_PLAYER_BULLETS; i++)
 	{
@@ -285,8 +288,8 @@ void NuclearLiberation::levelsUpdate(float dt)
 		cameraTarget.y = player.getPosition().y + NL::PRECEIVED_SCREEN_HEIGHT*0.2;
 
 	//MOVE CAMERA WITH INVISIBLE WALL (THIS HANDLES ALL X MOVEMENT)
-	if(cameraTarget.x < minPlayerPosition + NL::PRECEIVED_SCREEN_WIDTH/2)
-		cameraTarget.x = minPlayerPosition + NL::PRECEIVED_SCREEN_WIDTH/2;
+	if(cameraTarget.x < invisibleWallLocation + NL::PRECEIVED_SCREEN_WIDTH/2)
+		cameraTarget.x = invisibleWallLocation + NL::PRECEIVED_SCREEN_WIDTH/2;
 	//stop camera before end of world
 	if(cameraTarget.x > worldSize.x-NL::PRECEIVED_SCREEN_WIDTH/2)
 		cameraTarget.x = worldSize.x-NL::PRECEIVED_SCREEN_WIDTH/2;
@@ -608,9 +611,9 @@ void NuclearLiberation::loadLevel1()
 	audio->stopCue(PEXP);
 	state = GameState::L1;
 	clearLevel();
-	worldSize = Vector3(700,500,0);
-	player.setPosition(Vector3(25,250,0));
-	minPlayerPosition = 0;
+	worldSize = Vector3(700,250,0);
+	player.setPosition(Vector3(25,100,0));
+	invisibleWallLocation = 0;
 	cameraTarget = player.getPosition();
 	player.refillAir();
 	initBackground();
@@ -625,30 +628,9 @@ void NuclearLiberation::loadLevel1()
 		spawnSplitEnemy(Vector3(i+10, 30*tan(2*PI*i/50)+50,0), 1);
 	}
 
-	for(int i = -50; i < 750; i+=wallNS::WALL_SCALE)
-	{
-		float y = 5*(sin(2*PI*i/150.0)+2)+30;
-		spawnWall(Vector3(i,y,wallNS::WALL_SCALE));
-	}
 
-	for(int i = -100; i < 1000; i+=wallNS::WALL_SCALE)
-	{
-		float y = 0.0f;
-		y = -0.6*i + 400;
-
-		//I don't know why this works for the first gap, but not subsequent gaps
-		if(!(i > 310 && i<370))
-			spawnWall(Vector3(i,y,wallNS::WALL_SCALE));
-	}
-
-	for(int i = -100; i < 390; i+=wallNS::WALL_SCALE)
-	{
-		float y = 0.0f;
-		y = i-200;
-
-		spawnWall(Vector3(i,y,wallNS::WALL_SCALE));
-	}
-
+	
+	spawnAllWallsOnMap();
 	
 }
 
@@ -659,31 +641,63 @@ void NuclearLiberation::onPlayerDeath()
 	menuLoad();
 }
 
-float NuclearLiberation::floor(float x)
+float NuclearLiberation::getFloor(float x)
 {
-	float yPos = player.getPosition().y;
-	float y = 0.0f;
-	if(yPos<173)
-		y = max(yPos, x-170);
-	else
-		y = min(max(yPos,x-185),-0.6*x + 370+wallNS::WALL_SCALE);
-	if(yPos < 10)
-		y = 10;
-	return y;
+	switch (state)
+	{
+	case MENU:
+		return 0;
+		break;
+	case L1:
+		return 5*(sin(2*PI*x/150.0)+2)+30;
+		break;
+	case L2:
+		return 0;
+		break;
+	case L3:
+		return 0;
+		break;
+	default:
+		return 0;
+		break;
+	}
 }
 
-float NuclearLiberation::ceiling(float x)
+float NuclearLiberation::getCeiling(float x)
 {
-	float yPos = player.getPosition().y;
-	float y =  max(min(yPos,worldSize.y),-0.6*x + 410+wallNS::WALL_SCALE);
-	return y;
+	switch (state)
+	{
+	case MENU:
+		return worldSize.y;
+		break;
+	case L1:
+		if(x >= 100 && x < 200)
+			return worldSize.y-(x-100);
+		else if(x >= 200 && x < 300)
+			return worldSize.y-100+(x-200);
+		else
+			return worldSize.y;
+		break;
+	case L2:
+		return worldSize.y;
+		break;
+	case L3:
+		return worldSize.y;
+		break;
+	default:
+		return worldSize.y;
+		break;
+	}
 }
 
-bool NuclearLiberation::inGap()
+void NuclearLiberation::spawnAllWallsOnMap()
 {
-	float xPos = player.getPosition().x;
-	if(xPos > 320 && xPos < 365 && player.getPosition().y > 170 && player.getPosition().y < 470)
-		return true;
-	else 
-		return false;
+	//20's are for bleed on edges of screen
+	for(float i = -20;i<worldSize.x+20;i+=wallNS::WALL_SCALE)
+	{
+		for(float j = getCeiling(i)+wallNS::WALL_SCALE; j < worldSize.y; j+= wallNS::WALL_SCALE)
+			spawnWall(Vector3(i,j,wallNS::WALL_SCALE));
+		for(float j = getFloor(i)-wallNS::WALL_SCALE; j > 0; j-= wallNS::WALL_SCALE)
+			spawnWall(Vector3(i,j,wallNS::WALL_SCALE));
+	}
 }

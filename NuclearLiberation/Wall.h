@@ -4,7 +4,7 @@
 
 namespace wallNS
 {
-	const float WALL_SCALE = 10;
+	const float WALL_SCALE = 5;
 }
 class Wall : public virtual Actor
 {
