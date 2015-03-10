@@ -24,7 +24,7 @@ namespace NL{
 
 	const int MAX_PLAYER_BULLETS = 500;
 	const int MAX_ENEMY_BULLETS = 5000;
-	const int MAX_WALLS = 4000;
+	const int MAX_WALLS = 7000;
 	const int MAX_LIGHT_ENEMIES = 500;
 	const int MAX_HEAVY_ENEMIES = 500;
 	const int MAX_SPLIT_ENEMEIS = 500;
@@ -37,13 +37,15 @@ namespace NL{
 	const int MAX_BACK = 3;
 	const int NUM_BKGD_IMGS = 4;
 	const int NUM_MENU_ITEMS = 7;//title, play, imFeelingLucky, quit, ___, howto
+	const int VICTORY_MENU_ITEMS = 3;//title, continue, quit
 };
 
 enum GameState{
 	MENU,
 	L1,
 	L2,
-	L3
+	L3,
+	VICTORY
 };
 
 class NuclearLiberation : public D3DApp{
@@ -63,11 +65,18 @@ public:
 	void menuUpdate(float dt,bool reset = false);
 	void menuDraw();
 
+	void victoryScreenLoad();
+	void victoryUpdate(float dt,bool reset = false);
+	void victoryDraw();
+
 	void clearLevel();
 	void levelsUpdate(float dt);
 	void levelsDraw();
-	void loadLevel1();
 
+	void resetLevel();
+	void loadLevel1();
+	void loadLevel2();
+	void loadLevel3();
 	GameState state;
 	
 	void spawnBullet(Vector3 pos, Vector3 vel,float scale = 0.5);

@@ -11,7 +11,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 
 
 	NuclearLiberation theApp(hInstance);
-	
+
 	theApp.initApp();
 
 	return theApp.run();
@@ -20,8 +20,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 
 
 NuclearLiberation::NuclearLiberation(HINSTANCE hInstance)
-: D3DApp(hInstance), mFX(0), mTech(0), mVertexLayout(0),
-  mfxWVPVar(0)
+	: D3DApp(hInstance), mFX(0), mTech(0), mVertexLayout(0),
+	mfxWVPVar(0)
 {
 	D3DXMatrixIdentity(&mView);
 	D3DXMatrixIdentity(&mProj);
@@ -98,7 +98,7 @@ void NuclearLiberation::initApp()
 	bgQuad[3].init(md3dDevice,GOLD,VIOLENTVIOLET);
 
 	initBackground();
-	
+
 
 	Controls c;
 	c.up = 'W';
@@ -109,8 +109,8 @@ void NuclearLiberation::initApp()
 	player.init(this,&cubeSub,&redCoin,&cyanCoin,1,c);
 	player.setScale(Vector3(2,1,1));
 	player.setRadius(1);
-	
-	
+
+
 
 	for(int i = 0 ; i < NL::MAX_PLAYER_BULLETS; i++)
 	{
@@ -208,6 +208,9 @@ void NuclearLiberation::updateScene(float dt)
 	case MENU:
 		menuUpdate(dt);
 		break;
+	case VICTORY:
+		victoryUpdate(dt);
+		break;
 	default:
 		levelsUpdate(dt);
 		break;
@@ -215,6 +218,54 @@ void NuclearLiberation::updateScene(float dt)
 	D3DXVECTOR3 pos = cameraTarget+cameraDisplacement;
 	D3DXVECTOR3 up(0.0f, 1.0f, 0.0f);
 	D3DXMatrixLookAtLH(&mView, &pos, &cameraTarget, &up);
+}
+
+void NuclearLiberation::victoryUpdate(float dt, bool reset)
+{
+	static bool isKeyDown = true;
+
+	if(reset)
+	{
+		menuChoice = 1;
+		isKeyDown = true;
+	}
+	
+	if(GetAsyncKeyState(VK_RETURN)||GetAsyncKeyState(' '))
+	{ 
+		if(!isKeyDown)
+		{
+			switch(menuChoice)
+			{
+			case 1://play
+				menuLoad();
+				break;
+			case 2:
+				PostQuitMessage(0);
+				break;
+			}
+		}
+	}
+	else if(GetAsyncKeyState('W')||GetAsyncKeyState(VK_UP))
+	{
+		if(!isKeyDown)
+		{
+			menuChoice--;
+			isKeyDown = true;
+		}
+	}
+	else if(GetAsyncKeyState('S')||GetAsyncKeyState(VK_DOWN))
+	{
+		if(!isKeyDown)
+		{
+			menuChoice++;
+			isKeyDown = true;
+		}
+	}
+	else
+		isKeyDown = false;
+
+	if(menuChoice > 2) menuChoice = 1;
+	if(menuChoice < 1) menuChoice = 2;
 }
 
 void NuclearLiberation::menuUpdate(float dt, bool reset)
@@ -226,7 +277,7 @@ void NuclearLiberation::menuUpdate(float dt, bool reset)
 		menuChoice = 1;
 		isKeyDown = true;
 	}
-	
+
 	if(GetAsyncKeyState(VK_RETURN)||GetAsyncKeyState(' '))
 	{ 
 		if(!isKeyDown)
@@ -264,13 +315,29 @@ void NuclearLiberation::menuUpdate(float dt, bool reset)
 	else
 		isKeyDown = false;
 
-	if(menuChoice >= (NL::NUM_MENU_ITEMS)) menuChoice = 1;
-	if(menuChoice <= 0) menuChoice = NL::NUM_MENU_ITEMS-2;
+	if(menuChoice > 3) menuChoice = 1;
+	if(menuChoice < 1) menuChoice = 3;
 }
 
 void NuclearLiberation::levelsUpdate(float dt)
-{
-	
+{	
+	if(player.getPosition().x>=worldSize.x)
+	{
+		switch(state)
+		{
+		case L1:
+			loadLevel2();
+			break;
+		case L2:
+			loadLevel3();
+			break;
+		case L3:
+			victoryScreenLoad();
+			break;
+		}
+		return;
+	}
+
 	for(int i = 0 ; i < NL::NUM_BKGD_IMGS; i++)
 		bgImg[i].update(dt);
 
@@ -436,9 +503,9 @@ void NuclearLiberation::drawScene()
 	md3dDevice->OMSetDepthStencilState(0, 0);
 	float blendFactors[] = {0.0f, 0.0f, 0.0f, 0.0f};
 	md3dDevice->OMSetBlendState(0, blendFactors, 0xffffffff);
-    md3dDevice->IASetInputLayout(mVertexLayout);
+	md3dDevice->IASetInputLayout(mVertexLayout);
 
-	
+
 	// set the point to the shader technique
 	D3D10_TECHNIQUE_DESC techDesc;
 	mTech->GetDesc(&techDesc);
@@ -447,6 +514,9 @@ void NuclearLiberation::drawScene()
 	case MENU:
 		menuDraw();
 		break;
+	case VICTORY:
+		victoryDraw();
+		break;
 	default:
 		levelsDraw();
 		break;
@@ -454,9 +524,9 @@ void NuclearLiberation::drawScene()
 	mSwapChain->Present(0, 0);
 }
 
-void NuclearLiberation::menuDraw()
+void NuclearLiberation::victoryDraw()
 {
-	for(int i = 0; i < NL::NUM_MENU_ITEMS; i++)
+	for(int i = 0; i < NL::VICTORY_MENU_ITEMS; i++)
 	{
 		RECT r; //its a point because DT_NOCLIP
 		if(i==0)
@@ -477,11 +547,34 @@ void NuclearLiberation::menuDraw()
 	}
 }
 
+void NuclearLiberation::menuDraw()
+{
+	for(int i = 0; i < NL::NUM_MENU_ITEMS; i++)
+	{
+		RECT r; //its a point because DT_NOCLIP
+		if(i==0)
+		{
+			r.right = r.left = mClientWidth*0.5;
+			r.top = r.bottom = mClientHeight*0.2;
+
+		}
+		else
+		{
+			r.right = r.left = mClientWidth*0.5;
+			r.top = r.bottom = mClientHeight*0.4 + (i-1)*mClientHeight*0.07;
+		}
+		if(menuChoice == i)
+			mFont->DrawText(0,menuText[i].c_str(),-1,&r,DT_NOCLIP|DT_CENTER,RED);
+		else
+			mFont->DrawText(0,menuText[i].c_str(),-1,&r,DT_NOCLIP|DT_CENTER,WHITE);
+	}
+}
+
 void NuclearLiberation::levelsDraw()
 {
-	
+
 	origin.draw(mfxWVPVar,mView,mProj,mTech);
-	
+
 	player.draw(mfxWVPVar,mView,mProj,mTech);
 
 	airBar.draw(mfxWVPVar,mView,mProj,mTech);
@@ -537,10 +630,10 @@ void NuclearLiberation::buildFX()
 {
 	DWORD shaderFlags = D3D10_SHADER_ENABLE_STRICTNESS;
 #if defined( DEBUG ) || defined( _DEBUG )
-    shaderFlags |= D3D10_SHADER_DEBUG;
+	shaderFlags |= D3D10_SHADER_DEBUG;
 	shaderFlags |= D3D10_SHADER_SKIP_OPTIMIZATION;
 #endif
- 
+
 	ID3D10Blob* compilationErrors = 0;
 	HRESULT hr = 0;
 	hr = D3DX10CreateEffectFromFile(L"color.fx", 0, 0, 
@@ -556,7 +649,7 @@ void NuclearLiberation::buildFX()
 	} 
 
 	mTech = mFX->GetTechniqueByName("ColorTech");
-	
+
 	mfxWVPVar = mFX->GetVariableByName("gWVP")->AsMatrix();
 }
 
@@ -570,9 +663,9 @@ void NuclearLiberation::buildVertexLayouts()
 	};
 
 	// Create the input layout
-    D3D10_PASS_DESC PassDesc;
-    mTech->GetPassByIndex(0)->GetDesc(&PassDesc);
-    HR(md3dDevice->CreateInputLayout(vertexDesc, 2, PassDesc.pIAInputSignature,
+	D3D10_PASS_DESC PassDesc;
+	mTech->GetPassByIndex(0)->GetDesc(&PassDesc);
+	HR(md3dDevice->CreateInputLayout(vertexDesc, 2, PassDesc.pIAInputSignature,
 		PassDesc.IAInputSignatureSize, &mVertexLayout));
 }
 
@@ -732,6 +825,17 @@ void NuclearLiberation::clearLevel()
 		air[i].isActive=power[i].isActive=shield[i].isActive=false;
 }
 
+void NuclearLiberation::victoryScreenLoad()
+{
+	state = GameState::VICTORY;
+	clearLevel();
+	victoryUpdate(0,true);
+
+	menuText[0] = L"VICTORY";
+	menuText[1] = L"CONTINUE";
+	menuText[2] = L"QUIT";
+}
+
 void NuclearLiberation::menuLoad()
 {
 	state = GameState::MENU;
@@ -756,9 +860,8 @@ void NuclearLiberation::loadLevel1()
 	player.setPosition(Vector3(25,100,0));
 	invisibleWallLocation = 0;
 	cameraTarget = player.getPosition();
-	player.refillAir();
+	player.refresh();
 	initBackground();
-	player.isActive = true;
 	placeFinishLine();
 	placeEnemyBoats(20);
 	int which = 0;
@@ -774,18 +877,112 @@ void NuclearLiberation::loadLevel1()
 			spawnSplitEnemy(Vector3(i+10, 30*tan(2*PI*i/50)+50,0), 1);
 			break;
 		}
+
+		which++;
+	}
+	
+	spawnAllWallsOnMap();
+}
+
+void NuclearLiberation::loadLevel2()
+{
+	audio->stopCue(PEXP);
+	state = GameState::L2;
+	clearLevel();
+	worldSize = Vector3(700,250,0);
+	player.setPosition(Vector3(25,100,0));
+	invisibleWallLocation = 0;
+	cameraTarget = player.getPosition();
+	player.refillAir();
+	initBackground();
+	player.isActive = true;
+	placeFinishLine();
+	int which = 0;
+	for(int i = 50; i < 500; i+=100)
+	{
+		switch(which%3)
+		{
+		case 0:
+			spawnLightEnemy(Vector3(i+15,30*sin(2*PI*i/50)+50,0));
+			break;
+		case 1:
+			spawnHeavyEnemy(Vector3(i+15,30*cos(2*PI*i/50)+50,0));
+			break;
+		case 2:
+			spawnSplitEnemy(Vector3(i+10, 30*tan(2*PI*i/50)+50,0), 1);
+			break;
+		}
 		
 		which++;
 	}
-		
+	
 	spawnAllWallsOnMap();
+}
+
+void NuclearLiberation::loadLevel3()
+{
+	audio->stopCue(PEXP);
+	state = GameState::L3;
+	clearLevel();
+	worldSize = Vector3(1000,400,0);
+	player.setPosition(Vector3(25,100,0));
+	invisibleWallLocation = 0;
+	cameraTarget = player.getPosition();
+	player.refillAir();
+	initBackground();
+	player.isActive = true;
+	placeFinishLine();
+	int which = 0;
+	for(int i = 50; i < 500; i+=100)
+	{
+		switch(which%3)
+		{
+		case 0:
+			spawnLightEnemy(Vector3(i+15,30*sin(2*PI*i/50)+50,0));
+			break;
+		case 1:
+			spawnHeavyEnemy(Vector3(i+15,30*cos(2*PI*i/50)+50,0));
+			break;
+		case 2:
+			spawnSplitEnemy(Vector3(i+10, 30*tan(2*PI*i/50)+50,0), 1);
+			break;
+		}
+
+		which++;
+	}
+	spawnAllWallsOnMap();
+}
+
+void NuclearLiberation::resetLevel() {
+	clearLevel();
+	switch(state) {
+	case L1:
+		loadLevel1();
+		break;
+	case L2:
+		loadLevel2();
+		break;
+	case L3:
+		loadLevel3();
+		break;
+	default:
+		menuLoad();
+		break;
+	}
 }
 
 void NuclearLiberation::onPlayerDeath()
 {
+
 	audio->playCue(PEXP);
-	player.resetAll();
-	menuLoad();
+	if(player.getLives() > 0) {
+		player.setLives() -= 1;
+		resetLevel();
+	}
+	else {
+		player.resetAll();
+		menuLoad();
+	}
 }
 
 float NuclearLiberation::getFloor(float x)
@@ -796,13 +993,33 @@ float NuclearLiberation::getFloor(float x)
 		return 0;
 		break;
 	case L1:
-		return 5*(sin(2*PI*x/150.0)+2)+30;
+		if(x >= 150 && x < 275)
+			return 30+(x-150);
+		else if(x >= 275 && x < 400)
+			return 155-(x-275);
+		else
+			return 5*(sin(2*PI*x/150.0)+2)+30;
 		break;
 	case L2:
-		return 0;
+		if(x >= 325 && x < 450)
+			return 35+(x-325);
+		else if(x >= 450 && x < 575)
+			return 160 -(x-450);
+		return 5*(sin(2*PI*x/150.0)+2)+30;
 		break;
 	case L3:
-		return 0;
+		if(x >=0 && x < 200)
+			return 30 + x;
+		else if(x >=200 && x<400)
+			return 230 -(x-200);
+		else if(x >= 425 && x < 550)
+			return 30+1.5*(x -425);
+		else if(x >= 550 && x < 675)
+			return 217.5 -1.5*(x-550);
+		else if(x >= 850)
+			return 30 + (x-850);
+		else
+			return 5*(sin(2*PI*x/150.0)+2)+30;
 		break;
 	default:
 		return 0;
@@ -826,10 +1043,24 @@ float NuclearLiberation::getCeiling(float x)
 			return worldSize.y;
 		break;
 	case L2:
-		return worldSize.y;
+		if(x >= 0 && x < 175)
+			return worldSize.y-x;
+		else if(x >= 175 && x < 350)
+			return worldSize.y-175+(x-175);
+		else if(x >=600)
+			return worldSize.y -(x-600);
+		else
+			return worldSize.y;
 		break;
 	case L3:
-		return worldSize.y;
+		if(x >= 150 && x < 400)
+			return worldSize.y -(x-150);
+		else if(x >= 400 && x < 650)
+			return worldSize.y - 250 + (x -400);
+		else if(x >= 850)
+			return worldSize.y -(x-850);
+		else
+			return worldSize.y;
 		break;
 	default:
 		return worldSize.y;
@@ -852,7 +1083,7 @@ void NuclearLiberation::spawnAllWallsOnMap()
 void NuclearLiberation::placeFinishLine()
 {
 	finishLine.setScale(Vector3(5,worldSize.y,1));
-	finishLine.setPosition(Vector3(worldSize.x,worldSize.y/2,10));
+	finishLine.setPosition(Vector3(worldSize.x,worldSize.y/2,3));
 	finishLine.isActive = true;
 }
 

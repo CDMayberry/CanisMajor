@@ -29,11 +29,13 @@ public:
 	void draw(ID3D10EffectMatrixVariable* fx, Matrix& camera, Matrix& projection, ID3D10EffectTechnique* mTech);
 	void refillAir();
 	float getAir(){return airLevel;}
+	int getLives(){return lives;}
+	int& setLives() {return lives;}
 	float topDef(float x);
 	float bottomWall(float x);
 
 
-	void resetAll(){weaponLevel=1;weaponCooldown=0;fireCounter=0;refillAir(); health = 1;shieldActive=false;}
+	void resetAll(){weaponLevel=1;weaponCooldown=0;fireCounter=0;refillAir(); health = 1;shieldActive=false; lives = 3;}
 	void refresh(){weaponCooldown=0;fireCounter=0;refillAir();}
 
 	void grantWeaponLevel(){weaponLevel = min(weaponLevel+1,playerNS::MAX_WEAPON_LEVEL);}
@@ -52,6 +54,7 @@ private:
 	float airLevel;
 	int fireCounter;//used to distinguish shots when firing
 	float fireAngle;//used to make helix
+	int lives;
 
 	bool drowning;
 	bool shieldActive;
