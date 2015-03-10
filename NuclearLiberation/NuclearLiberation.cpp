@@ -165,13 +165,11 @@ void NuclearLiberation::onResize()
 
 	float aspect = (float)mClientWidth/mClientHeight;
 	D3DXMatrixPerspectiveFovLH(&mProj, 0.25f*PI, aspect, 1.0f, 1000.0f);
-
-	if(state==MENU)
-		menuLoad();
 }
 
 void NuclearLiberation::updateScene(float dt)
 {
+	D3DApp::updateScene(dt);
 	if(GetAsyncKeyState(VK_ESCAPE))
 		PostQuitMessage(0);
 	switch(state){
@@ -189,52 +187,25 @@ void NuclearLiberation::updateScene(float dt)
 
 void NuclearLiberation::menuUpdate(float dt, bool reset)
 {
-	static int menuChoice = 0;
-	static bool isKeyDown = false;
-	static float coolDown = 0;
-	static int fireCounter = 0;
+	static bool isKeyDown = true;
 
 	if(reset)
 	{
-		menuChoice = 0;
-		isKeyDown = false;
-		coolDown = 0;
-		fireCounter = 0;
-		return;
+		menuChoice = 1;
+		isKeyDown = true;
 	}
-
-	for(int i = 0 ; i < NL::MAX_PLAYER_BULLETS; i++)
-		playerBullets[i].update(dt);
-	for(int i = 0 ; i < NL::NUM_BKGD_IMGS; i++)
-		bgImg[i].update(dt);
-
-
-	coolDown = max(coolDown-dt,0);
-	if(coolDown==0)
-	{
-		float dispBetweenItems = (worldSize.y*0.5)/(NL::NUM_MENU_ITEMS-1);
-		Vector3 cursorPosition(Vector3(0,worldSize.y*0.5-menuChoice*dispBetweenItems,0));
-		float fireAngle = (fireCounter-3)*PI/6;
-
-		spawnBullet(cursorPosition+rotateZ(playerNS::HELIX_DISP,fireAngle),playerNS::FIRE_SPEED);
-		spawnBullet(cursorPosition+rotateZ(playerNS::HELIX_DISP,-fireAngle),playerNS::FIRE_SPEED);
-		fireCounter++;
-		if(fireCounter>6)fireCounter = 0;
-		coolDown = playerNS::DEFAULT_COOLDOWN/2;
-	}
-
 	
 	if(GetAsyncKeyState(VK_RETURN)||GetAsyncKeyState(' '))
 	{
 		switch(menuChoice)
 		{
-		case 0://play
+		case 1://play
 			loadLevel1();
 			break;
-		case 1://feeling lucky
+		case 2://feeling lucky
 			//TODO::SOMETHING
 			break;
-		case 2://quit
+		case 3://quit
 			PostQuitMessage(0);
 			break;
 		}
@@ -258,13 +229,13 @@ void NuclearLiberation::menuUpdate(float dt, bool reset)
 	else
 		isKeyDown = false;
 
-	if(menuChoice >= (NL::NUM_MENU_ITEMS-1)) menuChoice = 0;
-	if(menuChoice < 0) menuChoice = NL::NUM_MENU_ITEMS-2;
+	if(menuChoice >= (NL::NUM_MENU_ITEMS)) menuChoice = 1;
+	if(menuChoice <= 0) menuChoice = NL::NUM_MENU_ITEMS-2;
 }
 
 void NuclearLiberation::levelsUpdate(float dt)
 {
-	D3DApp::updateScene(dt);
+	
 	for(int i = 0 ; i < NL::NUM_BKGD_IMGS; i++)
 		bgImg[i].update(dt);
 
@@ -404,10 +375,6 @@ void NuclearLiberation::drawScene()
 
 void NuclearLiberation::menuDraw()
 {
-	for(int i = 0 ; i < NL::NUM_BKGD_IMGS; i++)
-		bgImg[i].draw(mfxWVPVar,mView,mProj,mTech);
-	for(int i = 0; i < NL::MAX_PLAYER_BULLETS;i++)
-		playerBullets[i].draw(mfxWVPVar,mView,mProj,mTech);
 	for(int i = 0; i < NL::NUM_MENU_ITEMS; i++)
 	{
 		RECT r; //its a point because DT_NOCLIP
@@ -422,7 +389,7 @@ void NuclearLiberation::menuDraw()
 			r.right = r.left = mClientWidth*0.5;
 			r.top = r.bottom = mClientHeight*0.5 + (i-1)*mClientHeight*0.15;
 		}
-		if(selectedMenuItem == i)
+		if(menuChoice == i)
 			mFont->DrawText(0,menuText[i].c_str(),-1,&r,DT_NOCLIP|DT_CENTER,RED);
 		else
 			mFont->DrawText(0,menuText[i].c_str(),-1,&r,DT_NOCLIP|DT_CENTER,WHITE);
@@ -627,9 +594,6 @@ void NuclearLiberation::menuLoad()
 {
 	state = GameState::MENU;
 	clearLevel();
-	worldSize = Vector3(mClientWidth/10.0,mClientHeight/10.0,0);//world should be approximatly as large as screen
-	initBackground();
-	cameraTarget = worldSize/2;
 	menuUpdate(0,true);
 
 	menuText[0] = L"NUCLEAR LIBERATION";
@@ -690,9 +654,9 @@ void NuclearLiberation::loadLevel1()
 
 void NuclearLiberation::onPlayerDeath()
 {
-	//TODO: something
-	menuLoad();
+	audio->playCue(PEXP);
 	player.resetAll();
+	menuLoad();
 }
 
 float NuclearLiberation::floor(float x)

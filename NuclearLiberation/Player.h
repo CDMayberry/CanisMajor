@@ -10,9 +10,10 @@ namespace playerNS{
 	const float FRICTION_RATE = 100;
 	const float ACCEL_RATE = 80;
 	const float DEFAULT_COOLDOWN = 0.2;
-	const float MAX_ROTATION_ANGLE = 1;
-	const float ROTATION_SPEED = 0.25;
-	const Vector3 FIRE_SPEED(75,0,0);
+	const float MAX_ROTATION_ANGLE = .7;
+	const float ROTATION_EPS = 0.001;
+	const float ROTATION_SPEED = 5;
+	const Vector3 FIRE_SPEED(90,0,0);
 	const float MAX_AIR = 30; //AIR DEPLETES AT 1 UNIT PER SECOND
 	const Vector3 HELIX_DISP(3,0,0);
 	const int MAX_WEAPON_LEVEL = 6;
@@ -31,12 +32,10 @@ public:
 	float bottomWall(float x);
 
 
-	void resetAll(){weaponLevel=1;weaponCooldown=0;fireCounter=0;refillAir(); health = 1; isActive = false;}
+	void resetAll(){weaponLevel=1;weaponCooldown=0;fireCounter=0;refillAir(); health = 1;}
 	void refresh(){weaponCooldown=0;fireCounter=0;refillAir();}
 
 	void grantWeaponLevel(){weaponLevel = min(weaponLevel+1,playerNS::MAX_WEAPON_LEVEL);}
-
-	void onDeath();
 
 private:
 	Vector3 input;
@@ -50,5 +49,7 @@ private:
 	float fireAngle;//used to make helix
 
 	bool drowning;
+
+	void fireBullets();
 
 };

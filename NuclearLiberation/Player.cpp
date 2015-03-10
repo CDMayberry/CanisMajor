@@ -74,7 +74,7 @@ void Player::update(float dt)
 
 		weaponCooldown=max(weaponCooldown-dt,0);
 		
-		Vector3 rot = getRotation();
+		
 
 		input*=0;
 
@@ -83,13 +83,11 @@ void Player::update(float dt)
 		if(GetAsyncKeyState(controls.up))
 		{
 			inputThisFrame = inputRotation = true;
-			rot.z+= ROTATION_SPEED*dt;
 			input.y+=1;
 		}
 		if(GetAsyncKeyState(controls.down))
 		{
 			inputThisFrame = inputRotation = true;
-			rot.z-= ROTATION_SPEED*dt;
 			input.y+=-1;
 		}
 		if(GetAsyncKeyState(controls.left))
@@ -115,94 +113,7 @@ void Player::update(float dt)
 		else
 			keyDown = false;
 
-		if(!inputRotation)
-		{
-			if(rot.z > 0)
-				rot.z = max(rot.z-ROTATION_SPEED*2*dt,0);
-			if(rot.z < 0)
-				rot.z = min(rot.z+ROTATION_SPEED*2*dt,0);
-		}
-		else
-		{
-			if(rot.z > MAX_ROTATION_ANGLE)
-				rot.z = MAX_ROTATION_ANGLE;
-			if(rot.z < -MAX_ROTATION_ANGLE)
-				rot.z = -MAX_ROTATION_ANGLE;
-		}
-
-		setRotation(rot);
-
-		Matrix rotTemp;
-		Identity(&rotTemp);
-		D3DXMatrixRotationZ(&rotTemp,rot.z);
-
-		if(weaponCooldown==0 && GetAsyncKeyState(controls.fire))
-		{
-			game->audio->playCue(FIRING);
-			switch(weaponLevel)
-			{
-			case 1:
-				game->spawnBullet(getPosition(),rotateZ(FIRE_SPEED,rot.z));
-				weaponCooldown = DEFAULT_COOLDOWN;
-				break;
-			case 2:
-				game->spawnBullet(getPosition()+Vector3(0,1.5,0),rotateZ(FIRE_SPEED,rot.z));
-				game->spawnBullet(getPosition()+Vector3(0,-1.5,0),rotateZ(FIRE_SPEED,rot.z));
-				weaponCooldown = DEFAULT_COOLDOWN;
-				break;	
-			case 3:
-				fireAngle = (fireCounter-3)*PI/6;
-				game->spawnBullet(getPosition()+rotateZ(HELIX_DISP,fireAngle),rotateZ(FIRE_SPEED,rot.z));
-				game->spawnBullet(getPosition()+rotateZ(HELIX_DISP,-fireAngle),rotateZ(FIRE_SPEED,rot.z));
-				fireCounter++;
-				if(fireCounter>6)fireCounter = 0;
-				weaponCooldown = DEFAULT_COOLDOWN/2;
-				break;
-			case 4:
-				fireAngle = (fireCounter-3)*PI/6;
-				game->spawnBullet(getPosition()+rotateZ(HELIX_DISP,fireAngle),rotateZ(FIRE_SPEED,rot.z));
-				game->spawnBullet(getPosition()+rotateZ(HELIX_DISP,-fireAngle),rotateZ(FIRE_SPEED,rot.z));
-				if(fireCounter==0)
-					game->spawnBullet(getPosition(),rotateZ(FIRE_SPEED,rot.z),1.5);
-				fireCounter++;
-				if(fireCounter>6)fireCounter = 0;
-				weaponCooldown = DEFAULT_COOLDOWN/2;
-				break;
-			case 5:
-				fireAngle = (fireCounter-3)*PI/6;
-				game->spawnBullet(getPosition()+rotateZ(HELIX_DISP,fireAngle),rotateZ(FIRE_SPEED,rot.z));
-				game->spawnBullet(getPosition()+rotateZ(HELIX_DISP,-fireAngle),rotateZ(FIRE_SPEED,rot.z));
-				if(fireCounter==0)
-					game->spawnBullet(getPosition(),rotateZ(FIRE_SPEED,rot.z),1.5);
-				if(fireCounter%2==0)
-					game->spawnBullet(getPosition(),rotateZ(FIRE_SPEED,rot.z+PI*0.4));
-				else
-					game->spawnBullet(getPosition(),rotateZ(FIRE_SPEED,rot.z-PI*0.4));
-				fireCounter++;
-				if(fireCounter>6)fireCounter = 0;
-				weaponCooldown = DEFAULT_COOLDOWN/2;
-				break;
-			case 6:
-				fireAngle = abs(fireCounter-6)*PI/12-PI/2;
-				game->spawnBullet(getPosition()+Vector3(0,5,0)+rotateZ(2*HELIX_DISP,fireAngle),rotateZ(FIRE_SPEED,rot.z+0.1));
-				game->spawnBullet(getPosition()-Vector3(0,5,0)+rotateZ(2*HELIX_DISP,-fireAngle),rotateZ(FIRE_SPEED,rot.z-0.1));
-				fireAngle = (fireCounter%6-3)*PI/6;
-				game->spawnBullet(getPosition()+rotateZ(HELIX_DISP,fireAngle),rotateZ(FIRE_SPEED,rot.z));
-				game->spawnBullet(getPosition()+rotateZ(HELIX_DISP,-fireAngle),rotateZ(FIRE_SPEED,rot.z));
-				if(fireCounter%6==0)
-					game->spawnBullet(getPosition(),rotateZ(FIRE_SPEED,rot.z),1.5);
-
-				if(fireCounter%2==0)
-					game->spawnBullet(getPosition(),rotateZ(FIRE_SPEED,rot.z+PI*0.4));
-				else
-					game->spawnBullet(getPosition(),rotateZ(FIRE_SPEED,rot.z-PI*0.4));
-				fireCounter++;
-				if(fireCounter>=12)fireCounter = 0;
-				weaponCooldown = DEFAULT_COOLDOWN/2;
-				break;
-			}
-			
-		}
+		
 
 		Normalize(&input,&input);	
 
@@ -219,6 +130,27 @@ void Player::update(float dt)
 			Normalize(&velocity,&velocity);
 			velocity*=speed;
 		}
+
+		Vector3 rot = getRotation();
+
+		float goal = MAX_ROTATION_ANGLE*input.y;
+		if(abs(goal - rot.z) < ROTATION_EPS)
+			rot.z = goal;
+		else if(goal > rot.z) 
+			rot.z = min(rot.z+ROTATION_SPEED*dt,MAX_ROTATION_ANGLE);
+		else if(goal < rot.z)
+			rot.z = max(rot.z-ROTATION_SPEED*dt,-MAX_ROTATION_ANGLE);
+
+		setRotation(rot);
+
+		Matrix rotTemp;
+		Identity(&rotTemp);
+		D3DXMatrixRotationZ(&rotTemp,rot.z);
+
+		if(weaponCooldown==0 && GetAsyncKeyState(controls.fire))
+		{
+			fireBullets();
+		}
 	}
 }
 
@@ -234,12 +166,77 @@ float Player::bottomWall(float x)
 	return y;
 }
 
-void Player::onDeath() {
-	game->audio->playCue(PEXP);
-}
-
 void Player::refillAir() {
 	airLevel = playerNS::MAX_AIR; 
 	game->audio->stopCue(DROWN); 
 	drowning = false;
+}
+
+
+void Player::fireBullets()
+{
+	Vector3 rot = getRotation();
+	game->audio->playCue(FIRING);
+	switch(weaponLevel)
+	{
+	case 1:
+		game->spawnBullet(getPosition(),rotateZ(FIRE_SPEED,rot.z));
+		weaponCooldown = DEFAULT_COOLDOWN;
+		break;
+	case 2:
+		game->spawnBullet(getPosition()+Vector3(0,1.5,0),rotateZ(FIRE_SPEED,rot.z));
+		game->spawnBullet(getPosition()+Vector3(0,-1.5,0),rotateZ(FIRE_SPEED,rot.z));
+		weaponCooldown = DEFAULT_COOLDOWN;
+		break;	
+	case 3:
+		fireAngle = (fireCounter-3)*PI/6;
+		game->spawnBullet(getPosition()+rotateZ(HELIX_DISP,fireAngle),rotateZ(FIRE_SPEED,rot.z));
+		game->spawnBullet(getPosition()+rotateZ(HELIX_DISP,-fireAngle),rotateZ(FIRE_SPEED,rot.z));
+		fireCounter++;
+		if(fireCounter>6)fireCounter = 0;
+		weaponCooldown = DEFAULT_COOLDOWN/2;
+		break;
+	case 4:
+		fireAngle = (fireCounter-3)*PI/6;
+		game->spawnBullet(getPosition()+rotateZ(HELIX_DISP,fireAngle),rotateZ(FIRE_SPEED,rot.z));
+		game->spawnBullet(getPosition()+rotateZ(HELIX_DISP,-fireAngle),rotateZ(FIRE_SPEED,rot.z));
+		if(fireCounter==0)
+			game->spawnBullet(getPosition(),rotateZ(FIRE_SPEED,rot.z),1.5);
+		fireCounter++;
+		if(fireCounter>6)fireCounter = 0;
+		weaponCooldown = DEFAULT_COOLDOWN/2;
+		break;
+	case 5:
+		fireAngle = (fireCounter-3)*PI/6;
+		game->spawnBullet(getPosition()+rotateZ(HELIX_DISP,fireAngle),rotateZ(FIRE_SPEED,rot.z));
+		game->spawnBullet(getPosition()+rotateZ(HELIX_DISP,-fireAngle),rotateZ(FIRE_SPEED,rot.z));
+		if(fireCounter==0)
+			game->spawnBullet(getPosition(),rotateZ(FIRE_SPEED,rot.z),1.5);
+		if(fireCounter%2==0)
+			game->spawnBullet(getPosition(),rotateZ(FIRE_SPEED,rot.z+PI*0.3));
+		else
+			game->spawnBullet(getPosition(),rotateZ(FIRE_SPEED,rot.z-PI*0.3));
+		fireCounter++;
+		if(fireCounter>6)fireCounter = 0;
+		weaponCooldown = DEFAULT_COOLDOWN/2;
+		break;
+	case 6:
+		fireAngle = abs(fireCounter-6)*PI/12-PI/2;
+		game->spawnBullet(getPosition()+Vector3(0,5,0)+rotateZ(2*HELIX_DISP,fireAngle),rotateZ(FIRE_SPEED,rot.z+0.1));
+		game->spawnBullet(getPosition()-Vector3(0,5,0)+rotateZ(2*HELIX_DISP,-fireAngle),rotateZ(FIRE_SPEED,rot.z-0.1));
+		fireAngle = (fireCounter%6-3)*PI/6;
+		game->spawnBullet(getPosition()+rotateZ(HELIX_DISP,fireAngle),rotateZ(FIRE_SPEED,rot.z));
+		game->spawnBullet(getPosition()+rotateZ(HELIX_DISP,-fireAngle),rotateZ(FIRE_SPEED,rot.z));
+		if(fireCounter%6==0)
+			game->spawnBullet(getPosition(),rotateZ(FIRE_SPEED,rot.z),1.5);
+
+		if(fireCounter%2==0)
+			game->spawnBullet(getPosition(),rotateZ(FIRE_SPEED,rot.z+PI*0.3));
+		else
+			game->spawnBullet(getPosition(),rotateZ(FIRE_SPEED,rot.z-PI*0.3));
+		fireCounter++;
+		if(fireCounter>=12)fireCounter = 0;
+		weaponCooldown = DEFAULT_COOLDOWN/2;
+		break;
+	}
 }
