@@ -12,7 +12,7 @@ namespace EnemySplitNS{
 class EnemySplit: public virtual Enemy
 {
 public:
-	EnemySplit():Enemy(){MAX_HEALTH = 50.0f; health = MAX_HEALTH; }
+	EnemySplit():Enemy(){MAX_HEALTH = 50.0f; health = MAX_HEALTH;  MOVEMENT_SPEED = EnemyNS::SPEED_BASE + EnemySplitNS::SPEED_BUFF;}
 	void setGen(int g);
 	int getGen(){return generation;}
 	void Fire();

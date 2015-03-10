@@ -12,7 +12,7 @@ namespace EnemyHeavyNS{
 class EnemyHeavy: public virtual Enemy
 {
 public:
-	EnemyHeavy():Enemy(){MAX_HEALTH = 100.0f; health = MAX_HEALTH; BulletSpiralTheta = 0.0f; }
+	EnemyHeavy():Enemy(){MAX_HEALTH = 100.0f; health = MAX_HEALTH; BulletSpiralTheta = 0.0f; MOVEMENT_SPEED = EnemyNS::SPEED_BASE + EnemyHeavyNS::SPEED_BUFF;}
 	void Fire();
 private:
 	float BulletSpiralTheta;
