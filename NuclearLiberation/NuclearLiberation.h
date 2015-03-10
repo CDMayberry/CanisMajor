@@ -45,6 +45,7 @@ enum GameState{
 	L1,
 	L2,
 	L3,
+	LUCKY,
 	VICTORY
 };
 
@@ -77,6 +78,7 @@ public:
 	void loadLevel1();//Zared
 	void loadLevel2();//Zared
 	void loadLevel3();//Zared
+	void loadLucky();//Zared
 	GameState state;
 	
 	void spawnBullet(Vector3 pos, Vector3 vel,float scale = 0.5);

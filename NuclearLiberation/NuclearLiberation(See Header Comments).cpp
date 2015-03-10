@@ -290,7 +290,7 @@ void NuclearLiberation::menuUpdate(float dt, bool reset)
 				loadLevel1();
 				break;
 			case 2://feeling lucky
-				//TODO::SOMETHING
+				loadLucky();
 				break;
 			case 3://quit
 				PostQuitMessage(0);
@@ -334,6 +334,9 @@ void NuclearLiberation::levelsUpdate(float dt)
 			loadLevel3();
 			break;
 		case L3:
+			loadSplashScreen(true);
+			break;
+		case LUCKY:
 			loadSplashScreen(true);
 			break;
 		}
@@ -1014,6 +1017,28 @@ void NuclearLiberation::loadLevel3()
 	spawnAllWallsOnMap();
 }
 
+void NuclearLiberation::loadLucky()
+{
+	audio->stopCue(PEXP);
+	state = GameState::LUCKY;
+	clearLevel();
+	worldSize = Vector3(1400,300,0);
+	player.setPosition(Vector3(25,100,0));
+	invisibleWallLocation = 0;
+	cameraTarget = player.getPosition();
+	player.refresh();
+	initBackground();
+	placeFinishLine();
+	for(int i = 100; i < 1400; i+=25) 
+	{
+		spawnLightEnemy(Vector3(i,rand()%250+30,0));
+		spawnHeavyEnemy(Vector3(i,rand()%250+30,0));
+		spawnSplitEnemy(Vector3(i, rand()%250+30,0), 1);
+	}
+	
+	spawnAllWallsOnMap();
+}
+
 void NuclearLiberation::resetLevel() {
 	clearLevel();
 	switch(state) {
@@ -1026,6 +1051,8 @@ void NuclearLiberation::resetLevel() {
 	case L3:
 		loadLevel3();
 		break;
+	case LUCKY:
+		loadLucky();
 	default:
 		menuLoad();
 		break;
@@ -1082,6 +1109,9 @@ float NuclearLiberation::getFloor(float x)
 		else
 			return 5*(sin(2*PI*x/150.0)+2)+30;
 		break;
+	case LUCKY:
+		return 5*(sin(2*PI*x/150.0)+2)+10;
+		break;
 	default:
 		return 0;
 		break;
@@ -1122,6 +1152,9 @@ float NuclearLiberation::getCeiling(float x)
 			return worldSize.y -1.5*(x-925);
 		else
 			return worldSize.y;
+		break;
+	case LUCKY:
+		return 290;
 		break;
 	default:
 		return worldSize.y;
