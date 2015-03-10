@@ -6,7 +6,7 @@ namespace bulletNS{
 	const float SCALE_X = .7;
 	const float SCALE_Y = .2;
 	const float SCALE_Z = .4;
-	const float LINESPAN = 1.5;
+	const float LINESPAN = 1;
 	const float DAMAGE = 1;//Hits for 25 points of damage
 };
 
