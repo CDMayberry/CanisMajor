@@ -77,14 +77,17 @@ void NuclearLiberation::initApp()
 	cubeGLD.init(md3dDevice,GOLD);
 	cubeLGRY.init(md3dDevice,LTEGRAY);
 	whiteCoin.init(md3dDevice,WHITE);
-
+	goldQuad.init(md3dDevice,GOLD);
+	redCoin.init(md3dDevice,RED);
+	cubeSub.init(md3dDevice,D3DXCOLOR(184/255.0,115/255.0,51/255.0,1));
+	purpleCube.init(md3dDevice,VIOLENTVIOLET);
 	//Inititilizes the background colors for the level.
 	//The magic numbers are x and y locations. All x's are -20
 	//to cover the very first portion of the screen
 	bgQuad[0].init(md3dDevice,BLACK,DARKBLUE);
 	bgQuad[1].init(md3dDevice,DARKBLUE,DARKISHBLUE);
 	bgQuad[2].init(md3dDevice,DARKISHBLUE,SURFACEBLUE);
-	bgQuad[3].init(md3dDevice,GOLD,BLACK);
+	bgQuad[3].init(md3dDevice,GOLD,VIOLENTVIOLET);
 
 	initBackground();
 	
@@ -95,7 +98,7 @@ void NuclearLiberation::initApp()
 	c.left = 'A';
 	c.right = 'D';
 	c.fire = ' ';
-	player.init(this,&cubeW,1,c);
+	player.init(this,&cubeSub,&redCoin,1,c);
 	player.setScale(Vector3(2,1,1));
 	player.setRadius(1);
 	
@@ -112,11 +115,11 @@ void NuclearLiberation::initApp()
 	{
 		air[i].init(this,&cubeLGRY,1);
 		air[i].setScale(Vector3(0.5,1,0.5));
-		air[i].setRadius(2);
+		air[i].setRadius(5);
 
 		power[i].init(this,&cubeGLD,1);
 		power[i].setScale(Vector3(0.5,1,0.5));
-		power[i].setRadius(2);
+		power[i].setRadius(5);
 	}
 
 	for(int i = 0 ; i < NL::MAX_ENEMY_BULLETS; i++)
@@ -141,9 +144,12 @@ void NuclearLiberation::initApp()
 		enemyLight[i].setScale(Vector3(2,2,2));
 		enemyHeavy[i].init(this,&cubeG, 2);
 		enemyHeavy[i].setScale(Vector3(2,2,2));
-		enemySplit[i].init(this,&cubeY,2);
+		enemySplit[i].init(this,&purpleCube,2);
 		enemySplit[i].setScale(Vector3(2,2,2));
 	}
+
+
+	finishLine.init(this,&goldQuad,1);
 
 
 	quadLtBlue.init(md3dDevice,D3DXCOLOR(224/255.0,1,1,1));
@@ -250,6 +256,8 @@ void NuclearLiberation::levelsUpdate(float dt)
 	for(int i = 0 ; i < NL::NUM_BKGD_IMGS; i++)
 		bgImg[i].update(dt);
 
+	finishLine.update(dt);
+
 	player.update(dt);
 
 	//update bar
@@ -320,7 +328,7 @@ void NuclearLiberation::collisions()
 	{
 		if(enemyBullets[i].collided(&player))
 		{
-			//onPlayerDeath(); //Actor has a new onDeath class, use it.
+			onPlayerDeath(); //Actor has a new onDeath class, use it.
 			break;
 		}
 	}
@@ -475,7 +483,7 @@ void NuclearLiberation::levelsDraw()
 	{
 		enemyBullets[i].draw(mfxWVPVar,mView,mProj,mTech);
 	}
-
+	finishLine.draw(mfxWVPVar,mView,mProj,mTech);
 }
 
 void NuclearLiberation::buildFX()
@@ -673,7 +681,7 @@ void NuclearLiberation::loadLevel1()
 	player.refillAir();
 	initBackground();
 	player.isActive = true;
-
+	placeFinishLine();
 	int which = 0;
 	for(int i = 50; i < 500; i+=100)
 	{
@@ -765,4 +773,11 @@ void NuclearLiberation::spawnAllWallsOnMap()
 		for(float j = getFloor(i)-wallNS::WALL_SCALE; j > 0; j-= wallNS::WALL_SCALE)
 			spawnWall(Vector3(i,j,wallNS::WALL_SCALE));
 	}
+}
+
+void NuclearLiberation::placeFinishLine()
+{
+	finishLine.setScale(Vector3(5,worldSize.y,1));
+	finishLine.setPosition(Vector3(worldSize.x,worldSize.y/2,10));
+	finishLine.isActive = true;
 }

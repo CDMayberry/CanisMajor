@@ -112,12 +112,11 @@ protected:
 	Vector3 cameraTarget, cameraPositon, cameraUp;
 
 	//geometry
-	Cube cubeG,cubeR,cubeY,cubeW, cubeGLD, cubeLGRY;
+	Cube cubeG,cubeR,cubeY,cubeW, cubeGLD, cubeLGRY,cubeSub, purpleCube;
 	Line lineX, lineY, lineZ;
-	Quad quadLtBlue;
 	Quad bgQuad[NL::NUM_BKGD_IMGS];
-	Quad menuQuad;
-	Coin whiteCoin;
+	Quad menuQuad, goldQuad, quadLtBlue;
+	Coin whiteCoin,redCoin;
 
 	//game objects
 	Bullet* playerBullets;
@@ -130,9 +129,11 @@ protected:
 	EnemyHeavy * enemyHeavy;
 	EnemySplit * enemySplit;
 
+	Actor finishLine;
 	Actor airBar;
 	Actor bgImg[NL::NUM_BKGD_IMGS];
 	std::wstring menuText[NL::NUM_MENU_ITEMS];
 	int menuChoice;
 	void spawnAllWallsOnMap();
+	void placeFinishLine();
 };

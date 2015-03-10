@@ -4,9 +4,10 @@
 
 using namespace playerNS;
 
-void Player::init(NuclearLiberation*game,Geometry *b, float r, Controls c)
+void Player::init(NuclearLiberation*game,Geometry *hull, Geometry *point, float r, Controls c)
 {
-	Actor::init(game,b,r);
+	Actor::init(game,hull,r);
+	hitBoxIndicatior.init(game,point,r);
 	controls = c;
 	isActive = true;
 	accel = Vector3(0,0,0);
@@ -14,6 +15,16 @@ void Player::init(NuclearLiberation*game,Geometry *b, float r, Controls c)
 	weaponLevel = 1;
 	fireCounter = 0;
 	drowning = false;
+	hitBoxIndicatior.isActive = true;
+	hitBoxIndicatior.setScale(Vector3(r,r,1));
+}
+
+void Player::draw(ID3D10EffectMatrixVariable* fx, Matrix& camera, Matrix& projection, ID3D10EffectTechnique* mTech)
+{
+	if(isActive){
+		Actor::draw(fx,camera,projection,mTech);
+		hitBoxIndicatior.draw(fx,camera,projection,mTech);
+	}
 }
 
 void Player::update(float dt)
@@ -23,6 +34,7 @@ void Player::update(float dt)
 	{
 		
 		Actor::update(dt);
+		hitBoxIndicatior.update(dt);
 
 		airLevel = max(airLevel-dt,0);
 		weaponCooldown=max(weaponCooldown-dt,0);
@@ -33,6 +45,8 @@ void Player::update(float dt)
 		pos.x=min(pos.x,game->worldSize.x);
 		pos.x=max(pos.x,game->invisibleWallLocation);
 		setPosition(pos);
+		pos.z-=getScale().z+0.01;
+		hitBoxIndicatior.setPosition(pos);
 
 		if(getPosition().y == game->worldSize.y) 
 			refillAir();

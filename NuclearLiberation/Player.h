@@ -7,8 +7,8 @@ class NuclearLiberation;
 
 namespace playerNS{
 	const float MAX_SPEED = 55;
-	const float FRICTION_RATE = 100;
-	const float ACCEL_RATE = 80;
+	const float FRICTION_RATE = 120;
+	const float ACCEL_RATE = 120;
 	const float DEFAULT_COOLDOWN = 0.2;
 	const float MAX_ROTATION_ANGLE = .7;
 	const float ROTATION_EPS = 0.001;
@@ -23,9 +23,9 @@ class Player : public virtual Actor
 {
 public:
 
-	void init(NuclearLiberation*game,Geometry *b, float r, Controls c);
+	void init(NuclearLiberation*game,Geometry *hull, Geometry *point, float r, Controls c);
 	void update(float dt);
-
+	void draw(ID3D10EffectMatrixVariable* fx, Matrix& camera, Matrix& projection, ID3D10EffectTechnique* mTech);
 	void refillAir();
 	float getAir(){return airLevel;}
 	float topDef(float x);
@@ -38,6 +38,7 @@ public:
 	void grantWeaponLevel(){weaponLevel = min(weaponLevel+1,playerNS::MAX_WEAPON_LEVEL);}
 
 private:
+	Actor hitBoxIndicatior;
 	Vector3 input;
 	Controls controls;
 	int weaponLevel;
