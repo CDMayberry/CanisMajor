@@ -762,10 +762,8 @@ void NuclearLiberation::loadLevel1()
 	placeFinishLine();
 	placeEnemyBoats(20);
 	int which = 0;
-	for(int i = 50; i < 500; i+=100)
-	{
-		switch(which%3)
-		{
+	for(int i = 50; i < 500; i+=100) {
+		switch(which%3) {
 		case 0:
 			spawnLightEnemy(Vector3(i+15,30*sin(2*PI*i/50)+50,0));
 			break;
@@ -779,11 +777,8 @@ void NuclearLiberation::loadLevel1()
 		
 		which++;
 	}
-
-
-	
+		
 	spawnAllWallsOnMap();
-	
 }
 
 void NuclearLiberation::onPlayerDeath()
