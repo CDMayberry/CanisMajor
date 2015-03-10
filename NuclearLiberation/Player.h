@@ -16,7 +16,7 @@ namespace playerNS{
 	const Vector3 FIRE_SPEED(90,0,0);
 	const float MAX_AIR = 30; //AIR DEPLETES AT 1 UNIT PER SECOND
 	const Vector3 HELIX_DISP(3,0,0);
-	const int MAX_WEAPON_LEVEL = 6;
+	const int MAX_WEAPON_LEVEL = 5;
 	const float SHIELD_SIZE = 4;
 };
 
