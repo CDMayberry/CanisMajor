@@ -56,7 +56,7 @@ private:
 	float fireAngle;//used to make helix
 	int lives;
 
-	bool drowning;
+	bool drowning, airAudio;
 	bool shieldActive;
 	void fireBullets();
 

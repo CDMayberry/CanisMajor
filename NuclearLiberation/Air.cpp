@@ -13,7 +13,7 @@ void Air::update(float dt)
 }
 
 void Air::onDeath() {
-	game->audio->playCue(BUB);
+	//game->audio->playCue(BUB);
 	pickUp();
 }
 
