@@ -1,5 +1,5 @@
 #include "EnemyBoat.h"
-#include "NuclearLiberation.h"
+#include "CanisMajor.h"
 
 using namespace EnemyBoatNS;
 void EnemyBoat::update(float dt)

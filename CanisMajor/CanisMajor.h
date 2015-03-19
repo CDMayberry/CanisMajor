@@ -49,11 +49,11 @@ enum GameState{
 	VICTORY
 };
 
-class NuclearLiberation : public D3DApp{
+class CanisMajor : public D3DApp{
 
 public:
-	NuclearLiberation(HINSTANCE hInstance);
-	~NuclearLiberation();
+	CanisMajor(HINSTANCE hInstance);
+	~CanisMajor();
 
 	void initApp();
 	void initBackground();

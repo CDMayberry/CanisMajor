@@ -1,7 +1,7 @@
 #include"Origin.h"
-#include "NuclearLiberation.h"
+#include "CanisMajor.h"
 
-void Origin::init(NuclearLiberation* game, float r)
+void Origin::init(CanisMajor* game, float r)
 {
 	lr.init(game->getDevice(),RED);
 	lg.init(game->getDevice(),GREEN);

@@ -1,5 +1,5 @@
 #include "Enemy.h"
-#include "NuclearLiberation.h"
+#include "CanisMajor.h"
 using namespace EnemyNS;
 
 void Enemy::update(float dt)

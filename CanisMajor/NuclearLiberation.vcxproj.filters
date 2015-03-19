@@ -96,11 +96,11 @@
     <ClCompile Include="mathUtil%28Justin%29.cpp">
       <Filter>Source Files\Util</Filter>
     </ClCompile>
-    <ClCompile Include="NuclearLiberation%28See Header Comments%29.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Geometry%28Justin%29.cpp">
       <Filter>Source Files\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="CanisMajor.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -130,9 +130,6 @@
     </ClInclude>
     <ClInclude Include="GameTimer.h">
       <Filter>Header Files\Util</Filter>
-    </ClInclude>
-    <ClInclude Include="NuclearLiberation.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>Header Files\GameObjects</Filter>
@@ -190,6 +187,9 @@
     </ClInclude>
     <ClInclude Include="EnemyBoat.h">
       <Filter>Header Files\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="CanisMajor.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

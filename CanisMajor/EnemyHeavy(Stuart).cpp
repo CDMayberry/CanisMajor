@@ -1,5 +1,5 @@
 #include "EnemyHeavy.h"
-#include "NuclearLiberation.h"
+#include "CanisMajor.h"
 using namespace EnemyHeavyNS;
 using namespace EnemyNS;
 

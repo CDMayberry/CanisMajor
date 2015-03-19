@@ -12,7 +12,7 @@ namespace dropNS{
 class Drop : public virtual Actor
 {
 public:
-	void init(NuclearLiberation* game,Geometry *b, float r){Actor::init(game,b,r); setScale(Vector3(dropNS::SCALE_X,dropNS::SCALE_Y,dropNS::SCALE_Z)); despawner = dropNS::despawnTime;}
+	void init(CanisMajor* game,Geometry *b, float r){Actor::init(game,b,r); setScale(Vector3(dropNS::SCALE_X,dropNS::SCALE_Y,dropNS::SCALE_Z)); despawner = dropNS::despawnTime;}
 	void update(float dt);
 	virtual void onDeath();
 	virtual void pickUp();

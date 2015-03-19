@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Actor.h"
-#include "NuclearLiberation.h"
+#include "CanisMajor.h"
 
 Actor::Actor()
 {
@@ -41,7 +41,7 @@ void Actor::draw(ID3D10EffectMatrixVariable* fx, Matrix& camera, Matrix& project
     }
 }
 
-void Actor::init(NuclearLiberation* game,Geometry *b, float r)
+void Actor::init(CanisMajor* game,Geometry *b, float r)
 {
 	this->game = game;
 	geometry = b;

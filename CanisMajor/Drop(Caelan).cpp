@@ -1,7 +1,7 @@
 #pragma once
 
 #include"Drop.h"
-#include"NuclearLiberation.h"
+#include"CanisMajor.h"
 
 void Drop::update(float dt)
 {
