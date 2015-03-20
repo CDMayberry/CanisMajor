@@ -128,8 +128,15 @@
     <ClInclude Include="CanisMajor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="color.fx" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="lighthelper.fx" />
+    <FxCompile Include="lighting.fx" />
   </ItemGroup>
 </Project>
