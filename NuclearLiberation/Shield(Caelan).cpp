@@ -1,7 +1,7 @@
 #pragma once
 
 #include"Shield.h"
-#include"CanisMajor.h"
+#include"NuclearLiberation.h"
 
 void Shield::update(float dt)
 {

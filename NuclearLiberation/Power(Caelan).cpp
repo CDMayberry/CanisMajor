@@ -1,7 +1,7 @@
 #pragma once
 
 #include"Power.h"
-#include"CanisMajor.h"
+#include"NuclearLiberation.h"
 
 void Power::update(float dt)
 {

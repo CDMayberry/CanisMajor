@@ -1,7 +1,7 @@
 #pragma once
 
 #include"Bullet.h"
-#include"CanisMajor.h"
+#include"NuclearLiberation.h"
 
 void Bullet::update(float dt)
 {

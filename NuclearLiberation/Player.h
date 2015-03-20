@@ -3,7 +3,7 @@
 #include"Controls.h"
 #include "mathUtil.h"
 
-class CanisMajor;
+class NuclearLiberation;
 
 namespace playerNS{
 	const float MAX_SPEED = 55;
@@ -24,7 +24,7 @@ class Player : public virtual Actor
 {
 public:
 
-	void init(CanisMajor*game,Geometry *hull, Geometry *point,Geometry *shield, float r, Controls c);
+	void init(NuclearLiberation*game,Geometry *hull, Geometry *point,Geometry *shield, float r, Controls c);
 	void update(float dt);
 	void draw(ID3D10EffectMatrixVariable* fx, Matrix& camera, Matrix& projection, ID3D10EffectTechnique* mTech);
 	void refillAir();

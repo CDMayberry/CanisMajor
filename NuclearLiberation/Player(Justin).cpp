@@ -1,10 +1,10 @@
 #include "Player.h"
 
-#include"CanisMajor.h"
+#include"NuclearLiberation.h"
 
 using namespace playerNS;
 
-void Player::init(CanisMajor*game,Geometry *hull, Geometry *point, Geometry *shield, float r, Controls c)
+void Player::init(NuclearLiberation*game,Geometry *hull, Geometry *point, Geometry *shield, float r, Controls c)
 {
 	Actor::init(game,hull,r);
 	hitBoxIndicatior.init(game,point,r);

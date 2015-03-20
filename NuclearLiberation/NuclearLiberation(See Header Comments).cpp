@@ -1,4 +1,4 @@
-#include"CanisMajor.h"
+#include"NuclearLiberation.h"
 
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
@@ -10,7 +10,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 #endif
 
 
-	CanisMajor theApp(hInstance);
+	NuclearLiberation theApp(hInstance);
 
 	theApp.initApp();
 
@@ -19,7 +19,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 
 
 
-CanisMajor::CanisMajor(HINSTANCE hInstance)
+NuclearLiberation::NuclearLiberation(HINSTANCE hInstance)
 	: D3DApp(hInstance), mFX(0), mTech(0), mVertexLayout(0),
 	mfxWVPVar(0)
 {
@@ -40,7 +40,7 @@ CanisMajor::CanisMajor(HINSTANCE hInstance)
 	enemyBoat = new EnemyBoat[NL::MAX_BOAT_ENEMEIS];
 }
 
-CanisMajor::~CanisMajor()
+NuclearLiberation::~NuclearLiberation()
 {
 	if( md3dDevice )
 		md3dDevice->ClearState();
@@ -60,7 +60,7 @@ CanisMajor::~CanisMajor()
 	delete [] enemyBoat;
 }
 
-void CanisMajor::initApp()
+void NuclearLiberation::initApp()
 {
 	D3DApp::initApp();
 
@@ -180,7 +180,7 @@ void CanisMajor::initApp()
 	audio->playCue(BACKGROUND);
 }
 
-void CanisMajor::initBackground()
+void NuclearLiberation::initBackground()
 {
 	float halfHeight = worldSize.y/(2*(NL::NUM_BKGD_IMGS-1));
 	for(int i = 0 ; i < NL::NUM_BKGD_IMGS; i++)
@@ -192,7 +192,7 @@ void CanisMajor::initBackground()
 	}
 }
 
-void CanisMajor::onResize()
+void NuclearLiberation::onResize()
 {
 	D3DApp::onResize();
 
@@ -200,7 +200,7 @@ void CanisMajor::onResize()
 	D3DXMatrixPerspectiveFovLH(&mProj, 0.25f*PI, aspect, 1.0f, 1000.0f);
 }
 
-void CanisMajor::updateScene(float dt)
+void NuclearLiberation::updateScene(float dt)
 {
 	D3DApp::updateScene(dt);
 	if(GetAsyncKeyState(VK_ESCAPE))
@@ -221,7 +221,7 @@ void CanisMajor::updateScene(float dt)
 	D3DXMatrixLookAtLH(&mView, &pos, &cameraTarget, &up);
 }
 
-void CanisMajor::splashUpdate(float dt, bool reset)
+void NuclearLiberation::splashUpdate(float dt, bool reset)
 {
 	static bool isKeyDown = true;
 
@@ -270,7 +270,7 @@ void CanisMajor::splashUpdate(float dt, bool reset)
 	if(menuChoice < 1) menuChoice = 2;
 }
 
-void CanisMajor::menuUpdate(float dt, bool reset)
+void NuclearLiberation::menuUpdate(float dt, bool reset)
 {
 	static bool isKeyDown = true;
 
@@ -321,7 +321,7 @@ void CanisMajor::menuUpdate(float dt, bool reset)
 	if(menuChoice < 1) menuChoice = 3;
 }
 
-void CanisMajor::levelsUpdate(float dt)
+void NuclearLiberation::levelsUpdate(float dt)
 {	
 	if(player.getPosition().x>=worldSize.x)
 	{
@@ -415,7 +415,7 @@ void CanisMajor::levelsUpdate(float dt)
 }
 
 //COLLISIONS GIVE LOADS OF FALSE POSITIVES
-void CanisMajor::collisions()
+void NuclearLiberation::collisions()
 {
 	for(int i = 0; i < NL::MAX_ENEMY_BULLETS; i++)
 	{
@@ -501,7 +501,7 @@ void CanisMajor::collisions()
 	}
 }
 
-void CanisMajor::drawScene()
+void NuclearLiberation::drawScene()
 {
 	D3DApp::drawScene();
 
@@ -532,7 +532,7 @@ void CanisMajor::drawScene()
 	mSwapChain->Present(0, 0);
 }
 
-void CanisMajor::splashDraw()
+void NuclearLiberation::splashDraw()
 {
 	for(int i = 0; i < NL::NUM_SPLASH_MENU_ITEMS; i++)
 	{
@@ -555,7 +555,7 @@ void CanisMajor::splashDraw()
 	}
 }
 
-void CanisMajor::menuDraw()
+void NuclearLiberation::menuDraw()
 {
 	for(int i = 0; i < NL::NUM_MENU_ITEMS; i++)
 	{
@@ -578,7 +578,7 @@ void CanisMajor::menuDraw()
 	}
 }
 
-void CanisMajor::levelsDraw()
+void NuclearLiberation::levelsDraw()
 {
 
 //	origin.draw(mfxWVPVar,mView,mProj,mTech);
@@ -641,7 +641,7 @@ void CanisMajor::levelsDraw()
 
 }
 
-void CanisMajor::buildFX()
+void NuclearLiberation::buildFX()
 {
 	DWORD shaderFlags = D3D10_SHADER_ENABLE_STRICTNESS;
 #if defined( DEBUG ) || defined( _DEBUG )
@@ -668,7 +668,7 @@ void CanisMajor::buildFX()
 	mfxWVPVar = mFX->GetVariableByName("gWVP")->AsMatrix();
 }
 
-void CanisMajor::buildVertexLayouts()
+void NuclearLiberation::buildVertexLayouts()
 {
 	// Create the vertex input layout.
 	D3D10_INPUT_ELEMENT_DESC vertexDesc[] =
@@ -684,7 +684,7 @@ void CanisMajor::buildVertexLayouts()
 		PassDesc.IAInputSignatureSize, &mVertexLayout));
 }
 
-void CanisMajor::spawnBullet(Vector3 pos, Vector3 vel, float scale)
+void NuclearLiberation::spawnBullet(Vector3 pos, Vector3 vel, float scale)
 {
 	for(int i = 0; i<NL::MAX_PLAYER_BULLETS; i++)
 	{
@@ -698,7 +698,7 @@ void CanisMajor::spawnBullet(Vector3 pos, Vector3 vel, float scale)
 	}
 }
 
-void CanisMajor::spawnEnemyBullet(Vector3 pos, Vector3 vel)
+void NuclearLiberation::spawnEnemyBullet(Vector3 pos, Vector3 vel)
 {
 	for(int i = 0; i<NL::MAX_ENEMY_BULLETS; i++)
 	{
@@ -711,7 +711,7 @@ void CanisMajor::spawnEnemyBullet(Vector3 pos, Vector3 vel)
 	}
 }
 
-void CanisMajor::spawnAir(Vector3 pos, Vector3 vel)
+void NuclearLiberation::spawnAir(Vector3 pos, Vector3 vel)
 {
 	for(int i = 0; i<NL::MAX_DROPS; i++)
 	{
@@ -724,7 +724,7 @@ void CanisMajor::spawnAir(Vector3 pos, Vector3 vel)
 	}
 }
 
-void CanisMajor::spawnPower(Vector3 pos, Vector3 vel)
+void NuclearLiberation::spawnPower(Vector3 pos, Vector3 vel)
 {
 	for(int i = 0; i<NL::MAX_DROPS; i++)
 	{
@@ -737,7 +737,7 @@ void CanisMajor::spawnPower(Vector3 pos, Vector3 vel)
 	}
 }
 
-void CanisMajor::spawnShield(Vector3 pos, Vector3 vel)
+void NuclearLiberation::spawnShield(Vector3 pos, Vector3 vel)
 {
 	for(int i = 0; i<NL::MAX_DROPS; i++)
 	{
@@ -750,7 +750,7 @@ void CanisMajor::spawnShield(Vector3 pos, Vector3 vel)
 	}
 }
 
-void CanisMajor::spawnLightEnemy(Vector3 pos)
+void NuclearLiberation::spawnLightEnemy(Vector3 pos)
 {
 	for(int i = 0; i<NL::MAX_LIGHT_ENEMIES; i++)
 	{
@@ -762,7 +762,7 @@ void CanisMajor::spawnLightEnemy(Vector3 pos)
 	}
 }
 
-void CanisMajor::spawnHeavyEnemy(Vector3 pos)
+void NuclearLiberation::spawnHeavyEnemy(Vector3 pos)
 {
 	for(int i = 0; i<NL::MAX_HEAVY_ENEMIES; i++)
 	{
@@ -774,7 +774,7 @@ void CanisMajor::spawnHeavyEnemy(Vector3 pos)
 	}
 }
 
-void CanisMajor::spawnSplitEnemy(Vector3 pos, int gen){
+void NuclearLiberation::spawnSplitEnemy(Vector3 pos, int gen){
 	for (int i=0;i<NL::MAX_SPLIT_ENEMEIS;i++){
 		if (!enemySplit[i].isActive){
 			enemySplit[i].create(pos);
@@ -784,7 +784,7 @@ void CanisMajor::spawnSplitEnemy(Vector3 pos, int gen){
 	}
 }
 
-void CanisMajor::spawnWall(Vector3 pos)
+void NuclearLiberation::spawnWall(Vector3 pos)
 {
 	for(int i = 0; i<NL::MAX_WALLS; i++)
 	{
@@ -796,7 +796,7 @@ void CanisMajor::spawnWall(Vector3 pos)
 	}
 }
 
-void CanisMajor::spawnEnemyBoat(float pos)
+void NuclearLiberation::spawnEnemyBoat(float pos)
 {
 	for(int i = 0; i<NL::MAX_BOAT_ENEMEIS; i++)
 	{
@@ -808,7 +808,7 @@ void CanisMajor::spawnEnemyBoat(float pos)
 	}
 }
 
-void CanisMajor::clearLevel()
+void NuclearLiberation::clearLevel()
 {
 	for(int i = 0 ; i < NL::MAX_PLAYER_BULLETS; i++)
 	{
@@ -840,7 +840,7 @@ void CanisMajor::clearLevel()
 		air[i].isActive=power[i].isActive=shield[i].isActive=false;
 }
 
-void CanisMajor::loadSplashScreen(bool status)
+void NuclearLiberation::loadSplashScreen(bool status)
 {
 	state = GameState::VICTORY;
 	clearLevel();
@@ -854,7 +854,7 @@ void CanisMajor::loadSplashScreen(bool status)
 	menuText[2] = L"QUIT";
 }
 
-void CanisMajor::menuLoad()
+void NuclearLiberation::menuLoad()
 {
 	state = GameState::MENU;
 	clearLevel();
@@ -869,7 +869,7 @@ void CanisMajor::menuLoad()
 	menuText[6] = L"WATCH YOUR AIR LEVEL";
 }
 
-void CanisMajor::loadLevel1()
+void NuclearLiberation::loadLevel1()
 {
 	audio->stopCue(PEXP);
 	state = GameState::L1;
@@ -897,7 +897,7 @@ void CanisMajor::loadLevel1()
 	spawnAllWallsOnMap();
 }
 
-void CanisMajor::loadLevel2()
+void NuclearLiberation::loadLevel2()
 {
 	audio->stopCue(PEXP);
 	state = GameState::L2;
@@ -963,7 +963,7 @@ void CanisMajor::loadLevel2()
 	spawnAllWallsOnMap();
 }
 
-void CanisMajor::loadLevel3()
+void NuclearLiberation::loadLevel3()
 {
 	audio->stopCue(PEXP);
 	state = GameState::L3;
@@ -1017,7 +1017,7 @@ void CanisMajor::loadLevel3()
 	spawnAllWallsOnMap();
 }
 
-void CanisMajor::loadLucky()
+void NuclearLiberation::loadLucky()
 {
 	audio->stopCue(PEXP);
 	state = GameState::LUCKY;
@@ -1039,7 +1039,7 @@ void CanisMajor::loadLucky()
 	spawnAllWallsOnMap();
 }
 
-void CanisMajor::resetLevel() {
+void NuclearLiberation::resetLevel() {
 	clearLevel();
 	switch(state) {
 	case L1:
@@ -1059,7 +1059,7 @@ void CanisMajor::resetLevel() {
 	}
 }
 
-void CanisMajor::onPlayerDeath()
+void NuclearLiberation::onPlayerDeath()
 {
 
 	audio->playCue(PEXP);
@@ -1073,7 +1073,7 @@ void CanisMajor::onPlayerDeath()
 	}
 }
 
-float CanisMajor::getFloor(float x)
+float NuclearLiberation::getFloor(float x)
 {
 	switch (state)
 	{
@@ -1118,7 +1118,7 @@ float CanisMajor::getFloor(float x)
 	}
 }
 
-float CanisMajor::getCeiling(float x)
+float NuclearLiberation::getCeiling(float x)
 {
 	switch (state)
 	{
@@ -1162,7 +1162,7 @@ float CanisMajor::getCeiling(float x)
 	}
 }
 
-void CanisMajor::spawnAllWallsOnMap()
+void NuclearLiberation::spawnAllWallsOnMap()
 {
 	//20's are for bleed on edges of screen
 	for(float i = -20;i<worldSize.x+20;i+=wallNS::WALL_SCALE)
@@ -1174,14 +1174,14 @@ void CanisMajor::spawnAllWallsOnMap()
 	}
 }
 
-void CanisMajor::placeFinishLine()
+void NuclearLiberation::placeFinishLine()
 {
 	finishLine.setScale(Vector3(5,worldSize.y,1));
 	finishLine.setPosition(Vector3(worldSize.x,worldSize.y/2,3));
 	finishLine.isActive = true;
 }
 
-void CanisMajor::placeEnemyBoats(int numBoats)
+void NuclearLiberation::placeEnemyBoats(int numBoats)
 {
 	//need buffers from first and last
 	float boatDisp = (worldSize.x - 20)/numBoats;
