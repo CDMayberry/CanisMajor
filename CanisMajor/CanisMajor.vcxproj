@@ -132,8 +132,12 @@
     <None Include="color.fx" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="lighthelper.fx" />
-    <FxCompile Include="lighting.fx" />
+    <None Include="lighthelper.fx">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="lighting.fx">
+      <FileType>Document</FileType>
+    </None>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

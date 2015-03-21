@@ -54,15 +54,15 @@ void CanisMajor::initApp()
 	telescope.create(Vector3(0,0,0));
 
 	mDresser.init(md3dDevice,".\\geometry\\dresser.geo");
-	dresser.init(this,&mTelescope);
+	dresser.init(this,&mDresser);
 	dresser.create(Vector3(10,0,0));
 
 	mFlashlight.init(md3dDevice,".\\geometry\\flashlight.geo");
-	flashlight.init(this,&mTelescope);
+	flashlight.init(this,&mFlashlight);
 	flashlight.create(Vector3(20,0,0));
 
 	mFrame.init(md3dDevice,".\\geometry\\pictureframe.geo");
-	frame.init(this,&mTelescope);
+	frame.init(this,&mFrame);
 	frame.create(Vector3(30,0,0));
 
 	origin.init(this,1);
@@ -95,7 +95,7 @@ void CanisMajor::updateScene(float dt)
 		break;
 	}
 	cameraTarget =telescope.getPosition();
-	cameraDisplacement = Vector3(5,0,-10);
+	cameraDisplacement = Vector3(50,10,0);
 	D3DXVECTOR3 pos = cameraTarget+cameraDisplacement;
 	D3DXVECTOR3 up(0.0f, 1.0f, 0.0f);
 	D3DXMatrixLookAtLH(&mView, &pos, &cameraTarget, &up);
