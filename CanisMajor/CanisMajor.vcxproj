@@ -90,12 +90,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="audio.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="Cube.cpp" />
     <ClCompile Include="d3dApp.cpp" />
     <ClCompile Include="Actor.cpp" />
     <ClCompile Include="GameTimer.cpp" />
     <ClCompile Include="Geometry.cpp" />
+    <ClCompile Include="input.cpp" />
     <ClCompile Include="Line.cpp" />
     <ClCompile Include="mathUtil.cpp" />
     <ClCompile Include="CanisMajor.cpp" />
@@ -105,6 +107,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="audio.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="Coin.h" />
     <ClInclude Include="Controls.h" />
     <ClInclude Include="Cube.h" />
@@ -115,6 +118,7 @@
     <ClInclude Include="gameError.h" />
     <ClInclude Include="GameTimer.h" />
     <ClInclude Include="Geometry.h" />
+    <ClInclude Include="input.h" />
     <ClInclude Include="mathUtil.h" />
     <ClInclude Include="Origin.h" />
     <ClInclude Include="CanisMajor.h" />

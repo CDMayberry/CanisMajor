@@ -49,6 +49,24 @@ void CanisMajor::initApp()
 	c.right = 'D';
 	c.use = 'E';
 	
+	mTelescope.init(md3dDevice,".\\geometry\\telescope.geo");
+	telescope.init(this,&mTelescope);
+	telescope.create(Vector3(0,0,0));
+
+	mDresser.init(md3dDevice,".\\geometry\\dresser.geo");
+	dresser.init(this,&mTelescope);
+	dresser.create(Vector3(10,0,0));
+
+	mFlashlight.init(md3dDevice,".\\geometry\\flashlight.geo");
+	flashlight.init(this,&mTelescope);
+	flashlight.create(Vector3(20,0,0));
+
+	mFrame.init(md3dDevice,".\\geometry\\pictureframe.geo");
+	frame.init(this,&mTelescope);
+	frame.create(Vector3(30,0,0));
+
+	origin.init(this,1);
+
 	buildFX();
 	buildVertexLayouts();
 	menuLoad();
@@ -76,6 +94,8 @@ void CanisMajor::updateScene(float dt)
 		levelsUpdate(dt);
 		break;
 	}
+	cameraTarget =telescope.getPosition();
+	cameraDisplacement = Vector3(5,0,-10);
 	D3DXVECTOR3 pos = cameraTarget+cameraDisplacement;
 	D3DXVECTOR3 up(0.0f, 1.0f, 0.0f);
 	D3DXMatrixLookAtLH(&mView, &pos, &cameraTarget, &up);
@@ -132,6 +152,10 @@ void CanisMajor::menuUpdate(float dt, bool reset)
 
 void CanisMajor::levelsUpdate(float dt)
 {	
+	telescope.update(dt);
+	dresser.update(dt);
+	flashlight.update(dt);
+	frame.update(dt);
 	collisions();
 }
 
@@ -219,9 +243,11 @@ void CanisMajor::menuDraw()
 
 void CanisMajor::levelsDraw()
 {
-
-//	origin.draw(mfxWVPVar,mView,mProj,mTech);
-
+	origin.draw(mfxWVPVar,mView,mProj,mTech);
+	telescope.draw(mfxWVPVar,mView,mProj,mTech);
+	dresser.draw(mfxWVPVar,mView,mProj,mTech);
+	flashlight.draw(mfxWVPVar,mView,mProj,mTech);
+	frame.draw(mfxWVPVar,mView,mProj,mTech);
 }
 
 void CanisMajor::buildFX()

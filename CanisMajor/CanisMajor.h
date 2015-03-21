@@ -9,6 +9,7 @@
 #include "Line.h"
 #include "Origin.h"
 #include "Coin.h"
+#include "input.h"
 #include <d3dx9math.h>
 
 namespace NL{
@@ -66,6 +67,10 @@ public:
 
 	ID3D10Device* getDevice(){return md3dDevice;}
 
+	Geometry mTelescope, mDresser, mFlashlight, mFrame;
+	Actor telescope, dresser,flashlight,frame;
+
+	Origin origin;
 
 private:
 	void buildFX();

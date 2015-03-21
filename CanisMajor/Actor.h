@@ -36,7 +36,7 @@ public:
 	Actor();
 	~Actor();
 
-	void init(CanisMajor* game,Geometry *b, float r);
+	void init(CanisMajor* game,Geometry *b, float r=1);
 	void draw(ID3D10EffectMatrixVariable* fx, Matrix& camera, Matrix& projection, ID3D10EffectTechnique* mTech);
 	void update(float dt);
 	void create(Vector3 pos);

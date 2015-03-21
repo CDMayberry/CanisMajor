@@ -43,4 +43,7 @@ private:
 	ID3D10Buffer* mVB;
 	ID3D10Buffer* mIB;
 	bool usesIndexBuffer;
+
+	Vertex * verts;
+	DWORD * indices;
 };

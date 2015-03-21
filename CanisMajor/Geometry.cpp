@@ -3,12 +3,17 @@
 Geometry::Geometry()
 : numVertices(0), numIndexes(0), md3dDevice(0), mVB(0), mIB(0), usesIndexBuffer(false)
 {
+	indices = nullptr;
+	verts = nullptr;
 }
  
 Geometry::~Geometry()
 {
 	ReleaseCOM(mVB);
 	ReleaseCOM(mIB);
+
+	delete [] verts;
+	delete [] indices;
 }
 
 void Geometry::init(ID3D10Device* device, D3DXCOLOR color, D3D_PRIMITIVE_TOPOLOGY top)
@@ -24,8 +29,11 @@ void Geometry::init(ID3D10Device* device, std::string objFile,D3DXCOLOR color)
 	md3dDevice = device;
 	initRasterState();
 	this->color = color;
+	topology = D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 
 	fstream fin(objFile,std::ios::in);
+
+	if(!fin) throw "THERE WASNT A FILE THERE";
 
 	vector<Vector3> vertices, faces;
 
@@ -52,7 +60,7 @@ void Geometry::init(ID3D10Device* device, std::string objFile,D3DXCOLOR color)
 	if(vertices.size()>0)
 	{
 		numVertices = vertices.size();
-		Vertex * verts = new Vertex[numVertices];
+		verts = new Vertex[numVertices];
 
 		for(int i = 0 ; i < numVertices; i++)
 		{
@@ -61,23 +69,23 @@ void Geometry::init(ID3D10Device* device, std::string objFile,D3DXCOLOR color)
 		}
 
 		initVectorBuffer(verts);
-		delete verts;
 	}
 	if(faces.size()>0)
 	{
 		numIndexes = faces.size()*3;
-		DWORD * indexes = new DWORD[numIndexes];
+		indices = new DWORD[numIndexes];
 
 		for(int i = 0 ; i < faces.size(); i++)
 		{
-			indexes[3*i] = faces[i].x;
-			indexes[3*i+1] = faces[i].y;
-			indexes[3*i+2] = faces[i].z;
+			indices[3*i] = faces[i].x;
+			indices[3*i+1] = faces[i].y;
+			indices[3*i+2] = faces[i].z;
 		}
 
-		initIndexBuffer(indexes);
-		delete indexes;
+		initIndexBuffer(indices);
 	}
+
+	
 }
 
 
