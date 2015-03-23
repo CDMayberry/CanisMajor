@@ -93,6 +93,30 @@ void CanisMajor::initApp()
 	table.init(this,&mTable);
 	table.create(Vector3(120,0,0));
 
+	mBottle.init(md3dDevice,".\\geometry\\bottle.geo");
+	bottle.init(this,&mBottle);
+	bottle.create(Vector3(130,0,0));
+
+	mLock.init(md3dDevice,".\\geometry\\lock.geo");
+	lock.init(this,&mLock);
+	lock.create(Vector3(135,0,0));
+
+	mPictureframe.init(md3dDevice,".\\geometry\\pictureframe.geo");
+	pictureFrame.init(this,&mPictureframe);
+	pictureFrame.create(Vector3(170,0,0));
+
+	mRail.init(md3dDevice,".\\geometry\\rail.geo");
+	rail.init(this,&mRail);
+	rail.create(Vector3(140,0,0));
+
+	mWallpanel.init(md3dDevice,".\\geometry\\wallpanel.geo");
+	wallPanel.init(this,&mWallpanel);
+	wallPanel.create(Vector3(150,0,0));
+
+	mWindow.init(md3dDevice,".\\geometry\\window.geo");
+	window.init(this,&mWindow);
+	window.create(Vector3(160,0,0));
+
 	origin.init(this,1);
 
 	//Camera Object
@@ -197,6 +221,12 @@ void CanisMajor::levelsUpdate(float dt)
 	servantbed.update(dt);
 	staircase.update(dt);
 	table.update(dt);
+	bottle.update(dt);
+	pictureFrame.update(dt);
+	rail.update(dt);
+	wallPanel.update(dt);
+	window.update(dt);
+	lock.update(dt);
 
 	camera.update(dt);
 	collisions();
@@ -303,6 +333,12 @@ void CanisMajor::levelsDraw()
 	servantbed.draw(mfxWVPVar,mView,mProj,mTech);
 	staircase.draw(mfxWVPVar,mView,mProj,mTech);
 	table.draw(mfxWVPVar,mView,mProj,mTech);
+	lock.draw(mfxWVPVar,mView,mProj,mTech);
+	/*bottle.draw(mfxWVPVar,mView,mProj,mTech);
+	pictureFrame.draw(mfxWVPVar,mView,mProj,mTech);
+	rail.draw(mfxWVPVar,mView,mProj,mTech);
+	wallPanel.draw(mfxWVPVar,mView,mProj,mTech);
+	window.draw(mfxWVPVar,mView,mProj,mTech);*/
 }
 
 void CanisMajor::buildFX()
