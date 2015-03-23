@@ -68,8 +68,12 @@ public:
 
 	ID3D10Device* getDevice(){return md3dDevice;}
 
-	Geometry mTelescope, mDresser, mFlashlight, mFrame, mBookcase, mChair, mCradle, mMasterbed, mServantbed, mStaircase, mTable, mBottle, mLock, mPictureframe, mRail, mWallpanel, mWindow;
-	Actor telescope, dresser,flashlight,frame, bookcase, chair, cradle, masterbed, servantbed, staircase, table, bottle, lock, pictureFrame, rail, wallPanel, window;
+	Geometry mTelescope, mDresser, mFlashlight, mFrame, mBookcase, mChair, mCradle, mMasterbed, 
+			mServantbed, mStaircase, mTable, mBottle, mLock, mPictureframe, mRail, mWallpanel, mWindow,
+			mCage, mFixture, mDoor;
+	Actor telescope, dresser,flashlight,frame, bookcase, chair, cradle, masterbed, 
+			servantbed, staircase, table, bottle, lock, pictureFrame, rail, wallPanel, window,
+			cage, fixture, door;
 
 	Origin origin;
 

@@ -117,6 +117,18 @@ void CanisMajor::initApp()
 	window.init(this,&mWindow);
 	window.create(Vector3(160,0,0));
 
+	mCage.init(md3dDevice,".\\geometry\\cage.geo");
+	cage.init(this,&mCage);
+	cage.create(Vector3(180,0,0));
+
+	mFixture.init(md3dDevice,".\\geometry\\fixture.geo");
+	fixture.init(this,&mFixture);
+	fixture.create(Vector3(190,0,0));
+
+	mDoor.init(md3dDevice,".\\geometry\\door.geo");
+	door.init(this,&mDoor);
+	door.create(Vector3(190,0,0));
+
 	origin.init(this,1);
 
 	//Camera Object
@@ -227,6 +239,9 @@ void CanisMajor::levelsUpdate(float dt)
 	wallPanel.update(dt);
 	window.update(dt);
 	lock.update(dt);
+	cage.update(dt);
+	fixture.update(dt);
+	door.update(dt);
 
 	camera.update(dt);
 	collisions();
@@ -339,6 +354,9 @@ void CanisMajor::levelsDraw()
 	rail.draw(mfxWVPVar,mView,mProj,mTech);
 	wallPanel.draw(mfxWVPVar,mView,mProj,mTech);
 	window.draw(mfxWVPVar,mView,mProj,mTech);
+	cage.draw(mfxWVPVar,mView,mProj,mTech);
+	fixture.draw(mfxWVPVar,mView,mProj,mTech);
+	door.draw(mfxWVPVar,mView,mProj,mTech);
 }
 
 void CanisMajor::buildFX()
