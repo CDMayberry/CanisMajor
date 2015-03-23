@@ -334,11 +334,11 @@ void CanisMajor::levelsDraw()
 	staircase.draw(mfxWVPVar,mView,mProj,mTech);
 	table.draw(mfxWVPVar,mView,mProj,mTech);
 	lock.draw(mfxWVPVar,mView,mProj,mTech);
-	/*bottle.draw(mfxWVPVar,mView,mProj,mTech);
+	bottle.draw(mfxWVPVar,mView,mProj,mTech);
 	pictureFrame.draw(mfxWVPVar,mView,mProj,mTech);
 	rail.draw(mfxWVPVar,mView,mProj,mTech);
 	wallPanel.draw(mfxWVPVar,mView,mProj,mTech);
-	window.draw(mfxWVPVar,mView,mProj,mTech);*/
+	window.draw(mfxWVPVar,mView,mProj,mTech);
 }
 
 void CanisMajor::buildFX()
