@@ -1,5 +1,6 @@
 #include "Camera.h"
 
+#define Transform D3DXVec3TransformCoord
 Camera::Camera()
 {
 	speed = 10;
@@ -13,6 +14,8 @@ Camera::Camera()
 	yaw = 0;
 	roll = 0;
 	pitch = 0;
+	// register handler for relative mouse movement events
+	//Windows::Devices::Input::MouseDevice::GetForCurrentView()->MouseMoved += ref new TypedEventHandler<MouseDevice^, MouseEventArgs^>(this, &MoveLookController::OnMouseMoved);
 }
 
 Camera::~Camera()
@@ -31,11 +34,13 @@ void Camera::setPerspective()
 void Camera::update(float dt)
 {
 	bool rotated = false;
+	bool pitched = false;
 	float deltaYaw = 0;
-	float _speed = 100;
+	float _speed = 1;
 	float deltaPitch = 0;
 
 	Vector3 direction = Vector3(0,0,0);
+	D3DXVECTOR3 rotDirection = Vector3(0,0,0);
 	Matrix yawR;
 	Matrix pitchR;
 	Matrix rollR;
@@ -56,23 +61,24 @@ void Camera::update(float dt)
 		deltaYaw -= _speed*dt;
 		yaw+= deltaYaw;
 	}
-	if (GetAsyncKeyState(VK_UP) & 0x8000)
-	{
-		rotated = true;
-		deltaPitch += _speed*dt;
-		if (deltaPitch < 1) 
-			deltaPitch = 1;
-		pitch += deltaPitch;
-	}
-		if (GetAsyncKeyState(VK_DOWN) & 0x8000)
-	{
-		rotated = true;
-		deltaPitch -= _speed*dt;
-		if (deltaPitch < -1) 
-			deltaPitch = -1;
-		pitch += deltaPitch;
+	//if (GetAsyncKeyState(VK_UP) & 0x8000)
+	//{
+	//	pitched = true;
+	//	deltaPitch += _speed*dt;
+	//	if (deltaPitch < 1) 
+	//		deltaPitch = 1;
+	//	pitch += deltaPitch;
+	//}
+	//if (GetAsyncKeyState(VK_DOWN) & 0x8000)
+	//{
+	//	pitched = true;
+	//	deltaPitch -= _speed*dt;
+	//	if (deltaPitch < -1) 
+	//		deltaPitch = -1;
+	//	pitch += deltaPitch;
 
-	}
+	//}
+	//RotateY(&yawR, ToRadian(yaw));
 
 	if(GetAsyncKeyState('A') & 0x8000)
 			direction.z = 1;
@@ -82,20 +88,42 @@ void Camera::update(float dt)
 			direction.x = -1;
 	if(GetAsyncKeyState('W') & 0x8000)
 			direction.x = 1;
+	if(GetAsyncKeyState(' ') & 0x8000)
+		direction.y = 1;
+	if(GetAsyncKeyState(VK_CONTROL) & 0x8000)
+		direction.y = -1;
 	
 	//Generate rotation matrices
-
+	D3DXMatrixRotationY(&yawR,yaw);
+	D3DXMatrixRotationX(&pitchR,pitch);
+	
 	
 	//Update position
-
+	direction = direction *dt*speed;
+	setPosition(position+direction);
+	lookAt+=direction;
 	//Update LookAt
 	if (rotated)
 	{
-
-	rotated = false;
+		Vector3 transformed = Vector3(1,0,0);
+		Transform(&transformed,&transformed,&yawR);
+		D3DXVec3Normalize(&transformed,&transformed);
+		lookAt = transformed;
+		lookAt+=position;
+		rotated = false;
 	}
 	else{
 	
+	}
+
+	if(pitched)
+	{
+		Vector3 transformedX = Vector3(0,1,0);
+		Transform(&transformedX,&transformedX,&pitchR);
+		D3DXVec3Normalize(&transformedX,&transformedX);
+		lookAt = transformedX;
+		lookAt+=position;
+		pitched = false;
 	}
 
 	//Generate new matrix

@@ -11,6 +11,7 @@
 #include "Coin.h"
 #include "input.h"
 #include <d3dx9math.h>
+#include "Camera.h"
 
 namespace NL{
 	const int NUM_MENU_ITEMS = 3;//title, play, quit
@@ -67,8 +68,8 @@ public:
 
 	ID3D10Device* getDevice(){return md3dDevice;}
 
-	Geometry mTelescope, mDresser, mFlashlight, mFrame;
-	Actor telescope, dresser,flashlight,frame;
+	Geometry mTelescope, mDresser, mFlashlight, mFrame, mBookcase, mChair, mCradle, mMasterbed, mServantbed, mStaircase, mTable;
+	Actor telescope, dresser,flashlight,frame, bookcase, chair, cradle, masterbed, servantbed, staircase, table;
 
 	Origin origin;
 
@@ -95,6 +96,13 @@ protected:
 
 	Vector3 cameraDisplacement;
 	Vector3 cameraTarget, cameraPositon, cameraUp;
+
+	// Camera stuff
+	Vector3 cameraPos;
+	Vector3 lookAt;
+
+	//Camera Object stuff
+	Camera camera;
 
 	std::wstring menuText[NL::NUM_MENU_ITEMS];
 	int menuChoice;

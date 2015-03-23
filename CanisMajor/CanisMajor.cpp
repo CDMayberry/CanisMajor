@@ -63,9 +63,43 @@ void CanisMajor::initApp()
 
 	mFrame.init(md3dDevice,".\\geometry\\pictureframe.geo");
 	frame.init(this,&mFrame);
-	frame.create(Vector3(30,0,0));
+	frame.create(Vector3(40,0,0));
+
+	mBookcase.init(md3dDevice,".\\geometry\\bookcase.geo");
+	bookcase.init(this,&mBookcase);
+	bookcase.create(Vector3(50,0,0));
+
+	mChair.init(md3dDevice,".\\geometry\\chair.geo");
+	chair.init(this,&mChair);
+	chair.create(Vector3(60,0,0));
+
+	mCradle.init(md3dDevice,".\\geometry\\cradle.geo");
+	cradle.init(this,&mCradle);
+	cradle.create(Vector3(70,0,0));
+
+	mMasterbed.init(md3dDevice,".\\geometry\\masterBed.geo");
+	masterbed.init(this,&mMasterbed);
+	masterbed.create(Vector3(80,0,0));
+
+	mServantbed.init(md3dDevice,".\\geometry\\servantBed.geo");
+	servantbed.init(this,&mServantbed);
+	servantbed.create(Vector3(90,0,0));
+
+	mStaircase.init(md3dDevice,".\\geometry\\staircase.geo");
+	staircase.init(this,&mStaircase);
+	staircase.create(Vector3(110,0,0));
+
+	mTable.init(md3dDevice,".\\geometry\\table.geo");
+	table.init(this,&mTable);
+	table.create(Vector3(120,0,0));
 
 	origin.init(this,1);
+
+	//Camera Object
+	camera.init(Vector3(25,25,25), Vector3(0,0,0), Vector3(0,0,0));
+	camera.setPerspective();
+	// camera
+	cameraPos = Vector3(10,10,10);
 
 	buildFX();
 	buildVertexLayouts();
@@ -156,6 +190,15 @@ void CanisMajor::levelsUpdate(float dt)
 	dresser.update(dt);
 	flashlight.update(dt);
 	frame.update(dt);
+	bookcase.update(dt);
+	chair.update(dt);
+	cradle.update(dt);
+	masterbed.update(dt);
+	servantbed.update(dt);
+	staircase.update(dt);
+	table.update(dt);
+
+	camera.update(dt);
 	collisions();
 }
 
@@ -243,11 +286,23 @@ void CanisMajor::menuDraw()
 
 void CanisMajor::levelsDraw()
 {
+	//Get Camera viewMatrix
+	 mView = camera.getViewMatrix();
+	 mProj = camera.getProjectionMatrix();
+
+
 	origin.draw(mfxWVPVar,mView,mProj,mTech);
 	telescope.draw(mfxWVPVar,mView,mProj,mTech);
 	dresser.draw(mfxWVPVar,mView,mProj,mTech);
 	flashlight.draw(mfxWVPVar,mView,mProj,mTech);
 	frame.draw(mfxWVPVar,mView,mProj,mTech);
+	bookcase.draw(mfxWVPVar,mView,mProj,mTech);
+	chair.draw(mfxWVPVar,mView,mProj,mTech);
+	cradle.draw(mfxWVPVar,mView,mProj,mTech);
+	masterbed.draw(mfxWVPVar,mView,mProj,mTech);
+	servantbed.draw(mfxWVPVar,mView,mProj,mTech);
+	staircase.draw(mfxWVPVar,mView,mProj,mTech);
+	table.draw(mfxWVPVar,mView,mProj,mTech);
 }
 
 void CanisMajor::buildFX()
