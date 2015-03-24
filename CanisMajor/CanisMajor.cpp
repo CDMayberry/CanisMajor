@@ -50,7 +50,7 @@ void CanisMajor::initApp()
 	c.right = 'D';
 	c.use = 'E';
 	
-	mTelescope.init(md3dDevice,".\\geometry\\telescope.geo", LTEGRAY);
+	mTelescope.init(md3dDevice,".\\geometry\\telescope.geo");
 	telescope.init(this,&mTelescope);
 	telescope.create(Vector3(0,0,0));
 
@@ -209,8 +209,8 @@ void CanisMajor::updateScene(float dt)
 	// like we are holding a flashlight.
 	mLights[2].pos = pos;
 
-	//Vector3 flashlight = -cameraDisplacement;
-	Vector3 flashlight = -cameraDisplacement+cameraTarget;
+	Vector3 flashlight = -cameraDisplacement;
+	//Vector3 flashlight = -cameraDisplacement+cameraTarget;
 	//D3DXVec3Composite(&flashlight, &-cameraDisplacement,&cameraTarget);
 
 	D3DXVec3Normalize(&mLights[2].dir, &(flashlight));
