@@ -27,8 +27,12 @@ void Actor::draw(ID3D10EffectMatrixVariable* fx, Matrix& camera, Matrix& project
 
     wvp = getWorldMatrix()*camera*projection;	
 	foo[0]=0;
-	fx->SetRawValue(&foo, 0, sizeof(int)); //MIGHT NEED TO ADD STUFF FOR SHADER VARIABLES
+	game->mfxEyePosVar->SetRawValue(&game->pos, 0, sizeof(D3DXVECTOR3));
+	game->mfxLightVar->SetRawValue(&game->mLights[game->mLightType], 0, sizeof(Light));
+	game->mfxLightType->SetInt(game->mLightType);
+
 	fx->SetMatrix((float*)&wvp);
+	game->mfxWorldVar->SetMatrix((float*)&world);
 	setMTech(tech);
 
 	D3D10_TECHNIQUE_DESC techDesc;

@@ -21,7 +21,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 
 CanisMajor::CanisMajor(HINSTANCE hInstance)
 	: D3DApp(hInstance), mFX(0), mTech(0), mVertexLayout(0),
-	mfxWVPVar(0)
+	mfxWVPVar(0), mfxWorldVar(0),  mfxEyePosVar(0), 
+	mfxLightVar(0), mfxLightType(0)
 {
 	D3DXMatrixIdentity(&mView);
 	D3DXMatrixIdentity(&mProj);
@@ -49,7 +50,7 @@ void CanisMajor::initApp()
 	c.right = 'D';
 	c.use = 'E';
 	
-	mTelescope.init(md3dDevice,".\\geometry\\telescope.geo");
+	mTelescope.init(md3dDevice,".\\geometry\\telescope.geo", LTEGRAY);
 	telescope.init(this,&mTelescope);
 	telescope.create(Vector3(0,0,0));
 
@@ -119,7 +120,7 @@ void CanisMajor::initApp()
 
 	mCage.init(md3dDevice,".\\geometry\\cage.geo");
 	cage.init(this,&mCage);
-	cage.create(Vector3(180,0,0));
+	cage.create(Vector3(0,0,5));
 
 	mFixture.init(md3dDevice,".\\geometry\\fixture.geo");
 	fixture.init(this,&mFixture);
@@ -127,7 +128,7 @@ void CanisMajor::initApp()
 
 	mDoor.init(md3dDevice,".\\geometry\\door.geo");
 	door.init(this,&mDoor);
-	door.create(Vector3(190,0,0));
+	door.create(Vector3(200,0,0));
 
 	origin.init(this,1);
 
@@ -140,6 +141,34 @@ void CanisMajor::initApp()
 	buildFX();
 	buildVertexLayouts();
 	menuLoad();
+
+	mLightType = 0;
+ 
+	// Parallel light.
+	mLights[0].dir      = D3DXVECTOR3(0.57735f, -0.57735f, 0.57735f);
+	mLights[0].ambient  = D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f);
+	mLights[0].diffuse  = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	mLights[0].specular = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+ 
+	// Pointlight--position is changed every frame to animate.
+	mLights[1].ambient  = D3DXCOLOR(0.4f, 0.4f, 0.4f, 1.0f);
+	mLights[1].diffuse  = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	mLights[1].specular = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	mLights[1].att.x    = 0.0f;
+	mLights[1].att.y    = 0.1f;
+	mLights[1].att.z    = 0.0f;
+	mLights[1].range    = 50.0f;
+
+	// Spotlight--position and direction changed every frame to animate.
+	mLights[2].ambient  = D3DXCOLOR(0.4f, 0.4f, 0.4f, 1.0f);
+	mLights[2].diffuse  = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	mLights[2].specular = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	mLights[2].att.x    = 1.0f;
+	mLights[2].att.y    = 0.0f;
+	mLights[2].att.z    = 0.0f;
+	mLights[2].spotPow  = 64.0f;
+	mLights[2].range    = 10000.0f;
+
 }
 
 void CanisMajor::onResize()
@@ -152,6 +181,11 @@ void CanisMajor::onResize()
 
 void CanisMajor::updateScene(float dt)
 {
+	//Switch between different light types, demo
+	if(GetAsyncKeyState('1') & 0x8000)	mLightType = 0;
+	if(GetAsyncKeyState('2') & 0x8000)	mLightType = 1;
+	if(GetAsyncKeyState('3') & 0x8000)	mLightType = 2;
+
 	D3DApp::updateScene(dt);
 	if(GetAsyncKeyState(VK_ESCAPE))
 		PostQuitMessage(0);
@@ -164,11 +198,22 @@ void CanisMajor::updateScene(float dt)
 		levelsUpdate(dt);
 		break;
 	}
-	cameraTarget =telescope.getPosition();
+	cameraTarget = camera.getDirection();
 	cameraDisplacement = Vector3(50,10,0);
-	D3DXVECTOR3 pos = cameraTarget+cameraDisplacement;
+	pos = cameraTarget+cameraDisplacement;
 	D3DXVECTOR3 up(0.0f, 1.0f, 0.0f);
 	D3DXMatrixLookAtLH(&mView, &pos, &cameraTarget, &up);
+
+	// The spotlight takes on the camera position and is aimed in the
+	// same direction the camera is looking.  In this way, it looks
+	// like we are holding a flashlight.
+	mLights[2].pos = pos;
+
+	//Vector3 flashlight = -cameraDisplacement;
+	Vector3 flashlight = -cameraDisplacement+cameraTarget;
+	//D3DXVec3Composite(&flashlight, &-cameraDisplacement,&cameraTarget);
+
+	D3DXVec3Normalize(&mLights[2].dir, &(flashlight));
 }
 
 
@@ -264,7 +309,10 @@ void CanisMajor::drawScene()
 	md3dDevice->OMSetBlendState(0, blendFactors, 0xffffffff);
 	md3dDevice->IASetInputLayout(mVertexLayout);
 
-
+	mfxEyePosVar->SetRawValue(&pos, 0, sizeof(D3DXVECTOR3));
+	mfxLightVar->SetRawValue(&mLights[mLightType], 0, sizeof(Light));
+	mfxLightType->SetInt(mLightType);
+	
 	// set the point to the shader technique
 	D3D10_TECHNIQUE_DESC techDesc;
 	mTech->GetDesc(&techDesc);
@@ -363,13 +411,13 @@ void CanisMajor::buildFX()
 {
 	DWORD shaderFlags = D3D10_SHADER_ENABLE_STRICTNESS;
 #if defined( DEBUG ) || defined( _DEBUG )
-	shaderFlags |= D3D10_SHADER_DEBUG;
+    shaderFlags |= D3D10_SHADER_DEBUG;
 	shaderFlags |= D3D10_SHADER_SKIP_OPTIMIZATION;
 #endif
-
+ 
 	ID3D10Blob* compilationErrors = 0;
 	HRESULT hr = 0;
-	hr = D3DX10CreateEffectFromFile(L"color.fx", 0, 0, 
+	hr = D3DX10CreateEffectFromFile(L"lighting.fx", 0, 0, 
 		"fx_4_0", shaderFlags, 0, md3dDevice, 0, 0, &mFX, &compilationErrors, 0);
 	if(FAILED(hr))
 	{
@@ -381,9 +429,37 @@ void CanisMajor::buildFX()
 		DXTrace(__FILE__, (DWORD)__LINE__, hr, L"D3DX10CreateEffectFromFile", true);
 	} 
 
-	mTech = mFX->GetTechniqueByName("ColorTech");
+	mTech = mFX->GetTechniqueByName("LightTech");
+	
+	mfxWVPVar    = mFX->GetVariableByName("gWVP")->AsMatrix();
+	mfxWorldVar  = mFX->GetVariableByName("gWorld")->AsMatrix();
+	mfxEyePosVar = mFX->GetVariableByName("gEyePosW");
+	mfxLightVar  = mFX->GetVariableByName("gLight");
+	mfxLightType = mFX->GetVariableByName("gLightType")->AsScalar();
 
-	mfxWVPVar = mFX->GetVariableByName("gWVP")->AsMatrix();
+//	DWORD shaderFlags = D3D10_SHADER_ENABLE_STRICTNESS;
+//#if defined( DEBUG ) || defined( _DEBUG )
+//	shaderFlags |= D3D10_SHADER_DEBUG;
+//	shaderFlags |= D3D10_SHADER_SKIP_OPTIMIZATION;
+//#endif
+//
+//	ID3D10Blob* compilationErrors = 0;
+//	HRESULT hr = 0;
+//	hr = D3DX10CreateEffectFromFile(L"color.fx", 0, 0, 
+//		"fx_4_0", shaderFlags, 0, md3dDevice, 0, 0, &mFX, &compilationErrors, 0);
+//	if(FAILED(hr))
+//	{
+//		if( compilationErrors )
+//		{
+//			MessageBoxA(0, (char*)compilationErrors->GetBufferPointer(), 0, 0);
+//			ReleaseCOM(compilationErrors);
+//		}
+//		DXTrace(__FILE__, (DWORD)__LINE__, hr, L"D3DX10CreateEffectFromFile", true);
+//	} 
+//
+//	mTech = mFX->GetTechniqueByName("ColorTech");
+//
+//	mfxWVPVar = mFX->GetVariableByName("gWVP")->AsMatrix();
 }
 
 void CanisMajor::buildVertexLayouts()
@@ -391,14 +467,16 @@ void CanisMajor::buildVertexLayouts()
 	// Create the vertex input layout.
 	D3D10_INPUT_ELEMENT_DESC vertexDesc[] =
 	{
-		{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D10_INPUT_PER_VERTEX_DATA, 0},
-		{"COLOR",    0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D10_INPUT_PER_VERTEX_DATA, 0}
+		{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,  D3D10_INPUT_PER_VERTEX_DATA, 0},
+		{"NORMAL",   0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D10_INPUT_PER_VERTEX_DATA, 0},
+		{"DIFFUSE",  0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 24, D3D10_INPUT_PER_VERTEX_DATA, 0},
+		{"SPECULAR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 40, D3D10_INPUT_PER_VERTEX_DATA, 0}
 	};
 
 	// Create the input layout
 	D3D10_PASS_DESC PassDesc;
 	mTech->GetPassByIndex(0)->GetDesc(&PassDesc);
-	HR(md3dDevice->CreateInputLayout(vertexDesc, 2, PassDesc.pIAInputSignature,
+	HR(md3dDevice->CreateInputLayout(vertexDesc, 4, PassDesc.pIAInputSignature,
 		PassDesc.IAInputSignatureSize, &mVertexLayout));
 }
 

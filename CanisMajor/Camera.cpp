@@ -11,6 +11,7 @@ Camera::Camera()
 	up = Vector3(0.0f, 1.0f, 0.0f);
 	position = Vector3(-10,0,0);
 	lookAt = Vector3(0.0f, 0.0f, 0.0f);
+	direction = Vector3(0.0f, 0.0f, 0.0f);
 	yaw = 0;
 	roll = 0;
 	pitch = 0;
@@ -102,6 +103,7 @@ void Camera::update(float dt)
 	direction = direction *dt*speed;
 	setPosition(position+direction);
 	lookAt+=direction;
+
 	//Update LookAt
 	if (rotated)
 	{
@@ -111,6 +113,7 @@ void Camera::update(float dt)
 		lookAt = transformed;
 		lookAt+=position;
 		rotated = false;
+		//this->direction = lookAt;
 	}
 	else{
 	
@@ -124,8 +127,9 @@ void Camera::update(float dt)
 		lookAt = transformedX;
 		lookAt+=position;
 		pitched = false;
+		//this->direction = lookAt;
 	}
-
+	this->direction = lookAt;
 	//Generate new matrix
 	D3DXMatrixLookAtLH(&mView, &position, &lookAt, &up);
 }

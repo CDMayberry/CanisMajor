@@ -12,6 +12,7 @@
 #include "input.h"
 #include <d3dx9math.h>
 #include "Camera.h"
+#include "Light.h"
 
 namespace NL{
 	const int NUM_MENU_ITEMS = 3;//title, play, quit
@@ -77,6 +78,21 @@ public:
 
 	Origin origin;
 
+
+	//EVERTHING PUBLIC BELOW THIS IS FOR TESTING
+	Vector3 pos;
+
+	
+	Light mLights[3];
+	int mLightType; // 0 (parallel), 1 (point), 2 (spot)
+
+	ID3D10EffectMatrixVariable* mfxWVPVar;
+	ID3D10EffectMatrixVariable* mfxWorldVar;
+	ID3D10EffectVariable* mfxEyePosVar;
+	ID3D10EffectVariable* mfxLightVar;
+	
+	ID3D10EffectScalarVariable* mfxLightType;
+
 private:
 	void buildFX();
 	void buildVertexLayouts();
@@ -93,7 +109,7 @@ protected:
 	ID3D10Effect* mFX;
 	ID3D10EffectTechnique* mTech;
 	ID3D10InputLayout* mVertexLayout;
-	ID3D10EffectMatrixVariable* mfxWVPVar;
+
 
 	D3DXMATRIX mView;
 	D3DXMATRIX mProj;
@@ -104,6 +120,7 @@ protected:
 	// Camera stuff
 	Vector3 cameraPos;
 	Vector3 lookAt;
+
 
 	//Camera Object stuff
 	Camera camera;

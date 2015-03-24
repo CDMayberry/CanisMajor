@@ -32,6 +32,7 @@ void Geometry::init(ID3D10Device* device, std::string objFile,D3DXCOLOR color)
 	topology = D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 
 	fstream fin(objFile,std::ios::in);
+	//string test;
 
 	if(!fin) throw "THERE WASNT A FILE THERE";
 
@@ -47,10 +48,12 @@ void Geometry::init(ID3D10Device* device, std::string objFile,D3DXCOLOR color)
 		if(temp == "v")
 		{
 			line>>tx>>ty>>tz;
+			//_RPT1(0, "position y %f \n", tz);
 			vertices.push_back(Vector3(tx,ty,tz));
 		}
 		if(temp == "f")
 		{
+			//line >> test;
 			line>>tx>>ty>>tz;
 			faces.push_back(Vector3(tx-1,ty-1,tz-1)); //obj file has 1 based indexes
 		}
@@ -65,7 +68,8 @@ void Geometry::init(ID3D10Device* device, std::string objFile,D3DXCOLOR color)
 		for(int i = 0 ; i < numVertices; i++)
 		{
 			verts[i].pos = vertices[i];
-			verts[i].color = color;
+			verts[i].diffuse = this->color;
+			verts[i].spec = D3DXCOLOR(0.2f, 0.2f, 0.2f, 32.0f);
 		}
 
 		initVectorBuffer(verts);

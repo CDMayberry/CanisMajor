@@ -19,8 +19,8 @@ public:
 	Geometry();
 	~Geometry();
 
-	virtual void init(ID3D10Device* device, D3DXCOLOR color = WHITE, D3D_PRIMITIVE_TOPOLOGY topology = D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	virtual void init(ID3D10Device* device, std::string objFile,D3DXCOLOR color = WHITE);
+	virtual void init(ID3D10Device* device, D3DXCOLOR color = LTEGRAY, D3D_PRIMITIVE_TOPOLOGY topology = D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	virtual void init(ID3D10Device* device, std::string objFile,D3DXCOLOR color = LTEGRAY);
 	virtual void draw(UINT offset = 0);
 
 protected:
