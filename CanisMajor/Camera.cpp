@@ -91,11 +91,14 @@ void Camera::update(float dt)
 			direction.x = -1;
 	if(GetAsyncKeyState('W') & 0x8000)
 			direction.x = 1;
-	if(GetAsyncKeyState(' ') & 0x8000)
-		direction.y = 1;
+	//if(GetAsyncKeyState(' ') & 0x8000)
+	//	direction.y = 1;
 	if(GetAsyncKeyState(VK_CONTROL) & 0x8000)
-		direction.y = -1;
+		position.y = -1;
+	else
+		position.y = 0;
 	
+
 	//Generate rotation matrices
 	D3DXMatrixRotationY(&yawR,yaw);
 	D3DXMatrixRotationX(&pitchR,pitch);

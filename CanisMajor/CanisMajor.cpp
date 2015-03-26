@@ -52,85 +52,97 @@ void CanisMajor::initApp()
 	
 	mTelescope.init(md3dDevice,".\\geometry\\telescope.geo");
 	telescope.init(this,&mTelescope);
-	telescope.create(Vector3(0,0,0));
+	telescope.setScale(Vector3(3,3,3));
+	telescope.create(Vector3(0,-3,0));
 
 	mDresser.init(md3dDevice,".\\geometry\\dresser.geo");
 	dresser.init(this,&mDresser);
-	dresser.create(Vector3(10,0,0));
+	dresser.create(Vector3(10,-3,0));
 
 	mFlashlight.init(md3dDevice,".\\geometry\\flashlight.geo");
 	flashlight.init(this,&mFlashlight);
-	flashlight.create(Vector3(20,0,0));
+	flashlight.create(Vector3(20,-3,0));
 
 	mFrame.init(md3dDevice,".\\geometry\\pictureframe.geo");
 	frame.init(this,&mFrame);
-	frame.create(Vector3(40,0,0));
+	frame.create(Vector3(40,-3,0));
 
 	mBookcase.init(md3dDevice,".\\geometry\\bookcase.geo");
 	bookcase.init(this,&mBookcase);
-	bookcase.create(Vector3(50,0,0));
+	bookcase.create(Vector3(50,-3,0));
 
 	mChair.init(md3dDevice,".\\geometry\\chair.geo");
 	chair.init(this,&mChair);
-	chair.create(Vector3(60,0,0));
+	chair.create(Vector3(60,-3,0));
 
 	mCradle.init(md3dDevice,".\\geometry\\cradle.geo");
 	cradle.init(this,&mCradle);
-	cradle.create(Vector3(70,0,0));
+	cradle.create(Vector3(70,-3,0));
 
 	mMasterbed.init(md3dDevice,".\\geometry\\masterBed.geo");
 	masterbed.init(this,&mMasterbed);
-	masterbed.create(Vector3(80,0,0));
+	masterbed.create(Vector3(80,-3,0));
 
 	mServantbed.init(md3dDevice,".\\geometry\\servantBed.geo");
 	servantbed.init(this,&mServantbed);
-	servantbed.create(Vector3(90,0,0));
+	servantbed.create(Vector3(90,-3,0));
 
 	mStaircase.init(md3dDevice,".\\geometry\\staircase.geo");
 	staircase.init(this,&mStaircase);
-	staircase.create(Vector3(110,0,0));
+	staircase.create(Vector3(110,-3,0));
 
 	mTable.init(md3dDevice,".\\geometry\\table.geo");
 	table.init(this,&mTable);
-	table.create(Vector3(120,0,0));
+	table.create(Vector3(120,-3,0));
 
 	mBottle.init(md3dDevice,".\\geometry\\bottle.geo");
 	bottle.init(this,&mBottle);
-	bottle.create(Vector3(130,0,0));
+	bottle.create(Vector3(130,-3,0));
 
 	mLock.init(md3dDevice,".\\geometry\\lock.geo");
 	lock.init(this,&mLock);
-	lock.create(Vector3(135,0,0));
+	lock.create(Vector3(135,-3,0));
 
 	mPictureframe.init(md3dDevice,".\\geometry\\pictureframe.geo");
 	pictureFrame.init(this,&mPictureframe);
-	pictureFrame.create(Vector3(170,0,0));
+	pictureFrame.create(Vector3(170,-3,0));
 
 	mRail.init(md3dDevice,".\\geometry\\rail.geo");
 	rail.init(this,&mRail);
-	rail.create(Vector3(140,0,0));
+	rail.create(Vector3(140,-3,0));
 
 	mWallpanel.init(md3dDevice,".\\geometry\\wallpanel.geo");
 	wallPanel.init(this,&mWallpanel);
-	wallPanel.create(Vector3(150,0,0));
+	wallPanel.create(Vector3(150,-3,0));
 
 	mWindow.init(md3dDevice,".\\geometry\\window.geo");
 	window.init(this,&mWindow);
-	window.create(Vector3(160,0,0));
+	window.create(Vector3(160,-3,0));
 
 	mCage.init(md3dDevice,".\\geometry\\cage.geo");
 	cage.init(this,&mCage);
-	cage.create(Vector3(0,0,5));
+	cage.create(Vector3(0,-3,5));
 
 	mFixture.init(md3dDevice,".\\geometry\\fixture.geo");
 	fixture.init(this,&mFixture);
-	fixture.create(Vector3(190,0,0));
+	fixture.create(Vector3(190,-3,0));
 
 	mDoor.init(md3dDevice,".\\geometry\\door.geo");
 	door.init(this,&mDoor);
-	door.create(Vector3(200,0,0));
+	door.create(Vector3(200,-3,0));
+
+	mCube.init(md3dDevice,".\\geometry\\cube.geo", DARKBROWN);
+	cube.init(this,&mCube);
+	cube.setScale(Vector3(200,1,200));
+	cube.create(Vector3(0,-4,0));
 
 	origin.init(this,1);
+
+	qFloor.init(md3dDevice, BLUE);
+
+	floor.init(this, &qFloor);
+	floor.setScale(Vector3(50,1,50));
+	//floor.create(Vector3(0,-5,0));
 
 	//Camera Object
 	camera.init(Vector3(25,25,25), Vector3(0,0,0), Vector3(0,0,0));
@@ -293,6 +305,8 @@ void CanisMajor::levelsUpdate(float dt)
 	fixture.update(dt);
 	door.update(dt);
 
+	cube.update(dt);
+	//floor.update(dt);
 	camera.update(dt);
 	collisions();
 }
@@ -389,6 +403,8 @@ void CanisMajor::levelsDraw()
 	 mProj = camera.getProjectionMatrix();
 
 
+	//floor.draw(mfxWVPVar,mView,mProj,mTech);
+	cube.draw(mfxWVPVar,mView,mProj,mTech);
 	origin.draw(mfxWVPVar,mView,mProj,mTech);
 	telescope.draw(mfxWVPVar,mView,mProj,mTech);
 	dresser.draw(mfxWVPVar,mView,mProj,mTech);
