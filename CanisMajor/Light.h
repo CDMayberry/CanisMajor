@@ -9,20 +9,40 @@
 
 struct Light
 {
-	Light(bool settings = false)
+	Light()
 	{
 		ZeroMemory(this, sizeof(Light));
-		if(settings) {						//Default light source for our game
+	}
 
-			// Pointlight--position is changed every frame to animate.
-			ambient  = D3DXCOLOR(0.4f, 0.4f, 0.4f, 1.0f);
+	void init(int settings) {	//Default settings! not required to use, just quick setup
+		if(settings == 1) {		//Ambient light, world light
+			dir      = D3DXVECTOR3(0.57735f, -0.57735f, 0.57735f);
+			ambient  = D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f);
 			diffuse  = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 			specular = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+
+		}
+		else if(settings == 2) { //Pointlight, mostly our room lights
+			ambient  = D3DXCOLOR(0.1f, 0.1f, 0.1f, 1.0f);
+			diffuse  = D3DXCOLOR(.8f, .8f ,.8f, 1.0f);
+			specular = D3DXCOLOR(.1f, .1f, .1f, 1.0f);
 			att.x    = 0.0f;
 			att.y    = 0.1f;
 			att.z    = 0.0f;
 			range    = 50.0f;
 		}
+		else {					//Spotlight, like our flashlight
+			ambient  = D3DXCOLOR(0.2f, 0.2f, 0.15f, 1.0f);
+			diffuse  = D3DXCOLOR(.6f, .6f ,.6f, 1.0f);
+			specular = D3DXCOLOR(.1f, .1f, .1f, 1.0f);
+			att.x    = 1.0f;
+			att.y    = 0.0f;
+			att.z    = 0.0f;
+			spotPow  = 128.0f;
+			range    = 10000.0f;
+
+		}
+
 	}
 
 	D3DXVECTOR3 pos;

@@ -138,10 +138,10 @@ void CanisMajor::initApp()
 
 	origin.init(this,1);
 
-	qFloor.init(md3dDevice, BLUE);
+	//qFloor.init(md3dDevice, BLUE);
 
-	floor.init(this, &qFloor);
-	floor.setScale(Vector3(50,1,50));
+	//floor.init(this, &qFloor);
+	//floor.setScale(Vector3(50,1,50));
 	//floor.create(Vector3(0,-5,0));
 
 	//Camera Object
@@ -156,6 +156,12 @@ void CanisMajor::initApp()
 	menuLoad();
 
 	mLightType = 0;
+
+	for(int i = 0; i < CM::MAX_LIGHTS; i++) {
+		rLights[i].init(2);
+		rLights[i].pos = Vector3(10, 10, i*10);
+	}
+
  
 	// Parallel light.
 	mLights[0].dir      = D3DXVECTOR3(0.57735f, -0.57735f, 0.57735f);
@@ -352,7 +358,7 @@ void CanisMajor::drawScene()
 
 void CanisMajor::splashDraw()
 {
-	for(int i = 0; i < NL::NUM_SPLASH_MENU_ITEMS; i++)
+	for(int i = 0; i < CM::NUM_SPLASH_MENU_ITEMS; i++)
 	{
 		RECT r; //its a point because DT_NOCLIP
 		if(i==0)
@@ -375,7 +381,7 @@ void CanisMajor::splashDraw()
 
 void CanisMajor::menuDraw()
 {
-	for(int i = 0; i < NL::NUM_MENU_ITEMS; i++)
+	for(int i = 0; i < CM::NUM_MENU_ITEMS; i++)
 	{
 		RECT r; //its a point because DT_NOCLIP
 		if(i==0)
@@ -457,30 +463,6 @@ void CanisMajor::buildFX()
 	mfxEyePosVar = mFX->GetVariableByName("gEyePosW");
 	mfxLightVar  = mFX->GetVariableByName("gLight");
 	mfxLightType = mFX->GetVariableByName("gLightType")->AsScalar();
-
-//	DWORD shaderFlags = D3D10_SHADER_ENABLE_STRICTNESS;
-//#if defined( DEBUG ) || defined( _DEBUG )
-//	shaderFlags |= D3D10_SHADER_DEBUG;
-//	shaderFlags |= D3D10_SHADER_SKIP_OPTIMIZATION;
-//#endif
-//
-//	ID3D10Blob* compilationErrors = 0;
-//	HRESULT hr = 0;
-//	hr = D3DX10CreateEffectFromFile(L"color.fx", 0, 0, 
-//		"fx_4_0", shaderFlags, 0, md3dDevice, 0, 0, &mFX, &compilationErrors, 0);
-//	if(FAILED(hr))
-//	{
-//		if( compilationErrors )
-//		{
-//			MessageBoxA(0, (char*)compilationErrors->GetBufferPointer(), 0, 0);
-//			ReleaseCOM(compilationErrors);
-//		}
-//		DXTrace(__FILE__, (DWORD)__LINE__, hr, L"D3DX10CreateEffectFromFile", true);
-//	} 
-//
-//	mTech = mFX->GetTechniqueByName("ColorTech");
-//
-//	mfxWVPVar = mFX->GetVariableByName("gWVP")->AsMatrix();
 }
 
 void CanisMajor::buildVertexLayouts()

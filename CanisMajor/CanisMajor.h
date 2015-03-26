@@ -14,9 +14,10 @@
 #include "Camera.h"
 #include "Light.h"
 
-namespace NL{
+namespace CM{
 	const int NUM_MENU_ITEMS = 3;//title, play, quit
 	const int NUM_SPLASH_MENU_ITEMS = 3;//title, continue, quit
+	const int MAX_LIGHTS = 5;
 };
 
 enum GameState{
@@ -72,7 +73,6 @@ public:
 	Geometry mTelescope, mDresser, mFlashlight, mFrame, mBookcase, mChair, mCradle, mMasterbed, 
 			mServantbed, mStaircase, mTable, mBottle, mLock, mPictureframe, mRail, mWallpanel, mWindow,
 			mCage, mFixture, mDoor, mCube;
-	Cube qFloor;
 	Actor telescope, dresser,flashlight,frame, bookcase, chair, cradle, masterbed, 
 			servantbed, staircase, table, bottle, lock, pictureFrame, rail, wallPanel, window,
 			cage, fixture, door, floor, cube;
@@ -80,11 +80,13 @@ public:
 	Origin origin;
 
 
+
 	//EVERTHING PUBLIC BELOW THIS IS FOR TESTING
 	Vector3 pos;
 
 	
 	Light mLights[3];
+	Light rLights[CM::MAX_LIGHTS];		//Room Lights, point lights
 	int mLightType; // 0 (parallel), 1 (point), 2 (spot)
 
 	ID3D10EffectMatrixVariable* mfxWVPVar;
@@ -126,7 +128,7 @@ protected:
 	//Camera Object stuff
 	Camera camera;
 
-	std::wstring menuText[NL::NUM_MENU_ITEMS];
+	std::wstring menuText[CM::NUM_MENU_ITEMS];
 	int menuChoice;
 	
 };
