@@ -6,6 +6,7 @@
 #include "d3dApp.h"
 #include <d3dx9math.h>
 #include "input.h"
+#include "Light.h"
 
 class Camera
 {
@@ -26,6 +27,7 @@ public:
 	void setFoV(float fov){FoV = fov;}
 	void setPerspective();
 	void setPitch(float p) {pitch = p;}
+	void setLight(Light* light) {flashlight = light;}
 private:
 	Matrix mView;
 	Matrix mProj;
@@ -42,5 +44,8 @@ private:
 	float yaw;
 	float pitch;
 	float roll;
+	float mPhi;
+	float mTheta;
+	Light* flashlight;
 };
 #endif

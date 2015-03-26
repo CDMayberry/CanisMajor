@@ -15,6 +15,8 @@ Camera::Camera()
 	yaw = 0;
 	roll = 0;
 	pitch = 0;
+	mPhi = 0;
+	mTheta = 0;
 	// register handler for relative mouse movement events
 	//Windows::Devices::Input::MouseDevice::GetForCurrentView()->MouseMoved += ref new TypedEventHandler<MouseDevice^, MouseEventArgs^>(this, &MoveLookController::OnMouseMoved);
 }
@@ -111,6 +113,7 @@ void Camera::update(float dt)
 		Transform(&transformed,&transformed,&yawR);
 		D3DXVec3Normalize(&transformed,&transformed);
 		lookAt = transformed;
+		flashlight->dir = lookAt;
 		lookAt+=position;
 		rotated = false;
 		//this->direction = lookAt;
@@ -130,6 +133,7 @@ void Camera::update(float dt)
 		//this->direction = lookAt;
 	}
 	this->direction = lookAt;
+	
 	//Generate new matrix
 	D3DXMatrixLookAtLH(&mView, &position, &lookAt, &up);
 }

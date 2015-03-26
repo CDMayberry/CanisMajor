@@ -137,6 +137,7 @@ void CanisMajor::initApp()
 	camera.setPerspective();
 	// camera
 	cameraPos = Vector3(10,10,10);
+	camera.setLight(&mLights[2]);
 
 	buildFX();
 	buildVertexLayouts();
@@ -160,13 +161,13 @@ void CanisMajor::initApp()
 	mLights[1].range    = 50.0f;
 
 	// Spotlight--position and direction changed every frame to animate.
-	mLights[2].ambient  = D3DXCOLOR(0.4f, 0.4f, 0.4f, 1.0f);
-	mLights[2].diffuse  = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-	mLights[2].specular = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	mLights[2].ambient  = D3DXCOLOR(0.2f, 0.2f, 0.15f, 1.0f);
+	mLights[2].diffuse  = D3DXCOLOR(.8f, .8f ,.8f, 1.0f);
+	mLights[2].specular = D3DXCOLOR(.1f, .1f, .1f, 1.0f);
 	mLights[2].att.x    = 1.0f;
 	mLights[2].att.y    = 0.0f;
 	mLights[2].att.z    = 0.0f;
-	mLights[2].spotPow  = 64.0f;
+	mLights[2].spotPow  = 128.0f;
 	mLights[2].range    = 10000.0f;
 
 }
@@ -198,7 +199,10 @@ void CanisMajor::updateScene(float dt)
 		levelsUpdate(dt);
 		break;
 	}
-	cameraTarget = camera.getDirection();
+	
+	//cameraTarget = camera.getDirection();
+	cameraTarget = camera.getPosition();
+	//cameraTarget = telescope.getPosition();
 	cameraDisplacement = Vector3(50,10,0);
 	pos = cameraTarget+cameraDisplacement;
 	D3DXVECTOR3 up(0.0f, 1.0f, 0.0f);
@@ -207,13 +211,14 @@ void CanisMajor::updateScene(float dt)
 	// The spotlight takes on the camera position and is aimed in the
 	// same direction the camera is looking.  In this way, it looks
 	// like we are holding a flashlight.
-	mLights[2].pos = pos;
+	mLights[2].pos = camera.getPosition();
 
 	Vector3 flashlight = -cameraDisplacement;
 	//Vector3 flashlight = -cameraDisplacement+cameraTarget;
 	//D3DXVec3Composite(&flashlight, &-cameraDisplacement,&cameraTarget);
 
-	D3DXVec3Normalize(&mLights[2].dir, &(flashlight));
+	//D3DXVec3Normalize(&mLights[2].dir, &(cameraTarget - pos));
+	//mLights[2].dir.z = .1;
 }
 
 
