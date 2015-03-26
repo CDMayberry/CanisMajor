@@ -164,9 +164,9 @@ void CanisMajor::initApp()
 	mLights[0].specular = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
  
 	// Pointlight--position is changed every frame to animate.
-	mLights[1].ambient  = D3DXCOLOR(0.4f, 0.4f, 0.4f, 1.0f);
-	mLights[1].diffuse  = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-	mLights[1].specular = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	mLights[1].ambient  = D3DXCOLOR(0.1f, 0.1f, 0.1f, 1.0f);
+	mLights[1].diffuse  = D3DXCOLOR(.8f, .8f ,.8f, 1.0f);
+	mLights[1].specular = D3DXCOLOR(.1f, .1f, .1f, 1.0f);
 	mLights[1].att.x    = 0.0f;
 	mLights[1].att.y    = 0.1f;
 	mLights[1].att.z    = 0.0f;
@@ -174,7 +174,7 @@ void CanisMajor::initApp()
 
 	// Spotlight--position and direction changed every frame to animate.
 	mLights[2].ambient  = D3DXCOLOR(0.2f, 0.2f, 0.15f, 1.0f);
-	mLights[2].diffuse  = D3DXCOLOR(.8f, .8f ,.8f, 1.0f);
+	mLights[2].diffuse  = D3DXCOLOR(.6f, .6f ,.6f, 1.0f);
 	mLights[2].specular = D3DXCOLOR(.1f, .1f, .1f, 1.0f);
 	mLights[2].att.x    = 1.0f;
 	mLights[2].att.y    = 0.0f;
@@ -229,7 +229,7 @@ void CanisMajor::updateScene(float dt)
 	//Vector3 flashlight = -cameraDisplacement+cameraTarget;
 	//D3DXVec3Composite(&flashlight, &-cameraDisplacement,&cameraTarget);
 
-	//D3DXVec3Normalize(&mLights[2].dir, &(cameraTarget - pos));
+	//D3DXVec3Normalize(&mLights[2].dir, &mLights[2].dir); 
 	//mLights[2].dir.z = .1;
 }
 
