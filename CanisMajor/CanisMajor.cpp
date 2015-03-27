@@ -322,6 +322,7 @@ void CanisMajor::drawScene()
 	md3dDevice->OMSetBlendState(0, blendFactors, 0xffffffff);
 	md3dDevice->IASetInputLayout(mVertexLayout);
 
+	//mfxEyePosVar->SetRawValue(&camera.getPosition(), 0, sizeof(D3DXVECTOR3));
 	mfxEyePosVar->SetRawValue(&pos, 0, sizeof(D3DXVECTOR3));
 	mfxLightVar->SetRawValue(&fLight, 0, sizeof(Light));
 	mfxAmbientVar->SetRawValue(&ambient, 0, sizeof(Light));

@@ -59,6 +59,8 @@ public:
 	void loadFirstFloor();
 	void loadBasement();
 
+	Camera& getCamera() {return camera;}
+
 	GameState state;
 
 
