@@ -150,45 +150,33 @@ void CanisMajor::initApp()
 	camera.create(Vector3(10,10,10),Vector3(1,0,0));
 	camera.setPerspective();
 	// camera
-	camera.setLight(&mLights[2]);
+//	camera.setLight(&mLights[2]);
 
 	buildFX();
 	buildVertexLayouts();
 	menuLoad();
 
-	mLightType = 0;
+//	mLightType = 0;
+	camera.setLight(&fLight);
 
 	for(int i = 0; i < CM::MAX_LIGHTS; i++) {
 		rLights[i].init(2);
-		rLights[i].pos = Vector3(10, 10, i*10);
+		rLights[i].pos = Vector3(10, 10, i*30);
 	}
 
- 
-	// Parallel light.
-	mLights[0].dir      = D3DXVECTOR3(0.57735f, -0.57735f, 0.57735f);
-	mLights[0].ambient  = D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f);
-	mLights[0].diffuse  = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-	mLights[0].specular = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
- 
-	// Pointlight--position is changed every frame to animate.
-	mLights[1].ambient  = D3DXCOLOR(0.1f, 0.1f, 0.1f, 1.0f);
-	mLights[1].diffuse  = D3DXCOLOR(.8f, .8f ,.8f, 1.0f);
-	mLights[1].specular = D3DXCOLOR(.1f, .1f, .1f, 1.0f);
-	mLights[1].att.x    = 0.0f;
-	mLights[1].att.y    = 0.1f;
-	mLights[1].att.z    = 0.0f;
-	mLights[1].range    = 50.0f;
-
 	// Spotlight--position and direction changed every frame to animate.
-	mLights[2].ambient  = D3DXCOLOR(0.2f, 0.2f, 0.15f, 1.0f);
-	mLights[2].diffuse  = D3DXCOLOR(.6f, .6f ,.6f, 1.0f);
-	mLights[2].specular = D3DXCOLOR(.1f, .1f, .1f, 1.0f);
-	mLights[2].att.x    = 1.0f;
-	mLights[2].att.y    = 0.0f;
-	mLights[2].att.z    = 0.0f;
-	mLights[2].spotPow  = 128.0f;
-	mLights[2].range    = 10000.0f;
+	fLight.init(3);
+	ambient.init(1);
+	pLight.init(2);
+	pLight.pos = Vector3(10, 10, 30);
 
+	buildFX();
+	buildVertexLayouts();
+	menuLoad();
+
+	lightOn = false;
+	lPress = false;
+	lPressing = false;
 }
 
 void CanisMajor::onResize()
@@ -202,9 +190,16 @@ void CanisMajor::onResize()
 void CanisMajor::updateScene(float dt)
 {
 	//Switch between different light types, demo
-	if(GetAsyncKeyState('1') & 0x8000)	mLightType = 0;
-	if(GetAsyncKeyState('2') & 0x8000)	mLightType = 1;
-	if(GetAsyncKeyState('3') & 0x8000)	mLightType = 2;
+	if((GetAsyncKeyState('F') & 0x8000))	{		
+		if(!lPress) {
+			lightOn = !lightOn;
+		}
+		lPress = true;
+	}
+	else
+		lPress = false;
+
+
 
 	D3DApp::updateScene(dt);
 	if(GetAsyncKeyState(VK_ESCAPE))
@@ -230,9 +225,11 @@ void CanisMajor::updateScene(float dt)
 	// The spotlight takes on the camera position and is aimed in the
 	// same direction the camera is looking.  In this way, it looks
 	// like we are holding a flashlight.
-	mLights[2].pos = camera.getPosition();
+	//mLights[2].pos = camera.getPosition();
 	
 	//Vector3 flashlight = -cameraDisplacement;
+	fLight.pos = camera.getPosition();
+
 	//Vector3 flashlight = -cameraDisplacement+cameraTarget;
 	//D3DXVec3Composite(&flashlight, &-cameraDisplacement,&cameraTarget);
 
@@ -335,9 +332,14 @@ void CanisMajor::drawScene()
 	md3dDevice->OMSetBlendState(0, blendFactors, 0xffffffff);
 	md3dDevice->IASetInputLayout(mVertexLayout);
 
+	//mfxEyePosVar->SetRawValue(&camera.getPosition(), 0, sizeof(D3DXVECTOR3));
 	mfxEyePosVar->SetRawValue(&pos, 0, sizeof(D3DXVECTOR3));
-	mfxLightVar->SetRawValue(&mLights[mLightType], 0, sizeof(Light));
-	mfxLightType->SetInt(mLightType);
+	mfxLightVar->SetRawValue(&fLight, 0, sizeof(Light));
+	mfxAmbientVar->SetRawValue(&ambient, 0, sizeof(Light));
+	mfxPLightsVar->SetRawValue(&rLights, 0, sizeof(Light)*4);
+	mfxPLightVar->SetRawValue(&pLight, 0, sizeof(Light));
+
+	mfxLightType->SetBool(lightOn);
 	
 	// set the point to the shader technique
 	D3D10_TECHNIQUE_DESC techDesc;
@@ -463,6 +465,9 @@ void CanisMajor::buildFX()
 	mfxWorldVar  = mFX->GetVariableByName("gWorld")->AsMatrix();
 	mfxEyePosVar = mFX->GetVariableByName("gEyePosW");
 	mfxLightVar  = mFX->GetVariableByName("gLight");
+	mfxPLightsVar = mFX->GetVariableByName("lights");
+	mfxPLightVar = mFX->GetVariableByName("pLight");
+	mfxAmbientVar = mFX->GetVariableByName("ambient");
 	mfxLightType = mFX->GetVariableByName("gLightType")->AsScalar();
 }
 

@@ -4,12 +4,30 @@
 // Transforms and lights geometry.
 //=============================================================================
 
-#include "lighthelper.fx"
+struct Light
+{
+	float3 pos;
+	float3 dir;
+	float4 ambient;
+	float4 diffuse;
+	float4 spec;
+	float3 att;
+	float  spotPower;
+	float  range;
+};
+
+struct SurfaceInfo
+{
+	float3 pos;
+    float3 normal;
+    float4 diffuse;
+    float4 spec;
+};
  
 cbuffer cbPerFrame
 {
 	Light gLight;
-	int gLightType; 
+	bool gLightType; 
 	float3 gEyePosW;
 	
 };
@@ -19,6 +37,15 @@ cbuffer cbPerObject
 	float4x4 gWorld;
 	float4x4 gWVP;
 };
+
+
+#define NUM_LIGHTS 4
+
+Light lights[NUM_LIGHTS];
+Light pLight;
+Light ambient;
+
+int LightCount; //Set this in-game
 
 struct VS_IN
 {
@@ -36,6 +63,91 @@ struct VS_OUT
     float4 diffuse : DIFFUSE;
     float4 spec    : SPECULAR;
 };
+
+
+float3 ParallelLight(SurfaceInfo v, Light L, float3 eyePos)
+{
+	float3 litColor = float3(0.0f, 0.0f, 0.0f);
+ 
+	// The light vector aims opposite the direction the light rays travel.
+	float3 lightVec = -L.dir;
+	
+	// Add the ambient term.
+	litColor += v.diffuse * L.ambient;	
+	
+	// Add diffuse and specular term, provided the surface is in 
+	// the line of site of the light.
+	
+	float diffuseFactor = dot(lightVec, v.normal);
+	[branch]
+	if( diffuseFactor > 0.0f )
+	{
+		float specPower  = max(v.spec.a, 1.0f);
+		float3 toEye     = normalize(eyePos - v.pos);
+		float3 R         = reflect(-lightVec, v.normal);
+		float specFactor = pow(max(dot(R, toEye), 0.0f), specPower);
+					
+		// diffuse and specular terms
+		litColor += diffuseFactor * v.diffuse * L.diffuse;
+		litColor += specFactor * v.spec * L.spec;
+	}
+	
+	return litColor;
+}
+
+float3 PointLight(SurfaceInfo v, Light L, float3 eyePos)
+{
+	float3 litColor = float3(0.0f, 0.0f, 0.0f);
+	
+	// The vector from the surface to the light.
+	float3 lightVec = L.pos - v.pos;
+		
+	// The distance from surface to light.
+	float d = length(lightVec);
+	
+	if( d > L.range )
+		return float3(0.0f, 0.0f, 0.0f);
+		
+	// Normalize the light vector.
+	lightVec /= d; 
+	
+	// Add the ambient light term.
+	litColor += v.diffuse * L.ambient;	
+	
+	// Add diffuse and specular term, provided the surface is in 
+	// the line of site of the light.
+	
+	float diffuseFactor = dot(lightVec, v.normal);
+	[branch]
+	if( diffuseFactor > 0.0f )
+	{
+		float specPower  = max(v.spec.a, 1.0f);
+		float3 toEye     = normalize(eyePos - v.pos);
+		float3 R         = reflect(-lightVec, v.normal);
+		float specFactor = pow(max(dot(R, toEye), 0.0f), specPower);
+	
+		// diffuse and specular terms
+		litColor += diffuseFactor * v.diffuse * L.diffuse;
+		litColor += specFactor * v.spec * L.spec;
+	}
+	
+	// attenuate
+	return litColor / dot(L.att, float3(1.0f, d, d*d));
+}
+
+float3 Spotlight(SurfaceInfo v, Light L, float3 eyePos)
+{
+	float3 litColor = PointLight(v, L, eyePos);
+	
+	// The vector from the surface to the light.
+	float3 lightVec = normalize(L.pos - v.pos);
+	
+	float s = pow(max(dot(-lightVec, L.dir), 0.0f), L.spotPower);
+	
+	// Scale color by spotlight factor.
+	return litColor*s;
+}
+
 
 VS_OUT VS(VS_IN vIn)
 {
@@ -55,6 +167,7 @@ VS_OUT VS(VS_IN vIn)
 	return vOut;
 }
  
+
 float4 PS(VS_OUT pIn) : SV_Target
 {
 	// Interpolating normal can make it not be of unit length so normalize it.
@@ -62,20 +175,38 @@ float4 PS(VS_OUT pIn) : SV_Target
    
    
     SurfaceInfo v = {pIn.posW, pIn.normalW, pIn.diffuse, pIn.spec};
+	float3 litColor = float3(0.0f, 0.0f, 0.0f);
+
+	//Ambient lighting loaded first
+	litColor += ParallelLight(v, ambient, gEyePosW);
+
+	//Calculations for point lights
+	//[loop]
+	//for( uint i = 0;i < NUM_LIGHTS; i++ )
+	//{
+	//	litColor += PointLight(v, lights[i], gEyePosW);
+	//}
+
+	litColor += PointLight(v, pLight, gEyePosW);
     
-    float3 litColor;
-    if( gLightType == 0 ) // Parallel
-    {
-		litColor = ParallelLight(v, gLight, gEyePosW);
-    }
-    else if( gLightType == 1 ) // Point
-    {
-		litColor = PointLight(v, gLight, gEyePosW);
-	}
-	else // Spot
+	//Flashlight bool
+	if(gLightType)
 	{
-		litColor = Spotlight(v, gLight, gEyePosW);
+		litColor += Spotlight(v, gLight, gEyePosW);
 	}
+
+	//if( gLightType == 0 ) // Parallel
+ //   {
+	//	litColor = ParallelLight(v, gLight, gEyePosW);
+ //   }
+ //   else if( gLightType == 1 ) // Point
+ //   {
+	//	litColor = PointLight(v, gLight, gEyePosW);
+	//}
+	//else // Spot
+	//{
+	//	litColor = Spotlight(v, gLight, gEyePosW);
+	//}
 	   
     return float4(litColor, pIn.diffuse.a);
 }
@@ -89,6 +220,3 @@ technique10 LightTech
         SetPixelShader( CompileShader( ps_4_0, PS() ) );
     }
 }
-
-
-

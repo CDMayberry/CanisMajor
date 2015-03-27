@@ -17,7 +17,7 @@
 namespace CM{
 	const int NUM_MENU_ITEMS = 3;//title, play, quit
 	const int NUM_SPLASH_MENU_ITEMS = 3;//title, continue, quit
-	const int MAX_LIGHTS = 5;
+	const int MAX_LIGHTS = 4;
 };
 
 enum GameState{
@@ -59,6 +59,8 @@ public:
 	void loadFirstFloor();
 	void loadBasement();
 
+	Camera& getCamera() {return camera;}
+
 	GameState state;
 
 	void onPlayerDeath();
@@ -84,14 +86,20 @@ public:
 	Vector3 pos;
 
 	
-	Light mLights[3];
+	Light fLight;
+	Light ambient;
+	Light pLight;
 	Light rLights[CM::MAX_LIGHTS];		//Room Lights, point lights
-	int mLightType; // 0 (parallel), 1 (point), 2 (spot)
+	bool lightOn; // 0 (parallel), 1 (point), 2 (spot)
+	bool lPress, lPressing;
 
 	ID3D10EffectMatrixVariable* mfxWVPVar;
 	ID3D10EffectMatrixVariable* mfxWorldVar;
 	ID3D10EffectVariable* mfxEyePosVar;
 	ID3D10EffectVariable* mfxLightVar;
+	ID3D10EffectVariable* mfxPLightsVar;
+	ID3D10EffectVariable* mfxPLightVar;
+	ID3D10EffectVariable* mfxAmbientVar;
 	
 	ID3D10EffectScalarVariable* mfxLightType;
 

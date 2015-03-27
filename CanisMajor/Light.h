@@ -18,13 +18,13 @@ struct Light
 		if(settings == 1) {		//Ambient light, world light
 			dir      = D3DXVECTOR3(0.57735f, -0.57735f, 0.57735f);
 			ambient  = D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f);
-			diffuse  = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+			diffuse  = D3DXCOLOR(.15f, .15f, .15f, 1.0f);
 			specular = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 
 		}
 		else if(settings == 2) { //Pointlight, mostly our room lights
 			ambient  = D3DXCOLOR(0.1f, 0.1f, 0.1f, 1.0f);
-			diffuse  = D3DXCOLOR(.8f, .8f ,.8f, 1.0f);
+			diffuse  = D3DXCOLOR(.5f, .5f ,.5f, 1.0f);
 			specular = D3DXCOLOR(.1f, .1f, .1f, 1.0f);
 			att.x    = 0.0f;
 			att.y    = 0.1f;
@@ -33,7 +33,7 @@ struct Light
 		}
 		else {					//Spotlight, like our flashlight
 			ambient  = D3DXCOLOR(0.2f, 0.2f, 0.15f, 1.0f);
-			diffuse  = D3DXCOLOR(.6f, .6f ,.6f, 1.0f);
+			diffuse  = D3DXCOLOR(.5f, .5f ,.5f, 1.0f);
 			specular = D3DXCOLOR(.1f, .1f, .1f, 1.0f);
 			att.x    = 1.0f;
 			att.y    = 0.0f;
