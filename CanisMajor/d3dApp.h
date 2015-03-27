@@ -15,6 +15,7 @@
 #include "audio.h"
 #include "GameTimer.h"
 #include <string>
+#include "input.h"
 
 
 class D3DApp
@@ -26,6 +27,7 @@ public:
 	HINSTANCE	getAppInst();
 	HWND		getMainWnd();
 	Audio*		audio;
+	Input*		input;
 
 	int run();
 
@@ -37,6 +39,9 @@ public:
 	virtual void updateScene(float dt);
 	virtual void drawScene(); 
 	virtual LRESULT msgProc(UINT msg, WPARAM wParam, LPARAM lParam);
+
+	Vector3 getDefaultMousePosition();
+	Vector3 getDefaultRelativeMousePosition();
 
 protected:
 	void initMainWindow();
@@ -62,7 +67,6 @@ protected:
 	ID3D10RenderTargetView* mRenderTargetView;
 	ID3D10DepthStencilView* mDepthStencilView;
 	ID3DX10Font* mFont;
-	
 	
 
 	// Derived class should set these in derived constructor to customize starting values.

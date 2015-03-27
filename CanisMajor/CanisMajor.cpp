@@ -43,6 +43,7 @@ void CanisMajor::initApp()
 {
 	D3DApp::initApp();
 
+
 	Controls c;
 	c.up = 'W';
 	c.down = 'S';
@@ -145,10 +146,10 @@ void CanisMajor::initApp()
 	//floor.create(Vector3(0,-5,0));
 
 	//Camera Object
-	camera.init(Vector3(25,25,25), Vector3(0,0,0), Vector3(0,0,0));
+	camera.init(this,c);
+	camera.create(Vector3(10,10,10),Vector3(1,0,0));
 	camera.setPerspective();
 	// camera
-	cameraPos = Vector3(10,10,10);
 	camera.setLight(&mLights[2]);
 
 	buildFX();
@@ -218,20 +219,20 @@ void CanisMajor::updateScene(float dt)
 		break;
 	}
 	
-	//cameraTarget = camera.getDirection();
-	cameraTarget = camera.getPosition();
-	//cameraTarget = telescope.getPosition();
-	cameraDisplacement = Vector3(50,10,0);
-	pos = cameraTarget+cameraDisplacement;
-	D3DXVECTOR3 up(0.0f, 1.0f, 0.0f);
-	D3DXMatrixLookAtLH(&mView, &pos, &cameraTarget, &up);
+	////cameraTarget = camera.getDirection();
+	//cameraTarget = camera.getPosition();
+	////cameraTarget = telescope.getPosition();
+	//cameraDisplacement = Vector3(50,10,0);
+	//pos = cameraTarget+cameraDisplacement;
+	//D3DXVECTOR3 up(0.0f, 1.0f, 0.0f);
+	//D3DXMatrixLookAtLH(&mView, &pos, &cameraTarget, &up);
 
 	// The spotlight takes on the camera position and is aimed in the
 	// same direction the camera is looking.  In this way, it looks
 	// like we are holding a flashlight.
 	mLights[2].pos = camera.getPosition();
-
-	Vector3 flashlight = -cameraDisplacement;
+	
+	//Vector3 flashlight = -cameraDisplacement;
 	//Vector3 flashlight = -cameraDisplacement+cameraTarget;
 	//D3DXVec3Composite(&flashlight, &-cameraDisplacement,&cameraTarget);
 

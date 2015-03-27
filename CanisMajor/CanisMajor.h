@@ -61,7 +61,6 @@ public:
 
 	GameState state;
 
-
 	void onPlayerDeath();
 
 	Vector3 worldSize;
@@ -116,14 +115,6 @@ protected:
 
 	D3DXMATRIX mView;
 	D3DXMATRIX mProj;
-
-	Vector3 cameraDisplacement;
-	Vector3 cameraTarget, cameraPositon, cameraUp;
-
-	// Camera stuff
-	Vector3 cameraPos;
-	Vector3 lookAt;
-
 
 	//Camera Object stuff
 	Camera camera;

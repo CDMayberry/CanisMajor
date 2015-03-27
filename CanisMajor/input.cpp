@@ -55,6 +55,9 @@ Input::~Input()
 void Input::initialize(HWND hwnd, bool capture)
 {
     try{
+
+		handle = hwnd;
+
         mouseCaptured = capture;
 
         // register high-definition mouse
@@ -218,6 +221,7 @@ void Input::mouseIn(LPARAM lParam)
 //=============================================================================
 void Input::mouseRawIn(LPARAM lParam)
 {
+
     UINT dwSize = 40;
     static BYTE lpb[40];
     

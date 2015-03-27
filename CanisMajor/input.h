@@ -85,6 +85,7 @@ private:
     bool mouseX1Button;                         // true if X1 mouse button down
     bool mouseX2Button;                         // true if X2 mouse button down
     ControllerState controllers[MAX_CONTROLLERS];    // state of controllers
+	HWND handle;
 
 public:
     // Constructor

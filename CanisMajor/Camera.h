@@ -7,13 +7,26 @@
 #include <d3dx9math.h>
 #include "input.h"
 #include "Light.h"
+#include "Actor.h"
+#include "Controls.h"
+#include "mathUtil.h"
 
-class Camera
+namespace CameraNS
+{
+	const float NEAR_CLIPPING_DIST = 1;
+	const float FAR_CLIPPING_DIST = 100;//originally 1000
+	const float SPEED = 10;
+	const float MOUSE_MOVE_RATE = 0.001;
+};
+
+class Camera: public virtual Actor
 {
 public:
 	Camera();
 	~Camera();
-	void init(Vector3 position, Vector3 direction, Vector3 _lookAt);
+	void init(CanisMajor* game, Controls c);
+	void create(Vector3 pos, Vector3 dir);
+
 	Matrix getViewMatrix() {return mView;}
 	Matrix getProjectionMatrix() {return mProj;}
 	void update(float dt);
@@ -38,7 +51,6 @@ private:
 	float FoV;
 	float nearClippingPlane;
 	float farClippingPlane;
-	Vector3 lookAt;
 	Vector3 up;
 	Vector3 right;
 	float yaw;
@@ -47,5 +59,6 @@ private:
 	float mPhi;
 	float mTheta;
 	Light* flashlight;
+	Controls controls;
 };
 #endif

@@ -33,6 +33,8 @@ D3DApp::D3DApp(HINSTANCE hInstance)
 {
 	mhAppInst   = hInstance;
 	audio = NULL;
+	input = new Input();
+
 	mhMainWnd   = 0;
 	mAppPaused  = false;
 	mMinimized  = false;
@@ -57,6 +59,7 @@ D3DApp::D3DApp(HINSTANCE hInstance)
 
 D3DApp::~D3DApp()
 {
+	delete(input);
 	ReleaseCOM(mRenderTargetView);
 	ReleaseCOM(mDepthStencilView);
 	ReleaseCOM(mSwapChain);
@@ -75,11 +78,28 @@ HWND D3DApp::getMainWnd()
 	return mhMainWnd;
 }
 
+Vector3 D3DApp::getDefaultMousePosition()
+{
+	RECT r;
+	GetWindowRect(getMainWnd(),&r);
+	return Vector3((r.right+r.left)/2,(r.bottom+r.top)/2,0);
+}
+
+Vector3 D3DApp::getDefaultRelativeMousePosition()
+{
+	POINT p={0,0};
+	ClientToScreen(getMainWnd(),&p);
+	Vector3 abs = getDefaultMousePosition();
+	abs.x-=p.x;abs.y-=p.y;
+	return abs;
+}
+
 int D3DApp::run()
 {
 	MSG msg = {0};
  
 	mTimer.reset();
+
 
 	while(msg.message != WM_QUIT)
 	{
@@ -96,6 +116,7 @@ int D3DApp::run()
 
 			if( !mAppPaused )
 			{
+				SetCursorPos(getDefaultMousePosition().x,getDefaultMousePosition().y);
 				updateScene(mTimer.getDeltaTime());	
 				audio->run();
 			}
@@ -113,6 +134,8 @@ void D3DApp::initApp()
 {
 	initMainWindow();
 	initDirect3D();
+
+	input->initialize(getMainWnd(),false);
 
 	D3DX10_FONT_DESC fontDesc;
 	fontDesc.Height          = 24;
@@ -196,6 +219,8 @@ void D3DApp::onResize()
 	vp.MaxDepth = 1.0f;
 
 	md3dDevice->RSSetViewports(1, &vp);
+
+	
 }
 
 void D3DApp::updateScene(float dt)
@@ -236,6 +261,54 @@ LRESULT D3DApp::msgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch( msg )
 	{
+
+	case WM_KEYDOWN: case WM_SYSKEYDOWN:    // key down
+        input->keyDown(wParam);
+        return 0;
+    case WM_KEYUP: case WM_SYSKEYUP:        // key up
+        input->keyUp(wParam);
+		if(wParam == VK_ESCAPE)
+			PostQuitMessage(0); 
+        return 0;
+    case WM_CHAR:                           // character entered
+        input->keyIn(wParam);
+        return 0;
+    case WM_MOUSEMOVE:                      // mouse moved
+        input->mouseIn(lParam);
+        return 0;
+    case WM_INPUT:                          // raw mouse data in
+        input->mouseRawIn(lParam);
+        return 0;
+    case WM_LBUTTONDOWN:                    // left mouse button down
+        input->setMouseLButton(true);
+        input->mouseIn(lParam);             // mouse position
+        return 0;
+    case WM_LBUTTONUP:                      // left mouse button up
+        input->setMouseLButton(false);
+        input->mouseIn(lParam);             // mouse position
+        return 0;
+    case WM_MBUTTONDOWN:                    // middle mouse button down
+        input->setMouseMButton(true);
+        input->mouseIn(lParam);             // mouse position
+        return 0;
+    case WM_MBUTTONUP:                      // middle mouse button up
+        input->setMouseMButton(false);
+        input->mouseIn(lParam);             // mouse position
+        return 0;
+    case WM_RBUTTONDOWN:                    // right mouse button down
+        input->setMouseRButton(true);
+        input->mouseIn(lParam);             // mouse position
+        return 0;
+    case WM_RBUTTONUP:                      // right mouse button up
+        input->setMouseRButton(false);
+        input->mouseIn(lParam);             // mouse position
+        return 0;
+    case WM_XBUTTONDOWN: case WM_XBUTTONUP: // mouse X button down/up
+        input->setMouseXButton(wParam);
+        input->mouseIn(lParam);             // mouse position
+        return 0;
+
+
 	// WM_ACTIVATE is sent when the window is activated or deactivated.  
 	// We pause the game when the window is deactivated and unpause it 
 	// when it becomes active.  
