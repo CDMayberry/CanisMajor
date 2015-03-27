@@ -27,8 +27,8 @@ void Actor::draw(ID3D10EffectMatrixVariable* fx, Matrix& camera, Matrix& project
 
     wvp = getWorldMatrix()*camera*projection;	
 	foo[0]=0;
-	//game->mfxEyePosVar->SetRawValue(&game->getCamera().getPosition(), 0, sizeof(D3DXVECTOR3));
-	game->mfxEyePosVar->SetRawValue(&game->pos, 0, sizeof(D3DXVECTOR3));
+	game->mfxEyePosVar->SetRawValue(&game->getCamera().getPosition(), 0, sizeof(D3DXVECTOR3));
+	//game->mfxEyePosVar->SetRawValue(&game->pos, 0, sizeof(D3DXVECTOR3));
 
 	//Lighting values
 	game->mfxLightVar->SetRawValue(&game->fLight, 0, sizeof(Light));
