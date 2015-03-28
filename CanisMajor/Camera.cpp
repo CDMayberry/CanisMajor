@@ -146,6 +146,7 @@ void Camera::update(float dt)
 			if(!buttonPushed)
 			{
 				flashlight->toggle();
+				game->audio->playCue(CLICK);
 				buttonPushed = true;
 			}
 		}
