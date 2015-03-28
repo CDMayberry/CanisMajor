@@ -161,7 +161,7 @@ void CanisMajor::initApp()
 
 	for(int i = 0; i < CM::MAX_LIGHTS; i++) {
 		rLights[i].init(2);
-		rLights[i].pos = Vector3(10, 10, i*30);
+		rLights[i].pos = Vector3(i*50, 10, -30);
 	}
 
 	// Spotlight--position and direction changed every frame to animate.

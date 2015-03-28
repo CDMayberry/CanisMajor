@@ -178,14 +178,14 @@ float4 PS(VS_OUT pIn) : SV_Target
 	float3 litColor = float3(0.0f, 0.0f, 0.0f);
 
 	//Ambient lighting loaded first
-	litColor += ParallelLight(v, ambient, gEyePosW);
+	litColor = ParallelLight(v, ambient, gEyePosW);
 
 	//Calculations for point lights
-	//[loop]
-	//for( uint i = 0;i < NUM_LIGHTS; i++ )
-	//{
-	//	litColor += PointLight(v, lights[i], gEyePosW);
-	//}
+	[loop]
+	for( uint i = 0;i < NUM_LIGHTS; i++ )
+	{
+		litColor += PointLight(v, lights[i], gEyePosW);
+	}
 
 	litColor += PointLight(v, pLight, gEyePosW);
     
@@ -196,11 +196,11 @@ float4 PS(VS_OUT pIn) : SV_Target
 	}
 
 	//if( gLightType == 0 ) // Parallel
- //   {
+	//{
 	//	litColor = ParallelLight(v, gLight, gEyePosW);
- //   }
- //   else if( gLightType == 1 ) // Point
- //   {
+	//}
+	//else if( gLightType == 1 ) // Point
+	//{
 	//	litColor = PointLight(v, gLight, gEyePosW);
 	//}
 	//else // Spot
