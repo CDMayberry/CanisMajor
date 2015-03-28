@@ -13,11 +13,15 @@
 #include <d3dx9math.h>
 #include "Camera.h"
 #include "Light.h"
+#include "Wall.h"
+#include "Roof.h"
 
 namespace CM{
 	const int NUM_MENU_ITEMS = 3;//title, play, quit
 	const int NUM_SPLASH_MENU_ITEMS = 3;//title, continue, quit
 	const int MAX_LIGHTS = 4;
+	const int MAX_WALLS = 750;
+	const int MAX_ROOF = 75;
 };
 
 enum GameState{
@@ -51,7 +55,9 @@ public:
 
 	void clearLevel();
 	void levelsUpdate(float dt);
+	void atticUpdate(float dt);
 	void levelsDraw();
+	void atticDraw();
 
 	void resetLevel();
 	void loadAttic();
@@ -73,10 +79,13 @@ public:
 
 	Geometry mTelescope, mDresser, mFlashlight, mFrame, mBookcase, mChair, mCradle, mMasterbed, 
 			mServantbed, mStaircase, mTable, mBottle, mLock, mPictureframe, mRail, mWallpanel, mWindow,
-			mCage, mFixture, mDoor, mCube;
+			mCage, mFixture, mDoor, mCube, mRoof, mRoofHole;
 	Actor telescope, dresser,flashlight,frame, bookcase, chair, cradle, masterbed, 
 			servantbed, staircase, table, bottle, lock, pictureFrame, rail, wallPanel, window,
-			cage, fixture, door, floor, cube;
+			cage, fixture, door, floor, cube, roof, roofHole;
+
+	Wall* walls;
+	//Actor* roof;
 
 	Origin origin;
 

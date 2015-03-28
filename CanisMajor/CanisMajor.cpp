@@ -27,7 +27,7 @@ CanisMajor::CanisMajor(HINSTANCE hInstance)
 	D3DXMatrixIdentity(&mView);
 	D3DXMatrixIdentity(&mProj);
 
-	
+	walls = new Wall[CM::MAX_WALLS];
 }
 
 CanisMajor::~CanisMajor()
@@ -137,6 +137,22 @@ void CanisMajor::initApp()
 	cube.setScale(Vector3(200,1,200));
 	cube.create(Vector3(0,-4,0));
 
+	mRoof.init(md3dDevice,".\\geometry\\roof.geo");
+	
+	mRoofHole.init(md3dDevice,".\\geometry\\roofHole.geo");
+
+	for(int i = 0 ; i < CM::MAX_WALLS; i++)
+	{
+		walls[i].init(this,&mWallpanel,1);
+		walls[i].setScale(Vector3(1,wallNS::WALL_SCALE,1));
+	}
+
+	//for(int i = 0; i<CM::MAX_ROOF; i++)
+	//{
+	//	roof[i].init(this,&mRoof,1);
+	//	roof[i].setScale(Vector3(1,1,1));
+	//}
+	
 	origin.init(this,1);
 
 	//qFloor.init(md3dDevice, BLUE);
@@ -288,31 +304,43 @@ void CanisMajor::menuUpdate(float dt, bool reset)
 
 void CanisMajor::levelsUpdate(float dt)
 {	
-	telescope.update(dt);
-	dresser.update(dt);
-	flashlight.update(dt);
-	frame.update(dt);
-	bookcase.update(dt);
-	chair.update(dt);
-	cradle.update(dt);
-	masterbed.update(dt);
-	servantbed.update(dt);
-	staircase.update(dt);
-	table.update(dt);
-	bottle.update(dt);
-	pictureFrame.update(dt);
-	rail.update(dt);
-	wallPanel.update(dt);
-	window.update(dt);
-	lock.update(dt);
-	cage.update(dt);
-	fixture.update(dt);
-	door.update(dt);
+
+	//telescope.update(dt);
+	//dresser.update(dt);
+	//flashlight.update(dt);
+	//frame.update(dt);
+	//bookcase.update(dt);
+	//chair.update(dt);
+	//cradle.update(dt);
+	//masterbed.update(dt);
+	//servantbed.update(dt);
+	//staircase.update(dt);
+	//table.update(dt);
+	//bottle.update(dt);
+	//pictureFrame.update(dt);
+	//rail.update(dt);
+	//wallPanel.update(dt);
+	//window.update(dt);
+	//lock.update(dt);
+	//cage.update(dt);
+	//fixture.update(dt);
+	//door.update(dt);
+
+	if(state == ATTIC)
+		atticUpdate(dt);
 
 	cube.update(dt);
 	//floor.update(dt);
 	camera.update(dt);
 	collisions();
+}
+
+void CanisMajor::atticUpdate(float dt)
+{
+	for(int i = 0; i< CM::MAX_WALLS; i++)
+	{
+		walls[i].update(dt);
+	}
 }
 
 //COLLISIONS GIVE LOADS OF FALSE POSITIVES
@@ -410,9 +438,13 @@ void CanisMajor::levelsDraw()
 	 mView = camera.getViewMatrix();
 	 mProj = camera.getProjectionMatrix();
 
+	 if(state == ATTIC)
+	 {
+		 atticDraw();
+	 }
 
 	//floor.draw(mfxWVPVar,mView,mProj,mTech);
-	cube.draw(mfxWVPVar,mView,mProj,mTech);
+	/*cube.draw(mfxWVPVar,mView,mProj,mTech);
 	origin.draw(mfxWVPVar,mView,mProj,mTech);
 	telescope.draw(mfxWVPVar,mView,mProj,mTech);
 	dresser.draw(mfxWVPVar,mView,mProj,mTech);
@@ -433,7 +465,15 @@ void CanisMajor::levelsDraw()
 	window.draw(mfxWVPVar,mView,mProj,mTech);
 	cage.draw(mfxWVPVar,mView,mProj,mTech);
 	fixture.draw(mfxWVPVar,mView,mProj,mTech);
-	door.draw(mfxWVPVar,mView,mProj,mTech);
+	door.draw(mfxWVPVar,mView,mProj,mTech);*/
+}
+
+void CanisMajor::atticDraw()
+{
+	for(int i = 0; i< CM::MAX_WALLS; i++)
+		walls[i].draw(mfxWVPVar,mView,mProj,mTech);
+
+	cube.draw(mfxWVPVar,mView,mProj,mTech);
 }
 
 void CanisMajor::buildFX()
@@ -521,6 +561,31 @@ void CanisMajor::menuLoad()
 void CanisMajor::loadAttic()
 {
 	state = ATTIC;
+	int iter = 0;
+	for(int i = 0; i < 11; i++)
+	{
+		walls[i].setPosition(Vector3(0,0,i*10));
+		walls[i].isActive = true;
+	}
+
+	iter = 0;
+	for(int i = 11; i < 17; i++)
+	{
+		
+		walls[i].setPosition(Vector3(5+iter*10,0,105));
+		walls[i].setRotation(Vector3(0,1.5707963268,0));
+		walls[i].isActive = true;
+		iter++;
+	}
+
+	iter = 0;
+	for(int i = 17; i< 28; i++)
+	{
+		
+		walls[i].setPosition(Vector3(60,0,iter*10));
+		walls[i].isActive = true;
+		iter++;
+	}
 }
 
 void CanisMajor::loadSecondFloor()

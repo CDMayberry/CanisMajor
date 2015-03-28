@@ -126,7 +126,9 @@
     <ClInclude Include="Line.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Quad.h" />
+    <ClInclude Include="Roof.h" />
     <ClInclude Include="Vertex.h" />
+    <ClInclude Include="Wall.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="color.fx" />

@@ -143,6 +143,12 @@
     <ClInclude Include="Camera.h">
       <Filter>Header Files\Util</Filter>
     </ClInclude>
+    <ClInclude Include="Wall.h">
+      <Filter>Header Files\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Roof.h">
+      <Filter>Header Files\Geometry</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="color.fx" />
