@@ -10,13 +10,25 @@
 #include "Actor.h"
 #include "Controls.h"
 #include "mathUtil.h"
+#include "Flashlight.h"
+#include "Interactable.h"
 
 namespace CameraNS
 {
-	const float NEAR_CLIPPING_DIST = 1;
+	const float NEAR_CLIPPING_DIST = 0.1;
 	const float FAR_CLIPPING_DIST = 100;//originally 1000
 	const float SPEED = 10;
+	const float RUN_SPEED = 40;
+	const float CROUCH_SPEED = 5;
 	const float MOUSE_MOVE_RATE = 0.001;
+	const float DEFAULT_BOB_AMPLITUDE = 0.3;
+	const float RUN_BOB_AMPLITUDE = 0.6;
+	const float CROUCH_BOB_AMPLITUDE = 0.3;
+	const float DEFAULT_HEIGHT = 3;
+	const float CROUCH_HEIGHT = 1;
+	const float BOB_FREQUENCY = 6;//bobs per 2PI
+	const float SQUAT_SPEED = 10;
+	const float COLISION_RADIUS = 6;
 };
 
 class Camera: public virtual Actor
@@ -26,6 +38,12 @@ public:
 	~Camera();
 	void init(CanisMajor* game, Controls c);
 	void create(Vector3 pos, Vector3 dir);
+	
+	virtual bool collided(Actor *gameObject);
+
+	bool hasFlashlight(){return flashlight!=nullptr;};
+
+	void setNearbyInteractable(Interactable* i){nearbyItem = i;}
 
 	Matrix getViewMatrix() {return mView;}
 	Matrix getProjectionMatrix() {return mProj;}
@@ -39,12 +57,14 @@ public:
 	float getFoV() {return FoV;}
 	void setFoV(float fov){FoV = fov;}
 	void setPerspective();
-	void setPitch(float p) {pitch = p;}
-	void setLight(Light* light) {flashlight = light;}
+	void setFlashlight(Flashlight* f) {flashlight = f;}
+
+
+	Controls controls;
+
 private:
 	Matrix mView;
 	Matrix mProj;
-	Vector3 position;
 	Vector3 direction;
 	float speed;
 	float aspectRatio;
@@ -53,12 +73,9 @@ private:
 	float farClippingPlane;
 	Vector3 up;
 	Vector3 right;
-	float yaw;
-	float pitch;
-	float roll;
-	float mPhi;
-	float mTheta;
-	Light* flashlight;
-	Controls controls;
+	float bobTimer;
+	Flashlight* flashlight;
+	float camHeight;
+	Interactable* nearbyItem;
 };
 #endif

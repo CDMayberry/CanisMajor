@@ -35,7 +35,7 @@ void Actor::draw(ID3D10EffectMatrixVariable* fx, Matrix& camera, Matrix& project
 	game->mfxAmbientVar->SetRawValue(&game->ambient, 0, sizeof(Light));
 	game->mfxPLightsVar->SetRawValue(&game->rLights, 0, sizeof(Light)*4);
 	game->mfxPLightVar->SetRawValue(&game->pLight, 0, sizeof(Light));
-	game->mfxLightType->SetBool(game->lightOn);
+	game->mfxLightType->SetBool(game->flashlight.isOn);
 
 	fx->SetMatrix((float*)&wvp);
 	game->mfxWorldVar->SetMatrix((float*)&world);

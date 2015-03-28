@@ -13,11 +13,15 @@
 #include <d3dx9math.h>
 #include "Camera.h"
 #include "Light.h"
+#include "Flashlight.h"
+
+using std::wstring;
 
 namespace CM{
 	const int NUM_MENU_ITEMS = 3;//title, play, quit
 	const int NUM_SPLASH_MENU_ITEMS = 3;//title, continue, quit
 	const int MAX_LIGHTS = 4;
+	const float TEXT_FADEOUT_TIME = 3;
 };
 
 enum GameState{
@@ -59,6 +63,11 @@ public:
 	void loadFirstFloor();
 	void loadBasement();
 
+	void drawUtilText(wstring s=L"");//calling with s defined sets the string, calling without prints the string
+	void drawStoryText();
+	void updateStoryText(float dt);
+	void setStoryText(float durration,wstring s, D3DXCOLOR c = WHITE);
+
 	Camera& getCamera() {return camera;}
 
 	GameState state;
@@ -74,12 +83,13 @@ public:
 	Geometry mTelescope, mDresser, mFlashlight, mFrame, mBookcase, mChair, mCradle, mMasterbed, 
 			mServantbed, mStaircase, mTable, mBottle, mLock, mPictureframe, mRail, mWallpanel, mWindow,
 			mCage, mFixture, mDoor, mCube;
-	Actor telescope, dresser,flashlight,frame, bookcase, chair, cradle, masterbed, 
+	Actor telescope, dresser,frame, bookcase, chair, cradle, masterbed, 
 			servantbed, staircase, table, bottle, lock, pictureFrame, rail, wallPanel, window,
 			cage, fixture, door, floor, cube;
 
 	Origin origin;
 
+	Flashlight flashlight;
 
 
 	//EVERTHING PUBLIC BELOW THIS IS FOR TESTING
@@ -90,8 +100,6 @@ public:
 	Light ambient;
 	Light pLight;
 	Light rLights[CM::MAX_LIGHTS];		//Room Lights, point lights
-	bool lightOn; // 0 (parallel), 1 (point), 2 (spot)
-	bool lPress, lPressing;
 
 	ID3D10EffectMatrixVariable* mfxWVPVar;
 	ID3D10EffectMatrixVariable* mfxWorldVar;
@@ -130,4 +138,9 @@ protected:
 	std::wstring menuText[CM::NUM_MENU_ITEMS];
 	int menuChoice;
 	
+	wstring storyText;
+	float storyTextLifespan;
+	float storyTextAge;
+	D3DXCOLOR storyTextColor;
+
 };

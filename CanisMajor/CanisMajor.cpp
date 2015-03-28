@@ -27,6 +27,18 @@ CanisMajor::CanisMajor(HINSTANCE hInstance)
 	D3DXMatrixIdentity(&mView);
 	D3DXMatrixIdentity(&mProj);
 
+	Controls c;
+	c.up = 'W';
+	c.down = 'S';
+	c.left = 'A';
+	c.right = 'D';
+	c.use = 'E';
+	c.flashlight = 'F';
+	c.crouch = VK_CONTROL;
+	c.run = VK_SHIFT;
+	//Camera Object
+	camera.init(this,c);
+
 	
 }
 
@@ -43,14 +55,19 @@ void CanisMajor::initApp()
 {
 	D3DApp::initApp();
 
-
-	Controls c;
-	c.up = 'W';
-	c.down = 'S';
-	c.left = 'A';
-	c.right = 'D';
-	c.use = 'E';
 	
+	for(int i = 0; i < CM::MAX_LIGHTS; i++) {
+		rLights[i].init(2);
+		rLights[i].pos = Vector3(10, 10, i*30);
+	}
+
+	// Spotlight--position and direction changed every frame to animate.
+	fLight.init(3);
+	ambient.init(1);
+	pLight.init(2);
+	pLight.pos = Vector3(10, 10, 30);
+
+
 	mTelescope.init(md3dDevice,".\\geometry\\telescope.geo");
 	telescope.init(this,&mTelescope);
 	telescope.setScale(Vector3(3,3,3));
@@ -61,7 +78,7 @@ void CanisMajor::initApp()
 	dresser.create(Vector3(10,-3,0));
 
 	mFlashlight.init(md3dDevice,".\\geometry\\flashlight.geo");
-	flashlight.init(this,&mFlashlight);
+	flashlight.init(this,&mFlashlight,&fLight);
 	flashlight.create(Vector3(20,-3,0));
 
 	mFrame.init(md3dDevice,".\\geometry\\pictureframe.geo");
@@ -145,62 +162,27 @@ void CanisMajor::initApp()
 	//floor.setScale(Vector3(50,1,50));
 	//floor.create(Vector3(0,-5,0));
 
-	//Camera Object
-	camera.init(this,c);
+	
 	camera.create(Vector3(10,10,10),Vector3(1,0,0));
 	camera.setPerspective();
-	// camera
-//	camera.setLight(&mLights[2]);
+	//camera.setFlashlight(&flashlight);	
+
+	flashlight.toggle();
 
 	buildFX();
 	buildVertexLayouts();
 	menuLoad();
 
-//	mLightType = 0;
-	camera.setLight(&fLight);
-
-	for(int i = 0; i < CM::MAX_LIGHTS; i++) {
-		rLights[i].init(2);
-		rLights[i].pos = Vector3(10, 10, i*30);
-	}
-
-	// Spotlight--position and direction changed every frame to animate.
-	fLight.init(3);
-	ambient.init(1);
-	pLight.init(2);
-	pLight.pos = Vector3(10, 10, 30);
-
-	buildFX();
-	buildVertexLayouts();
-	menuLoad();
-
-	lightOn = false;
-	lPress = false;
-	lPressing = false;
 }
 
 void CanisMajor::onResize()
 {
 	D3DApp::onResize();
-
-	float aspect = (float)mClientWidth/mClientHeight;
-	D3DXMatrixPerspectiveFovLH(&mProj, 0.25f*PI, aspect, 1.0f, 1000.0f);
+	camera.setPerspective();
 }
 
 void CanisMajor::updateScene(float dt)
 {
-	//Switch between different light types, demo
-	if((GetAsyncKeyState('F') & 0x8000))	{		
-		if(!lPress) {
-			lightOn = !lightOn;
-		}
-		lPress = true;
-	}
-	else
-		lPress = false;
-
-
-
 	D3DApp::updateScene(dt);
 	if(GetAsyncKeyState(VK_ESCAPE))
 		PostQuitMessage(0);
@@ -213,28 +195,6 @@ void CanisMajor::updateScene(float dt)
 		levelsUpdate(dt);
 		break;
 	}
-	
-	////cameraTarget = camera.getDirection();
-	//cameraTarget = camera.getPosition();
-	////cameraTarget = telescope.getPosition();
-	//cameraDisplacement = Vector3(50,10,0);
-	//pos = cameraTarget+cameraDisplacement;
-	//D3DXVECTOR3 up(0.0f, 1.0f, 0.0f);
-	//D3DXMatrixLookAtLH(&mView, &pos, &cameraTarget, &up);
-
-	// The spotlight takes on the camera position and is aimed in the
-	// same direction the camera is looking.  In this way, it looks
-	// like we are holding a flashlight.
-	//mLights[2].pos = camera.getPosition();
-	
-	//Vector3 flashlight = -cameraDisplacement;
-	fLight.pos = camera.getPosition();
-
-	//Vector3 flashlight = -cameraDisplacement+cameraTarget;
-	//D3DXVec3Composite(&flashlight, &-cameraDisplacement,&cameraTarget);
-
-	//D3DXVec3Normalize(&mLights[2].dir, &mLights[2].dir); 
-	//mLights[2].dir.z = .1;
 }
 
 
@@ -312,12 +272,22 @@ void CanisMajor::levelsUpdate(float dt)
 	cube.update(dt);
 	//floor.update(dt);
 	camera.update(dt);
+
+	updateStoryText(dt);
+
 	collisions();
 }
 
 //COLLISIONS GIVE LOADS OF FALSE POSITIVES
 void CanisMajor::collisions()
 {
+
+	if(!camera.hasFlashlight()&&camera.collided(&flashlight))
+	{
+		camera.setNearbyInteractable(&flashlight);
+		drawUtilText(L"Press E to pick up flashlight.");
+	}
+
 }
 
 void CanisMajor::drawScene()
@@ -338,7 +308,7 @@ void CanisMajor::drawScene()
 	mfxAmbientVar->SetRawValue(&ambient, 0, sizeof(Light));
 	mfxPLightsVar->SetRawValue(&rLights, 0, sizeof(Light)*4);
 	mfxPLightVar->SetRawValue(&pLight, 0, sizeof(Light));
-	mfxLightType->SetBool(lightOn);
+	mfxLightType->SetBool(flashlight.isOn);
 	
 	// set the point to the shader technique
 	D3D10_TECHNIQUE_DESC techDesc;
@@ -434,6 +404,9 @@ void CanisMajor::levelsDraw()
 	cage.draw(mfxWVPVar,mView,mProj,mTech);
 	fixture.draw(mfxWVPVar,mView,mProj,mTech);
 	door.draw(mfxWVPVar,mView,mProj,mTech);
+
+	drawUtilText();
+	drawStoryText();
 }
 
 void CanisMajor::buildFX()
@@ -521,6 +494,7 @@ void CanisMajor::menuLoad()
 void CanisMajor::loadAttic()
 {
 	state = ATTIC;
+	setStoryText(10,L"WELCOME TO THE ATTIC");
 }
 
 void CanisMajor::loadSecondFloor()
@@ -541,4 +515,49 @@ void CanisMajor::loadBasement()
 void CanisMajor::onPlayerDeath()
 {
 
+}
+
+//calling with s defined sets, calling without clears
+void CanisMajor::drawUtilText(wstring s)
+{
+	static wstring text = L"";
+	//set new string
+	if(s!=L"")
+	{
+		text = s;
+	}
+	else
+	{
+		RECT r = {mClientWidth/2,mClientHeight*0.8,0,0};
+		mFont->DrawText(0,text.c_str(),-1,&r,DT_NOCLIP|DT_CENTER,WHITE);
+		text = L"";
+	}
+}
+void CanisMajor::drawStoryText()
+{
+	if(storyTextAge<storyTextLifespan)
+	{
+		float alpha = 1;
+		if(storyTextLifespan-storyTextAge < CM::TEXT_FADEOUT_TIME)
+		{
+			alpha = (storyTextLifespan-storyTextAge) / CM::TEXT_FADEOUT_TIME;
+		}
+		storyTextColor.a = alpha;
+		RECT r = {10,25,0,0};
+		mFont->DrawText(0,storyText.c_str(),-1,&r,DT_NOCLIP,storyTextColor);
+	}
+}
+void CanisMajor::updateStoryText(float dt)
+{
+	if(storyTextAge<storyTextLifespan)
+	{
+		storyTextAge+=dt;
+	}
+}
+void CanisMajor::setStoryText(float durration,wstring s, D3DXCOLOR c)
+{
+	storyText = s;
+	storyTextLifespan = durration;
+	storyTextAge = 0;
+	storyTextColor = c;
 }

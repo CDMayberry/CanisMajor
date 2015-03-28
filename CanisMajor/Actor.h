@@ -57,7 +57,7 @@ public:
 	float getLargestScale(){return max(max(scale.x,scale.y),scale.z);}
 	float getSmallestScale(){return min(min(scale.x,scale.y),scale.z);}
 	void setMTech(ID3D10EffectTechnique* m){ mTech = m;}
-	bool collided(Actor *gameObject);
+	virtual bool collided(Actor *gameObject);
 	void virtual onDeath();
 	void setRotation(Vector3 rot){rotation = rot;}
 	Vector3 getRotation(){return rotation;}
