@@ -17,17 +17,17 @@ struct Light
 	void init(int settings) {	//Default settings! not required to use, just quick setup
 		if(settings == 1) {		//Ambient light, world light
 			dir      = D3DXVECTOR3(0.57735f, -0.57735f, 0.57735f);
-			ambient  = D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f);
-			diffuse  = D3DXCOLOR(.15f, .15f, .15f, 1.0f);
-			specular = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+			ambient  = D3DXCOLOR(0.0078125f, 0.015625f, 0.03125f, 1.0f);
+			diffuse  = D3DXCOLOR(.001f, .001f, .001f, 1.0f);
+			specular = D3DXCOLOR(.1f, .1f, .1f, 1.0f);
 
 		}
 		else if(settings == 2) { //Pointlight, mostly our room lights
-			ambient  = D3DXCOLOR(0.1f, 0.1f, 0.1f, 1.0f);
-			diffuse  = D3DXCOLOR(.5f, .5f ,.5f, 1.0f);
+			ambient  = D3DXCOLOR(0.45490196078f, 0.29803921568f, 0.12549019607f, 1.0f);
+			diffuse  = D3DXCOLOR(.1f, .1f ,.1f, 1.0f);
 			specular = D3DXCOLOR(.1f, .1f, .1f, 1.0f);
 			att.x    = 0.0f;
-			att.y    = 0.1f;
+			att.y    = .1f;
 			att.z    = 0.0f;
 			range    = 50.0f;
 		}

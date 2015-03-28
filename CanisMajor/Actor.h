@@ -64,6 +64,7 @@ public:
 	bool isActive;
 	float getHealth(){return health;}
 	void setHealth(float H){health = H;}
+	void setGeometry(Geometry* g){geometry=g;}
 
 };
 
