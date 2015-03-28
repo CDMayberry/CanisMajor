@@ -136,8 +136,6 @@ void CanisMajor::initApp()
 	cube.init(this,&mCube);
 	cube.setScale(Vector3(200,1,200));
 	cube.create(Vector3(0,-4,0));
-
-	mRoof.init(md3dDevice,".\\geometry\\roof.geo");
 	
 	mRoofHole.init(md3dDevice,".\\geometry\\roofHole.geo");
 
@@ -147,11 +145,7 @@ void CanisMajor::initApp()
 		walls[i].setScale(Vector3(1,wallNS::WALL_SCALE,1));
 	}
 
-	//for(int i = 0; i<CM::MAX_ROOF; i++)
-	//{
-	//	roof[i].init(this,&mRoof,1);
-	//	roof[i].setScale(Vector3(1,1,1));
-	//}
+	roofHole.init(this,&mRoofHole,1);
 	
 	origin.init(this,1);
 
@@ -168,12 +162,16 @@ void CanisMajor::initApp()
 	// camera
 //	camera.setLight(&mLights[2]);
 
+	buildFX();
+	buildVertexLayouts();
+	menuLoad();
+
 //	mLightType = 0;
 	camera.setLight(&fLight);
 
 	for(int i = 0; i < CM::MAX_LIGHTS; i++) {
 		rLights[i].init(2);
-		rLights[i].pos = Vector3(i*10, 10, -50);
+		rLights[i].pos = Vector3(10, 10, i*30);
 	}
 
 	// Spotlight--position and direction changed every frame to animate.
@@ -212,6 +210,7 @@ void CanisMajor::updateScene(float dt)
 		lPress = false;
 
 
+
 	D3DApp::updateScene(dt);
 	if(GetAsyncKeyState(VK_ESCAPE))
 		PostQuitMessage(0);
@@ -225,7 +224,27 @@ void CanisMajor::updateScene(float dt)
 		break;
 	}
 	
+	////cameraTarget = camera.getDirection();
+	//cameraTarget = camera.getPosition();
+	////cameraTarget = telescope.getPosition();
+	//cameraDisplacement = Vector3(50,10,0);
+	//pos = cameraTarget+cameraDisplacement;
+	//D3DXVECTOR3 up(0.0f, 1.0f, 0.0f);
+	//D3DXMatrixLookAtLH(&mView, &pos, &cameraTarget, &up);
+
+	// The spotlight takes on the camera position and is aimed in the
+	// same direction the camera is looking.  In this way, it looks
+	// like we are holding a flashlight.
+	//mLights[2].pos = camera.getPosition();
+	
+	//Vector3 flashlight = -cameraDisplacement;
 	fLight.pos = camera.getPosition();
+
+	//Vector3 flashlight = -cameraDisplacement+cameraTarget;
+	//D3DXVec3Composite(&flashlight, &-cameraDisplacement,&cameraTarget);
+
+	//D3DXVec3Normalize(&mLights[2].dir, &mLights[2].dir); 
+	//mLights[2].dir.z = .1;
 }
 
 
@@ -316,6 +335,8 @@ void CanisMajor::atticUpdate(float dt)
 	{
 		walls[i].update(dt);
 	}
+
+	roofHole.update(dt);
 }
 
 //COLLISIONS GIVE LOADS OF FALSE POSITIVES
@@ -335,17 +356,17 @@ void CanisMajor::drawScene()
 	md3dDevice->OMSetBlendState(0, blendFactors, 0xffffffff);
 	md3dDevice->IASetInputLayout(mVertexLayout);
 
-	//Set lighting once, unneccessary per actor
 	mfxEyePosVar->SetRawValue(&camera.getPosition(), 0, sizeof(D3DXVECTOR3));
+	//mfxEyePosVar->SetRawValue(&pos, 0, sizeof(D3DXVECTOR3));
 	mfxLightVar->SetRawValue(&fLight, 0, sizeof(Light));
 	mfxAmbientVar->SetRawValue(&ambient, 0, sizeof(Light));
 	mfxPLightsVar->SetRawValue(&rLights, 0, sizeof(Light)*4);
 	mfxPLightVar->SetRawValue(&pLight, 0, sizeof(Light));
 	mfxLightType->SetBool(lightOn);
-
-	//// set the point to the shader technique
-	//D3D10_TECHNIQUE_DESC techDesc;
-	//mTech->GetDesc(&techDesc);
+	
+	// set the point to the shader technique
+	D3D10_TECHNIQUE_DESC techDesc;
+	mTech->GetDesc(&techDesc);
 
 	switch(state){
 	case MENU:
@@ -370,6 +391,7 @@ void CanisMajor::splashDraw()
 		{
 			r.right = r.left = mClientWidth*0.5;
 			r.top = r.bottom = mClientHeight*0.2;
+			
 		}
 		else
 		{
@@ -446,6 +468,8 @@ void CanisMajor::atticDraw()
 {
 	for(int i = 0; i< CM::MAX_WALLS; i++)
 		walls[i].draw(mfxWVPVar,mView,mProj,mTech);
+
+	roofHole.draw(mfxWVPVar,mView,mProj,mTech);
 
 	cube.draw(mfxWVPVar,mView,mProj,mTech);
 }
@@ -536,30 +560,95 @@ void CanisMajor::loadAttic()
 {
 	state = ATTIC;
 	int iter = 0;
-	for(int i = 0; i < 11; i++)
+
+	//Left wall
+	for(int i = 0; i < 6; i++)
 	{
 		walls[i].setPosition(Vector3(0,0,i*10));
 		walls[i].isActive = true;
 	}
 
 	iter = 0;
-	for(int i = 11; i < 17; i++)
+
+	//far end lower
+	for(int i = 6; i < 10; i++)
 	{
 		
-		walls[i].setPosition(Vector3(5+iter*10,0,105));
+		walls[i].setPosition(Vector3(5+iter*10,0,55));
 		walls[i].setRotation(Vector3(0,1.5707963268,0));
 		walls[i].isActive = true;
 		iter++;
 	}
 
 	iter = 0;
-	for(int i = 17; i< 28; i++)
+	//Right wall
+	for(int i = 10; i< 16; i++)
 	{
 		
-		walls[i].setPosition(Vector3(60,0,iter*10));
+		walls[i].setPosition(Vector3(40,0,iter*10));
 		walls[i].isActive = true;
 		iter++;
 	}
+
+	iter = 0;
+	//close end lower
+	for(int i = 17; i < 21; i++)
+	{
+		
+		walls[i].setPosition(Vector3(5+iter*10,0,-5));
+		walls[i].setRotation(Vector3(0,1.5707963268,0));
+		walls[i].isActive = true;
+		iter++;
+	}
+
+	iter = 0;
+	//left lower roof
+	for(int i = 21; i < 27; i++)
+	{
+		walls[i].setPosition(Vector3(4.5,14, iter*10));
+		walls[i].setRotation(Vector3(0,0,2));
+		walls[i].setScale(Vector3(1,1.1,1));
+		walls[i].isActive = true;
+		iter++;
+	}
+
+	iter = 0;
+	//left upper roof. Missing one panel for hole
+	for(int i = 27; i < 33; i++)
+	{
+		walls[i].setPosition(Vector3(14.5,18.6, iter*10));
+		walls[i].setRotation(Vector3(0,0,2));
+		walls[i].setScale(Vector3(1,1.5,1));
+		if(i != 28)
+			walls[i].isActive = true;
+		iter++;
+	}
+
+	iter = 0;
+	//right side of roof
+	for(int i = 33; i < 39; i++)
+	{
+		walls[i].setPosition(Vector3(30,17, iter*10));
+		walls[i].setRotation(Vector3(0,0,1.1));
+		walls[i].setScale(Vector3(1,2.2,1));
+		walls[i].isActive = true;
+		iter++;
+	}
+
+	walls[40].setPosition(Vector3(10,5,-5.01));
+	walls[40].setScale(Vector3(1,4,6));
+	walls[40].setRotation(Vector3(0,1.5707963268,0));
+	walls[40].isActive = true;
+
+	walls[41].setPosition(Vector3(10,5,55.01));
+	walls[41].setScale(Vector3(1,4,6));
+	walls[41].setRotation(Vector3(0,1.5707963268,0));
+	walls[41].isActive = true;
+
+	roofHole.setPosition(Vector3(16.5,17,11));
+	roofHole.setRotation(Vector3(0,0,.41));
+		roofHole.setScale(Vector3(4.5, 3, RoofNS::ROOF_SCALE));
+	roofHole.isActive = true;
 }
 
 void CanisMajor::loadSecondFloor()

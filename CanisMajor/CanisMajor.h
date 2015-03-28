@@ -79,13 +79,13 @@ public:
 
 	Geometry mTelescope, mDresser, mFlashlight, mFrame, mBookcase, mChair, mCradle, mMasterbed, 
 			mServantbed, mStaircase, mTable, mBottle, mLock, mPictureframe, mRail, mWallpanel, mWindow,
-			mCage, mFixture, mDoor, mCube, mRoof, mRoofHole;
+			mCage, mFixture, mDoor, mCube, mRoofHole;
 	Actor telescope, dresser,flashlight,frame, bookcase, chair, cradle, masterbed, 
 			servantbed, staircase, table, bottle, lock, pictureFrame, rail, wallPanel, window,
-			cage, fixture, door, floor, cube, roof, roofHole;
+			cage, fixture, door, floor, cube;
 
 	Wall* walls;
-	//Actor* roof;
+	Roof roofHole;
 
 	Origin origin;
 
