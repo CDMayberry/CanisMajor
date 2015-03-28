@@ -307,17 +307,17 @@ void CanisMajor::drawScene()
 	md3dDevice->OMSetBlendState(0, blendFactors, 0xffffffff);
 	md3dDevice->IASetInputLayout(mVertexLayout);
 
+	//Set lighting once, unneccessary per actor
 	mfxEyePosVar->SetRawValue(&camera.getPosition(), 0, sizeof(D3DXVECTOR3));
-	//mfxEyePosVar->SetRawValue(&pos, 0, sizeof(D3DXVECTOR3));
 	mfxLightVar->SetRawValue(&fLight, 0, sizeof(Light));
 	mfxAmbientVar->SetRawValue(&ambient, 0, sizeof(Light));
 	mfxPLightsVar->SetRawValue(&rLights, 0, sizeof(Light)*4);
 	mfxPLightVar->SetRawValue(&pLight, 0, sizeof(Light));
 	mfxLightType->SetBool(lightOn);
-	
-	// set the point to the shader technique
-	D3D10_TECHNIQUE_DESC techDesc;
-	mTech->GetDesc(&techDesc);
+
+	//// set the point to the shader technique
+	//D3D10_TECHNIQUE_DESC techDesc;
+	//mTech->GetDesc(&techDesc);
 
 	switch(state){
 	case MENU:
@@ -342,7 +342,6 @@ void CanisMajor::splashDraw()
 		{
 			r.right = r.left = mClientWidth*0.5;
 			r.top = r.bottom = mClientHeight*0.2;
-			
 		}
 		else
 		{

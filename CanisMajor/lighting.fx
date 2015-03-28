@@ -201,19 +201,6 @@ float4 PS(VS_OUT pIn) : SV_Target
 	{
 		litColor += Spotlight(v, gLight, gEyePosW);
 	}
-
-	//if( gLightType == 0 ) // Parallel
-	//{
-	//	litColor = ParallelLight(v, gLight, gEyePosW);
-	//}
-	//else if( gLightType == 1 ) // Point
-	//{
-	//	litColor = PointLight(v, gLight, gEyePosW);
-	//}
-	//else // Spot
-	//{
-	//	litColor = Spotlight(v, gLight, gEyePosW);
-	//}
 	   
     return float4(litColor, pIn.diffuse.a);
 }
