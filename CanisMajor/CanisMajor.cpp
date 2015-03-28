@@ -168,16 +168,12 @@ void CanisMajor::initApp()
 	// camera
 //	camera.setLight(&mLights[2]);
 
-	buildFX();
-	buildVertexLayouts();
-	menuLoad();
-
 //	mLightType = 0;
 	camera.setLight(&fLight);
 
 	for(int i = 0; i < CM::MAX_LIGHTS; i++) {
 		rLights[i].init(2);
-		rLights[i].pos = Vector3(10, 10, i*30);
+		rLights[i].pos = Vector3(i*10, 10, -50);
 	}
 
 	// Spotlight--position and direction changed every frame to animate.
@@ -216,7 +212,6 @@ void CanisMajor::updateScene(float dt)
 		lPress = false;
 
 
-
 	D3DApp::updateScene(dt);
 	if(GetAsyncKeyState(VK_ESCAPE))
 		PostQuitMessage(0);
@@ -230,27 +225,7 @@ void CanisMajor::updateScene(float dt)
 		break;
 	}
 	
-	////cameraTarget = camera.getDirection();
-	//cameraTarget = camera.getPosition();
-	////cameraTarget = telescope.getPosition();
-	//cameraDisplacement = Vector3(50,10,0);
-	//pos = cameraTarget+cameraDisplacement;
-	//D3DXVECTOR3 up(0.0f, 1.0f, 0.0f);
-	//D3DXMatrixLookAtLH(&mView, &pos, &cameraTarget, &up);
-
-	// The spotlight takes on the camera position and is aimed in the
-	// same direction the camera is looking.  In this way, it looks
-	// like we are holding a flashlight.
-	//mLights[2].pos = camera.getPosition();
-	
-	//Vector3 flashlight = -cameraDisplacement;
 	fLight.pos = camera.getPosition();
-
-	//Vector3 flashlight = -cameraDisplacement+cameraTarget;
-	//D3DXVec3Composite(&flashlight, &-cameraDisplacement,&cameraTarget);
-
-	//D3DXVec3Normalize(&mLights[2].dir, &mLights[2].dir); 
-	//mLights[2].dir.z = .1;
 }
 
 
@@ -360,17 +335,17 @@ void CanisMajor::drawScene()
 	md3dDevice->OMSetBlendState(0, blendFactors, 0xffffffff);
 	md3dDevice->IASetInputLayout(mVertexLayout);
 
+	//Set lighting once, unneccessary per actor
 	mfxEyePosVar->SetRawValue(&camera.getPosition(), 0, sizeof(D3DXVECTOR3));
-	//mfxEyePosVar->SetRawValue(&pos, 0, sizeof(D3DXVECTOR3));
 	mfxLightVar->SetRawValue(&fLight, 0, sizeof(Light));
 	mfxAmbientVar->SetRawValue(&ambient, 0, sizeof(Light));
 	mfxPLightsVar->SetRawValue(&rLights, 0, sizeof(Light)*4);
 	mfxPLightVar->SetRawValue(&pLight, 0, sizeof(Light));
 	mfxLightType->SetBool(lightOn);
-	
-	// set the point to the shader technique
-	D3D10_TECHNIQUE_DESC techDesc;
-	mTech->GetDesc(&techDesc);
+
+	//// set the point to the shader technique
+	//D3D10_TECHNIQUE_DESC techDesc;
+	//mTech->GetDesc(&techDesc);
 
 	switch(state){
 	case MENU:
@@ -395,7 +370,6 @@ void CanisMajor::splashDraw()
 		{
 			r.right = r.left = mClientWidth*0.5;
 			r.top = r.bottom = mClientHeight*0.2;
-			
 		}
 		else
 		{

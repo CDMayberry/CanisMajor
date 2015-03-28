@@ -176,37 +176,31 @@ float4 PS(VS_OUT pIn) : SV_Target
    
     SurfaceInfo v = {pIn.posW, pIn.normalW, pIn.diffuse, pIn.spec};
 	float3 litColor = float3(0.0f, 0.0f, 0.0f);
+	float3 newColor;
 
 	//Ambient lighting loaded first
-	litColor += ParallelLight(v, ambient, gEyePosW);
+	litColor = ParallelLight(v, ambient, gEyePosW);
 
 	//Calculations for point lights
-	//[loop]
-	//for( uint i = 0;i < NUM_LIGHTS; i++ )
-	//{
-	//	litColor += PointLight(v, lights[i], gEyePosW);
-	//}
-
-	litColor += PointLight(v, pLight, gEyePosW);
+	[loop]
+	for( uint i = 0;i < 4; i++ )
+	{
+		newColor = PointLight(v, lights[i], gEyePosW);
+		if(newColor.x > litColor.x && newColor.y > litColor.y && newColor.z > litColor.z) {
+			litColor = newColor;
+		}
+		//litColor += newColor;
+	}
+	newColor = PointLight(v, pLight, gEyePosW);
+	if(newColor.x > litColor.x && newColor.y > litColor.y && newColor.z > litColor.z) {
+		litColor = newColor;
+	}
     
 	//Flashlight bool
 	if(gLightType)
 	{
 		litColor += Spotlight(v, gLight, gEyePosW);
 	}
-
-	//if( gLightType == 0 ) // Parallel
- //   {
-	//	litColor = ParallelLight(v, gLight, gEyePosW);
- //   }
- //   else if( gLightType == 1 ) // Point
- //   {
-	//	litColor = PointLight(v, gLight, gEyePosW);
-	//}
-	//else // Spot
-	//{
-	//	litColor = Spotlight(v, gLight, gEyePosW);
-	//}
 	   
     return float4(litColor, pIn.diffuse.a);
 }
