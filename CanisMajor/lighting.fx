@@ -176,6 +176,7 @@ float4 PS(VS_OUT pIn) : SV_Target
    
     SurfaceInfo v = {pIn.posW, pIn.normalW, pIn.diffuse, pIn.spec};
 	float3 litColor = float3(0.0f, 0.0f, 0.0f);
+	float3 newColor;
 
 	//Ambient lighting loaded first
 	litColor = ParallelLight(v, ambient, gEyePosW);
@@ -184,10 +185,16 @@ float4 PS(VS_OUT pIn) : SV_Target
 	[loop]
 	for( uint i = 0;i < NUM_LIGHTS; i++ )
 	{
-		litColor += PointLight(v, lights[i], gEyePosW);
+		newColor = PointLight(v, lights[i], gEyePosW);
+		if(newColor.x > litColor.x && newColor.y > litColor.y && newColor.z > litColor.z) {
+			litColor = newColor;
+		}
+		//litColor += newColor;
 	}
-
-	litColor += PointLight(v, pLight, gEyePosW);
+	newColor = PointLight(v, pLight, gEyePosW);
+	if(newColor.x > litColor.x && newColor.y > litColor.y && newColor.z > litColor.z) {
+		litColor = newColor;
+	}
     
 	//Flashlight bool
 	if(gLightType)
