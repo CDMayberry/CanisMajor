@@ -25,6 +25,15 @@ Vector3 rotateZ(Vector3 v, float deg)
 	return ret;
 }
 
+
+Vector3 rotate(Vector3 p, Vector3 r)
+{
+	p = rotateX(p,r.x);
+	p = rotateY(p,r.y);
+	p = rotateZ(p,r.z);
+	return p;
+}
+
 int random(int num) {
 	return rand()%num+1;
 }

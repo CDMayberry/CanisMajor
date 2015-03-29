@@ -46,6 +46,12 @@
     <ClCompile Include="Quad.cpp">
       <Filter>Sources\Geometry</Filter>
     </ClCompile>
+    <ClCompile Include="Key.cpp">
+      <Filter>Sources\GameObj</Filter>
+    </ClCompile>
+    <ClCompile Include="Door.cpp">
+      <Filter>Sources\GameObj</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CanisMajor.h">
@@ -113,6 +119,12 @@
     </ClInclude>
     <ClInclude Include="Vertex.h">
       <Filter>Headers\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Key.h">
+      <Filter>Headers\GameObj</Filter>
+    </ClInclude>
+    <ClInclude Include="Door.h">
+      <Filter>Headers\GameObj</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

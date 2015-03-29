@@ -13,6 +13,7 @@ Actor::Actor()
 	rotation = Vector3(0,0,0);
 	MAX_HEALTH = 100;
 	health = MAX_HEALTH;
+	collisionType = SPHERE;
 }
 
 Actor::~Actor()
@@ -98,14 +99,94 @@ bool Actor::collided(Actor *gameObject)
 {
 	if(isActive && gameObject->isActive)
 	{
-		Vector3 diff = position - gameObject->getPosition();
-		float length = D3DXVec3LengthSq(&diff);
-		float radii = radiusSquared + gameObject->getRadiusSquare();
-		if (length <= radii)
-			return true;
+		if((collisionType == SPHERE) && (gameObject->collisionType==SPHERE))
+		{
+			Vector3 diff = position - gameObject->getPosition();
+			float length = D3DXVec3LengthSq(&diff);
+			float radii = radiusSquared + gameObject->getRadiusSquare();
+			if (length <= radii)
+				return true;
+		}
+		else if(collisionType == SPHERE && gameObject->collisionType==AABBox)
+		{
+			Vector3 min, max;
+			Vector3 adjustedScale;
+			adjustedScale.x = gameObject->getGeometry()->getDefaultScale().x*gameObject->getScale().x;
+			adjustedScale.y = gameObject->getGeometry()->getDefaultScale().y*gameObject->getScale().y;
+			adjustedScale.z = gameObject->getGeometry()->getDefaultScale().z*gameObject->getScale().z;
+
+			max = adjustedScale/2;
+			min = -adjustedScale/2;
+
+			min=rotate(min,gameObject->getRotation());
+			max=rotate(max,gameObject->getRotation());
+
+			min += gameObject->getPosition();
+			max += gameObject->getPosition();
+
+			//if the point is closet than the radius
+			return radius*radius >= SquaredDistPointAABB(getPosition(),min,max);
+		}
+		else if(collisionType == AABBox && gameObject->collisionType==SPHERE)
+		{
+			Vector3 min, max;
+			Vector3 adjustedScale;
+			adjustedScale.x = getGeometry()->getDefaultScale().x*getScale().x;
+			adjustedScale.y = getGeometry()->getDefaultScale().y*getScale().y;
+			adjustedScale.z = getGeometry()->getDefaultScale().z*getScale().z;
+
+			max = adjustedScale/2;
+			min = -adjustedScale/2;
+
+			min=rotate(min,getRotation());
+			max=rotate(max,getRotation());
+
+			min += getPosition();
+			max += getPosition();
+
+			//if the point is closet than the radius
+			return gameObject->radius*gameObject->radius >= SquaredDistPointAABB(gameObject->getPosition(),min,max);
+		}
+		else
+		{
+			throw "Justin hasn't bothered to build this yet.";
+		}
 	}
 	return false;
 }
+
+//http://studiofreya.com/3d-math-and-physics/sphere-vs-aabb-collision-detection-test/
+float Actor::SquaredDistPointAABB(Vector3 p, Vector3 min, Vector3 max)
+{
+    auto check = [&](const double pn,const double bmin,const double bmax ) -> double
+		{
+			double out = 0;
+			double v = pn;
+ 
+			if ( v < bmin )
+			{
+				double val = (bmin - v);
+				out += val * val;
+			}
+			if ( v > bmax )
+			{
+				double val = (v - bmax);
+				out += val * val;
+			}
+ 
+			return out;
+		};
+ 
+    // Squared distance
+    double sq = 0.0;
+ 
+    sq += check( p.x, min.x, max.x );
+    sq += check( p.y, min.y, max.y );
+    sq += check( p.z, min.z, max.z );
+ 
+    return sq;
+}
+
 
 void Actor::onDeath() {
 }

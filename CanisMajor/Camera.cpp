@@ -6,6 +6,7 @@ using namespace CameraNS;
 #define Transform D3DXVec3TransformCoord
 Camera::Camera()
 {
+	keys = new Key*[CM::MAX_KEYS];
 	speed = 10;
 	FoV = 0.5*PI;
 	aspectRatio = 480.0f/640.0f;
@@ -23,7 +24,7 @@ Camera::Camera()
 
 Camera::~Camera()
 {
-	//nothing to deallocate
+	delete [] keys;
 }
 
 void Camera::init(CanisMajor* g, Controls c)
@@ -32,6 +33,10 @@ void Camera::init(CanisMajor* g, Controls c)
 	controls = c;
 	camHeight = DEFAULT_HEIGHT;
 	isActive = true;
+	for(int i = 0 ; i < CM::MAX_KEYS; i++)
+	{
+		keys[i]=nullptr;
+	}
 }
 
 void Camera::create(Vector3 pos, Vector3 dir)
@@ -47,7 +52,7 @@ void Camera::setPerspective()
 }
 void Camera::update(float dt)
 {
-	
+	prevLoc = getPosition();
 
 	Vector3 forward = direction;
 	forward.y=0;
@@ -132,15 +137,17 @@ void Camera::update(float dt)
 
 	Vector3 lookAt = position + direction;
 
-	//only get one chance per frame
+	static bool buttonPushed = false;
+
 	if(GetAsyncKeyState(controls.use)&&nearbyItem!=nullptr)
 	{
-		nearbyItem->interactWith(this);
+		if(!buttonPushed)
+		{
+			nearbyItem->interactWith(this);
+			buttonPushed = true;
+		}
 	}
-	nearbyItem=nullptr;
-
-	static bool buttonPushed = false;
-	if(flashlight!=nullptr){
+	else if(flashlight!=nullptr){
 		if(GetAsyncKeyState(controls.flashlight) )
 		{
 			if(!buttonPushed)
@@ -160,6 +167,8 @@ void Camera::update(float dt)
 		buttonPushed = false;
 	}
 	
+	nearbyItem=nullptr;
+
 	//Generate new matrix
 	D3DXMatrixLookAtLH(&mView, &position, &lookAt, &up);
 }
@@ -172,4 +181,34 @@ bool Camera::collided(Actor *gameObject)
 	bool r = Actor::collided(gameObject);
 	position.y+=y;
 	return r;
+}
+
+void Camera::addKey(Key* k)
+{
+	for(int i = 0 ; i < CM::MAX_KEYS; i++)
+	{
+		if(keys[i]==nullptr)
+		{
+			keys[i] = k;
+		}
+	}
+}
+bool Camera::checkKey(Key* k)
+{
+	for(int i = 0 ; i < CM::MAX_KEYS; i++)
+	{
+		if(keys[i]==k)
+			return true;
+	}
+	return false;
+}
+void Camera::removeKey(Key* k)
+{
+	for(int i = 0 ; i < CM::MAX_KEYS; i++)
+	{
+		if(keys[i]==k)
+		{
+			keys[i]=nullptr;
+		}
+	}
 }

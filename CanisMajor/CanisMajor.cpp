@@ -111,11 +111,22 @@ void CanisMajor::initApp()
 
 	mDoor.init(md3dDevice,".\\geometry\\door.geo");
 
+	for(int i = 0 ; i < CM::MAX_DOORS; i++)
+	{
+		doors[i].init(this,&mDoor,1);
+		doors[i].collisionType = AABBox;
+	}
+
 	mCube.init(md3dDevice,".\\geometry\\cube.geo", DARKBROWN);
 	
 	mRoofHole.init(md3dDevice,".\\geometry\\newRoofHole.geo");
 	
 	mKey.init(md3dDevice,".\\geometry\\key.geo", GOLD);
+
+	for(int i = 0 ; i < CM::MAX_KEYS; i++)
+	{
+		keys[i].init(this,&mKey,1);
+	}
 
 	origin.init(this,1);
 
@@ -123,6 +134,7 @@ void CanisMajor::initApp()
 	{
 		//default init
 		scenery[i].init(this,&mCube);
+		scenery[i].collisionType=AABBox;
 	}
 
 
@@ -213,10 +225,15 @@ void CanisMajor::levelsUpdate(float dt)
 {	
 	for(int i = 0 ; i < CM::MAX_SCENERY; i++)
 	{
-		if(scenery[i].isActive)
-		{
-			scenery[i].update(dt);
-		}
+		scenery[i].update(dt);
+	}
+	for(int i = 0 ; i < CM::MAX_KEYS; i++)
+	{
+		keys[i].update(dt);
+	}
+	for(int i = 0 ; i < CM::MAX_DOORS; i++)
+	{
+		doors[i].update(dt);
 	}
 
 	flashlight.update(dt);
@@ -236,6 +253,44 @@ void CanisMajor::collisions()
 	{
 		camera.setNearbyInteractable(&flashlight);
 		drawUtilText(L"Press E to pick up flashlight.");
+	}
+
+	for(int i = 0 ; i < CM::MAX_KEYS; i++)
+	{
+		if(camera.collided(&keys[i]))
+		{
+			camera.setNearbyInteractable(&keys[i]);
+			drawUtilText(L"Press E to pick up key.");
+		}
+	}
+
+	for(int i = 0 ; i < CM::MAX_DOORS; i++)
+	{
+		if(doors[i].isActive)
+		{
+			Vector3 diff = camera.getPosition()-doors[i].getPosition();
+			if(D3DXVec3LengthSq(&diff) < CM::INTERACTION_RADIUS_SQ)
+			{
+				camera.setNearbyInteractable(&doors[i]);
+				if(doors[i].getOpen())
+					drawUtilText(L"Press E to close door.");
+				else
+					drawUtilText(L"Press E to open door.");
+			}
+
+			if(camera.collided(&doors[i]))
+			{
+				camera.backUp();
+			}
+		}
+	}
+
+	for(int i = 0 ; i < CM::MAX_SCENERY;i++)
+	{
+		if(camera.collided(&scenery[i]))
+		{
+			camera.backUp();
+		}
 	}
 
 }
@@ -333,10 +388,15 @@ void CanisMajor::levelsDraw()
 
 	for(int i = 0 ; i < CM::MAX_SCENERY; i++)
 	{
-		if(scenery[i].isActive)
-		{
-			scenery[i].draw(mfxWVPVar,mView,mProj,mTech);
-		}
+		scenery[i].draw(mfxWVPVar,mView,mProj,mTech);
+	}
+	for(int i = 0 ; i < CM::MAX_KEYS; i++)
+	{
+		keys[i].draw(mfxWVPVar,mView,mProj,mTech);
+	}
+	for(int i = 0 ; i < CM::MAX_DOORS; i++)
+	{
+		doors[i].draw(mfxWVPVar,mView,mProj,mTech);
 	}
 
 	flashlight.draw(mfxWVPVar,mView,mProj,mTech);
@@ -403,6 +463,14 @@ void CanisMajor::clearLevel()
 	{
 		scenery[i].isActive=false;
 	}
+	for(int i = 0 ; i < CM::MAX_KEYS; i++)
+	{
+		keys[i].isActive=false;
+	}
+	for(int i = 0 ; i < CM::MAX_DOORS; i++)
+	{
+		doors[i].isActive=false;
+	}
 }
 
 void CanisMajor::loadSplashScreen(bool status)
@@ -435,6 +503,8 @@ void CanisMajor::loadAttic()
 	state = ATTIC;
 	setStoryText(10,L"WELCOME TO THE ATTIC");
 	int iter = 0;
+
+	camera.setPosition(Vector3(5,0,5));
 
 	flashlight.setPosition(Vector3(10,-2.5,5));
 	flashlight.isActive = true;
@@ -505,12 +575,16 @@ void CanisMajor::loadAttic()
 	spawnScenery(&mRoofHole,Vector3(19,17.4,7.1),Vector3(0,0,.41),Vector3(6, 3, 5.1));
 
 	spawnScenery(&mBookcase,Vector3(37.3,-3,53.9),Vector3(0,0,0), CM::BOOKCASE_SCALE);
+	spawnScenery(&mBookcase,Vector3(33.3,-3,53.9),Vector3(0,0,0), CM::BOOKCASE_SCALE);
+
 
 
 	spawnScenery(&mCube,Vector3(10,0,10));
 	spawnScenery(&mCube,Vector3(20,0,10),Vector3(0,PI/4,0));
 
-	spawnScenery(&mKey,Vector3(20,0,5));
+	Key* k = spawnKey(L"GOLD KEY",Vector3(20,0,5));
+	Door* d = spawnDoor(Vector3(20,-1.9,30),Vector3(0,-PI/2,0),k);
+	d->setScale(Vector3(2,4,1));
 }
 
 void CanisMajor::loadSecondFloor()
@@ -544,8 +618,12 @@ void CanisMajor::drawUtilText(wstring s)
 	}
 	else
 	{
-		RECT r = {mClientWidth/2,mClientHeight*0.8,0,0};
-		mFont->DrawText(0,text.c_str(),-1,&r,DT_NOCLIP|DT_CENTER,WHITE);
+		RECT r;
+		r.top = mClientHeight-30;
+		r.bottom = mClientHeight-30;
+		r.left = mClientWidth*0.5;
+		r.right = mClientWidth*0.5;
+		mFont->DrawText(0,text.c_str(),-1,&r,DT_NOCLIP|DT_CENTER|DT_VCENTER,WHITE);
 		text = L"";
 	}
 }
@@ -579,7 +657,7 @@ void CanisMajor::setStoryText(float durration,wstring s, D3DXCOLOR c)
 }
 
 
-void CanisMajor::spawnScenery(Geometry* g, Vector3 pos, Vector3 rot, Vector3 scale)
+Actor* CanisMajor::spawnScenery(Geometry* g, Vector3 pos, Vector3 rot, Vector3 scale)
 {
 	for(int i = 0 ; i < CM::MAX_SCENERY; i++)
 	{
@@ -590,7 +668,36 @@ void CanisMajor::spawnScenery(Geometry* g, Vector3 pos, Vector3 rot, Vector3 sca
 			scenery[i].setPosition(pos);
 			scenery[i].setRotation(rot);
 			scenery[i].setScale(scale);
-			return;
+			return &scenery[i];
 		}
 	}
+	return nullptr;
+}
+
+Key* CanisMajor::spawnKey(wstring name, Vector3 pos, Vector3 rot)
+{
+	for(int i = 0 ; i < CM::MAX_KEYS; i++)
+	{
+		if(!keys[i].isActive)
+		{
+			keys[i].create(pos);
+			keys[i].name = name;
+			keys[i].setRotation(rot);
+			return &keys[i];
+		}
+	}
+	return nullptr;
+}
+
+Door* CanisMajor::spawnDoor(Vector3 pos, Vector3 rot,Key* k, bool open)
+{
+	for(int i = 0 ; i < CM::MAX_DOORS; i++)
+	{
+		if(!doors[i].isActive)
+		{
+			doors[i].create(pos,rot,k,open);
+			return &doors[i];
+		}
+	}
+	return nullptr;
 }

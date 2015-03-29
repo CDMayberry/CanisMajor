@@ -23,6 +23,8 @@ public:
 	virtual void init(ID3D10Device* device, std::string objFile,D3DXCOLOR color = WHITE);
 	virtual void draw(UINT offset = 0);
 
+	virtual Vector3 getDefaultScale(){return defaultScale;}
+
 protected:
 
 	D3DXCOLOR color;
@@ -35,6 +37,10 @@ protected:
 	DWORD numIndexes;
 
 	D3D10_RASTERIZER_DESC rasterState;
+
+	Vector3 defaultScale;
+
+	Vector3 calculateDefaultScale(vector<Vector3>& verts);
 
 private:
 	D3D_PRIMITIVE_TOPOLOGY topology;
