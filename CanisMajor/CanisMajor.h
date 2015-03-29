@@ -27,6 +27,7 @@ namespace CM{
 	const int MAX_SCENERY = 1000;
 	const Vector3 WALL_SCALE = Vector3(1,2.5,1);
 	const float ROOF_SCALE = 3.8;
+	const Vector3 BOOKCASE_SCALE = Vector3(2.5, 5, 1.4);
 };
 
 enum GameState{

@@ -113,7 +113,7 @@ void CanisMajor::initApp()
 
 	mCube.init(md3dDevice,".\\geometry\\cube.geo", DARKBROWN);
 	
-	mRoofHole.init(md3dDevice,".\\geometry\\roofHole.geo");
+	mRoofHole.init(md3dDevice,".\\geometry\\newRoofHole.geo");
 	
 	mKey.init(md3dDevice,".\\geometry\\key.geo", GOLD);
 
@@ -497,11 +497,14 @@ void CanisMajor::loadAttic()
 		iter++;
 	}
 
+	//Spawning room objects
 	spawnScenery(&mWallpanel,Vector3(10,5,-5.01),Vector3(0,1.5707963268,0),Vector3(1,4,6));
 
 	spawnScenery(&mWallpanel,Vector3(10,5,55.01),Vector3(0,1.5707963268,0),Vector3(1,4,6));
 
-	spawnScenery(&mRoofHole,Vector3(15,18,10),Vector3(0,0,.41),Vector3(4.5, 3, CM::ROOF_SCALE));
+	spawnScenery(&mRoofHole,Vector3(19,17.4,7.1),Vector3(0,0,.41),Vector3(6, 3, 5.1));
+
+	spawnScenery(&mBookcase,Vector3(37.3,-3,53.9),Vector3(0,0,0), CM::BOOKCASE_SCALE);
 
 
 	spawnScenery(&mCube,Vector3(10,0,10));
