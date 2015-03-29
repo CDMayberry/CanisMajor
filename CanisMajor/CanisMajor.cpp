@@ -80,11 +80,11 @@ void CanisMajor::initApp()
 	cradle.init(this,&mCradle);
 	cradle.create(Vector3(70,-3,0));
 
-	mMasterbed.init(md3dDevice,".\\geometry\\masterBed.geo");
+	mMasterbed.init(md3dDevice,".\\geometry\\masterbed.geo");
 	masterbed.init(this,&mMasterbed);
 	masterbed.create(Vector3(80,-3,0));
 
-	mServantbed.init(md3dDevice,".\\geometry\\servantBed.geo");
+	mServantbed.init(md3dDevice,".\\geometry\\servantbed.geo");
 	servantbed.init(this,&mServantbed);
 	servantbed.create(Vector3(90,-3,0));
 
