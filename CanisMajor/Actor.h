@@ -68,12 +68,16 @@ public:
 	void setRotation(Vector3 rot){rotation = rot;}
 	Vector3 getRotation(){return rotation;}
 	bool isActive;
+	bool isVisible;
 	float getHealth(){return health;}
 	void setHealth(float H){health = H;}
 	void setGeometry(Geometry* g){geometry=g;}
 	Geometry* getGeometry(){return geometry;}
 
 	CollisionType collisionType;
+
+
+
 
 private:
 

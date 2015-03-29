@@ -40,6 +40,7 @@ CanisMajor::CanisMajor(HINSTANCE hInstance)
 	camera.init(this,c);
 
 	scenery = new Actor[CM::MAX_SCENERY];
+	searchableActors = new SearchableActor[CM::MAX_SEARCHABLE_ACTORS];
 }
 
 CanisMajor::~CanisMajor()
@@ -48,6 +49,7 @@ CanisMajor::~CanisMajor()
 		md3dDevice->ClearState();
 
 	delete [] scenery;
+	delete [] searchableActors;
 
 	ReleaseCOM(mFX);
 	ReleaseCOM(mVertexLayout);
@@ -137,7 +139,10 @@ void CanisMajor::initApp()
 		scenery[i].collisionType=AABBox;
 	}
 
-
+	for(int i = 0; i< CM::MAX_SEARCHABLE_ACTORS; i++)
+	{
+		searchableActors[i].init(this,&mCube,1);
+	}
 	
 	camera.create(Vector3(10,10,10),Vector3(1,0,0));
 	camera.setPerspective();
@@ -235,6 +240,10 @@ void CanisMajor::levelsUpdate(float dt)
 	{
 		doors[i].update(dt);
 	}
+	for(int i = 0; i< CM::MAX_SEARCHABLE_ACTORS; i++)
+	{
+		searchableActors[i].update(dt);
+	}
 
 	flashlight.update(dt);
 
@@ -249,18 +258,21 @@ void CanisMajor::levelsUpdate(float dt)
 void CanisMajor::collisions()
 {
 
-	if(!camera.hasFlashlight()&&camera.collided(&flashlight))
+	for(int i = 0; i< CM::MAX_SEARCHABLE_ACTORS; i++)
 	{
-		camera.setNearbyInteractable(&flashlight);
-		drawUtilText(L"Press E to pick up flashlight.");
-	}
-
-	for(int i = 0 ; i < CM::MAX_KEYS; i++)
-	{
-		if(camera.collided(&keys[i]))
+		if(searchableActors[i].isActive)
 		{
-			camera.setNearbyInteractable(&keys[i]);
-			drawUtilText(L"Press E to pick up key.");
+			Vector3 diff = camera.getPosition()-searchableActors[i].getPosition();
+			if(D3DXVec3LengthSq(&diff) < CM::INTERACTION_RADIUS_SQ)
+			{
+				camera.setNearbyInteractable(&searchableActors[i]);
+				drawUtilText(L"Press E to search the " + searchableActors[i].name + L".");
+			}
+
+			if(camera.collided(&searchableActors[i]))
+			{
+				camera.backUp();
+			}
 		}
 	}
 
@@ -283,6 +295,21 @@ void CanisMajor::collisions()
 				camera.backUp();
 			}
 		}
+	}
+
+	for(int i = 0 ; i < CM::MAX_KEYS; i++)
+	{
+		if(camera.collided(&keys[i]))
+		{
+			camera.setNearbyInteractable(&keys[i]);
+			drawUtilText(L"Press E to pick up key.");
+		}
+	}
+
+	if(!camera.hasFlashlight()&&camera.collided(&flashlight))
+	{
+		camera.setNearbyInteractable(&flashlight);
+		drawUtilText(L"Press E to pick up flashlight.");
 	}
 
 	for(int i = 0 ; i < CM::MAX_SCENERY;i++)
@@ -398,6 +425,10 @@ void CanisMajor::levelsDraw()
 	{
 		doors[i].draw(mfxWVPVar,mView,mProj,mTech);
 	}
+	for(int i = 0 ; i < CM::MAX_SEARCHABLE_ACTORS; i++)
+	{
+		searchableActors[i].draw(mfxWVPVar,mView,mProj,mTech);
+	}
 
 	flashlight.draw(mfxWVPVar,mView,mProj,mTech);
 
@@ -470,6 +501,10 @@ void CanisMajor::clearLevel()
 	for(int i = 0 ; i < CM::MAX_DOORS; i++)
 	{
 		doors[i].isActive=false;
+	}
+	for(int i = 0 ; i < CM::MAX_SEARCHABLE_ACTORS; i++)
+	{
+		searchableActors[i].isActive = false;
 	}
 }
 
@@ -573,12 +608,14 @@ void CanisMajor::loadAttic()
 
 	spawnScenery(&mRoofHole,Vector3(15,18,10),Vector3(0,0,.41),Vector3(4.5, 3, CM::ROOF_SCALE));
 
+	
 
-	spawnScenery(&mCube,Vector3(10,0,10));
-	spawnScenery(&mCube,Vector3(20,0,10),Vector3(0,PI/4,0));
+	spawnSearchable(&mCube,L"Conspicuous Cube",nullptr,Vector3(10,0,10));
+	spawnSearchable(&mCube,L"inconspicuous Cube",nullptr,Vector3(20,0,10),Vector3(0,PI/4,0));
 
 	Key* k = spawnKey(L"GOLD KEY",Vector3(20,0,5));
 	Door* d = spawnDoor(Vector3(20,0,30),Vector3(0,-PI/2,0),k);
+	spawnSearchable(&mBookcase,L"Bookcase",k,Vector3(20,0,5));
 	d->setScale(Vector3(2,4,1));
 }
 
@@ -692,6 +729,22 @@ Door* CanisMajor::spawnDoor(Vector3 pos, Vector3 rot,Key* k, bool open)
 		{
 			doors[i].create(pos,rot,k,open);
 			return &doors[i];
+		}
+	}
+	return nullptr;
+}
+
+
+SearchableActor* CanisMajor::spawnSearchable(Geometry* g, std::wstring name, Actor* in, Vector3 pos, Vector3 rot, Vector3 scale)
+{
+	for(int i = 0 ; i < CM::MAX_SEARCHABLE_ACTORS; i++)
+	{
+		if(!searchableActors[i].isActive)
+		{
+			searchableActors[i].create(pos,rot,scale,in);
+			searchableActors[i].setGeometry(g);
+			searchableActors[i].name = name;
+			return &searchableActors[i];
 		}
 	}
 	return nullptr;
