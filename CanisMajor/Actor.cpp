@@ -8,6 +8,7 @@ Actor::Actor()
 	radius = 0;
 	speed = 0;
 	isActive = false;
+	isVisible = true;
 	Identity(&world);
 	Identity(&wvp);
 	rotation = Vector3(0,0,0);
@@ -23,7 +24,7 @@ Actor::~Actor()
 
 void Actor::draw(ID3D10EffectMatrixVariable* fx, Matrix& camera, Matrix& projection, ID3D10EffectTechnique* tech)
 {
-	if (!isActive)
+	if (!isActive || !isVisible)
 		return;
 
     wvp = getWorldMatrix()*camera*projection;	
@@ -59,6 +60,7 @@ void Actor::init(CanisMajor* game,Geometry *b, float r)
 
 void Actor::create(Vector3 pos) {
 	isActive = true;
+	isVisible = true;
 	health = MAX_HEALTH;
 	position = pos;
 }
@@ -97,7 +99,7 @@ void Actor::update(float dt)
 
 bool Actor::collided(Actor *gameObject)
 {
-	if(isActive && gameObject->isActive)
+	if(isActive && gameObject->isActive && gameObject->isVisible)
 	{
 		if((collisionType == SPHERE) && (gameObject->collisionType==SPHERE))
 		{
