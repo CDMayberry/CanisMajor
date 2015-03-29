@@ -44,6 +44,7 @@ cbuffer cbPerObject
 Light lights[NUM_LIGHTS];
 Light pLight;
 Light ambient;
+Light negaLight;
 
 int LightCount; //Set this in-game
 
@@ -185,9 +186,9 @@ float4 PS(VS_OUT pIn) : SV_Target
 	[loop]
 	for( uint i = 0;i < 4; i++ )
 	{
-		newColor = PointLight(v, lights[i], gEyePosW);
+		//newColor = PointLight(v, lights[i], gEyePosW);
 		if(newColor.x > litColor.x && newColor.y > litColor.y && newColor.z > litColor.z) {
-			litColor = newColor;
+			//litColor = newColor;
 		}
 		//litColor += newColor;
 	}
@@ -201,6 +202,8 @@ float4 PS(VS_OUT pIn) : SV_Target
 	{
 		litColor += Spotlight(v, gLight, gEyePosW);
 	}
+
+	litColor += PointLight(v, negaLight, gEyePosW);
 	   
     return float4(litColor, pIn.diffuse.a);
 }

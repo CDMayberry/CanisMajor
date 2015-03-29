@@ -25,7 +25,10 @@ const char XGS_FILE[]   = "audio\\Win\\audioProject.xgs";
 
 //Audio cues
 const char CLICK[] = "click";//Caelan
-
+const char GROWL[] = "growl1";//Caelan
+const char BG[] = "bg";//Caelan
+const char CREAK[] = "creak";//Caelan
+const char HOWL[] = "howl";//Caelan
 
 
 
