@@ -28,7 +28,7 @@ namespace CameraNS
 	const float CROUCH_HEIGHT = 1;
 	const float BOB_FREQUENCY = 6;//bobs per 2PI
 	const float SQUAT_SPEED = 10;
-	const float COLISION_RADIUS = 6;
+	const float COLISION_RADIUS = 3;
 };
 
 class Camera: public virtual Actor
@@ -59,6 +59,7 @@ public:
 	void setPerspective();
 	void setFlashlight(Flashlight* f) {flashlight = f;}
 
+	void backUp(){position=prevLoc;}
 
 	Controls controls;
 
@@ -77,5 +78,7 @@ private:
 	Flashlight* flashlight;
 	float camHeight;
 	Interactable* nearbyItem;
+
+	Vector3 prevLoc;
 };
 #endif

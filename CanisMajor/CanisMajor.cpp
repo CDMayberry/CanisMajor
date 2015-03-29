@@ -123,6 +123,7 @@ void CanisMajor::initApp()
 	{
 		//default init
 		scenery[i].init(this,&mCube);
+		scenery[i].collisionType=AABBox;
 	}
 
 
@@ -236,6 +237,14 @@ void CanisMajor::collisions()
 	{
 		camera.setNearbyInteractable(&flashlight);
 		drawUtilText(L"Press E to pick up flashlight.");
+	}
+
+	for(int i = 0 ; i < CM::MAX_SCENERY;i++)
+	{
+		if(camera.collided(&scenery[i]))
+		{
+			camera.backUp();
+		}
 	}
 
 }
@@ -436,6 +445,8 @@ void CanisMajor::loadAttic()
 	setStoryText(10,L"WELCOME TO THE ATTIC");
 	int iter = 0;
 
+	camera.setPosition(Vector3(5,0,5));
+
 	flashlight.setPosition(Vector3(10,-2.5,5));
 	flashlight.isActive = true;
 
@@ -541,8 +552,12 @@ void CanisMajor::drawUtilText(wstring s)
 	}
 	else
 	{
-		RECT r = {mClientWidth/2,mClientHeight*0.8,0,0};
-		mFont->DrawText(0,text.c_str(),-1,&r,DT_NOCLIP|DT_CENTER,WHITE);
+		RECT r;
+		r.top = mClientHeight-30;
+		r.bottom = mClientHeight-30;
+		r.left = mClientWidth*0.5;
+		r.right = mClientWidth*0.5;
+		mFont->DrawText(0,text.c_str(),-1,&r,DT_NOCLIP|DT_CENTER|DT_VCENTER,WHITE);
 		text = L"";
 	}
 }

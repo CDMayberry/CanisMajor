@@ -119,6 +119,10 @@ void Geometry::init(ID3D10Device* device, std::string objFile,D3DXCOLOR color)
 
 		initIndexBuffer(indices);
 	}
+
+
+	defaultScale = calculateDefaultScale(vertices);
+
 }
 
 
@@ -171,4 +175,23 @@ void Geometry::initRasterState()
 {
 	rasterState.FrontCounterClockwise = true;
 	md3dDevice->CreateRasterizerState(&rasterState,&g_pRasterState);
+}
+
+Vector3 Geometry::calculateDefaultScale(vector<Vector3> & verts)
+{
+	Vector3 min,max;
+	max = min = verts[0];
+
+	for(Vector3& v : verts)
+	{
+		if(min.x>v.x)min.x=v.x;
+		if(min.y>v.y)min.y=v.y;
+		if(min.z>v.z)min.z=v.z;
+
+		if(max.x<v.x)max.x=v.x;
+		if(max.y<v.y)max.y=v.y;
+		if(max.z<v.z)max.z=v.z;
+	}
+
+	return max-min;
 }

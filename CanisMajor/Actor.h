@@ -12,6 +12,12 @@ class CanisMajor;
 
 static int foo[1];
 
+enum CollisionType{
+	SPHERE,
+	AABBox
+};
+
+
 class Actor {
 private:
 	Geometry *geometry; 
@@ -65,8 +71,16 @@ public:
 	float getHealth(){return health;}
 	void setHealth(float H){health = H;}
 	void setGeometry(Geometry* g){geometry=g;}
+	Geometry* getGeometry(){return geometry;}
+
+	CollisionType collisionType;
+
+private:
+
+	static float SquaredDistPointAABB(Vector3 p, Vector3 min, Vector3 max);
 
 };
+
 
 
 #endif

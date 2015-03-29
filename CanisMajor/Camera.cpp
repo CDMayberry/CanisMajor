@@ -47,7 +47,7 @@ void Camera::setPerspective()
 }
 void Camera::update(float dt)
 {
-	
+	prevLoc = getPosition();
 
 	Vector3 forward = direction;
 	forward.y=0;
