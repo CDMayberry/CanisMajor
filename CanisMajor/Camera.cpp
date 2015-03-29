@@ -47,7 +47,7 @@ void Camera::create(Vector3 pos, Vector3 dir)
 
 void Camera::setPerspective()
 {
-	aspectRatio = game->mClientHeight/(float)game->mClientWidth;
+	aspectRatio = (float)game->mClientWidth/game->mClientHeight;
 	D3DXMatrixPerspectiveFovLH(&mProj, FoV, aspectRatio, nearClippingPlane,farClippingPlane); 
 }
 void Camera::update(float dt)
