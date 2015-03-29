@@ -52,6 +52,9 @@
     <ClCompile Include="Door.cpp">
       <Filter>Sources\GameObj</Filter>
     </ClCompile>
+    <ClCompile Include="SearchableActor.cpp">
+      <Filter>Sources\GameObj</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CanisMajor.h">
@@ -124,6 +127,9 @@
       <Filter>Headers\GameObj</Filter>
     </ClInclude>
     <ClInclude Include="Door.h">
+      <Filter>Headers\GameObj</Filter>
+    </ClInclude>
+    <ClInclude Include="SearchableActor.h">
       <Filter>Headers\GameObj</Filter>
     </ClInclude>
   </ItemGroup>

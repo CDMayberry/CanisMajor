@@ -15,6 +15,7 @@
 #include "Flashlight.h"
 #include "Key.h"
 #include "Door.h"
+#include "SearchableActor.h"
 
 using std::wstring;
 
@@ -32,7 +33,7 @@ namespace CM{
 	const int MAX_KEYS=10;
 	const int MAX_DOORS=100;
 	const float INTERACTION_RADIUS_SQ=36;
-
+	const int MAX_SEARCHABLE_ACTORS = 1000;
 };
 
 enum GameState{
@@ -120,11 +121,13 @@ public:
 
 
 	Actor* scenery;
+	SearchableActor* searchableActors;
 	Key keys[CM::MAX_KEYS];
 	Door doors[CM::MAX_DOORS];
 	Actor* spawnScenery(Geometry* g, Vector3 pos = Vector3(0,0,0), Vector3 rot = Vector3(0,0,0), Vector3 scale = Vector3(1,1,1));
 	Key* spawnKey(wstring name, Vector3 pos, Vector3 rot = Vector3(0,0,0));
 	Door* spawnDoor(Vector3 pos, Vector3 rot=Vector3(0,0,0),Key* k = nullptr, bool isOpen = false);
+	SearchableActor* spawnSearchable(Geometry* g, std::wstring name, Actor* in= nullptr, Vector3 pos = Vector3(0,0,0), Vector3 rot = Vector3(0,0,0), Vector3 scale = Vector3(1,1,1));
 private:
 	void buildFX();
 	void buildVertexLayouts();
