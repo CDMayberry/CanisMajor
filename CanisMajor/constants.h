@@ -24,7 +24,7 @@ const char SOUND_BANK[] = "audio\\Win\\sound Bank.xsb";
 const char XGS_FILE[]   = "audio\\Win\\audioProject.xgs";
 
 //Audio cues
-const char FIRING[] = "click";//Caelan
+const char CLICK[] = "click";//Caelan
 
 
 #endif

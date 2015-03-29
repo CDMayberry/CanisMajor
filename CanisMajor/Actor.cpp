@@ -51,7 +51,7 @@ void Actor::init(CanisMajor* game,Geometry *b, float r)
 	velocity = Vector3(0,0,0);
 	speed = 0;
 	scale = Vector3(1,1,1);
-	health = 1;													//THIS MIGHT SCREW SOMETHING UP: CAELAN
+	health = 1;					//THIS MIGHT SCREW SOMETHING UP: CAELAN
 	radiusSquared = radius * radius;
 	isActive = false;
 }
@@ -108,16 +108,4 @@ bool Actor::collided(Actor *gameObject)
 }
 
 void Actor::onDeath() {
-	//int rander = random(3);
-	//switch(rander) {
-	//	case 1:
-	//		game->audio->playCue(EXP1);
-	//		break;
-	//	case 2:
-	//		game->audio->playCue(EXP2);
-	//		break;
-	//	case 3:
-	//		game->audio->playCue(EXP3);
-	//		break;
-	//}
 }

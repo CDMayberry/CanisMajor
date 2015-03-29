@@ -50,7 +50,7 @@ D3DApp::D3DApp(HINSTANCE hInstance)
 	mDepthStencilView   = 0;
 	mFont               = 0;
 
-	mMainWndCaption = L"Nuclear Liberation";
+	mMainWndCaption = L"Canis Major";
 	md3dDriverType  = D3D10_DRIVER_TYPE_HARDWARE;
 	mClearColor     = D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f); //TODO:: might need to change
 	mClientWidth    = 800;
@@ -59,6 +59,7 @@ D3DApp::D3DApp(HINSTANCE hInstance)
 
 D3DApp::~D3DApp()
 {
+	RemoveFontResourceEx(L"\\resources\\OctoberCrow.ttf",FR_PRIVATE,0);
 	delete(input);
 	ReleaseCOM(mRenderTargetView);
 	ReleaseCOM(mDepthStencilView);
@@ -137,8 +138,12 @@ void D3DApp::initApp()
 
 	input->initialize(getMainWnd(),false);
 
+	ShowCursor(false);
+
+	int x = AddFontResourceEx(L".\\resources\\OctoberCrow.ttf",FR_PRIVATE,0);
+
 	D3DX10_FONT_DESC fontDesc;
-	fontDesc.Height          = 24;
+	fontDesc.Height          = 30;
     fontDesc.Width           = 0;
     fontDesc.Weight          = 0;
     fontDesc.MipLevels       = 1;
@@ -147,7 +152,7 @@ void D3DApp::initApp()
     fontDesc.OutputPrecision = OUT_DEFAULT_PRECIS;
     fontDesc.Quality         = DEFAULT_QUALITY;
     fontDesc.PitchAndFamily  = DEFAULT_PITCH | FF_DONTCARE;
-    wcscpy(fontDesc.FaceName, L"Times New Roman");
+    wcscpy(fontDesc.FaceName, L"October Crow");
 
 	D3DX10CreateFontIndirect(md3dDevice, &fontDesc, &mFont);
 
@@ -219,7 +224,6 @@ void D3DApp::onResize()
 	vp.MaxDepth = 1.0f;
 
 	md3dDevice->RSSetViewports(1, &vp);
-
 	
 }
 

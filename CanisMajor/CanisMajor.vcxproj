@@ -95,6 +95,7 @@
     <ClCompile Include="Cube.cpp" />
     <ClCompile Include="d3dApp.cpp" />
     <ClCompile Include="Actor.cpp" />
+    <ClCompile Include="Flashlight.cpp" />
     <ClCompile Include="GameTimer.cpp" />
     <ClCompile Include="Geometry.cpp" />
     <ClCompile Include="input.cpp" />
@@ -102,7 +103,6 @@
     <ClCompile Include="mathUtil.cpp" />
     <ClCompile Include="CanisMajor.cpp" />
     <ClCompile Include="Origin.cpp" />
-    <ClCompile Include="Player.cpp" />
     <ClCompile Include="Quad.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -115,20 +115,19 @@
     <ClInclude Include="d3dApp.h" />
     <ClInclude Include="d3dUtil.h" />
     <ClInclude Include="Actor.h" />
+    <ClInclude Include="Flashlight.h" />
     <ClInclude Include="gameError.h" />
     <ClInclude Include="GameTimer.h" />
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="input.h" />
+    <ClInclude Include="Interactable.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="mathUtil.h" />
     <ClInclude Include="Origin.h" />
     <ClInclude Include="CanisMajor.h" />
     <ClInclude Include="Line.h" />
-    <ClInclude Include="Player.h" />
     <ClInclude Include="Quad.h" />
-    <ClInclude Include="Roof.h" />
     <ClInclude Include="Vertex.h" />
-    <ClInclude Include="Wall.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="color.fx" />

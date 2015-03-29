@@ -27,13 +27,27 @@ CanisMajor::CanisMajor(HINSTANCE hInstance)
 	D3DXMatrixIdentity(&mView);
 	D3DXMatrixIdentity(&mProj);
 
-	walls = new Wall[CM::MAX_WALLS];
+	Controls c;
+	c.up = 'W';
+	c.down = 'S';
+	c.left = 'A';
+	c.right = 'D';
+	c.use = 'E';
+	c.flashlight = 'F';
+	c.crouch = VK_CONTROL;
+	c.run = VK_SHIFT;
+	//Camera Object
+	camera.init(this,c);
+
+	scenery = new Actor[CM::MAX_SCENERY];
 }
 
 CanisMajor::~CanisMajor()
 {
 	if( md3dDevice )
 		md3dDevice->ClearState();
+
+	delete [] scenery;
 
 	ReleaseCOM(mFX);
 	ReleaseCOM(mVertexLayout);
@@ -43,132 +57,7 @@ void CanisMajor::initApp()
 {
 	D3DApp::initApp();
 
-
-	Controls c;
-	c.up = 'W';
-	c.down = 'S';
-	c.left = 'A';
-	c.right = 'D';
-	c.use = 'E';
 	
-	mTelescope.init(md3dDevice,".\\geometry\\telescope.geo");
-	telescope.init(this,&mTelescope);
-	telescope.setScale(Vector3(3,3,3));
-	telescope.create(Vector3(0,-3,0));
-
-	mDresser.init(md3dDevice,".\\geometry\\dresser.geo");
-	dresser.init(this,&mDresser);
-	dresser.create(Vector3(10,-3,0));
-
-	mFlashlight.init(md3dDevice,".\\geometry\\flashlight.geo");
-	flashlight.init(this,&mFlashlight);
-	flashlight.create(Vector3(20,-3,0));
-
-	mFrame.init(md3dDevice,".\\geometry\\pictureframe.geo");
-	frame.init(this,&mFrame);
-	frame.create(Vector3(40,-3,0));
-
-	mBookcase.init(md3dDevice,".\\geometry\\bookcase.geo");
-	bookcase.init(this,&mBookcase);
-	bookcase.create(Vector3(50,-3,0));
-
-	mChair.init(md3dDevice,".\\geometry\\chair.geo");
-	chair.init(this,&mChair);
-	chair.create(Vector3(60,-3,0));
-
-	mCradle.init(md3dDevice,".\\geometry\\cradle.geo");
-	cradle.init(this,&mCradle);
-	cradle.create(Vector3(70,-3,0));
-
-	mMasterbed.init(md3dDevice,".\\geometry\\masterbed.geo");
-	masterbed.init(this,&mMasterbed);
-	masterbed.create(Vector3(80,-3,0));
-
-	mServantbed.init(md3dDevice,".\\geometry\\servantbed.geo");
-	servantbed.init(this,&mServantbed);
-	servantbed.create(Vector3(90,-3,0));
-
-	mStaircase.init(md3dDevice,".\\geometry\\staircase.geo");
-	staircase.init(this,&mStaircase);
-	staircase.create(Vector3(110,-3,0));
-
-	mTable.init(md3dDevice,".\\geometry\\table.geo");
-	table.init(this,&mTable);
-	table.create(Vector3(120,-3,0));
-
-	mBottle.init(md3dDevice,".\\geometry\\bottle.geo");
-	bottle.init(this,&mBottle);
-	bottle.create(Vector3(130,-3,0));
-
-	mLock.init(md3dDevice,".\\geometry\\lock.geo");
-	lock.init(this,&mLock);
-	lock.create(Vector3(135,-3,0));
-
-	mPictureframe.init(md3dDevice,".\\geometry\\pictureframe.geo");
-	pictureFrame.init(this,&mPictureframe);
-	pictureFrame.create(Vector3(170,-3,0));
-
-	mRail.init(md3dDevice,".\\geometry\\rail.geo");
-	rail.init(this,&mRail);
-	rail.create(Vector3(140,-3,0));
-
-	mWallpanel.init(md3dDevice,".\\geometry\\wallpanel.geo");
-	wallPanel.init(this,&mWallpanel);
-	wallPanel.create(Vector3(150,-3,0));
-
-	mWindow.init(md3dDevice,".\\geometry\\window.geo");
-	window.init(this,&mWindow);
-	window.create(Vector3(160,-3,0));
-
-	mCage.init(md3dDevice,".\\geometry\\cage.geo");
-	cage.init(this,&mCage);
-	cage.create(Vector3(0,-3,5));
-
-	mFixture.init(md3dDevice,".\\geometry\\fixture.geo");
-	fixture.init(this,&mFixture);
-	fixture.create(Vector3(190,-3,0));
-
-	mDoor.init(md3dDevice,".\\geometry\\door.geo");
-	door.init(this,&mDoor);
-	door.create(Vector3(200,-3,0));
-
-	mCube.init(md3dDevice,".\\geometry\\cube.geo", DARKBROWN);
-	cube.init(this,&mCube);
-	cube.setScale(Vector3(200,1,200));
-	cube.create(Vector3(0,-4,0));
-	
-	mRoofHole.init(md3dDevice,".\\geometry\\roofHole.geo");
-
-	for(int i = 0 ; i < CM::MAX_WALLS; i++)
-	{
-		walls[i].init(this,&mWallpanel,1);
-		walls[i].setScale(Vector3(1,wallNS::WALL_SCALE,1));
-	}
-
-	roofHole.init(this,&mRoofHole,1);
-	
-	origin.init(this,1);
-
-	//qFloor.init(md3dDevice, BLUE);
-
-	//floor.init(this, &qFloor);
-	//floor.setScale(Vector3(50,1,50));
-	//floor.create(Vector3(0,-5,0));
-
-	//Camera Object
-	camera.init(this,c);
-	camera.create(Vector3(10,10,10),Vector3(1,0,0));
-	camera.setPerspective();
-	// camera
-//	camera.setLight(&mLights[2]);
-
-	buildFX();
-	buildVertexLayouts();
-	menuLoad();
-
-//	mLightType = 0;
-	camera.setLight(&fLight);
-
 	for(int i = 0; i < CM::MAX_LIGHTS; i++) {
 		rLights[i].init(2);
 		rLights[i].pos = Vector3(10, 10, i*30);
@@ -180,37 +69,80 @@ void CanisMajor::initApp()
 	pLight.init(2);
 	pLight.pos = Vector3(10, 10, 30);
 
+
+	mTelescope.init(md3dDevice,".\\geometry\\telescope.geo");
+
+	mDresser.init(md3dDevice,".\\geometry\\dresser.geo");
+
+	mFlashlight.init(md3dDevice,".\\geometry\\flashlight.geo");
+	flashlight.init(this,&mFlashlight,&fLight);
+
+	mFrame.init(md3dDevice,".\\geometry\\pictureframe.geo");
+
+	mBookcase.init(md3dDevice,".\\geometry\\bookcase.geo");
+
+	mChair.init(md3dDevice,".\\geometry\\chair.geo");
+
+	mCradle.init(md3dDevice,".\\geometry\\cradle.geo");
+
+	mMasterbed.init(md3dDevice,".\\geometry\\masterBed.geo");
+
+	mServantbed.init(md3dDevice,".\\geometry\\servantBed.geo");
+
+	mStaircase.init(md3dDevice,".\\geometry\\staircase.geo");
+
+	mTable.init(md3dDevice,".\\geometry\\table.geo");
+
+	mBottle.init(md3dDevice,".\\geometry\\bottle.geo");
+
+	mLock.init(md3dDevice,".\\geometry\\lock.geo");
+
+	mPictureframe.init(md3dDevice,".\\geometry\\pictureframe.geo");
+
+	mRail.init(md3dDevice,".\\geometry\\rail.geo");
+
+	mWallpanel.init(md3dDevice,".\\geometry\\wallpanel.geo");
+
+	mWindow.init(md3dDevice,".\\geometry\\window.geo");
+
+	mCage.init(md3dDevice,".\\geometry\\cage.geo");
+
+	mFixture.init(md3dDevice,".\\geometry\\fixture.geo");
+
+	mDoor.init(md3dDevice,".\\geometry\\door.geo");
+
+	mCube.init(md3dDevice,".\\geometry\\cube.geo", DARKBROWN);
+	
+	mRoofHole.init(md3dDevice,".\\geometry\\roofHole.geo");
+	
+	origin.init(this,1);
+
+	for(int i = 0; i< CM::MAX_SCENERY; i++)
+	{
+		scenery[i].init(this,&mCube);
+	}
+
+
+	
+	camera.create(Vector3(10,10,10),Vector3(1,0,0));
+	camera.setPerspective();
+
+	flashlight.toggle();
+
 	buildFX();
 	buildVertexLayouts();
 	menuLoad();
 
-	lightOn = false;
-	lPress = false;
-	lPressing = false;
 }
 
 void CanisMajor::onResize()
 {
 	D3DApp::onResize();
-
-	float aspect = (float)mClientWidth/mClientHeight;
-	D3DXMatrixPerspectiveFovLH(&mProj, 0.25f*PI, aspect, 1.0f, 1000.0f);
+	camera.setPerspective();
 }
 
 void CanisMajor::updateScene(float dt)
 {
-	//Switch between different light types, demo
-	if((GetAsyncKeyState('F') & 0x8000))	{		
-		if(!lPress) {
-			lightOn = !lightOn;
-		}
-		lPress = true;
-	}
-	else
-		lPress = false;
-
-
-
 	D3DApp::updateScene(dt);
 	if(GetAsyncKeyState(VK_ESCAPE))
 		PostQuitMessage(0);
@@ -223,28 +155,6 @@ void CanisMajor::updateScene(float dt)
 		levelsUpdate(dt);
 		break;
 	}
-	
-	////cameraTarget = camera.getDirection();
-	//cameraTarget = camera.getPosition();
-	////cameraTarget = telescope.getPosition();
-	//cameraDisplacement = Vector3(50,10,0);
-	//pos = cameraTarget+cameraDisplacement;
-	//D3DXVECTOR3 up(0.0f, 1.0f, 0.0f);
-	//D3DXMatrixLookAtLH(&mView, &pos, &cameraTarget, &up);
-
-	// The spotlight takes on the camera position and is aimed in the
-	// same direction the camera is looking.  In this way, it looks
-	// like we are holding a flashlight.
-	//mLights[2].pos = camera.getPosition();
-	
-	//Vector3 flashlight = -cameraDisplacement;
-	fLight.pos = camera.getPosition();
-
-	//Vector3 flashlight = -cameraDisplacement+cameraTarget;
-	//D3DXVec3Composite(&flashlight, &-cameraDisplacement,&cameraTarget);
-
-	//D3DXVec3Normalize(&mLights[2].dir, &mLights[2].dir); 
-	//mLights[2].dir.z = .1;
 }
 
 
@@ -298,50 +208,33 @@ void CanisMajor::menuUpdate(float dt, bool reset)
 
 void CanisMajor::levelsUpdate(float dt)
 {	
-
-	//telescope.update(dt);
-	//dresser.update(dt);
-	//flashlight.update(dt);
-	//frame.update(dt);
-	//bookcase.update(dt);
-	//chair.update(dt);
-	//cradle.update(dt);
-	//masterbed.update(dt);
-	//servantbed.update(dt);
-	//staircase.update(dt);
-	//table.update(dt);
-	//bottle.update(dt);
-	//pictureFrame.update(dt);
-	//rail.update(dt);
-	//wallPanel.update(dt);
-	//window.update(dt);
-	//lock.update(dt);
-	//cage.update(dt);
-	//fixture.update(dt);
-	//door.update(dt);
-
-	if(state == ATTIC)
-		atticUpdate(dt);
-
-	cube.update(dt);
-	//floor.update(dt);
-	camera.update(dt);
-	collisions();
-}
-
-void CanisMajor::atticUpdate(float dt)
-{
-	for(int i = 0; i< CM::MAX_WALLS; i++)
+	for(int i = 0 ; i < CM::MAX_SCENERY; i++)
 	{
-		walls[i].update(dt);
+		if(scenery[i].isActive)
+		{
+			scenery[i].update(dt);
+		}
 	}
 
-	roofHole.update(dt);
+	flashlight.update(dt);
+
+	camera.update(dt);
+
+	updateStoryText(dt);
+
+	collisions();
 }
 
 //COLLISIONS GIVE LOADS OF FALSE POSITIVES
 void CanisMajor::collisions()
 {
+
+	if(!camera.hasFlashlight()&&camera.collided(&flashlight))
+	{
+		camera.setNearbyInteractable(&flashlight);
+		drawUtilText(L"Press E to pick up flashlight.");
+	}
+
 }
 
 void CanisMajor::drawScene()
@@ -362,7 +255,7 @@ void CanisMajor::drawScene()
 	mfxAmbientVar->SetRawValue(&ambient, 0, sizeof(Light));
 	mfxPLightsVar->SetRawValue(&rLights, 0, sizeof(Light)*4);
 	mfxPLightVar->SetRawValue(&pLight, 0, sizeof(Light));
-	mfxLightType->SetBool(lightOn);
+	mfxLightType->SetBool(flashlight.isOn);
 	
 	// set the point to the shader technique
 	D3D10_TECHNIQUE_DESC techDesc;
@@ -434,44 +327,19 @@ void CanisMajor::levelsDraw()
 	 mView = camera.getViewMatrix();
 	 mProj = camera.getProjectionMatrix();
 
-	 if(state == ATTIC)
-	 {
-		 atticDraw();
-	 }
 
-	//floor.draw(mfxWVPVar,mView,mProj,mTech);
-	/*cube.draw(mfxWVPVar,mView,mProj,mTech);
-	origin.draw(mfxWVPVar,mView,mProj,mTech);
-	telescope.draw(mfxWVPVar,mView,mProj,mTech);
-	dresser.draw(mfxWVPVar,mView,mProj,mTech);
+	for(int i = 0 ; i < CM::MAX_SCENERY; i++)
+	{
+		if(scenery[i].isActive)
+		{
+			scenery[i].draw(mfxWVPVar,mView,mProj,mTech);
+		}
+	}
+
 	flashlight.draw(mfxWVPVar,mView,mProj,mTech);
-	frame.draw(mfxWVPVar,mView,mProj,mTech);
-	bookcase.draw(mfxWVPVar,mView,mProj,mTech);
-	chair.draw(mfxWVPVar,mView,mProj,mTech);
-	cradle.draw(mfxWVPVar,mView,mProj,mTech);
-	masterbed.draw(mfxWVPVar,mView,mProj,mTech);
-	servantbed.draw(mfxWVPVar,mView,mProj,mTech);
-	staircase.draw(mfxWVPVar,mView,mProj,mTech);
-	table.draw(mfxWVPVar,mView,mProj,mTech);
-	lock.draw(mfxWVPVar,mView,mProj,mTech);
-	bottle.draw(mfxWVPVar,mView,mProj,mTech);
-	pictureFrame.draw(mfxWVPVar,mView,mProj,mTech);
-	rail.draw(mfxWVPVar,mView,mProj,mTech);
-	wallPanel.draw(mfxWVPVar,mView,mProj,mTech);
-	window.draw(mfxWVPVar,mView,mProj,mTech);
-	cage.draw(mfxWVPVar,mView,mProj,mTech);
-	fixture.draw(mfxWVPVar,mView,mProj,mTech);
-	door.draw(mfxWVPVar,mView,mProj,mTech);*/
-}
 
-void CanisMajor::atticDraw()
-{
-	for(int i = 0; i< CM::MAX_WALLS; i++)
-		walls[i].draw(mfxWVPVar,mView,mProj,mTech);
-
-	roofHole.draw(mfxWVPVar,mView,mProj,mTech);
-
-	cube.draw(mfxWVPVar,mView,mProj,mTech);
+	drawUtilText();
+	drawStoryText();
 }
 
 void CanisMajor::buildFX()
@@ -528,7 +396,10 @@ void CanisMajor::buildVertexLayouts()
 
 void CanisMajor::clearLevel()
 {
-	
+	for(int i = 0 ; i < CM::MAX_SCENERY; i++)
+	{
+		scenery[i].isActive=false;
+	}
 }
 
 void CanisMajor::loadSplashScreen(bool status)
@@ -559,13 +430,18 @@ void CanisMajor::menuLoad()
 void CanisMajor::loadAttic()
 {
 	state = ATTIC;
+	setStoryText(10,L"WELCOME TO THE ATTIC");
 	int iter = 0;
+
+	flashlight.setPosition(Vector3(10,-2.5,5));
+	flashlight.isActive = true;
+
+	spawnScenery(&mCube,Vector3(0,-4,0),Vector3(0,0,0),Vector3(200,1,200));
 
 	//Left wall
 	for(int i = 0; i < 6; i++)
 	{
-		walls[i].setPosition(Vector3(0,0,i*10));
-		walls[i].isActive = true;
+		spawnScenery(&mWallpanel,Vector3(0,0,i*10),Vector3(0,0,0),CM::WALL_SCALE);
 	}
 
 	iter = 0;
@@ -573,10 +449,7 @@ void CanisMajor::loadAttic()
 	//far end lower
 	for(int i = 6; i < 10; i++)
 	{
-		
-		walls[i].setPosition(Vector3(5+iter*10,0,55));
-		walls[i].setRotation(Vector3(0,1.5707963268,0));
-		walls[i].isActive = true;
+		spawnScenery(&mWallpanel,Vector3(5+iter*10,0,55),Vector3(0,1.5707963268,0),CM::WALL_SCALE);
 		iter++;
 	}
 
@@ -584,9 +457,7 @@ void CanisMajor::loadAttic()
 	//Right wall
 	for(int i = 10; i< 16; i++)
 	{
-		
-		walls[i].setPosition(Vector3(40,0,iter*10));
-		walls[i].isActive = true;
+		spawnScenery(&mWallpanel,Vector3(40,0,iter*10),Vector3(0,0,0),CM::WALL_SCALE);
 		iter++;
 	}
 
@@ -594,10 +465,7 @@ void CanisMajor::loadAttic()
 	//close end lower
 	for(int i = 17; i < 21; i++)
 	{
-		
-		walls[i].setPosition(Vector3(5+iter*10,0,-5));
-		walls[i].setRotation(Vector3(0,1.5707963268,0));
-		walls[i].isActive = true;
+		spawnScenery(&mWallpanel,Vector3(5+iter*10,0,-5),Vector3(0,1.5707963268,0),CM::WALL_SCALE);
 		iter++;
 	}
 
@@ -605,10 +473,7 @@ void CanisMajor::loadAttic()
 	//left lower roof
 	for(int i = 21; i < 27; i++)
 	{
-		walls[i].setPosition(Vector3(4.5,14, iter*10));
-		walls[i].setRotation(Vector3(0,0,2));
-		walls[i].setScale(Vector3(1,1.1,1));
-		walls[i].isActive = true;
+		spawnScenery(&mWallpanel,Vector3(4.5,14, iter*10),Vector3(0,0,2),Vector3(1,1.1,1));
 		iter++;
 	}
 
@@ -616,11 +481,8 @@ void CanisMajor::loadAttic()
 	//left upper roof. Missing one panel for hole
 	for(int i = 27; i < 33; i++)
 	{
-		walls[i].setPosition(Vector3(14.5,18.6, iter*10));
-		walls[i].setRotation(Vector3(0,0,2));
-		walls[i].setScale(Vector3(1,1.5,1));
-		if(i != 28)
-			walls[i].isActive = true;
+		if(i != 28)//WTF
+			spawnScenery(&mWallpanel,Vector3(14.5,18.6, iter*10),Vector3(0,0,2),Vector3(1,1.5,1));
 		iter++;
 	}
 
@@ -628,27 +490,16 @@ void CanisMajor::loadAttic()
 	//right side of roof
 	for(int i = 33; i < 39; i++)
 	{
-		walls[i].setPosition(Vector3(30,17, iter*10));
-		walls[i].setRotation(Vector3(0,0,1.1));
-		walls[i].setScale(Vector3(1,2.2,1));
-		walls[i].isActive = true;
+		spawnScenery(&mWallpanel,Vector3(30,17, iter*10),Vector3(0,0,1.1),Vector3(1,2.2,1));
 		iter++;
 	}
 
-	walls[40].setPosition(Vector3(10,5,-5.01));
-	walls[40].setScale(Vector3(1,4,6));
-	walls[40].setRotation(Vector3(0,1.5707963268,0));
-	walls[40].isActive = true;
+	spawnScenery(&mWallpanel,Vector3(10,5,-5.01),Vector3(0,1.5707963268,0),Vector3(1,4,6));
 
-	walls[41].setPosition(Vector3(10,5,55.01));
-	walls[41].setScale(Vector3(1,4,6));
-	walls[41].setRotation(Vector3(0,1.5707963268,0));
-	walls[41].isActive = true;
+	spawnScenery(&mWallpanel,Vector3(10,5,55.01),Vector3(0,1.5707963268,0),Vector3(1,4,6));
 
-	roofHole.setPosition(Vector3(16.5,17,11));
-	roofHole.setRotation(Vector3(0,0,.41));
-		roofHole.setScale(Vector3(4.5, 3, RoofNS::ROOF_SCALE));
-	roofHole.isActive = true;
+	spawnScenery(&mRoofHole,Vector3(16.5,17,11),Vector3(0,0,.41),Vector3(4.5, 3, CM::ROOF_SCALE));
+
 }
 
 void CanisMajor::loadSecondFloor()
@@ -669,4 +520,66 @@ void CanisMajor::loadBasement()
 void CanisMajor::onPlayerDeath()
 {
 
+}
+
+//calling with s defined sets, calling without clears
+void CanisMajor::drawUtilText(wstring s)
+{
+	static wstring text = L"";
+	//set new string
+	if(s!=L"")
+	{
+		text = s;
+	}
+	else
+	{
+		RECT r = {mClientWidth/2,mClientHeight*0.8,0,0};
+		mFont->DrawText(0,text.c_str(),-1,&r,DT_NOCLIP|DT_CENTER,WHITE);
+		text = L"";
+	}
+}
+void CanisMajor::drawStoryText()
+{
+	if(storyTextAge<storyTextLifespan)
+	{
+		float alpha = 1;
+		if(storyTextLifespan-storyTextAge < CM::TEXT_FADEOUT_TIME)
+		{
+			alpha = (storyTextLifespan-storyTextAge) / CM::TEXT_FADEOUT_TIME;
+		}
+		storyTextColor.a = alpha;
+		RECT r = {10,25,0,0};
+		mFont->DrawText(0,storyText.c_str(),-1,&r,DT_NOCLIP,storyTextColor);
+	}
+}
+void CanisMajor::updateStoryText(float dt)
+{
+	if(storyTextAge<storyTextLifespan)
+	{
+		storyTextAge+=dt;
+	}
+}
+void CanisMajor::setStoryText(float durration,wstring s, D3DXCOLOR c)
+{
+	storyText = s;
+	storyTextLifespan = durration;
+	storyTextAge = 0;
+	storyTextColor = c;
+}
+
+
+void CanisMajor::spawnScenery(Geometry* g, Vector3 pos, Vector3 rot, Vector3 scale)
+{
+	for(int i = 0 ; i < CM::MAX_SCENERY; i++)
+	{
+		if(!scenery[i].isActive)
+		{
+			scenery[i].isActive = true;
+			scenery[i].setGeometry(g);
+			scenery[i].setPosition(pos);
+			scenery[i].setRotation(rot);
+			scenery[i].setScale(scale);
+			return;
+		}
+	}
 }

@@ -3,7 +3,6 @@
 #include "d3dApp.h"
 #include "Geometry.h"
 #include "Actor.h"
-#include "Player.h"
 #include "Cube.h"
 #include "Quad.h"
 #include "Line.h"
@@ -13,15 +12,21 @@
 #include <d3dx9math.h>
 #include "Camera.h"
 #include "Light.h"
-#include "Wall.h"
-#include "Roof.h"
+#include "Flashlight.h"
+
+
+using std::wstring;
 
 namespace CM{
 	const int NUM_MENU_ITEMS = 3;//title, play, quit
 	const int NUM_SPLASH_MENU_ITEMS = 3;//title, continue, quit
 	const int MAX_LIGHTS = 4;
+	const float TEXT_FADEOUT_TIME = 3;
 	const int MAX_WALLS = 750;
 	const int MAX_ROOF = 75;
+	const int MAX_SCENERY = 1000;
+	const Vector3 WALL_SCALE = Vector3(1,2.5,1);
+	const float ROOF_SCALE = 3.8;
 };
 
 enum GameState{
@@ -55,15 +60,18 @@ public:
 
 	void clearLevel();
 	void levelsUpdate(float dt);
-	void atticUpdate(float dt);
 	void levelsDraw();
-	void atticDraw();
 
 	void resetLevel();
 	void loadAttic();
 	void loadSecondFloor();
 	void loadFirstFloor();
 	void loadBasement();
+
+	void drawUtilText(wstring s=L"");//calling with s defined sets the string, calling without prints the string
+	void drawStoryText();
+	void updateStoryText(float dt);
+	void setStoryText(float durration,wstring s, D3DXCOLOR c = WHITE);
 
 	Camera& getCamera() {return camera;}
 
@@ -73,22 +81,16 @@ public:
 
 	Vector3 worldSize;
 	
-	Player player;
-
 	ID3D10Device* getDevice(){return md3dDevice;}
 
 	Geometry mTelescope, mDresser, mFlashlight, mFrame, mBookcase, mChair, mCradle, mMasterbed, 
 			mServantbed, mStaircase, mTable, mBottle, mLock, mPictureframe, mRail, mWallpanel, mWindow,
 			mCage, mFixture, mDoor, mCube, mRoofHole;
-	Actor telescope, dresser,flashlight,frame, bookcase, chair, cradle, masterbed, 
-			servantbed, staircase, table, bottle, lock, pictureFrame, rail, wallPanel, window,
-			cage, fixture, door, floor, cube;
 
-	Wall* walls;
-	Roof roofHole;
 
 	Origin origin;
 
+	Flashlight flashlight;
 
 
 	//EVERTHING PUBLIC BELOW THIS IS FOR TESTING
@@ -99,8 +101,6 @@ public:
 	Light ambient;
 	Light pLight;
 	Light rLights[CM::MAX_LIGHTS];		//Room Lights, point lights
-	bool lightOn; // 0 (parallel), 1 (point), 2 (spot)
-	bool lPress, lPressing;
 
 	ID3D10EffectMatrixVariable* mfxWVPVar;
 	ID3D10EffectMatrixVariable* mfxWorldVar;
@@ -112,6 +112,10 @@ public:
 	
 	ID3D10EffectScalarVariable* mfxLightType;
 
+
+	Actor* scenery;
+	void spawnScenery(Geometry* g, Vector3 pos = Vector3(0,0,0), Vector3 rot = Vector3(0,0,0), Vector3 scale = Vector3(1,1,1));
+
 private:
 	void buildFX();
 	void buildVertexLayouts();
@@ -120,10 +124,6 @@ private:
 	bool test;
 
 protected:
-
-	void spawnAllWallsOnMap();//Justin
-	void placeFinishLine();//Justin
-	void placeEnemyBoats(int numBoats);//Justin
 
 	ID3D10Effect* mFX;
 	ID3D10EffectTechnique* mTech;
@@ -139,4 +139,9 @@ protected:
 	std::wstring menuText[CM::NUM_MENU_ITEMS];
 	int menuChoice;
 	
+	wstring storyText;
+	float storyTextLifespan;
+	float storyTextAge;
+	D3DXCOLOR storyTextColor;
+
 };
