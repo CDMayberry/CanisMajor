@@ -19,7 +19,7 @@ namespace CameraNS
 	const float NEAR_CLIPPING_DIST = 0.1;
 	const float FAR_CLIPPING_DIST = 100;//originally 1000
 	const float SPEED = 10;
-	const float RUN_SPEED = 40;
+	const float RUN_SPEED = 30;
 	const float CROUCH_SPEED = 5;
 	const float MOUSE_MOVE_RATE = 0.001;
 	const float DEFAULT_BOB_AMPLITUDE = 0.3;
@@ -29,7 +29,7 @@ namespace CameraNS
 	const float CROUCH_HEIGHT = 1;
 	const float BOB_FREQUENCY = 6;//bobs per 2PI
 	const float SQUAT_SPEED = 10;
-	const float COLISION_RADIUS = 3;
+	const float COLISION_RADIUS = 2.3;
 };
 
 class Camera: public virtual Actor

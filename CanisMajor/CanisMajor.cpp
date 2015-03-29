@@ -70,6 +70,8 @@ void CanisMajor::initApp()
 	ambient.init(1);
 	pLight.init();
 	negaLight.init(3);
+	negaLight.pos = Vector3(20, 10, 50);
+	pLight.pos = Vector3(20, 10, 10);
 
 	howl = false;
 
@@ -123,7 +125,7 @@ void CanisMajor::initApp()
 
 	mCube.init(md3dDevice,".\\geometry\\cube.geo", DARKBROWN);
 	
-	mRoofHole.init(md3dDevice,".\\geometry\\roofHole.geo");
+	mRoofHole.init(md3dDevice,".\\geometry\\newRoofHole.geo");
 	
 	mKey.init(md3dDevice,".\\geometry\\key.geo", GOLD);
 
@@ -597,7 +599,7 @@ void CanisMajor::loadAttic()
 	//left lower roof
 	for(int i = 21; i < 27; i++)
 	{
-		spawnScenery(&mWallpanel,Vector3(4.5,14, iter*10),Vector3(0,0,2),Vector3(1,1.1,1));
+		spawnScenery(&mWallpanel,Vector3(4.5,10, iter*10),Vector3(0,0,2),Vector3(1,1.1,1));
 		iter++;
 	}
 
@@ -606,7 +608,7 @@ void CanisMajor::loadAttic()
 	for(int i = 27; i < 33; i++)
 	{
 		if(i != 28)//WTF
-			spawnScenery(&mWallpanel,Vector3(14.5,18.6, iter*10),Vector3(0,0,2),Vector3(1,1.5,1));
+			spawnScenery(&mWallpanel,Vector3(14.5,14.6, iter*10),Vector3(0,0,2),Vector3(1,1.5,1));
 		iter++;
 	}
 
@@ -614,16 +616,21 @@ void CanisMajor::loadAttic()
 	//right side of roof
 	for(int i = 33; i < 39; i++)
 	{
-		spawnScenery(&mWallpanel,Vector3(30,17, iter*10),Vector3(0,0,1.1),Vector3(1,2.2,1));
+		spawnScenery(&mWallpanel,Vector3(30,13, iter*10),Vector3(0,0,1.1),Vector3(1,2.2,1));
 		iter++;
 	}
 
+	//Spawning room objects
 	spawnScenery(&mWallpanel,Vector3(10,5,-5.01),Vector3(0,1.5707963268,0),Vector3(1,4,6));
 
 	spawnScenery(&mWallpanel,Vector3(10,5,55.01),Vector3(0,1.5707963268,0),Vector3(1,4,6));
 
-	spawnScenery(&mRoofHole,Vector3(15,18,10),Vector3(0,0,.41),Vector3(4.5, 3, CM::ROOF_SCALE));
+	spawnScenery(&mRoofHole,Vector3(19,13.4,7.1),Vector3(0,0,.41),Vector3(6, 3, 5.1));
 
+	spawnScenery(&mBookcase,Vector3(37.3,-3,53.9),Vector3(0,0,0), CM::BOOKCASE_SCALE);
+	spawnScenery(&mBookcase,Vector3(33.3,-3,53.9),Vector3(0,0,0), CM::BOOKCASE_SCALE);
+
+	spawnScenery(&mTable,Vector3(10,0,25),Vector3(0,PI,0));
 	
 
 	spawnSearchable(&mCube,L"Conspicuous Cube",nullptr,Vector3(10,0,10));
