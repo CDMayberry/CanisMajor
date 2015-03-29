@@ -20,7 +20,7 @@ struct Light
 			dir      = D3DXVECTOR3(0.57735f, -0.57735f, 0.57735f);
 			ambient  = D3DXCOLOR(0.0078125f, 0.015625f, 0.03125f, 1.0f);
 			diffuse  = D3DXCOLOR(.001f, .001f, .001f, 1.0f);
-			specular = D3DXCOLOR(.1f, .1f, .1f, 1.0f);
+			specular = D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f);
 
 		}
 		else if(settings == 2) {					//Spotlight, like our flashlight

@@ -70,8 +70,6 @@ void CanisMajor::initApp()
 	ambient.init(1);
 	pLight.init();
 	negaLight.init(3);
-	negaLight.pos = Vector3(20, 10, 50);
-	pLight.pos = Vector3(20, 10, 10);
 
 	howl = false;
 
@@ -547,10 +545,15 @@ void CanisMajor::menuLoad()
 
 void CanisMajor::loadAttic()
 {
-	audio->playCue(BG);
 	state = ATTIC;
 	setStoryText(10,L"WELCOME TO THE ATTIC");
 	int iter = 0;
+
+	audio->playCue(BG);
+
+	negaLight.pos = Vector3(20, 10, 50);
+	pLight.pos = Vector3(20, 10, 25);
+	pLight.range = 40;
 
 	camera.setPosition(Vector3(5,0,5));
 
