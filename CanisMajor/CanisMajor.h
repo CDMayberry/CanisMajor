@@ -104,6 +104,7 @@ public:
 	Light fLight;
 	Light ambient;
 	Light pLight;
+	Light negaLight;
 	Light rLights[CM::MAX_LIGHTS];		//Room Lights, point lights
 
 	ID3D10EffectMatrixVariable* mfxWVPVar;
@@ -112,6 +113,7 @@ public:
 	ID3D10EffectVariable* mfxLightVar;
 	ID3D10EffectVariable* mfxPLightsVar;
 	ID3D10EffectVariable* mfxPLightVar;
+	ID3D10EffectVariable* mfxNegaLightVar;
 	ID3D10EffectVariable* mfxAmbientVar;
 	
 	ID3D10EffectScalarVariable* mfxLightType;
@@ -129,6 +131,7 @@ private:
 
 	//Origin origin;
 	bool test;
+	bool howl;
 
 protected:
 

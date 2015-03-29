@@ -14,7 +14,8 @@ struct Light
 		ZeroMemory(this, sizeof(Light));
 	}
 
-	void init(int settings) {	//Default settings! not required to use, just quick setup
+	//(1) ambient (2) spotlight (3) negalight (0) pointlight
+	void init(int settings = 0) {	//Default settings! not required to use, just quick setup
 		if(settings == 1) {		//Ambient light, world light
 			dir      = D3DXVECTOR3(0.57735f, -0.57735f, 0.57735f);
 			ambient  = D3DXCOLOR(0.0078125f, 0.015625f, 0.03125f, 1.0f);
@@ -22,16 +23,7 @@ struct Light
 			specular = D3DXCOLOR(.1f, .1f, .1f, 1.0f);
 
 		}
-		else if(settings == 2) { //Pointlight, mostly our room lights
-			ambient  = D3DXCOLOR(0.45490196078f, 0.29803921568f, 0.12549019607f, 1.0f);
-			diffuse  = D3DXCOLOR(.1f, .1f ,.1f, 1.0f);
-			specular = D3DXCOLOR(.1f, .1f, .1f, 1.0f);
-			att.x    = 0.0f;
-			att.y    = .1f;
-			att.z    = 0.0f;
-			range    = 50.0f;
-		}
-		else {					//Spotlight, like our flashlight
+		else if(settings == 2) {					//Spotlight, like our flashlight
 			ambient  = D3DXCOLOR(0.2f, 0.2f, 0.15f, 1.0f);
 			diffuse  = D3DXCOLOR(.5f, .5f ,.5f, 1.0f);
 			specular = D3DXCOLOR(.1f, .1f, .1f, 1.0f);
@@ -42,6 +34,26 @@ struct Light
 			range    = 10000.0f;
 
 		}
+		else if(settings == 3) { //Negalight, for the dog or spooky places
+			ambient  = D3DXCOLOR(-.5f, -.5f, -.5f, 1.0f);
+			diffuse  = D3DXCOLOR(-.5f, -.5f, -.5f, 1.0f);
+			specular = D3DXCOLOR(-.5f, -.5f, -.5f, 1.0f);
+			att.x    = 0.0f;
+			att.y    = .1f;
+			att.z    = 0.0f;
+			range    = 30.0f;
+		}
+
+		else { //Pointlight, mostly our room lights
+			ambient  = D3DXCOLOR(0.45490196078f, 0.29803921568f, 0.12549019607f, 1.0f);
+			diffuse  = D3DXCOLOR(.1f, .1f ,.1f, 1.0f);
+			specular = D3DXCOLOR(.1f, .1f, .1f, 1.0f);
+			att.x    = 0.0f;
+			att.y    = .1f;
+			att.z    = 0.0f;
+			range    = 50.0f;
+		}
+
 
 	}
 

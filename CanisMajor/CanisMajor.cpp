@@ -59,15 +59,19 @@ void CanisMajor::initApp()
 
 	
 	for(int i = 0; i < CM::MAX_LIGHTS; i++) {
-		rLights[i].init(2);
+		rLights[i].init();
 		rLights[i].pos = Vector3(10, 10, i*30);
 	}
 
 	// Spotlight--position and direction changed every frame to animate.
-	fLight.init(3);
+	fLight.init(2);
 	ambient.init(1);
-	pLight.init(2);
-	pLight.pos = Vector3(10, 10, 30);
+	pLight.init();
+	negaLight.init(3);
+	negaLight.pos = Vector3(20, 10, 50);
+	pLight.pos = Vector3(20, 10, 10);
+
+	howl = false;
 
 
 	mTelescope.init(md3dDevice,".\\geometry\\telescope.geo");
@@ -236,6 +240,11 @@ void CanisMajor::levelsUpdate(float dt)
 		doors[i].update(dt);
 	}
 
+	if(!howl && doors[0].getOpen()) {
+		audio->playCue(HOWL);
+		howl = true;
+	}
+
 	flashlight.update(dt);
 
 	camera.update(dt);
@@ -313,6 +322,7 @@ void CanisMajor::drawScene()
 	mfxAmbientVar->SetRawValue(&ambient, 0, sizeof(Light));
 	mfxPLightsVar->SetRawValue(&rLights, 0, sizeof(Light)*4);
 	mfxPLightVar->SetRawValue(&pLight, 0, sizeof(Light));
+	mfxNegaLightVar->SetRawValue(&negaLight, 0, sizeof(Light));
 	mfxLightType->SetBool(flashlight.isOn);
 	
 	// set the point to the shader technique
@@ -435,6 +445,7 @@ void CanisMajor::buildFX()
 	mfxLightVar  = mFX->GetVariableByName("gLight");
 	mfxPLightsVar = mFX->GetVariableByName("lights");
 	mfxPLightVar = mFX->GetVariableByName("pLight");
+	mfxNegaLightVar = mFX->GetVariableByName("negaLight");
 	mfxAmbientVar = mFX->GetVariableByName("ambient");
 	mfxLightType = mFX->GetVariableByName("gLightType")->AsScalar();
 }
@@ -489,6 +500,7 @@ void CanisMajor::loadSplashScreen(bool status)
 
 void CanisMajor::menuLoad()
 {
+	audio->stopCue(BG);
 	state = GameState::MENU;
 	clearLevel();
 	menuUpdate(0,true);
@@ -500,6 +512,7 @@ void CanisMajor::menuLoad()
 
 void CanisMajor::loadAttic()
 {
+	audio->playCue(BG);
 	state = ATTIC;
 	setStoryText(10,L"WELCOME TO THE ATTIC");
 	int iter = 0;
@@ -578,7 +591,7 @@ void CanisMajor::loadAttic()
 	spawnScenery(&mCube,Vector3(20,0,10),Vector3(0,PI/4,0));
 
 	Key* k = spawnKey(L"GOLD KEY",Vector3(20,0,5));
-	Door* d = spawnDoor(Vector3(20,0,30),Vector3(0,-PI/2,0),k);
+	Door* d = spawnDoor(Vector3(20,-2,20),Vector3(0,-PI/2,0),k);
 	d->setScale(Vector3(2,4,1));
 }
 
