@@ -5,7 +5,7 @@ void SearchableActor::interactWith(Camera* player)
 {
 	if(concealedItem != nullptr)
 	{
-		Vector3 pos(3,0,0);
+		Vector3 pos(0,0,-3);
 		pos = rotateY(pos,getRotation().y);
 		concealedItem->create(pos+getPosition());
 		concealedItem = nullptr;

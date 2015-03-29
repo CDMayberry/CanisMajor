@@ -616,7 +616,7 @@ void CanisMajor::loadAttic()
 	Key* k = spawnKey(L"GOLD KEY",Vector3(20,0,5));
 	Door* d = spawnDoor(Vector3(20,0,30),Vector3(0,-PI/2,0),k);
 	spawnSearchable(&mBookcase,L"Bookcase",k,Vector3(20,0,5));
-	d->setScale(Vector3(2,4,1));
+	d->setScale(Vector3(1,3,2));
 }
 
 void CanisMajor::loadSecondFloor()
