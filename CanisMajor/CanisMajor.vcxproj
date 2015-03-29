@@ -95,10 +95,12 @@
     <ClCompile Include="Cube.cpp" />
     <ClCompile Include="d3dApp.cpp" />
     <ClCompile Include="Actor.cpp" />
+    <ClCompile Include="Door.cpp" />
     <ClCompile Include="Flashlight.cpp" />
     <ClCompile Include="GameTimer.cpp" />
     <ClCompile Include="Geometry.cpp" />
     <ClCompile Include="input.cpp" />
+    <ClCompile Include="Key.cpp" />
     <ClCompile Include="Line.cpp" />
     <ClCompile Include="mathUtil.cpp" />
     <ClCompile Include="CanisMajor.cpp" />
@@ -115,12 +117,14 @@
     <ClInclude Include="d3dApp.h" />
     <ClInclude Include="d3dUtil.h" />
     <ClInclude Include="Actor.h" />
+    <ClInclude Include="Door.h" />
     <ClInclude Include="Flashlight.h" />
     <ClInclude Include="gameError.h" />
     <ClInclude Include="GameTimer.h" />
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="Interactable.h" />
+    <ClInclude Include="Key.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="mathUtil.h" />
     <ClInclude Include="Origin.h" />

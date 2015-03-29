@@ -12,6 +12,7 @@
 #include "mathUtil.h"
 #include "Flashlight.h"
 #include "Interactable.h"
+#include "Key.h"
 
 namespace CameraNS
 {
@@ -59,6 +60,10 @@ public:
 	void setPerspective();
 	void setFlashlight(Flashlight* f) {flashlight = f;}
 
+	void addKey(Key* k);
+	bool checkKey(Key* k);
+	void removeKey(Key* k);
+
 	void backUp(){position=prevLoc;}
 
 	Controls controls;
@@ -80,5 +85,6 @@ private:
 	Interactable* nearbyItem;
 
 	Vector3 prevLoc;
+	Key** keys;
 };
 #endif

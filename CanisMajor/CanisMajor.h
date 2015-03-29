@@ -13,7 +13,8 @@
 #include "Camera.h"
 #include "Light.h"
 #include "Flashlight.h"
-
+#include "Key.h"
+#include "Door.h"
 
 using std::wstring;
 
@@ -27,6 +28,9 @@ namespace CM{
 	const int MAX_SCENERY = 1000;
 	const Vector3 WALL_SCALE = Vector3(1,2.5,1);
 	const float ROOF_SCALE = 3.8;
+	const int MAX_KEYS=10;
+	const int MAX_DOORS=100;
+	const float INTERACTION_RADIUS_SQ=36;
 };
 
 enum GameState{
@@ -114,8 +118,11 @@ public:
 
 
 	Actor* scenery;
-	void spawnScenery(Geometry* g, Vector3 pos = Vector3(0,0,0), Vector3 rot = Vector3(0,0,0), Vector3 scale = Vector3(1,1,1));
-
+	Key keys[CM::MAX_KEYS];
+	Door doors[CM::MAX_DOORS];
+	Actor* spawnScenery(Geometry* g, Vector3 pos = Vector3(0,0,0), Vector3 rot = Vector3(0,0,0), Vector3 scale = Vector3(1,1,1));
+	Key* spawnKey(wstring name, Vector3 pos, Vector3 rot = Vector3(0,0,0));
+	Door* spawnDoor(Vector3 pos, Vector3 rot=Vector3(0,0,0),Key* k = nullptr, bool isOpen = false);
 private:
 	void buildFX();
 	void buildVertexLayouts();
