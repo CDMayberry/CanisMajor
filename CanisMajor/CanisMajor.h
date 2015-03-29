@@ -85,7 +85,7 @@ public:
 
 	Geometry mTelescope, mDresser, mFlashlight, mFrame, mBookcase, mChair, mCradle, mMasterbed, 
 			mServantbed, mStaircase, mTable, mBottle, mLock, mPictureframe, mRail, mWallpanel, mWindow,
-			mCage, mFixture, mDoor, mCube, mRoofHole;
+			mCage, mFixture, mDoor, mCube, mRoofHole,mKey;
 
 
 	Origin origin;

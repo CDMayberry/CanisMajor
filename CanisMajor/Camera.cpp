@@ -7,7 +7,7 @@ using namespace CameraNS;
 Camera::Camera()
 {
 	speed = 10;
-	FoV = 0.25*PI;
+	FoV = 0.5*PI;
 	aspectRatio = 480.0f/640.0f;
 	nearClippingPlane = NEAR_CLIPPING_DIST;
 	farClippingPlane = FAR_CLIPPING_DIST;

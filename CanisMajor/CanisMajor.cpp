@@ -115,10 +115,13 @@ void CanisMajor::initApp()
 	
 	mRoofHole.init(md3dDevice,".\\geometry\\roofHole.geo");
 	
+	mKey.init(md3dDevice,".\\geometry\\key.geo", GOLD);
+
 	origin.init(this,1);
 
 	for(int i = 0; i< CM::MAX_SCENERY; i++)
 	{
+		//default init
 		scenery[i].init(this,&mCube);
 	}
 
@@ -498,8 +501,13 @@ void CanisMajor::loadAttic()
 
 	spawnScenery(&mWallpanel,Vector3(10,5,55.01),Vector3(0,1.5707963268,0),Vector3(1,4,6));
 
-	spawnScenery(&mRoofHole,Vector3(16.5,17,11),Vector3(0,0,.41),Vector3(4.5, 3, CM::ROOF_SCALE));
+	spawnScenery(&mRoofHole,Vector3(15,18,10),Vector3(0,0,.41),Vector3(4.5, 3, CM::ROOF_SCALE));
 
+
+	spawnScenery(&mCube,Vector3(10,0,10));
+	spawnScenery(&mCube,Vector3(20,0,10),Vector3(0,PI/4,0));
+
+	spawnScenery(&mKey,Vector3(20,0,5));
 }
 
 void CanisMajor::loadSecondFloor()
