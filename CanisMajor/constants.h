@@ -23,13 +23,17 @@ const char SOUND_BANK[] = "audio\\Win\\sound Bank.xsb";
 // XGS_FILE must be location of .xgs file.
 const char XGS_FILE[]   = "audio\\Win\\audioProject.xgs";
 
+const int CREAK_SIZE = 3;
+
 //Audio cues
 const char CLICK[] = "click";//Caelan
 const char GROWL[] = "growl1";//Caelan
 const char BG[] = "bg";//Caelan
 const char CREAK[] = "creak";//Caelan
+const char CREAK1[] = "creak1";//Caelan
+const char CREAK2[] = "creak2";//Caelan
+const char CREAK3[] = "creak3";//Caelan
 const char HOWL[] = "howl";//Caelan
-
 
 
 #endif

@@ -6,6 +6,8 @@ using namespace doorNS;
 
 void Door::interactWith(Camera* player)
 {
+	//int c = rand()%3;
+	//string s = "creak" + std::to_string(c);
 	if(!isOpen)
 	{
 		//door is locked
@@ -13,6 +15,10 @@ void Door::interactWith(Camera* player)
 		{
 			if(player->checkKey(key))
 			{
+				//game->audio->stopCue(CREAK1);
+				//game->audio->stopCue(CREAK2);
+				//game->audio->stopCue(CREAK3);
+				//game->audio->playCue(s.c_str());
 				player->removeKey(key);
 				isOpen = true;
 				key = nullptr;//unlock
@@ -30,6 +36,10 @@ void Door::interactWith(Camera* player)
 	}
 	else
 	{
+		//game->audio->stopCue(CREAK1);
+		//game->audio->stopCue(CREAK2);
+		//game->audio->stopCue(CREAK3);
+		//game->audio->playCue(s.c_str());
 		isOpen=false;
 	}
 }
