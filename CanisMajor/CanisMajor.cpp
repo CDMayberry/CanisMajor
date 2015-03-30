@@ -22,7 +22,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 CanisMajor::CanisMajor(HINSTANCE hInstance)
 	: D3DApp(hInstance), mFX(0), mTech(0), mVertexLayout(0),
 	mfxWVPVar(0), mfxWorldVar(0),  mfxEyePosVar(0), 
-	mfxLightVar(0), mfxLightType(0)
+	mfxLightVar(0), mfxLightBool(0)
 {
 	D3DXMatrixIdentity(&mView);
 	D3DXMatrixIdentity(&mProj);
@@ -62,6 +62,7 @@ void CanisMajor::initApp()
 	for(int i = 0; i < MAX_LIGHTS; i++) {
 		rLights[i].init();
 		rLights[i].pos = Vector3(0, -200, 0);
+		lightType[i] = 0;
 	}
 
 	// Spotlight--position and direction changed every frame to animate.
@@ -359,12 +360,15 @@ void CanisMajor::drawScene()
 	for(int i = 0; i < MAX_LIGHTS; i++) { //Individually setting lights.
 		mfxPLightsVar[i]->SetRawValue(&rLights[i], 0, sizeof(Light));
 	}
+	for(int i = 0; i < MAX_LIGHTS; i++) { //Individually setting lights.
+		mfxLightType[i]->SetInt(lightType[i]);
+	}
 	mfxActiveLights->SetInt(activeLights);
 
 	//mfxPLightsVar->SetRawValue(&rLights, 0, sizeof(Light));
 	mfxPLightVar->SetRawValue(&pLight, 0, sizeof(Light));
 	mfxNegaLightVar->SetRawValue(&negaLight, 0, sizeof(Light));
-	mfxLightType->SetBool(flashlight.isOn);
+	mfxLightBool->SetBool(flashlight.isOn);
 	
 	// set the point to the shader technique
 	D3D10_TECHNIQUE_DESC techDesc;
@@ -496,11 +500,15 @@ void CanisMajor::buildFX()
 	for(int i = 0; i < MAX_LIGHTS; i++) {
 		mfxPLightsVar[i] = mFX->GetVariableByName("lights")->GetElement(i);
 	}
+	for(int i = 0; i < MAX_LIGHTS; i++) {
+		mfxLightType[i] = mFX->GetVariableByName("type")->GetElement(i)->AsScalar();
+	}
+	
 	mfxActiveLights = mFX->GetVariableByName("activeLights")->AsScalar();
 	mfxPLightVar = mFX->GetVariableByName("pLight");
 	mfxNegaLightVar = mFX->GetVariableByName("negaLight");
 	mfxAmbientVar = mFX->GetVariableByName("ambient");
-	mfxLightType = mFX->GetVariableByName("gLightType")->AsScalar();
+	mfxLightBool = mFX->GetVariableByName("gLightType")->AsScalar();
 }
 
 void CanisMajor::buildVertexLayouts()
@@ -539,6 +547,10 @@ void CanisMajor::clearLevel()
 	{
 		searchableActors[i].isActive = false;
 	}
+	for(int i = 0; i < MAX_LIGHTS; i++) {
+		rLights[i].init();
+		lightType[i] = 0;
+	}
 }
 
 void CanisMajor::loadSplashScreen(bool status)
@@ -574,10 +586,6 @@ void CanisMajor::loadAttic()
 	int iter = 0;
 
 	audio->playCue(BG);
-
-	//rLights[0].ambient = RED;
-	//rLights[1].ambient = BLUE;
-	//pLight.range = 100;
 
 	camera.setPosition(Vector3(5,0,5));
 
@@ -685,10 +693,17 @@ void CanisMajor::loadAttic()
 	negaLight.pos = Vector3(20, 0, 30);
 	pLight.pos = Vector3(20, -212, 20);
 	rLights[0].pos = Vector3(20,3.5, 53.5);
-	rLights[1].pos = Vector3(20, 12, 10);
+
+	rLights[1].init(4);
+	rLights[1].pos = Vector3(10.5, 20, 9.8);
+	rLights[1].dir = Vector3(.8, -1, 0);
+	lightType[1] = 1; //Set to spotlight
+
 	rLights[2].pos = Vector3(20, -2, 15);
 	rLights[3].pos = Vector3(20, -2, 25);
-	activeLights = 4;
+	
+	
+	activeLights = 2;
 }
 
 void CanisMajor::loadSecondFloor()
@@ -819,6 +834,17 @@ SearchableActor* CanisMajor::spawnSearchable(Geometry* g, std::wstring name, Act
 			return &searchableActors[i];
 		}
 	}
+	return nullptr;
+}
+
+Light* CanisMajor::spawnLight(Vector3 pos, bool spot) {
+	
+	if(activeLights < MAX_LIGHTS) {
+		activeLights++;
+		rLights[activeLights].init();
+		return &rLights[activeLights-1];
+	}
+
 	return nullptr;
 }
 

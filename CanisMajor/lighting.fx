@@ -44,6 +44,7 @@ cbuffer cbPerObject
 //#define MAX_LIGHTS 4
 
 Light lights[MAX_LIGHTS];
+int type[MAX_LIGHTS];
 Light pLight;
 Light ambient;
 Light negaLight;
@@ -186,15 +187,22 @@ float4 PS(VS_OUT pIn) : SV_Target
 	[loop]
 	for( uint i = 0; i < activeLights; i++ )
 	{
-		newColor = PointLight(v, lights[i], gEyePosW);
-		litColor.x = max(newColor.x,litColor.x);
-		litColor.y = max(newColor.y,litColor.y);
-		litColor.z = max(newColor.z,litColor.z);
-		//if(newColor.x > litColor.x && newColor.y > litColor.y && newColor.z > litColor.z) {
-		//	litColor = newColor;
-		//}
+		//Calculate as Spotlight
+		if(type[i] == 1) {
+			newColor = Spotlight(v, lights[i], gEyePosW);
+			litColor.x = max(newColor.x,litColor.x);
+			litColor.y = max(newColor.y,litColor.y);
+			litColor.z = max(newColor.z,litColor.z);
+		}
 
-		//litColor += newColor;
+		//Calculate as Pointlight
+		else {
+			newColor = PointLight(v, lights[i], gEyePosW);
+			litColor.x = max(newColor.x,litColor.x);
+			litColor.y = max(newColor.y,litColor.y);
+			litColor.z = max(newColor.z,litColor.z);
+		}
+
 	}
 
 	//Ambient lighting loaded first
@@ -204,21 +212,6 @@ float4 PS(VS_OUT pIn) : SV_Target
 	if(gLightType)
 	{
 		litColor += Spotlight(v, gLight, gEyePosW);
-		//newColor += Spotlight(v, gLight, gEyePosW);
-		//if(litColor.x > newColor.x)
-		//	litColor.x += newColor.x;
-		//if(litColor.y > newColor.y)
-		//	litColor.y += newColor.y;
-		//if(litColor.z > newColor.z)
-		//	litColor.z += newColor.z;
-		//if(litColor.x < newColor.x && litColor.y < newColor.y && litColor.z < newColor.z) {
-		//	litColor.x += newColor.x;
-		//	litColor.y += newColor.y;
-		//	litColor.z += newColor.z;
-		//}
-		//litColor.x += max(newColor.x,litColor.x);
-		//litColor.y += max(newColor.y,litColor.y);
-		//litColor.z += max(newColor.z,litColor.z);
 	}
 
 	//Dark emitter

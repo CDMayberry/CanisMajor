@@ -121,6 +121,7 @@ public:
 	Light negaLight;
 	Light rLights[MAX_LIGHTS];		//Room Lights, point lights
 	int activeLights;
+	int lightType[MAX_LIGHTS];
 
 	ID3D10EffectMatrixVariable* mfxWVPVar;
 	ID3D10EffectMatrixVariable* mfxWorldVar;
@@ -131,8 +132,9 @@ public:
 	ID3D10EffectVariable* mfxNegaLightVar;
 	ID3D10EffectVariable* mfxAmbientVar;
 	
-	ID3D10EffectScalarVariable* mfxLightType;
+	ID3D10EffectScalarVariable* mfxLightBool;
 	ID3D10EffectScalarVariable* mfxActiveLights;
+	ID3D10EffectScalarVariable* mfxLightType[MAX_LIGHTS];
 
 
 	Actor* scenery;
@@ -143,6 +145,8 @@ public:
 	Key* spawnKey(wstring name, Vector3 pos, Vector3 rot = Vector3(0,0,0));
 	Door* spawnDoor(Vector3 pos, Vector3 rot=Vector3(0,0,0), Vector3 Scale=Vector3(1,1,1), Key* k = nullptr, bool isOpen = false);
 	SearchableActor* spawnSearchable(Geometry* g, std::wstring name, Actor* in= nullptr, Vector3 pos = Vector3(0,0,0), Vector3 rot = Vector3(0,0,0), Vector3 scale = Vector3(1,1,1));
+	Light* spawnLight(Vector3 pos, bool spot = false);
+
 private:
 
 #ifdef DEBUG
