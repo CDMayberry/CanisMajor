@@ -115,7 +115,7 @@ void CanisMajor::initApp()
 
 	mFixture.init(md3dDevice,".\\geometry\\fixture.geo");
 
-	mDoor.init(md3dDevice,".\\geometry\\door.geo");
+	mDoor.init(md3dDevice,".\\geometry\\door.geo",GOLD);
 
 	mBox.init(md3dDevice,".\\geometry\\cardboardBox.geo");
 
@@ -600,7 +600,8 @@ void CanisMajor::loadAttic()
 	//Right wall
 	for(int i = 10; i< 16; i++)
 	{
-		spawnScenery(&mWallpanel,Vector3(40,0,iter*10),Vector3(0,0,0),CM::WALL_SCALE);
+		if(i !=13)
+			spawnScenery(&mWallpanel,Vector3(40,0,iter*10),Vector3(0,0,0),CM::WALL_SCALE);
 		iter++;
 	}
 
@@ -644,11 +645,13 @@ void CanisMajor::loadAttic()
 
 	spawnScenery(&mRoofHole,Vector3(19,13.4,7.1),Vector3(0,0,.41),Vector3(6.2, 3, 5.1));
 
+	spawnScenery(&mWallpanel,Vector3(40,5,32),Vector3(0,0,0),Vector3(1,1.6,.6));
+
 	Key* k = spawnKey(L"GOLD KEY",Vector3(20,0,5));
 
 	//Bookcases
-	spawnSearchable(&mBookcase,L"Bookcase",k,Vector3(37.3,-3,53.9),Vector3(0,0,0), CM::BOOKCASE_SCALE);
-	spawnSearchable(&mBookcase,L"Bookcase",nullptr,Vector3(32,-3,53.9),Vector3(0,0,0), CM::BOOKCASE_SCALE);
+	spawnSearchable(&mBookcase,L"Bookcase",k,Vector3(37.3,2.3,53.7),Vector3(0,0,0), CM::BOOKCASE_SCALE);
+	spawnSearchable(&mBookcase,L"Bookcase",nullptr,Vector3(32,2.3,53.7),Vector3(0,0,0), CM::BOOKCASE_SCALE);
 
 	//Table and chairs
 	spawnSearchable(&mTable,L"Table",nullptr,Vector3(11,-3.5,35),Vector3(0,PI,0),Vector3(1.2,1.5,1.2));
@@ -672,9 +675,7 @@ void CanisMajor::loadAttic()
 	spawnSearchable(&mBox,L"Conspicuous Cube",nullptr,Vector3(10,-2,10),Vector3(0,0,0),CM::BOX_SCALE);
 	spawnSearchable(&mBox,L"Inconspicuous Cube",nullptr,Vector3(22,-2,6),Vector3(0,PI/2,0),CM::BOX_SCALE);
 		
-	Door* d = spawnDoor(Vector3(20,-2,20),Vector3(0,-PI/2,0),k);
-
-	d->setScale(Vector3(1,3,2));
+	Door* d = spawnDoor(Vector3(39.9,-2.7,29),Vector3(0,0,0),Vector3(1.4,3.5,2.1),k);
 }
 
 void CanisMajor::loadSecondFloor()
@@ -779,13 +780,13 @@ Key* CanisMajor::spawnKey(wstring name, Vector3 pos, Vector3 rot)
 	return nullptr;
 }
 
-Door* CanisMajor::spawnDoor(Vector3 pos, Vector3 rot,Key* k, bool open)
+Door* CanisMajor::spawnDoor(Vector3 pos, Vector3 rot,Vector3 scale, Key* k, bool open)
 {
 	for(int i = 0 ; i < CM::MAX_DOORS; i++)
 	{
 		if(!doors[i].isActive)
 		{
-			doors[i].create(pos,rot,k,open);
+			doors[i].create(pos,rot,scale,k,open);
 			return &doors[i];
 		}
 	}
