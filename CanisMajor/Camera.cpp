@@ -27,12 +27,17 @@ Camera::~Camera()
 	delete [] keys;
 }
 
-void Camera::init(CanisMajor* g, Controls c)
+void Camera::init(CanisMajor* game,Geometry* geo, Controls c)
 {
-	Actor::init(g,nullptr,COLISION_RADIUS);
+	Actor::init(game,geo,COLISION_RADIUS);
 	controls = c;
 	camHeight = DEFAULT_HEIGHT;
 	isActive = true;
+	isVisible = false;
+
+	collisionType = AABBox;
+	setScale(Vector3(.7,1.5,.7));
+
 	for(int i = 0 ; i < CM::MAX_KEYS; i++)
 	{
 		keys[i]=nullptr;
