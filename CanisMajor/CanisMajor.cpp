@@ -58,7 +58,6 @@ CanisMajor::~CanisMajor()
 void CanisMajor::initApp()
 {
 	D3DApp::initApp();
-
 	
 	for(int i = 0; i < CM::MAX_LIGHTS; i++) {
 		rLights[i].init();
@@ -354,10 +353,13 @@ void CanisMajor::drawScene()
 	md3dDevice->IASetInputLayout(mVertexLayout);
 
 	mfxEyePosVar->SetRawValue(&camera.getPosition(), 0, sizeof(D3DXVECTOR3));
-	//mfxEyePosVar->SetRawValue(&pos, 0, sizeof(D3DXVECTOR3));
 	mfxLightVar->SetRawValue(&fLight, 0, sizeof(Light));
 	mfxAmbientVar->SetRawValue(&ambient, 0, sizeof(Light));
-	mfxPLightsVar->SetRawValue(&rLights, 0, sizeof(Light)*4);
+	for(int i = 0; i < CM::MAX_LIGHTS; i++) { //Individually setting lights.
+		mfxPLightsVar[i]->SetRawValue(&rLights[i], 0, sizeof(Light));
+	}
+
+	//mfxPLightsVar->SetRawValue(&rLights, 0, sizeof(Light));
 	mfxPLightVar->SetRawValue(&pLight, 0, sizeof(Light));
 	mfxNegaLightVar->SetRawValue(&negaLight, 0, sizeof(Light));
 	mfxLightType->SetBool(flashlight.isOn);
@@ -488,7 +490,10 @@ void CanisMajor::buildFX()
 	mfxWorldVar  = mFX->GetVariableByName("gWorld")->AsMatrix();
 	mfxEyePosVar = mFX->GetVariableByName("gEyePosW");
 	mfxLightVar  = mFX->GetVariableByName("gLight");
-	mfxPLightsVar = mFX->GetVariableByName("lights");
+
+	for(int i = 0; i < CM::MAX_LIGHTS; i++) {
+		mfxPLightsVar[i] = mFX->GetVariableByName("lights")->GetElement(i);
+	}
 
 	//MAKE IT AN ARRAY OF LIGHTSVARS
 	//mfxPLightsVar = mFX->GetVariableByName("lights")->GetElement(0);

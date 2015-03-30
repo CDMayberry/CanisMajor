@@ -39,9 +39,9 @@ cbuffer cbPerObject
 };
 
 
-#define NUM_LIGHTS 4
+#define MAX_LIGHTS 4
 
-Light lights[NUM_LIGHTS];
+Light lights[MAX_LIGHTS];
 Light pLight;
 Light ambient;
 Light negaLight;
@@ -184,7 +184,7 @@ float4 PS(VS_OUT pIn) : SV_Target
 
 	//Calculations for point lights
 	[loop]
-	for( uint i = 0; i < 4; i++ )
+	for( uint i = 0; i < MAX_LIGHTS; i++ )
 	{
 		newColor = PointLight(v, lights[i], gEyePosW);
 		if(newColor.x > litColor.x && newColor.y > litColor.y && newColor.z > litColor.z) {

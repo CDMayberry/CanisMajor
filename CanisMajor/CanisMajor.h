@@ -125,7 +125,7 @@ public:
 	ID3D10EffectMatrixVariable* mfxWorldVar;
 	ID3D10EffectVariable* mfxEyePosVar;
 	ID3D10EffectVariable* mfxLightVar;
-	ID3D10EffectVariable* mfxPLightsVar;
+	ID3D10EffectVariable* mfxPLightsVar[CM::MAX_LIGHTS];
 	ID3D10EffectVariable* mfxPLightVar;
 	ID3D10EffectVariable* mfxNegaLightVar;
 	ID3D10EffectVariable* mfxAmbientVar;
