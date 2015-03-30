@@ -28,9 +28,9 @@ struct Light
 			diffuse  = D3DXCOLOR(.5f, .5f ,.5f, 1.0f);
 			specular = D3DXCOLOR(.1f, .1f, .1f, 1.0f);
 			att.x    = 1.0f;
-			att.y    = 0.0f;
-			att.z    = 0.0f;
-			spotPow  = 128.0f;
+			att.y    = 0.f;
+			att.z    = 0.f;
+			spotPow  = 16.0f;
 			range    = 10000.0f;
 
 		}

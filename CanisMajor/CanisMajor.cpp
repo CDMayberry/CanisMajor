@@ -73,6 +73,7 @@ void CanisMajor::initApp()
 	negaLight.pos = Vector3(20, 10, 50);
 	pLight.pos = Vector3(20, 10, 10);
 
+
 	howl = false;
 
 	mTelescope.init(md3dDevice,".\\geometry\\telescope.geo");
@@ -149,6 +150,7 @@ void CanisMajor::initApp()
 	for(int i = 0; i< CM::MAX_SEARCHABLE_ACTORS; i++)
 	{
 		searchableActors[i].init(this,&mCube,1);
+		searchableActors[i].collisionType=AABBox;
 	}
 	
 	camera.create(Vector3(10,10,10),Vector3(1,0,0));
@@ -293,6 +295,7 @@ void CanisMajor::collisions()
 			}
 		}
 	}
+
 
 	for(int i = 0 ; i < CM::MAX_DOORS; i++)
 	{
@@ -568,8 +571,8 @@ void CanisMajor::loadAttic()
 	audio->playCue(BG);
 
 	negaLight.pos = Vector3(20, 10, 50);
-	pLight.pos = Vector3(20, 10, 25);
-	pLight.range = 40;
+	pLight.pos = Vector3(20, 15, 20);
+	pLight.range = 150;
 
 	camera.setPosition(Vector3(5,0,5));
 
