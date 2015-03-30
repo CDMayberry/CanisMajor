@@ -47,7 +47,7 @@ struct Light
 		}
 
 		else if(settings == 4) { //Spotlight, moonlight
-			ambient  = D3DXCOLOR(0.03137254901f, 0.18431372549f, 0.4f, 1.0f);
+			ambient  = D3DXCOLOR(0.02745098039f, 0.07843137254f, 0.21176470588f, 1.0f);
 			diffuse  = D3DXCOLOR(.001f, .001f, .001f, 1.0f);
 			specular = D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f);
 			att.x    = 15.0f;	//Flat increase/decrease
@@ -63,7 +63,7 @@ struct Light
 			specular = D3DXCOLOR(.00001f, .00001f, .00001f, 1.0f);
 			att.x    = 0.3f;	//Flat increase/decrease
 			att.y    = .1f;		//Linear increase/decrease
-			att.z    = 0.00005f; //Exponential increase/decrease
+			att.z    = 0.05f; //Exponential increase/decrease
 			range    = 35.0f;
 		}
 		
