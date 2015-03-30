@@ -26,7 +26,7 @@ struct Light
 		else if(settings == 2) {					//Spotlight, like our flashlight
 			ambient  = D3DXCOLOR(0.2f, 0.2f, 0.15f, 1.0f);
 			diffuse  = D3DXCOLOR(.5f, .5f ,.5f, 1.0f);
-			specular = D3DXCOLOR(.1f, .1f, .1f, 1.0f);
+			specular = D3DXCOLOR(.01f, .01f, .01f, 1.0f);
 			att.x    = 1.0f;
 			att.y    = 0.f;
 			att.z    = 0.f;
@@ -51,7 +51,7 @@ struct Light
 			att.x    = 0.0f;
 			att.y    = .1f;
 			att.z    = 0.0f;
-			range    = 50.0f;
+			range    = 30.0f;
 		}
 
 

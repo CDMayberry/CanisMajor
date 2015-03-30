@@ -184,14 +184,15 @@ float4 PS(VS_OUT pIn) : SV_Target
 
 	//Calculations for point lights
 	[loop]
-	for( uint i = 0;i < 4; i++ )
+	for( uint i = 0; i < 4; i++ )
 	{
-		//newColor = PointLight(v, lights[i], gEyePosW);
+		newColor = PointLight(v, lights[i], gEyePosW);
 		if(newColor.x > litColor.x && newColor.y > litColor.y && newColor.z > litColor.z) {
-			//litColor = newColor;
+			litColor = newColor;
 		}
-		//litColor += newColor;
+		litColor += newColor;
 	}
+
 	newColor = PointLight(v, pLight, gEyePosW);
 	if(newColor.x > litColor.x && newColor.y > litColor.y && newColor.z > litColor.z) {
 		litColor = newColor;

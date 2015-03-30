@@ -62,7 +62,7 @@ void CanisMajor::initApp()
 	
 	for(int i = 0; i < CM::MAX_LIGHTS; i++) {
 		rLights[i].init();
-		rLights[i].pos = Vector3(10, 10, i*30);
+		rLights[i].pos = Vector3(0, -200, 0);
 	}
 
 	// Spotlight--position and direction changed every frame to animate.
@@ -70,9 +70,6 @@ void CanisMajor::initApp()
 	ambient.init(1);
 	pLight.init();
 	negaLight.init(3);
-	negaLight.pos = Vector3(20, 10, 50);
-	pLight.pos = Vector3(20, 10, 10);
-
 
 	howl = false;
 
@@ -492,6 +489,9 @@ void CanisMajor::buildFX()
 	mfxEyePosVar = mFX->GetVariableByName("gEyePosW");
 	mfxLightVar  = mFX->GetVariableByName("gLight");
 	mfxPLightsVar = mFX->GetVariableByName("lights");
+
+	//MAKE IT AN ARRAY OF LIGHTSVARS
+	//mfxPLightsVar = mFX->GetVariableByName("lights")->GetElement(0);
 	mfxPLightVar = mFX->GetVariableByName("pLight");
 	mfxNegaLightVar = mFX->GetVariableByName("negaLight");
 	mfxAmbientVar = mFX->GetVariableByName("ambient");
@@ -571,8 +571,12 @@ void CanisMajor::loadAttic()
 	audio->playCue(BG);
 
 	negaLight.pos = Vector3(20, 10, 50);
-	pLight.pos = Vector3(20, 15, 20);
-	pLight.range = 150;
+	pLight.pos = Vector3(20, -212, 20);
+	rLights[0].pos = Vector3(20, 12, 40);
+	rLights[1].pos = Vector3(20, 12, 10);
+	rLights[0].ambient = RED;
+	rLights[1].ambient = BLUE;
+	//pLight.range = 100;
 
 	camera.setPosition(Vector3(5,0,5));
 
