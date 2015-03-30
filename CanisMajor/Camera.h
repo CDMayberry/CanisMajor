@@ -29,7 +29,7 @@ namespace CameraNS
 	const float CROUCH_HEIGHT = 1;
 	const float BOB_FREQUENCY = 6;//bobs per 2PI
 	const float SQUAT_SPEED = 10;
-	const float COLISION_RADIUS = 2.3;
+	const float COLISION_RADIUS = 3;
 };
 
 class Camera: public virtual Actor

@@ -34,6 +34,8 @@ namespace CM{
 	const int MAX_DOORS=100;
 	const float INTERACTION_RADIUS_SQ=36;
 	const int MAX_SEARCHABLE_ACTORS = 1000;
+	const Vector3 CHAIR_SCALE = Vector3(2,2,1.7);
+	const Vector3 BOX_SCALE = Vector3(2,2,2);
 };
 
 enum GameState{
@@ -92,7 +94,7 @@ public:
 
 	Geometry mTelescope, mDresser, mFlashlight, mFrame, mBookcase, mChair, mCradle, mMasterbed, 
 			mServantbed, mStaircase, mTable, mBottle, mLock, mPictureframe, mRail, mWallpanel, mWindow,
-			mCage, mFixture, mDoor, mCube, mRoofHole,mKey;
+			mCage, mFixture, mDoor, mCube, mRoofHole,mKey, mBox;
 
 
 	Origin origin;

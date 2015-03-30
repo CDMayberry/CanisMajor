@@ -117,6 +117,8 @@ void CanisMajor::initApp()
 
 	mDoor.init(md3dDevice,".\\geometry\\door.geo");
 
+	mBox.init(md3dDevice,".\\geometry\\cardboardBox.geo");
+
 	for(int i = 0 ; i < CM::MAX_DOORS; i++)
 	{
 		doors[i].init(this,&mDoor,1);
@@ -620,21 +622,35 @@ void CanisMajor::loadAttic()
 
 	spawnScenery(&mWallpanel,Vector3(10,5,55.01),Vector3(0,1.5707963268,0),Vector3(1,4,6));
 
-	spawnScenery(&mRoofHole,Vector3(19,13.4,7.1),Vector3(0,0,.41),Vector3(6, 3, 5.1));
-
-	spawnScenery(&mBookcase,Vector3(37.3,-3,53.9),Vector3(0,0,0), CM::BOOKCASE_SCALE);
-	spawnScenery(&mBookcase,Vector3(33.3,-3,53.9),Vector3(0,0,0), CM::BOOKCASE_SCALE);
-
-	spawnScenery(&mTable,Vector3(10,0,25),Vector3(0,PI,0));
-	
-
-	spawnSearchable(&mCube,L"Conspicuous Cube",nullptr,Vector3(10,0,10));
-	spawnSearchable(&mCube,L"inconspicuous Cube",nullptr,Vector3(20,0,10),Vector3(0,PI/4,0));
+	spawnScenery(&mRoofHole,Vector3(19,13.4,7.1),Vector3(0,0,.41),Vector3(6.2, 3, 5.1));
 
 	Key* k = spawnKey(L"GOLD KEY",Vector3(20,0,5));
 
+	//Bookcases
+	spawnSearchable(&mBookcase,L"Bookcase",k,Vector3(37.3,-3,53.9),Vector3(0,0,0), CM::BOOKCASE_SCALE);
+	spawnSearchable(&mBookcase,L"Bookcase",nullptr,Vector3(32,-3,53.9),Vector3(0,0,0), CM::BOOKCASE_SCALE);
+
+	//Table and chairs
+	spawnSearchable(&mTable,L"Table",nullptr,Vector3(11,-3.5,35),Vector3(0,PI,0),Vector3(1.2,1.5,1.2));
+	spawnScenery(&mChair,Vector3(8,-3,34),Vector3(0,0,0), CM::CHAIR_SCALE);
+	spawnScenery(&mChair,Vector3(11,-1.4,39),Vector3(PI/2,.9,0), CM::CHAIR_SCALE);
+	spawnScenery(&mChair,Vector3(13,2.3,34),Vector3(PI,PI,0), CM::CHAIR_SCALE);
+
+	//Bottle on table
+	spawnScenery(&mBottle,Vector3(10,.8,36));
+
+	//Boxes
+	spawnScenery(&mBox,Vector3(37.5,-2,20),Vector3(0,0,0), CM::BOX_SCALE);
+	spawnScenery(&mCube,Vector3(37.5,-2,15.7),Vector3(0,0,0), CM::BOX_SCALE);
+	spawnScenery(&mCube,Vector3(37.5,-2,11.5),Vector3(0,0,0), CM::BOX_SCALE);
+	spawnScenery(&mBox,Vector3(37.5, 2.1,13.5),Vector3(0,.5,0), CM::BOX_SCALE);
+
+	//Comedic effect cubes
+	spawnSearchable(&mBox,L"Conspicuous Cube",nullptr,Vector3(10,-2,10),Vector3(0,0,0),CM::BOX_SCALE);
+	spawnSearchable(&mBox,L"Inconspicuous Cube",nullptr,Vector3(22,-2,6),Vector3(0,PI/2,0),CM::BOX_SCALE);
+		
 	Door* d = spawnDoor(Vector3(20,-2,20),Vector3(0,-PI/2,0),k);
-	spawnSearchable(&mBookcase,L"Bookcase",k,Vector3(20,0,5));
+
 	d->setScale(Vector3(1,3,2));
 }
 
