@@ -22,8 +22,9 @@ public:
 	virtual void init(ID3D10Device* device, D3DXCOLOR color = WHITE, D3D_PRIMITIVE_TOPOLOGY topology = D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	virtual void init(ID3D10Device* device, std::string objFile,D3DXCOLOR color = WHITE);
 	virtual void draw(UINT offset = 0);
-
-	virtual Vector3 getDefaultScale(){return defaultScale;}
+	
+	Vector3 getAABBMin(){return min;}
+	Vector3 getAABBMax(){return max;}
 
 protected:
 
@@ -38,9 +39,10 @@ protected:
 
 	D3D10_RASTERIZER_DESC rasterState;
 
-	Vector3 defaultScale;
 
-	Vector3 calculateDefaultScale(vector<Vector3>& verts);
+	void calculateDefaultAABB(vector<Vector3>& verts);
+
+
 
 private:
 	D3D_PRIMITIVE_TOPOLOGY topology;
@@ -52,4 +54,6 @@ private:
 
 	Vertex * verts;
 	DWORD * indices;
+
+	Vector3 min, max;
 };

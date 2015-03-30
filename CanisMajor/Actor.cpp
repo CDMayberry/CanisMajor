@@ -111,44 +111,47 @@ bool Actor::collided(Actor *gameObject)
 		}
 		else if(collisionType == SPHERE && gameObject->collisionType==AABBox)
 		{
-			Vector3 min, max;
-			Vector3 adjustedScale;
-			adjustedScale.x = gameObject->getGeometry()->getDefaultScale().x*gameObject->getScale().x;
-			adjustedScale.y = gameObject->getGeometry()->getDefaultScale().y*gameObject->getScale().y;
-			adjustedScale.z = gameObject->getGeometry()->getDefaultScale().z*gameObject->getScale().z;
-
-			max = adjustedScale/2;
-			min = -adjustedScale/2;
-
-			min=rotate(min,gameObject->getRotation());
-			max=rotate(max,gameObject->getRotation());
-
-			min += gameObject->getPosition();
-			max += gameObject->getPosition();
+			Vector3 min = gameObject->getGeometry()->getAABBMin(), max=gameObject->getGeometry()->getAABBMax();
+			
+			transformAABB(min,max);
 
 			//if the point is closet than the radius
 			return radius*radius >= SquaredDistPointAABB(getPosition(),min,max);
 		}
 		else if(collisionType == AABBox && gameObject->collisionType==SPHERE)
 		{
-			Vector3 min, max;
-			Vector3 adjustedScale;
-			adjustedScale.x = getGeometry()->getDefaultScale().x*getScale().x;
-			adjustedScale.y = getGeometry()->getDefaultScale().y*getScale().y;
-			adjustedScale.z = getGeometry()->getDefaultScale().z*getScale().z;
-
-			max = adjustedScale/2;
-			min = -adjustedScale/2;
-
-			min=rotate(min,getRotation());
-			max=rotate(max,getRotation());
-
-			min += getPosition();
-			max += getPosition();
+			Vector3 min = getGeometry()->getAABBMin(), max=getGeometry()->getAABBMax();
+			
+			transformAABB(min,max);
 
 			//if the point is closet than the radius
 			return gameObject->radius*gameObject->radius >= SquaredDistPointAABB(gameObject->getPosition(),min,max);
 		}
+
+		else if(collisionType == AABBox && gameObject->collisionType==AABBox)
+		{
+			Vector3 min1 = getGeometry()->getAABBMin(), max1=getGeometry()->getAABBMax();
+			Vector3 min2 = gameObject->getGeometry()->getAABBMin(), max2=gameObject->getGeometry()->getAABBMax();
+
+
+			transformAABB(min1,max1);
+			gameObject->transformAABB(min2,max2);
+
+			if(min1.x > max2.x)
+				return false;
+			if(min1.y > max2.y)
+				return false;
+			if(min1.z > max2.z)
+				return false;
+			if(min2.x > max1.x)
+				return false;
+			if(min2.y > max1.y)
+				return false;
+			if(min2.z > max1.z)
+				return false;
+			return true;
+		}
+
 		else
 		{
 			throw "Justin hasn't bothered to build this yet.";
@@ -191,4 +194,34 @@ float Actor::SquaredDistPointAABB(Vector3 p, Vector3 min, Vector3 max)
 
 
 void Actor::onDeath() {
+}
+
+//all params inout
+void Actor::transformAABB(Vector3 & low, Vector3 & high)
+{
+	low.x *= getScale().x;
+	low.y *= getScale().y;
+	low.z *= getScale().z;
+
+	high.x *= getScale().x;
+	high.y *= getScale().y;
+	high.z *= getScale().z;
+
+	low=rotate(low,getRotation());
+	high=rotate(high,getRotation());
+
+	low += getPosition();
+	high += getPosition();
+
+	Vector3 i,j;
+	i.x = min(low.x,high.x);
+	i.y = min(low.y,high.y);
+	i.z = min(low.z,high.z);
+
+	j.x = max(low.x,high.x);
+	j.y = max(low.y,high.y);
+	j.z = max(low.z,high.z);
+
+	low = i;
+	high = j;
 }

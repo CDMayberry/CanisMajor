@@ -1,5 +1,7 @@
 #pragma once
 
+//#define DEBUG
+
 #include "d3dApp.h"
 #include "Geometry.h"
 #include "Actor.h"
@@ -34,6 +36,8 @@ namespace CM{
 	const int MAX_DOORS=100;
 	const float INTERACTION_RADIUS_SQ=36;
 	const int MAX_SEARCHABLE_ACTORS = 1000;
+	const Vector3 CHAIR_SCALE = Vector3(2,2,1.7);
+	const Vector3 BOX_SCALE = Vector3(2,2,2);
 };
 
 enum GameState{
@@ -84,6 +88,8 @@ public:
 
 	GameState state;
 
+	Controls controls;
+
 	void onPlayerDeath();
 
 	Vector3 worldSize;
@@ -92,7 +98,7 @@ public:
 
 	Geometry mTelescope, mDresser, mFlashlight, mFrame, mBookcase, mChair, mCradle, mMasterbed, 
 			mServantbed, mStaircase, mTable, mBottle, mLock, mPictureframe, mRail, mWallpanel, mWindow,
-			mCage, mFixture, mDoor, mCube, mRoofHole,mKey;
+			mCage, mFixture, mDoor, mCube, mRoofHole,mKey, mBox;
 
 
 	Origin origin;
@@ -102,6 +108,11 @@ public:
 
 	//EVERTHING PUBLIC BELOW THIS IS FOR TESTING
 	Vector3 pos;
+
+#ifdef DEBUG
+	Geometry mRedCube;
+	Actor AABBHelper;
+#endif
 
 	
 	Light fLight;
@@ -131,6 +142,11 @@ public:
 	Door* spawnDoor(Vector3 pos, Vector3 rot=Vector3(0,0,0),Key* k = nullptr, bool isOpen = false);
 	SearchableActor* spawnSearchable(Geometry* g, std::wstring name, Actor* in= nullptr, Vector3 pos = Vector3(0,0,0), Vector3 rot = Vector3(0,0,0), Vector3 scale = Vector3(1,1,1));
 private:
+
+#ifdef DEBUG
+	void updateDebugAABB(Actor* a);
+#endif
+
 	void buildFX();
 	void buildVertexLayouts();
 

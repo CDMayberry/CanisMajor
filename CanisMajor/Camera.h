@@ -29,7 +29,7 @@ namespace CameraNS
 	const float CROUCH_HEIGHT = 1;
 	const float BOB_FREQUENCY = 6;//bobs per 2PI
 	const float SQUAT_SPEED = 10;
-	const float COLISION_RADIUS = 2.3;
+	const float COLISION_RADIUS = 3;
 };
 
 class Camera: public virtual Actor
@@ -37,7 +37,9 @@ class Camera: public virtual Actor
 public:
 	Camera();
 	~Camera();
-	void init(CanisMajor* game, Controls c);
+
+	//Geo used for AABB collision
+	void init(CanisMajor* game,Geometry* geo, Controls c);
 	void create(Vector3 pos, Vector3 dir);
 	
 	virtual bool collided(Actor *gameObject);
