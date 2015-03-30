@@ -662,6 +662,9 @@ void CanisMajor::loadAttic()
 	spawnScenery(&mCube,Vector3(37.5,-2,11.5),Vector3(0,0,0), CM::BOX_SCALE);
 	spawnScenery(&mBox,Vector3(37.5, 2.1,13.5),Vector3(0,.5,0), CM::BOX_SCALE);
 
+	//Ligthing fixture. We should put a point light here
+	spawnScenery(&mFixture,Vector3(20,3, 54),Vector3(0,PI,0));
+
 	//Comedic effect cubes
 	spawnSearchable(&mBox,L"Conspicuous Cube",nullptr,Vector3(10,-2,10),Vector3(0,0,0),CM::BOX_SCALE);
 	spawnSearchable(&mBox,L"Inconspicuous Cube",nullptr,Vector3(22,-2,6),Vector3(0,PI/2,0),CM::BOX_SCALE);
