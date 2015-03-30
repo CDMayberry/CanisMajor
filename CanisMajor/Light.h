@@ -25,7 +25,7 @@ struct Light
 		}
 		else if(settings == 2) {					//Spotlight, like our flashlight
 			ambient  = D3DXCOLOR(0.2f, 0.2f, 0.15f, 1.0f);
-			diffuse  = D3DXCOLOR(.5f, .5f ,.5f, 1.0f);
+			diffuse  = D3DXCOLOR(.0005f, .0005f ,.0005f, 1.0f);
 			specular = D3DXCOLOR(.01f, .01f, .01f, 1.0f);
 			att.x    = 1.0f;
 			att.y    = 0.f;
@@ -47,11 +47,11 @@ struct Light
 		else { //Pointlight, mostly our room lights
 			ambient  = D3DXCOLOR(0.45490196078f, 0.29803921568f, 0.12549019607f, 1.0f);
 			diffuse  = D3DXCOLOR(.1f, .1f ,.1f, 1.0f);
-			specular = D3DXCOLOR(.1f, .1f, .1f, 1.0f);
-			att.x    = 0.0f;
-			att.y    = .1f;
-			att.z    = 0.0f;
-			range    = 30.0f;
+			specular = D3DXCOLOR(.00001f, .00001f, .00001f, 1.0f);
+			att.x    = 0.3f; //Center brightness
+			att.y    = .1f;  //?? Unknown brightness
+			att.z    = 0.005f; //Fade brightness
+			range    = 35.0f;
 		}
 
 

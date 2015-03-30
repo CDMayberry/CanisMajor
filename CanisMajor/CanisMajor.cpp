@@ -575,12 +575,8 @@ void CanisMajor::loadAttic()
 
 	audio->playCue(BG);
 
-	negaLight.pos = Vector3(20, 10, 50);
-	pLight.pos = Vector3(20, -212, 20);
-	rLights[0].pos = Vector3(20, 12, 40);
-	rLights[1].pos = Vector3(20, 12, 10);
-	rLights[0].ambient = RED;
-	rLights[1].ambient = BLUE;
+	//rLights[0].ambient = RED;
+	//rLights[1].ambient = BLUE;
 	//pLight.range = 100;
 
 	camera.setPosition(Vector3(5,0,5));
@@ -685,6 +681,11 @@ void CanisMajor::loadAttic()
 	spawnSearchable(&mBox,L"Inconspicuous Cube",nullptr,Vector3(22,-2,6),Vector3(0,PI/2,0),CM::BOX_SCALE);
 		
 	Door* d = spawnDoor(Vector3(39.9,-2.7,29),Vector3(0,0,0),Vector3(1.4,3.5,2.1),k);
+
+	negaLight.pos = Vector3(20, 10, 50);
+	pLight.pos = Vector3(20, -212, 20);
+	rLights[0].pos = Vector3(20,3.5, 53.5);
+	rLights[1].pos = Vector3(20, 12, 10);
 }
 
 void CanisMajor::loadSecondFloor()

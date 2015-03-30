@@ -179,8 +179,6 @@ float4 PS(VS_OUT pIn) : SV_Target
 	float3 litColor = float3(0.0f, 0.0f, 0.0f);
 	float3 newColor;
 
-	//Ambient lighting loaded first
-	litColor = ParallelLight(v, ambient, gEyePosW);
 
 	//Calculations for point lights
 	[loop]
@@ -190,13 +188,11 @@ float4 PS(VS_OUT pIn) : SV_Target
 		if(newColor.x > litColor.x && newColor.y > litColor.y && newColor.z > litColor.z) {
 			litColor = newColor;
 		}
-		litColor += newColor;
+		//litColor += newColor;
 	}
 
-	newColor = PointLight(v, pLight, gEyePosW);
-	if(newColor.x > litColor.x && newColor.y > litColor.y && newColor.z > litColor.z) {
-		litColor = newColor;
-	}
+	//Ambient lighting loaded first
+	litColor += ParallelLight(v, ambient, gEyePosW);
     
 	//Flashlight bool
 	if(gLightType)
