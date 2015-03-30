@@ -30,6 +30,8 @@ namespace CameraNS
 	const float BOB_FREQUENCY = 6;//bobs per 2PI
 	const float SQUAT_SPEED = 10;
 	const float COLISION_RADIUS = 3;
+	const float RUN_TIME = .598;
+	const float WALK_TIME = .340;
 };
 
 class Camera: public virtual Actor
@@ -81,7 +83,7 @@ private:
 	float farClippingPlane;
 	Vector3 up;
 	Vector3 right;
-	float bobTimer;
+	float bobTimer, walkTimer;
 	Flashlight* flashlight;
 	float camHeight;
 	Interactable* nearbyItem;

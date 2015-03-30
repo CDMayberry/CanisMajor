@@ -76,6 +76,8 @@ void Camera::update(float dt)
 	if(GetAsyncKeyState(controls.up))
 	{
 		input += forward;
+		if(bobTimer <= 0)
+			game->audio->playCue(WALK1);
 	}
 	if(GetAsyncKeyState(controls.down))
 	{
@@ -97,6 +99,8 @@ void Camera::update(float dt)
 	{
 		input/=2;
 	}
+
+	if(bobTimer < 0 && GetAsyncKeyState(controls.run));
 
 	if(D3DXVec3LengthSq(&input)>0)
 	{

@@ -682,7 +682,7 @@ void CanisMajor::loadAttic()
 		
 	Door* d = spawnDoor(Vector3(39.9,-2.7,29),Vector3(0,0,0),Vector3(1.4,3.5,2.1),k);
 
-	negaLight.pos = Vector3(20, 10, 50);
+	negaLight.pos = Vector3(20, 0, 30);
 	pLight.pos = Vector3(20, -212, 20);
 	rLights[0].pos = Vector3(20,3.5, 53.5);
 	rLights[1].pos = Vector3(20, 12, 10);
