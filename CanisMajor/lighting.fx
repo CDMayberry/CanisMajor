@@ -203,7 +203,7 @@ float4 PS(VS_OUT pIn) : SV_Target
 		litColor += Spotlight(v, gLight, gEyePosW);
 	}
 
-	litColor += PointLight(v, negaLight, gEyePosW);
+	//litColor += PointLight(v, negaLight, gEyePosW);
 	   
     return float4(litColor, pIn.diffuse.a);
 }

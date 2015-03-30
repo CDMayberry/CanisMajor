@@ -105,9 +105,6 @@
     <ClInclude Include="input.h">
       <Filter>Headers\Util</Filter>
     </ClInclude>
-    <ClInclude Include="Light.h">
-      <Filter>Headers\GameObj</Filter>
-    </ClInclude>
     <ClInclude Include="Line.h">
       <Filter>Headers\Geometry</Filter>
     </ClInclude>
@@ -131,6 +128,9 @@
     </ClInclude>
     <ClInclude Include="SearchableActor.h">
       <Filter>Headers\GameObj</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>Shaders</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
