@@ -12,7 +12,7 @@ class Door: public virtual Actor, public virtual Interactable
 {
 public:
 	void interactWith(Camera* player);
-	void create(Vector3 pos, Vector3 rot, Key* k, bool open = false);
+	void create(Vector3 pos, Vector3 rot, Vector3 scale, Key* k, bool open = false);
 	void update(float dt);
 
 	bool getOpen(){return isOpen;}

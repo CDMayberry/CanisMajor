@@ -43,11 +43,12 @@ void Door::interactWith(Camera* player)
 		isOpen=false;
 	}
 }
-void Door::create(Vector3 pos, Vector3 rot, Key* k, bool open)
+void Door::create(Vector3 pos, Vector3 rot, Vector3 scale, Key* k, bool open)
 {
 	Actor::create(pos);
 	setRotation(rot);
 	isOpen = open;
+	setScale(scale);
 	if(isOpen)
 	{
 		closedRotation = rot.y+PI/2;

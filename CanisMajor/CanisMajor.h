@@ -31,7 +31,7 @@ namespace CM{
 	const int MAX_SCENERY = 1000;
 	const Vector3 WALL_SCALE = Vector3(1,1.6,1);
 	const float ROOF_SCALE = 3.8;
-	const Vector3 BOOKCASE_SCALE = Vector3(2.5, 5, 1.4);
+	const Vector3 BOOKCASE_SCALE = Vector3(2.5, 5, 2);
 	const int MAX_KEYS=10;
 	const int MAX_DOORS=100;
 	const float INTERACTION_RADIUS_SQ=36;
@@ -139,7 +139,7 @@ public:
 	Door doors[CM::MAX_DOORS];
 	Actor* spawnScenery(Geometry* g, Vector3 pos = Vector3(0,0,0), Vector3 rot = Vector3(0,0,0), Vector3 scale = Vector3(1,1,1));
 	Key* spawnKey(wstring name, Vector3 pos, Vector3 rot = Vector3(0,0,0));
-	Door* spawnDoor(Vector3 pos, Vector3 rot=Vector3(0,0,0),Key* k = nullptr, bool isOpen = false);
+	Door* spawnDoor(Vector3 pos, Vector3 rot=Vector3(0,0,0), Vector3 Scale=Vector3(1,1,1), Key* k = nullptr, bool isOpen = false);
 	SearchableActor* spawnSearchable(Geometry* g, std::wstring name, Actor* in= nullptr, Vector3 pos = Vector3(0,0,0), Vector3 rot = Vector3(0,0,0), Vector3 scale = Vector3(1,1,1));
 private:
 
