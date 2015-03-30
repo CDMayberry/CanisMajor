@@ -4,6 +4,8 @@
 // Transforms and lights geometry.
 //=============================================================================
 
+#include "sharedDefines.h"
+
 struct Light
 {
 	float3 pos;
@@ -39,14 +41,14 @@ cbuffer cbPerObject
 };
 
 
-#define MAX_LIGHTS 4
+//#define MAX_LIGHTS 4
 
 Light lights[MAX_LIGHTS];
 Light pLight;
 Light ambient;
 Light negaLight;
 
-int LightCount; //Set this in-game
+int activeLights; //Set this in-game: Number of ACTIVE lights
 
 struct VS_IN
 {
@@ -182,12 +184,16 @@ float4 PS(VS_OUT pIn) : SV_Target
 
 	//Calculations for point lights
 	[loop]
-	for( uint i = 0; i < 1; i++ )
+	for( uint i = 0; i < activeLights; i++ )
 	{
 		newColor = PointLight(v, lights[i], gEyePosW);
-		if(newColor.x > litColor.x && newColor.y > litColor.y && newColor.z > litColor.z) {
-			litColor = newColor;
-		}
+		litColor.x = max(newColor.x,litColor.x);
+		litColor.y = max(newColor.y,litColor.y);
+		litColor.z = max(newColor.z,litColor.z);
+		//if(newColor.x > litColor.x && newColor.y > litColor.y && newColor.z > litColor.z) {
+		//	litColor = newColor;
+		//}
+
 		//litColor += newColor;
 	}
 
@@ -198,10 +204,25 @@ float4 PS(VS_OUT pIn) : SV_Target
 	if(gLightType)
 	{
 		litColor += Spotlight(v, gLight, gEyePosW);
+		//newColor += Spotlight(v, gLight, gEyePosW);
+		//if(litColor.x > newColor.x)
+		//	litColor.x += newColor.x;
+		//if(litColor.y > newColor.y)
+		//	litColor.y += newColor.y;
+		//if(litColor.z > newColor.z)
+		//	litColor.z += newColor.z;
+		//if(litColor.x < newColor.x && litColor.y < newColor.y && litColor.z < newColor.z) {
+		//	litColor.x += newColor.x;
+		//	litColor.y += newColor.y;
+		//	litColor.z += newColor.z;
+		//}
+		//litColor.x += max(newColor.x,litColor.x);
+		//litColor.y += max(newColor.y,litColor.y);
+		//litColor.z += max(newColor.z,litColor.z);
 	}
 
 	//Dark emitter
-	litColor += PointLight(v, negaLight, gEyePosW);
+	//litColor += PointLight(v, negaLight, gEyePosW);
 	   
     return float4(litColor, pIn.diffuse.a);
 }

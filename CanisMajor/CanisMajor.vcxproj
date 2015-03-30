@@ -133,6 +133,7 @@
     <ClInclude Include="Line.h" />
     <ClInclude Include="Quad.h" />
     <ClInclude Include="SearchableActor.h" />
+    <ClInclude Include="sharedDefines.h" />
     <ClInclude Include="Vertex.h" />
   </ItemGroup>
   <ItemGroup>

@@ -35,6 +35,7 @@ const char CREAK2[] = "creak2";//Caelan
 const char CREAK3[] = "creak3";//Caelan
 const char HOWL[] = "howl";//Caelan
 const char WALK1[] = "walk1";
+const char RUN1[] = "run1";
 
 
 #endif

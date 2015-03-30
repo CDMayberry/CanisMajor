@@ -76,8 +76,6 @@ void Camera::update(float dt)
 	if(GetAsyncKeyState(controls.up))
 	{
 		input += forward;
-		if(bobTimer <= 0)
-			game->audio->playCue(WALK1);
 	}
 	if(GetAsyncKeyState(controls.down))
 	{
@@ -105,7 +103,14 @@ void Camera::update(float dt)
 	if(D3DXVec3LengthSq(&input)>0)
 	{
 		bobTimer+=dt;
-		if(bobTimer>PI/BOB_FREQUENCY) bobTimer-=PI/BOB_FREQUENCY;
+		if(bobTimer>PI/BOB_FREQUENCY)  {
+			bobTimer-=PI/BOB_FREQUENCY;
+			if(GetAsyncKeyState(controls.run))
+				game->audio->playCue(RUN1);
+			else
+				game->audio->playCue(WALK1);
+			//game->setStoryText(1,L"Walk...");
+		}
 	}
 	else{
 		bobTimer= max(bobTimer-10*dt,0);

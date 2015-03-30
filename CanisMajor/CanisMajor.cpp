@@ -59,7 +59,7 @@ void CanisMajor::initApp()
 {
 	D3DApp::initApp();
 	
-	for(int i = 0; i < CM::MAX_LIGHTS; i++) {
+	for(int i = 0; i < MAX_LIGHTS; i++) {
 		rLights[i].init();
 		rLights[i].pos = Vector3(0, -200, 0);
 	}
@@ -69,6 +69,7 @@ void CanisMajor::initApp()
 	ambient.init(1);
 	pLight.init();
 	negaLight.init(3);
+	activeLights = 0;
 
 	howl = false;
 
@@ -355,9 +356,10 @@ void CanisMajor::drawScene()
 	mfxEyePosVar->SetRawValue(&camera.getPosition(), 0, sizeof(D3DXVECTOR3));
 	mfxLightVar->SetRawValue(&fLight, 0, sizeof(Light));
 	mfxAmbientVar->SetRawValue(&ambient, 0, sizeof(Light));
-	for(int i = 0; i < CM::MAX_LIGHTS; i++) { //Individually setting lights.
+	for(int i = 0; i < MAX_LIGHTS; i++) { //Individually setting lights.
 		mfxPLightsVar[i]->SetRawValue(&rLights[i], 0, sizeof(Light));
 	}
+	mfxActiveLights->SetInt(activeLights);
 
 	//mfxPLightsVar->SetRawValue(&rLights, 0, sizeof(Light));
 	mfxPLightVar->SetRawValue(&pLight, 0, sizeof(Light));
@@ -491,12 +493,10 @@ void CanisMajor::buildFX()
 	mfxEyePosVar = mFX->GetVariableByName("gEyePosW");
 	mfxLightVar  = mFX->GetVariableByName("gLight");
 
-	for(int i = 0; i < CM::MAX_LIGHTS; i++) {
+	for(int i = 0; i < MAX_LIGHTS; i++) {
 		mfxPLightsVar[i] = mFX->GetVariableByName("lights")->GetElement(i);
 	}
-
-	//MAKE IT AN ARRAY OF LIGHTSVARS
-	//mfxPLightsVar = mFX->GetVariableByName("lights")->GetElement(0);
+	mfxActiveLights = mFX->GetVariableByName("activeLights")->AsScalar();
 	mfxPLightVar = mFX->GetVariableByName("pLight");
 	mfxNegaLightVar = mFX->GetVariableByName("negaLight");
 	mfxAmbientVar = mFX->GetVariableByName("ambient");
@@ -686,6 +686,9 @@ void CanisMajor::loadAttic()
 	pLight.pos = Vector3(20, -212, 20);
 	rLights[0].pos = Vector3(20,3.5, 53.5);
 	rLights[1].pos = Vector3(20, 12, 10);
+	rLights[2].pos = Vector3(20, -2, 15);
+	rLights[3].pos = Vector3(20, -2, 25);
+	activeLights = 4;
 }
 
 void CanisMajor::loadSecondFloor()

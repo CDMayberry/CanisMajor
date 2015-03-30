@@ -18,13 +18,13 @@
 #include "Key.h"
 #include "Door.h"
 #include "SearchableActor.h"
+#include "sharedDefines.h"
 
 using std::wstring;
 
 namespace CM{
 	const int NUM_MENU_ITEMS = 3;//title, play, quit
 	const int NUM_SPLASH_MENU_ITEMS = 3;//title, continue, quit
-	const int MAX_LIGHTS = 4;
 	const float TEXT_FADEOUT_TIME = 3;
 	const int MAX_WALLS = 750;
 	const int MAX_ROOF = 75;
@@ -119,18 +119,20 @@ public:
 	Light ambient;
 	Light pLight;
 	Light negaLight;
-	Light rLights[CM::MAX_LIGHTS];		//Room Lights, point lights
+	Light rLights[MAX_LIGHTS];		//Room Lights, point lights
+	int activeLights;
 
 	ID3D10EffectMatrixVariable* mfxWVPVar;
 	ID3D10EffectMatrixVariable* mfxWorldVar;
 	ID3D10EffectVariable* mfxEyePosVar;
 	ID3D10EffectVariable* mfxLightVar;
-	ID3D10EffectVariable* mfxPLightsVar[CM::MAX_LIGHTS];
+	ID3D10EffectVariable* mfxPLightsVar[MAX_LIGHTS];
 	ID3D10EffectVariable* mfxPLightVar;
 	ID3D10EffectVariable* mfxNegaLightVar;
 	ID3D10EffectVariable* mfxAmbientVar;
 	
 	ID3D10EffectScalarVariable* mfxLightType;
+	ID3D10EffectScalarVariable* mfxActiveLights;
 
 
 	Actor* scenery;

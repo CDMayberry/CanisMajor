@@ -132,6 +132,9 @@
     <ClInclude Include="Light.h">
       <Filter>Shaders</Filter>
     </ClInclude>
+    <ClInclude Include="sharedDefines.h">
+      <Filter>Shaders</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="color.fx">
