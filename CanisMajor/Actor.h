@@ -83,6 +83,9 @@ private:
 
 	static float SquaredDistPointAABB(Vector3 p, Vector3 min, Vector3 max);
 
+	//all params inout
+	void transformAABB(Vector3 & min, Vector3 & max);
+
 };
 
 

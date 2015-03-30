@@ -27,17 +27,17 @@ CanisMajor::CanisMajor(HINSTANCE hInstance)
 	D3DXMatrixIdentity(&mView);
 	D3DXMatrixIdentity(&mProj);
 
-	Controls c;
-	c.up = 'W';
-	c.down = 'S';
-	c.left = 'A';
-	c.right = 'D';
-	c.use = 'E';
-	c.flashlight = 'F';
-	c.crouch = VK_CONTROL;
-	c.run = VK_SHIFT;
+	controls.up = 'W';
+	controls.down = 'S';
+	controls.left = 'A';
+	controls.right = 'D';
+	controls.use = 'E';
+	controls.flashlight = 'F';
+	controls.crouch = VK_CONTROL;
+	controls.run = VK_SHIFT;
+
 	//Camera Object
-	camera.init(this,c);
+	camera.init(this,&mCube,controls);
 
 	scenery = new Actor[CM::MAX_SCENERY];
 	searchableActors = new SearchableActor[CM::MAX_SEARCHABLE_ACTORS];
@@ -74,7 +74,6 @@ void CanisMajor::initApp()
 	pLight.pos = Vector3(20, 10, 10);
 
 	howl = false;
-
 
 	mTelescope.init(md3dDevice,".\\geometry\\telescope.geo");
 
@@ -129,6 +128,8 @@ void CanisMajor::initApp()
 	
 	mKey.init(md3dDevice,".\\geometry\\key.geo", GOLD);
 
+
+
 	for(int i = 0 ; i < CM::MAX_KEYS; i++)
 	{
 		keys[i].init(this,&mKey,1);
@@ -152,6 +153,12 @@ void CanisMajor::initApp()
 	camera.setPerspective();
 
 	flashlight.toggle();
+
+#ifdef DEBUG
+	mRedCube.init(md3dDevice,".\\geometry\\cube.geo", RED);
+	AABBHelper.init(this,&mRedCube,1);
+	AABBHelper.isActive = true;
+#endif
 
 	buildFX();
 	buildVertexLayouts();
@@ -329,6 +336,7 @@ void CanisMajor::collisions()
 		}
 	}
 
+
 }
 
 void CanisMajor::drawScene()
@@ -441,6 +449,10 @@ void CanisMajor::levelsDraw()
 	}
 
 	flashlight.draw(mfxWVPVar,mView,mProj,mTech);
+
+#ifdef DEBUG
+	AABBHelper.draw(mfxWVPVar,mView,mProj,mTech);
+#endif
 
 	drawUtilText();
 	drawStoryText();
@@ -768,3 +780,31 @@ SearchableActor* CanisMajor::spawnSearchable(Geometry* g, std::wstring name, Act
 	}
 	return nullptr;
 }
+
+#ifdef DEBUG
+void CanisMajor::updateDebugAABB(Actor* a)
+{
+	Vector3 min = a->getGeometry()->getAABBMin(), max=a->getGeometry()->getAABBMax();
+	min.x *= a->getScale().x;
+	min.y *= a->getScale().y;
+	min.z *= a->getScale().z;
+
+	max.x *= a->getScale().x;
+	max.y *= a->getScale().y;
+	max.z *= a->getScale().z;
+
+	min=rotate(min,a->getRotation());
+	max=rotate(max,a->getRotation());
+
+	min += a->getPosition();
+	max += a->getPosition();
+
+	Vector3 pos = (max+min)/2;
+	Vector3 scale = (max-min)/2;
+
+	AABBHelper.setPosition(pos);
+	AABBHelper.setScale(scale);
+	AABBHelper.update(0);
+
+}
+#endif

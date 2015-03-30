@@ -37,7 +37,9 @@ class Camera: public virtual Actor
 public:
 	Camera();
 	~Camera();
-	void init(CanisMajor* game, Controls c);
+
+	//Geo used for AABB collision
+	void init(CanisMajor* game,Geometry* geo, Controls c);
 	void create(Vector3 pos, Vector3 dir);
 	
 	virtual bool collided(Actor *gameObject);
