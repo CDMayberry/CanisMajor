@@ -137,9 +137,6 @@
     <ClInclude Include="Vertex.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="color.fx" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="lighthelper.fx">
       <FileType>Document</FileType>
     </None>

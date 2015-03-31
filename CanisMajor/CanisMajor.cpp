@@ -66,10 +66,9 @@ void CanisMajor::initApp()
 	}
 
 	// Spotlight--position and direction changed every frame to animate.
-	fLight.init(2);
-	ambient.init(1);
-	pLight.init();
-	negaLight.init(3);
+	fLight.init(2);  //Flashlight
+	ambient.init(1); //Ambientlight (DUH)
+	negaLight.init(3); //Dog's anti-light
 	activeLights = 0;
 
 	howl = false;

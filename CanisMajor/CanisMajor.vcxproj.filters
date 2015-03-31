@@ -137,9 +137,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="color.fx">
-      <Filter>Shaders</Filter>
-    </None>
     <None Include="lighthelper.fx">
       <Filter>Shaders</Filter>
     </None>

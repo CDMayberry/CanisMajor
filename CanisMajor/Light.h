@@ -87,4 +87,17 @@ struct Light
 	float range;
 };
 
+struct Material
+{
+	Material()
+	{
+		ZeroMemory(this, sizeof(Material));
+	}
+
+	D3DXCOLOR ambient;
+	D3DXCOLOR diffuse;
+	D3DXCOLOR specular;
+	float specPower;
+};
+
 #endif // LIGHT_H
