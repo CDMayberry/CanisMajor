@@ -14,8 +14,8 @@ struct Light
 		ZeroMemory(this, sizeof(Light));
 	}
 
-	//(1) ambient (2) spotlight (3) negalight (0) pointlight
-	void init(int settings = 0) {	//Default settings! not required to use, just quick setup
+	//(0) room pointlight (1) ambient (2) spotlight (3) negalight (4) moonlight: spot
+	int init(int settings = 0) {	//Default settings! not required to use, just quick setup
 		
 		if(settings == 1) {		//Ambient light, world light
 			dir      = D3DXVECTOR3(0.57735f, -0.57735f, 0.57735f);
@@ -23,6 +23,7 @@ struct Light
 			diffuse  = D3DXCOLOR(.001f, .001f, .001f, 1.0f);
 			specular = D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f);
 
+			return 2;
 		}
 
 		else if(settings == 2) { //Spotlight, like our flashlight
@@ -34,6 +35,7 @@ struct Light
 			att.z    = 0.f;
 			spotPow  = 16.0f;
 			range    = 10000.0f;
+			return 1;
 		}
 
 		else if(settings == 3) { //Negalight, for the dog or spooky places
@@ -44,6 +46,7 @@ struct Light
 			att.y    = .1f;
 			att.z    = 0.01f;
 			range    = 15.0f;
+			return 0;
 		}
 
 		else if(settings == 4) { //Spotlight, moonlight
@@ -55,6 +58,7 @@ struct Light
 			att.z    = 0.1f;	//Exponential increase/decrease
 			range    = 50.0f;	
 			spotPow  = 16.0f;
+			return 1;
 		}
 
 		else { //Pointlight, mostly our room lights
@@ -65,8 +69,10 @@ struct Light
 			att.y    = .1f;		//Linear increase/decrease
 			att.z    = 0.05f; //Exponential increase/decrease
 			range    = 35.0f;
+			return 0;
 		}
 		
+		return -1;
 	}
 
 	D3DXVECTOR3 pos;

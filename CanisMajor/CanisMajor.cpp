@@ -687,23 +687,13 @@ void CanisMajor::loadAttic()
 	//Comedic effect cubes
 	spawnSearchable(&mBox,L"Conspicuous Cube",nullptr,Vector3(10,-2,10),Vector3(0,0,0),CM::BOX_SCALE);
 	spawnSearchable(&mBox,L"Inconspicuous Cube",nullptr,Vector3(22,-2,6),Vector3(0,PI/2,0),CM::BOX_SCALE);
-		
+	
 	Door* d = spawnDoor(Vector3(39.9,-2.7,29),Vector3(0,0,0),Vector3(1.4,3.5,2.1),k);
 
 	negaLight.pos = Vector3(20, 0, 30);
 	pLight.pos = Vector3(20, -212, 20);
-	rLights[0].pos = Vector3(20,3.5, 53.5);
-
-	rLights[1].init(4);
-	rLights[1].pos = Vector3(10.5, 20, 9.8);
-	rLights[1].dir = Vector3(.8, -1, 0);
-	lightType[1] = 1; //Set to spotlight
-
-	rLights[2].pos = Vector3(20, -2, 15);
-	rLights[3].pos = Vector3(20, -2, 25);
-	
-	
-	activeLights = 2;
+	spawnLight(Vector3(20,3.5, 53.5));
+	spawnLight(Vector3(10.5, 20, 9.8),Vector3(.8, -1, 0), 4);
 }
 
 void CanisMajor::loadSecondFloor()
@@ -837,11 +827,24 @@ SearchableActor* CanisMajor::spawnSearchable(Geometry* g, std::wstring name, Act
 	return nullptr;
 }
 
-Light* CanisMajor::spawnLight(Vector3 pos, bool spot) {
+Light* CanisMajor::spawnLight(Vector3 pos, int type) {
 	
 	if(activeLights < MAX_LIGHTS) {
+		lightType[activeLights] = rLights[activeLights].init(type);
+		rLights[activeLights].pos = pos;
 		activeLights++;
-		rLights[activeLights].init();
+		return &rLights[activeLights-1];
+	}
+
+	return nullptr;
+}
+
+Light* CanisMajor::spawnLight(Vector3 pos, Vector3 dir, int type) { 
+	if(activeLights < MAX_LIGHTS) {
+		lightType[activeLights] = rLights[activeLights].init(type);
+		rLights[activeLights].pos = pos;
+		rLights[activeLights].dir = dir;
+		activeLights++;
 		return &rLights[activeLights-1];
 	}
 

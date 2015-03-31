@@ -129,10 +129,10 @@
     <ClInclude Include="SearchableActor.h">
       <Filter>Headers\GameObj</Filter>
     </ClInclude>
-    <ClInclude Include="Light.h">
+    <ClInclude Include="sharedDefines.h">
       <Filter>Shaders</Filter>
     </ClInclude>
-    <ClInclude Include="sharedDefines.h">
+    <ClInclude Include="Light.h">
       <Filter>Shaders</Filter>
     </ClInclude>
   </ItemGroup>
