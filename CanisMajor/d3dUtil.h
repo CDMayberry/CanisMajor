@@ -2,6 +2,8 @@
 // d3dUtil.h by Frank Luna (C) 2008 All Rights Reserved.
 //=======================================================================================
 
+//#define DEBUG
+
 #ifndef D3DUTIL_H
 #define D3DUTIL_H
 
