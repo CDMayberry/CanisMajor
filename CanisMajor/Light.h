@@ -64,14 +64,18 @@ struct Light
 		else { //Pointlight, mostly our room lights
 			ambient  = D3DXCOLOR(0.45490196078f, 0.29803921568f, 0.12549019607f, 1.0f);
 			diffuse  = D3DXCOLOR(.1f, .1f ,.1f, 1.0f);
+#ifdef DEBUG
+			specular = D3DXCOLOR(.1f, .1f, .1f, 1.0f);
+#else
 			specular = D3DXCOLOR(.00001f, .00001f, .00001f, 1.0f);
+#endif
 			att.x    = 0.3f;	//Flat increase/decrease
 			att.y    = .1f;		//Linear increase/decrease
-			#ifdef DEBUG
+#ifdef DEBUG
 			att.z    = 0.00f; //Exponential increase/decrease
-			#else
+#else
 			att.z    = 0.05f; //Exponential increase/decrease
-			#endif
+#endif
 
 			range    = 35.0f;
 			return 0;
