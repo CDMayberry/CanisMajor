@@ -1,7 +1,5 @@
 #pragma once
 
-//#define DEBUG
-
 #include "d3dApp.h"
 #include "Geometry.h"
 #include "Actor.h"

@@ -67,7 +67,12 @@ struct Light
 			specular = D3DXCOLOR(.00001f, .00001f, .00001f, 1.0f);
 			att.x    = 0.3f;	//Flat increase/decrease
 			att.y    = .1f;		//Linear increase/decrease
+			#ifdef DEBUG
+			att.z    = 0.00f; //Exponential increase/decrease
+			#else
 			att.z    = 0.05f; //Exponential increase/decrease
+			#endif
+
 			range    = 35.0f;
 			return 0;
 		}
