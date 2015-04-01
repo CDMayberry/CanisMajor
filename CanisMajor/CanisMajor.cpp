@@ -207,7 +207,7 @@ void CanisMajor::menuUpdate(float dt, bool reset)
 			switch(menuChoice)
 			{
 			case 1://play
-				loadAttic();
+				loadSecondFloor();
 				break;
 			case 2://quit
 				PostQuitMessage(0);
@@ -591,7 +591,7 @@ void CanisMajor::loadAttic()
 	flashlight.setPosition(Vector3(10,-2.5,5));
 	flashlight.isActive = true;
 
-	spawnScenery(&mCube,Vector3(0,-4,0),Vector3(0,0,0),Vector3(200,1,200));
+	spawnScenery(&mCube,Vector3(0,-4,0),Vector3(0,0,0),Vector3(40,1,60));
 
 	//Left wall
 	for(int i = 0; i < 6; i++)
@@ -663,7 +663,7 @@ void CanisMajor::loadAttic()
 
 	//Bookcases
 	spawnSearchable(&mBookcase,L"Bookcase",k,Vector3(37.3,2.3,53.7),Vector3(0,0,0), CM::BOOKCASE_SCALE);
-	spawnSearchable(&mBookcase,L"Bookcase",nullptr,Vector3(32,2.3,53.7),Vector3(0,0,0), CM::BOOKCASE_SCALE);
+	spawnSearchable(&mBookcase,L"Bookcase",nullptr,Vector3(31,2.3,53.7),Vector3(0,0,0), CM::BOOKCASE_SCALE);
 
 	//Table and chairs
 	spawnSearchable(&mTable,L"Table",nullptr,Vector3(11,-3.5,35),Vector3(0,PI,0),Vector3(1.2,1.5,1.2));
@@ -683,6 +683,14 @@ void CanisMajor::loadAttic()
 	//Ligthing fixture. We should put a point light here
 	spawnScenery(&mFixture,Vector3(20,3, 54),Vector3(0,PI,0));
 
+	//Stairwell
+	//Note, you cannot progress forward because of the axis-aligned bounding box
+	//Comment out the last wall panel to move forward.
+	spawnScenery(&mStaircase,Vector3(44.2,-9.6, 27), Vector3(0,0,0), Vector3(1,1,.6));
+	spawnScenery(&mWallpanel,Vector3(45,0,30),Vector3(0,1.5707963268,0),Vector3(1,3,1));
+	spawnScenery(&mWallpanel,Vector3(45,0,24.7),Vector3(0,1.5707963268,0),Vector3(1,3,1));
+	spawnScenery(&mWallpanel,Vector3(47,5,26),Vector3(0,0,.8),Vector3(1,2,3));
+
 	//Comedic effect cubes
 	spawnSearchable(&mBox,L"Conspicuous Cube",nullptr,Vector3(10,-2,10),Vector3(0,0,0),CM::BOX_SCALE);
 	spawnSearchable(&mBox,L"Inconspicuous Cube",nullptr,Vector3(22,-2,6),Vector3(0,PI/2,0),CM::BOX_SCALE);
@@ -698,6 +706,10 @@ void CanisMajor::loadAttic()
 void CanisMajor::loadSecondFloor()
 {
 	state = SECOND_FLOOR;
+	flashlight.setPosition(Vector3(10,-2.5,5));
+	flashlight.isActive = true;
+	spawnLight(Vector3(10,10,10),Vector3(0,0,0),2);
+	spawnScenery(&mCube,Vector3(0,-4,0),Vector3(0,0,0),Vector3(200,1,200));
 }
 
 void CanisMajor::loadFirstFloor()
