@@ -30,6 +30,7 @@ namespace CM{
 	const int MAX_ROOF = 75;
 	const int MAX_SCENERY = 1000;
 	const Vector3 WALL_SCALE = Vector3(1,1.6,1);
+	const Vector3 WALL_SCALE2 = Vector3(1,1.2,1);
 	const float ROOF_SCALE = 3.8;
 	const Vector3 BOOKCASE_SCALE = Vector3(2.5, 5, 2);
 	const int MAX_KEYS=10;
@@ -98,7 +99,7 @@ public:
 
 	Geometry mTelescope, mDresser, mFlashlight, mFrame, mBookcase, mChair, mCradle, mMasterbed, 
 			mServantbed, mStaircase, mTable, mBottle, mLock, mPictureframe, mRail, mWallpanel, mWindow,
-			mCage, mFixture, mDoor, mCube, mRoofHole,mKey, mBox;
+			mCage, mFixture, mDoor, mCube, mRoofHole,mKey, mBox, mWindowPanel;
 
 
 	Origin origin;

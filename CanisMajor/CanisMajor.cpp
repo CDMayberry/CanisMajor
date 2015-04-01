@@ -128,6 +128,8 @@ void CanisMajor::initApp()
 	
 	mKey.init(md3dDevice,".\\geometry\\key.geo", GOLD);
 
+	mWindowPanel.init(md3dDevice,".\\geometry\\windowpanel.geo");
+
 
 
 	for(int i = 0 ; i < CM::MAX_KEYS; i++)
@@ -207,7 +209,7 @@ void CanisMajor::menuUpdate(float dt, bool reset)
 			switch(menuChoice)
 			{
 			case 1://play
-				loadSecondFloor();
+				loadAttic();
 				break;
 			case 2://quit
 				PostQuitMessage(0);
@@ -706,10 +708,21 @@ void CanisMajor::loadAttic()
 void CanisMajor::loadSecondFloor()
 {
 	state = SECOND_FLOOR;
-	flashlight.setPosition(Vector3(10,-2.5,5));
+	flashlight.setPosition(Vector3(0,-2.5,60));
 	flashlight.isActive = true;
-	spawnLight(Vector3(10,10,10),Vector3(0,0,0),2);
+	for(int i = 0; i< 7; i++)
+		for(int j = 0; j<7; j++)
+			spawnLight(Vector3(i*10, 7, j*10),0);
 	spawnScenery(&mCube,Vector3(0,-4,0),Vector3(0,0,0),Vector3(200,1,200));
+	
+	//Left outer wall
+	spawnScenery(&mWallpanel,Vector3(0,3,10),Vector3(0,0,0), Vector3(1,1.2,2));
+	
+	spawnScenery(&mWindowPanel,Vector3(0,3,25),Vector3(PI,0,0),CM::WALL_SCALE2);
+	spawnScenery(&mWindowPanel,Vector3(0,3,35),Vector3(PI,0,0),CM::WALL_SCALE2);
+	spawnScenery(&mWallpanel,Vector3(0,3,50),Vector3(0,0,0), Vector3(1,1.2,2));
+	spawnScenery(&mWallpanel,Vector3(5,3,60),Vector3(0,1.5707963268,0), CM::WALL_SCALE2);
+
 }
 
 void CanisMajor::loadFirstFloor()
