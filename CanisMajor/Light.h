@@ -19,7 +19,11 @@ struct Light
 		
 		if(settings == 1) {		//Ambient light, world light
 			dir      = D3DXVECTOR3(0.57735f, -0.57735f, 0.57735f);
+#ifdef DEBUG
+			ambient  = D3DXCOLOR(0.1f, 0.2f, 0.4f, 1.0f);
+#else
 			ambient  = D3DXCOLOR(0.0078125f, 0.015625f, 0.03125f, 1.0f);
+#endif
 			diffuse  = D3DXCOLOR(.001f, .001f, .001f, 1.0f);
 			specular = D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f);
 
