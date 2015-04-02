@@ -36,8 +36,10 @@ void Geometry::init(ID3D10Device* device, std::string objFile, LPCWSTR texFile,D
 
 	if(!fin) throw "THERE WASNT A FILE THERE";
 
-	vector<Vector3> vertices, faces, tempnormals, normals;
+	vector<Vector3> vertices, newVertices, faces, tempnormals, normals, combos;
 	vector<Vector2> tempTex, textures;
+
+	//NEEDS TO BUILD A NEW VERTICES LIST THAT IS TWICE THE SIZE OF THE NORMALS
 
 	string l,temp;
 	float tx,ty,tz;
@@ -69,40 +71,69 @@ void Geometry::init(ID3D10Device* device, std::string objFile, LPCWSTR texFile,D
 
 		else if(temp == "f")
 		{
+			//textures.resize(tempnormals.size()*2);
 			char * token;
+			Vector3 index(0,0,0);
 			char * dup = strdup(l.c_str());
 			strtok(dup,"/ ");
+
+
 			token = strtok(NULL,"/ ");//first face value index
 			tx = atoi(token);
 			token = strtok(NULL,"/ ");//first texture value index
 			texX = atoi(token);
 			token = strtok(NULL,"/ ");//first normal index
 			nx = atoi(token);
+			index.x = tx;
+			index.y = texX;
+			index.z = nx;
+			for(int i = 0; i < combos.size(); i++) {
+				if(index.x != combos.at(i).x) {
+					
+				}
+				if(index.y != combos.at(i).y) {
+
+				}
+				if(index.z != combos.at(i).z) {
+
+				}
+			}
+
+
 			token = strtok(NULL,"/ ");//second face value index
 			ty = atoi(token);
 			token = strtok(NULL,"/ ");//second texture value index
 			texY = atoi(token);
 			token = strtok(NULL,"/ ");//second normal index
 			ny = atoi(token);
+			index.x = ty;
+			index.y = texY;
+			index.z = ny;
+
 			token = strtok(NULL,"/ ");//third face value index
 			tz = atoi(token);
 			token = strtok(NULL,"/ ");//third texture value index
 			texZ = atoi(token);
 			token = strtok(NULL,"/ ");//third normal index
 			nz = atoi(token);
+			index.x = tz;
+			index.y = texZ;
+			index.z = nz;
 
 			//line>>tx>>ty>>tz;
 			faces.push_back(Vector3(tx-1,ty-1,tz-1)); //obj file has 1 based indexes
 
-			//reorganize normals so that first vertex uses the first normal... ect
-			normals.at(tx-1) = tempnormals.at(nx-1);
-			normals.at(ty-1) = tempnormals.at(ny-1);
-			normals.at(tz-1) = tempnormals.at(nz-1);
+			////reorganize normals so that first vertex uses the first normal... ect
+			//normals.at(tx-1) = tempnormals.at(nx-1);
+			//normals.at(ty-1) = tempnormals.at(ny-1);
+			//normals.at(tz-1) = tempnormals.at(nz-1);
 
-			//reorganize texture points so that first vertex uses the first texture... ect
-			textures.at(tx-1) = tempTex.at(texX-1);
-			textures.at(ty-1) = tempTex.at(texY-1);
-			textures.at(tz-1) = tempTex.at(texZ-1);
+			////reorganize texture points so that first vertex uses the first texture... ect
+			//textures.at(tx-1) = tempTex.at(texX-1);
+			//textures.at(ty-1) = tempTex.at(texY-1);
+			//textures.at(tz-1) = tempTex.at(texZ-1);
+
+			//NEEDS TO BUILD A NEW VERTEX BUFFER FROM THIS
 		}
 	}
 	fin.close();
@@ -115,10 +146,10 @@ void Geometry::init(ID3D10Device* device, std::string objFile, LPCWSTR texFile,D
 		for(int i = 0 ; i < numVertices; i++)
 		{
 			verts[i].pos = vertices[i];
-			verts[i].normal = normals.at(i);
+			verts[i].normal = tempnormals.at(i);
 
 			//normals must be added in according to faces, down below
-			verts[i].texC = textures.at(i);
+			verts[i].texC = tempTex.at(i);
 		}
 
 		initVectorBuffer(verts);
