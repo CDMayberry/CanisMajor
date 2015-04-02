@@ -36,7 +36,9 @@ void Geometry::init(ID3D10Device* device, std::string objFile,D3DXCOLOR color)
 
 	if(!fin) throw "THERE WASNT A FILE THERE";
 
-	vector<Vector3> vertices, faces, tempnormals, normals;
+	vector<Vector3> vertices, faces, normals;
+	vector<Vertex> newVertices;
+	vector<Vector2> combos;
 
 	string l,temp;
 	float tx,ty,tz;
@@ -48,55 +50,100 @@ void Geometry::init(ID3D10Device* device, std::string objFile,D3DXCOLOR color)
 		line>>temp;
 		if(temp == "vn"){
 			line >>tx>>ty>>tz;
-			tempnormals.push_back(Vector3(tx,ty,tz));
+			normals.push_back(Vector3(tx,ty,tz));
 		}
 		else if(temp == "v")
 		{
 			line>>tx>>ty>>tz;
 			//_RPT1(0, "position y %f \n", tz);
 			vertices.push_back(Vector3(tx,ty,tz));
-			normals.push_back(Vector3(0,0,0));//push back an empty normal for use later
+			//normals.push_back(Vector3(0,0,0));//push back an empty normal for use later
 		}
 
 		else if(temp == "f")
 		{
-			//line >> test;
+			bool foundInd = false;
+			Vector3 index;
 			char * token;
 			char * dup = strdup(l.c_str());
 			strtok(dup,"// ");
+
 			token = strtok(NULL,"// ");//first face value index
 			tx = atoi(token);
 			token = strtok(NULL,"// ");//first normal index
 			nx = atoi(token);
+
+			//Check if the Vertex already exists
+			for(int i = 0; i < combos.size(); i++) {
+				if(tx == combos.at(i).x && nx == combos.at(i).y) {
+					index.x = i; //If it does set the face location to it.
+					foundInd = true;
+					break;
+				}
+			}
+			if(foundInd == false) { //If it didn't find one at it to the list.
+				combos.push_back(Vector2(tx,nx));
+				index.x = combos.size()-1;
+			}
+
+			foundInd = false;
 			token = strtok(NULL,"// ");//second face value index
 			ty = atoi(token);
 			token = strtok(NULL,"// ");//second normal index
 			ny = atoi(token);
+
+			//Check if the Vertex already exists
+			for(int i = 0; i < combos.size(); i++) {
+				if(ty == combos.at(i).x && ny == combos.at(i).y) {
+					index.y = i; //If it does set the face location to it.
+					foundInd = true;
+					break;
+				}
+			}
+			if(foundInd == false) {
+				combos.push_back(Vector2(ty,ny));
+				index.y = combos.size()-1;
+			}
+
+			foundInd = false;
 			token = strtok(NULL,"// ");//thrid face value index
 			tz = atoi(token);
 			token = strtok(NULL,"// ");//third normal index
 			nz = atoi(token);
 
+			//Check if the Vertex already exists
+			for(int i = 0; i < combos.size(); i++) {
+				if(tz == combos.at(i).x && nz == combos.at(i).y) {
+					index.z = i; //If it does set the face location to it.
+					foundInd = true;
+					break;
+				}
+			}
+			if(foundInd == false) {
+				combos.push_back(Vector2(tz,nz));
+				index.z = combos.size()-1;
+			}
+
 			//line>>tx>>ty>>tz;
-			faces.push_back(Vector3(tx-1,ty-1,tz-1)); //obj file has 1 based indexes
+			faces.push_back(index); //obj file has 1 based indexes
 
 			//reorganize normals so that first vertex uses the first normal... ect
-			normals.at(tx-1) = tempnormals.at(nx-1);
-			normals.at(ty-1) = tempnormals.at(ny-1);
-			normals.at(tz-1) = tempnormals.at(nz-1);
+			//normals.at(tx-1) = tempnormals.at(nx-1);
+			//normals.at(ty-1) = tempnormals.at(ny-1);
+			//normals.at(tz-1) = tempnormals.at(nz-1);
 		}
 	}
 	fin.close();
 
-	if(vertices.size()>0)
+	if(combos.size()>0)
 	{
-		numVertices = vertices.size();
+		numVertices = combos.size();
 		verts = new Vertex[numVertices];
 
 		for(int i = 0 ; i < numVertices; i++)
 		{
-			verts[i].pos = vertices[i];
-			verts[i].normal = normals.at(i);
+			verts[i].pos = vertices.at(combos.at(i).x-1);
+			verts[i].normal = normals.at(combos.at(i).y-1);
 
 			//normals must be added in according to faces, down below
 			verts[i].diffuse = this->color;
