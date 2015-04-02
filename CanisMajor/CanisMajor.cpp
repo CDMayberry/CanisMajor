@@ -82,9 +82,9 @@ void CanisMajor::initApp()
 
 	mFrame.init(md3dDevice,".\\geometry\\pictureframe.geo");
 
-	mBookcase.init(md3dDevice,".\\geometry\\bookcase.geo");
+	mBookcase.init(md3dDevice,".\\geometry\\bookcase.geo", MEDWOOD);
 
-	mChair.init(md3dDevice,".\\geometry\\chair.geo");
+	mChair.init(md3dDevice,".\\geometry\\chair.geo", LIGHTWOOD);
 
 	mCradle.init(md3dDevice,".\\geometry\\cradle.geo");
 
@@ -94,9 +94,9 @@ void CanisMajor::initApp()
 
 	mStaircase.init(md3dDevice,".\\geometry\\staircase.geo");
 
-	mTable.init(md3dDevice,".\\geometry\\table.geo");
+	mTable.init(md3dDevice,".\\geometry\\table.geo", LIGHTWOOD);
 
-	mBottle.init(md3dDevice,".\\geometry\\bottle.geo");
+	mBottle.init(md3dDevice,".\\geometry\\bottle.geo", BOTTLEGREEN);
 
 	mLock.init(md3dDevice,".\\geometry\\lock.geo");
 
@@ -104,7 +104,7 @@ void CanisMajor::initApp()
 
 	mRail.init(md3dDevice,".\\geometry\\rail.geo");
 
-	mWallpanel.init(md3dDevice,".\\geometry\\wallpanel.geo");
+	mWallpanel.init(md3dDevice,".\\geometry\\wallpanel.geo", WALLCOLOR);
 
 	mWindow.init(md3dDevice,".\\geometry\\window.geo");
 
@@ -114,7 +114,7 @@ void CanisMajor::initApp()
 
 	mDoor.init(md3dDevice,".\\geometry\\door.geo",GOLD);
 
-	mBox.init(md3dDevice,".\\geometry\\cardboardBox.geo");
+	mBox.init(md3dDevice,".\\geometry\\cardboardBox.geo", LIGHTCARD);
 
 	for(int i = 0 ; i < CM::MAX_DOORS; i++)
 	{
