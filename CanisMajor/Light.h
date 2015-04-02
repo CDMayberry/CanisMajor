@@ -16,7 +16,7 @@ struct Light
 
 	//(0) room pointlight (1) ambient (2) spotlight (3) negalight (4) moonlight: spot
 	int init(int settings = 0) {	//Default settings! not required to use, just quick setup
-		
+
 		if(settings == 1) {		//Ambient light, world light
 			dir      = D3DXVECTOR3(0.57735f, -0.57735f, 0.57735f);
 #ifdef DEBUG
@@ -47,8 +47,8 @@ struct Light
 			diffuse  = D3DXCOLOR(-.5f, -.5f, -.5f, 1.0f);
 			specular = D3DXCOLOR(-.5f, -.5f, -.5f, 1.0f);
 			att.x    = 1.0f;
-			att.y    = .1f;
-			att.z    = 0.01f;
+			att.y    = .2f;
+			att.z    = 0.1f;
 			range    = 15.0f;
 			return 0;
 		}
@@ -84,7 +84,7 @@ struct Light
 			range    = 35.0f;
 			return 0;
 		}
-		
+
 		return -1;
 	}
 
