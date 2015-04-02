@@ -24,7 +24,7 @@ void Geometry::init(ID3D10Device* device, D3DXCOLOR color, D3D_PRIMITIVE_TOPOLOG
 	topology = top;
 }
 
-void Geometry::init(ID3D10Device* device, std::string objFile,D3DXCOLOR color)
+void Geometry::init(ID3D10Device* device, std::string objFile, LPCWSTR texFile,D3DXCOLOR color)
 {
 	md3dDevice = device;
 	initRasterState();
@@ -37,10 +37,12 @@ void Geometry::init(ID3D10Device* device, std::string objFile,D3DXCOLOR color)
 	if(!fin) throw "THERE WASNT A FILE THERE";
 
 	vector<Vector3> vertices, faces, tempnormals, normals;
+	vector<Vector2> tempTex, textures;
 
 	string l,temp;
 	float tx,ty,tz;
 	float nx,ny,nz;
+	float texX, texY, texZ;
 	while(getline(fin,l))
 	{
 		stringstream line;
@@ -56,25 +58,37 @@ void Geometry::init(ID3D10Device* device, std::string objFile,D3DXCOLOR color)
 			//_RPT1(0, "position y %f \n", tz);
 			vertices.push_back(Vector3(tx,ty,tz));
 			normals.push_back(Vector3(0,0,0));//push back an empty normal for use later
+			textures.push_back(Vector2(0,0));//push back an empty texture for use later
+		}
+
+		else if(temp == "vt")
+		{
+			line>>tx>>ty;
+			tempTex.push_back(Vector2(tx,ty));
 		}
 
 		else if(temp == "f")
 		{
-			//line >> test;
 			char * token;
 			char * dup = strdup(l.c_str());
-			strtok(dup,"// ");
-			token = strtok(NULL,"// ");//first face value index
+			strtok(dup,"/ ");
+			token = strtok(NULL,"/ ");//first face value index
 			tx = atoi(token);
-			token = strtok(NULL,"// ");//first normal index
+			token = strtok(NULL,"/ ");//first texture value index
+			texX = atoi(token);
+			token = strtok(NULL,"/ ");//first normal index
 			nx = atoi(token);
-			token = strtok(NULL,"// ");//second face value index
+			token = strtok(NULL,"/ ");//second face value index
 			ty = atoi(token);
-			token = strtok(NULL,"// ");//second normal index
+			token = strtok(NULL,"/ ");//second texture value index
+			texY = atoi(token);
+			token = strtok(NULL,"/ ");//second normal index
 			ny = atoi(token);
-			token = strtok(NULL,"// ");//thrid face value index
+			token = strtok(NULL,"/ ");//third face value index
 			tz = atoi(token);
-			token = strtok(NULL,"// ");//third normal index
+			token = strtok(NULL,"/ ");//third texture value index
+			texZ = atoi(token);
+			token = strtok(NULL,"/ ");//third normal index
 			nz = atoi(token);
 
 			//line>>tx>>ty>>tz;
@@ -84,6 +98,11 @@ void Geometry::init(ID3D10Device* device, std::string objFile,D3DXCOLOR color)
 			normals.at(tx-1) = tempnormals.at(nx-1);
 			normals.at(ty-1) = tempnormals.at(ny-1);
 			normals.at(tz-1) = tempnormals.at(nz-1);
+
+			//reorganize texture points so that first vertex uses the first texture... ect
+			textures.at(tx-1) = tempTex.at(texX-1);
+			textures.at(ty-1) = tempTex.at(texY-1);
+			textures.at(tz-1) = tempTex.at(texZ-1);
 		}
 	}
 	fin.close();
@@ -99,8 +118,7 @@ void Geometry::init(ID3D10Device* device, std::string objFile,D3DXCOLOR color)
 			verts[i].normal = normals.at(i);
 
 			//normals must be added in according to faces, down below
-			verts[i].diffuse = this->color;
-			verts[i].spec = D3DXCOLOR(0.2f, 0.2f, 0.2f, 32.0f);
+			verts[i].texC = textures.at(i);
 		}
 
 		initVectorBuffer(verts);
@@ -120,6 +138,11 @@ void Geometry::init(ID3D10Device* device, std::string objFile,D3DXCOLOR color)
 		initIndexBuffer(indices);
 	}
 
+	//LOAD TEXTURES
+	HR(D3DX10CreateShaderResourceViewFromFile(device, 
+		texFile, 0, 0, &mDiffuseMapRV, 0 ));
+	HR(D3DX10CreateShaderResourceViewFromFile(device, 
+		L".\\textures\\defaultspec.dds", 0, 0, &mSpecMapRV, 0 ));
 
 	calculateDefaultAABB(vertices);
 }

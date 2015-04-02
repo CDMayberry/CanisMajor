@@ -25,7 +25,8 @@ private:
 	float radiusSquared;
 	Vector3 scale;
 	ID3D10EffectTechnique* mTech;
-	Matrix wvp, s, t,rx,ry,rz;//world view projection
+
+	Matrix wvp,s,t,rx,ry,rz,texMtx;//world view projection
 	Vector3 rotation;
 protected:
 	Matrix world;
