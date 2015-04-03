@@ -44,8 +44,10 @@ void Geometry::init(ID3D10Device* device, std::string objFile, LPCWSTR texFile, 
 	float tx,ty,tz;
 	float nx,ny,nz;
 	float texX, texY, texZ;
+	bool texPush = false;
+	bool texPushed = false;
 
-	textures.push_back(Vector2(0,1));
+	//textures.push_back(Vector2(0,1));
 
 	while(getline(fin,l))
 	{
@@ -67,10 +69,16 @@ void Geometry::init(ID3D10Device* device, std::string objFile, LPCWSTR texFile, 
 		{
 			line>>tx>>ty;
 			textures.push_back(Vector2(tx,ty));
+			texPush = true;
 		}
 
 		else if(temp == "f")
 		{
+			if(!texPush) {
+				textures.push_back(Vector2(0,1));
+				texPushed = !texPushed;
+			}
+
 			bool foundInd = false;
 
 			char * token;
