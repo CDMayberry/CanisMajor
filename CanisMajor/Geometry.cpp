@@ -37,7 +37,6 @@ void Geometry::init(ID3D10Device* device, std::string objFile,D3DXCOLOR color)
 	if(!fin) throw "THERE WASNT A FILE THERE";
 
 	vector<Vector3> vertices, faces, normals;
-	vector<Vertex> newVertices;
 	vector<Vector2> combos;
 
 	string l,temp;
@@ -57,7 +56,6 @@ void Geometry::init(ID3D10Device* device, std::string objFile,D3DXCOLOR color)
 			line>>tx>>ty>>tz;
 			//_RPT1(0, "position y %f \n", tz);
 			vertices.push_back(Vector3(tx,ty,tz));
-			//normals.push_back(Vector3(0,0,0));//push back an empty normal for use later
 		}
 
 		else if(temp == "f")
@@ -124,13 +122,7 @@ void Geometry::init(ID3D10Device* device, std::string objFile,D3DXCOLOR color)
 				index.z = combos.size()-1;
 			}
 
-			//line>>tx>>ty>>tz;
 			faces.push_back(index); //obj file has 1 based indexes
-
-			//reorganize normals so that first vertex uses the first normal... ect
-			//normals.at(tx-1) = tempnormals.at(nx-1);
-			//normals.at(ty-1) = tempnormals.at(ny-1);
-			//normals.at(tz-1) = tempnormals.at(nz-1);
 		}
 	}
 	fin.close();
