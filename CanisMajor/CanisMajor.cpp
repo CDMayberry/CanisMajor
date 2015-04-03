@@ -76,72 +76,69 @@ void CanisMajor::initApp()
 
 	howl = false;
 
-	//mTelescope.init(md3dDevice,".\\geometry\\telescope.geo");
+	mTelescope.init(md3dDevice,".\\geometry\\telescope.geo");
 
-	//mDresser.init(md3dDevice,".\\geometry\\dresser.geo");
+	mDresser.init(md3dDevice,".\\geometry\\dresser.geo");
 
-	//mFlashlight.init(md3dDevice,".\\geometry\\flashlight.geo");
-	//flashlight.init(this,&mFlashlight,&fLight);
+	mFlashlight.init(md3dDevice,".\\geometry\\flashlight.geo");
+	flashlight.init(this,&mFlashlight,&fLight);
 
-	//mFrame.init(md3dDevice,".\\geometry\\pictureframe.geo");
+	mFrame.init(md3dDevice,".\\geometry\\pictureframe.geo");
 
-	//mBookcase.init(md3dDevice,".\\geometry\\bookcase.geo", MEDWOOD);
+	mBookcase.init(md3dDevice,".\\geometry\\bookcase.geo", L".\\textures\\medwood.dds");
 
-	//mChair.init(md3dDevice,".\\geometry\\chair.geo", LIGHTWOOD);
+	mChair.init(md3dDevice,".\\geometry\\chair.geo", L".\\textures\\lightwood.dds");
 
-	//mCradle.init(md3dDevice,".\\geometry\\cradle.geo");
+	mCradle.init(md3dDevice,".\\geometry\\cradle.geo");
 
-	//mMasterbed.init(md3dDevice,".\\geometry\\masterBed.geo");
+	mMasterbed.init(md3dDevice,".\\geometry\\masterBed.geo");
 
-	//mServantbed.init(md3dDevice,".\\geometry\\servantBed.geo");
+	mServantbed.init(md3dDevice,".\\geometry\\servantBed.geo");
 
-	//mStaircase.init(md3dDevice,".\\geometry\\staircase.geo");
+	mStaircase.init(md3dDevice,".\\geometry\\staircase.geo");
 
-	//mTable.init(md3dDevice,".\\geometry\\table.geo", LIGHTWOOD);
+	mTable.init(md3dDevice,".\\geometry\\table.geo", L".\\textures\\lightwood.dds");
 
-	//mBottle.init(md3dDevice,".\\geometry\\bottle.geo", BOTTLEGREEN);
+	mBottle.init(md3dDevice,".\\geometry\\bottle.geo", L".\\textures\\bottlegreen.dds");
 
-	//mLock.init(md3dDevice,".\\geometry\\lock.geo");
+	mLock.init(md3dDevice,".\\geometry\\lock.geo");
 
-	//mPictureframe.init(md3dDevice,".\\geometry\\pictureframe.geo");
+	mPictureframe.init(md3dDevice,".\\geometry\\pictureframe.geo");
 
-	//mRail.init(md3dDevice,".\\geometry\\rail.geo");
+	mRail.init(md3dDevice,".\\geometry\\rail.geo");
 
-	//mWallpanel.init(md3dDevice,".\\geometry\\wallpanel.geo", WALLCOLOR);
+	mWallpanel.init(md3dDevice,".\\geometry\\wallpanel.geo", L".\\textures\\greywood.dds");
 
-	//mWindow.init(md3dDevice,".\\geometry\\window.geo");
+	mWindow.init(md3dDevice,".\\geometry\\window.geo");
 
-	//mCage.init(md3dDevice,".\\geometry\\cage.geo");
+	mCage.init(md3dDevice,".\\geometry\\cage.geo");
 
-	//mFixture.init(md3dDevice,".\\geometry\\fixture.geo");
+	mFixture.init(md3dDevice,".\\geometry\\fixture.geo");
 
-	//mDoor.init(md3dDevice,".\\geometry\\door.geo",GOLD);
+	mDoor.init(md3dDevice,".\\geometry\\door.geo", L".\\textures\\gold.dds");
 
-	//mBox.init(md3dDevice,".\\geometry\\cardboardBox.geo", LIGHTCARD);
+	mBox.init(md3dDevice,".\\geometry\\cardboardBox.geo", L".\\textures\\cardboard.dds");
 
-	//for(int i = 0 ; i < CM::MAX_DOORS; i++)
-	//{
-	//	doors[i].init(this,&mDoor,1);
-	//	doors[i].collisionType = AABBox;
-	//}
+	for(int i = 0 ; i < CM::MAX_DOORS; i++)
+	{
+		doors[i].init(this,&mDoor,1);
+		doors[i].collisionType = AABBox;
+	}
 
+	mCube.init(md3dDevice,".\\geometry\\cube.geo", L".\\textures\\metal.dds", true);
 
-	mCube.init(md3dDevice,".\\geometry\\cube.geo", L".\\textures\\metal.dds", DARKBROWN);
+	mRoofHole.init(md3dDevice,".\\geometry\\newRoofHole.geo", L".\\textures\\greywood.dds");
 
-	//mRoofHole.init(md3dDevice,".\\geometry\\newRoofHole.geo");
+	mKey.init(md3dDevice,".\\geometry\\key.geo", L".\\textures\\gold.dds");
 
-	//mKey.init(md3dDevice,".\\geometry\\key.geo", GOLD);
+	mWindowPanel.init(md3dDevice,".\\geometry\\windowpanel.geo");
 
-	//mWindowPanel.init(md3dDevice,".\\geometry\\windowpanel.geo");
+	for(int i = 0 ; i < CM::MAX_KEYS; i++)
+	{
+		keys[i].init(this,&mKey,1);
+	}
 
-
-
-	//for(int i = 0 ; i < CM::MAX_KEYS; i++)
-	//{
-	//	keys[i].init(this,&mKey,1);
-	//}
-
-	//origin.init(this,1);
+	origin.init(this,1);
 
 	for(int i = 0; i< CM::MAX_SCENERY; i++)
 	{
@@ -150,21 +147,21 @@ void CanisMajor::initApp()
 		scenery[i].collisionType=AABBox;
 	}
 
-	//for(int i = 0; i< CM::MAX_SEARCHABLE_ACTORS; i++)
-	//{
-	//	searchableActors[i].init(this,&mCube,1);
-	//	searchableActors[i].collisionType=AABBox;
-	//}
+	for(int i = 0; i< CM::MAX_SEARCHABLE_ACTORS; i++)
+	{
+		searchableActors[i].init(this,&mCube,1);
+		searchableActors[i].collisionType=AABBox;
+	}
 
 	camera.create(Vector3(10,10,10),Vector3(1,0,0));
 	camera.setPerspective();
 
-	//flashlight.toggle();
+	flashlight.toggle();
 
 #ifdef DEBUG
-	//mRedCube.init(md3dDevice,".\\geometry\\cube.geo", RED);
-	//AABBHelper.init(this,&mRedCube,1);
-	//AABBHelper.isActive = true;
+	mRedCube.init(md3dDevice,".\\geometry\\cube.geo", L".\\textures\\metal.dds", true);
+	AABBHelper.init(this,&mRedCube,1);
+	AABBHelper.isActive = true;
 #endif
 
 	
@@ -253,25 +250,25 @@ void CanisMajor::levelsUpdate(float dt)
 	{
 		scenery[i].update(dt);
 	}
-	//for(int i = 0 ; i < CM::MAX_KEYS; i++)
-	//{
-	//	keys[i].update(dt);
-	//}
-	//for(int i = 0 ; i < CM::MAX_DOORS; i++)
-	//{
-	//	doors[i].update(dt);
-	//}
-	//for(int i = 0; i< CM::MAX_SEARCHABLE_ACTORS; i++)
-	//{
-	//	searchableActors[i].update(dt);
-	//}
+	for(int i = 0 ; i < CM::MAX_KEYS; i++)
+	{
+		keys[i].update(dt);
+	}
+	for(int i = 0 ; i < CM::MAX_DOORS; i++)
+	{
+		doors[i].update(dt);
+	}
+	for(int i = 0; i< CM::MAX_SEARCHABLE_ACTORS; i++)
+	{
+		searchableActors[i].update(dt);
+	}
 
-	//if(!howl && doors[0].getOpen()) {
-	//	audio->playCue(HOWL);
-	//	howl = true;
-	//}
+	if(!howl && doors[0].getOpen()) {
+		audio->playCue(HOWL);
+		howl = true;
+	}
 
-	//flashlight.update(dt);
+	flashlight.update(dt);
 
 	camera.update(dt);
 
@@ -284,68 +281,68 @@ void CanisMajor::levelsUpdate(float dt)
 void CanisMajor::collisions()
 {
 
-	//for(int i = 0; i< CM::MAX_SEARCHABLE_ACTORS; i++)
-	//{
-	//	if(searchableActors[i].isActive)
-	//	{
-	//		Vector3 diff = camera.getPosition()-searchableActors[i].getPosition();
-	//		if(D3DXVec3LengthSq(&diff) < CM::INTERACTION_RADIUS_SQ)
-	//		{
-	//			camera.setNearbyInteractable(&searchableActors[i]);
-	//			drawUtilText(L"Press E to search the " + searchableActors[i].name + L".");
-	//		}
+	for(int i = 0; i< CM::MAX_SEARCHABLE_ACTORS; i++)
+	{
+		if(searchableActors[i].isActive)
+		{
+			Vector3 diff = camera.getPosition()-searchableActors[i].getPosition();
+			if(D3DXVec3LengthSq(&diff) < CM::INTERACTION_RADIUS_SQ)
+			{
+				camera.setNearbyInteractable(&searchableActors[i]);
+				drawUtilText(L"Press E to search the " + searchableActors[i].name + L".");
+			}
 
-	//		if(camera.collided(&searchableActors[i]))
-	//		{
-	//			camera.backUp();
-	//		}
-	//	}
-	//}
+			if(camera.collided(&searchableActors[i]))
+			{
+				camera.backUp();
+			}
+		}
+	}
 
 
-	//for(int i = 0 ; i < CM::MAX_DOORS; i++)
-	//{
-	//	if(doors[i].isActive)
-	//	{
-	//		Vector3 diff = camera.getPosition()-doors[i].getPosition();
-	//		if(D3DXVec3LengthSq(&diff) < CM::INTERACTION_RADIUS_SQ)
-	//		{
-	//			camera.setNearbyInteractable(&doors[i]);
-	//			if(doors[i].getOpen())
-	//				drawUtilText(L"Press E to close door.");
-	//			else
-	//				drawUtilText(L"Press E to open door.");
-	//		}
+	for(int i = 0 ; i < CM::MAX_DOORS; i++)
+	{
+		if(doors[i].isActive)
+		{
+			Vector3 diff = camera.getPosition()-doors[i].getPosition();
+			if(D3DXVec3LengthSq(&diff) < CM::INTERACTION_RADIUS_SQ)
+			{
+				camera.setNearbyInteractable(&doors[i]);
+				if(doors[i].getOpen())
+					drawUtilText(L"Press E to close door.");
+				else
+					drawUtilText(L"Press E to open door.");
+			}
 
-	//		if(camera.collided(&doors[i]))
-	//		{
-	//			camera.backUp();
-	//		}
-	//	}
-	//}
+			if(camera.collided(&doors[i]))
+			{
+				camera.backUp();
+			}
+		}
+	}
 
-	//for(int i = 0 ; i < CM::MAX_KEYS; i++)
-	//{
-	//	if(camera.collided(&keys[i]))
-	//	{
-	//		camera.setNearbyInteractable(&keys[i]);
-	//		drawUtilText(L"Press E to pick up key.");
-	//	}
-	//}
+	for(int i = 0 ; i < CM::MAX_KEYS; i++)
+	{
+		if(camera.collided(&keys[i]))
+		{
+			camera.setNearbyInteractable(&keys[i]);
+			drawUtilText(L"Press E to pick up key.");
+		}
+	}
 
-	//if(!camera.hasFlashlight()&&camera.collided(&flashlight))
-	//{
-	//	camera.setNearbyInteractable(&flashlight);
-	//	drawUtilText(L"Press E to pick up flashlight.");
-	//}
+	if(!camera.hasFlashlight()&&camera.collided(&flashlight))
+	{
+		camera.setNearbyInteractable(&flashlight);
+		drawUtilText(L"Press E to pick up flashlight.");
+	}
 
-	//for(int i = 0 ; i < CM::MAX_SCENERY;i++)
-	//{
-	//	if(camera.collided(&scenery[i]))
-	//	{
-	//		camera.backUp();
-	//	}
-	//}
+	for(int i = 0 ; i < CM::MAX_SCENERY;i++)
+	{
+		if(camera.collided(&scenery[i]))
+		{
+			camera.backUp();
+		}
+	}
 
 
 }
@@ -376,7 +373,7 @@ void CanisMajor::drawScene()
 	//mfxPLightsVar->SetRawValue(&rLights, 0, sizeof(Light));
 	mfxPLightVar->SetRawValue(&pLight, 0, sizeof(Light));
 	mfxNegaLightVar->SetRawValue(&negaLight, 0, sizeof(Light));
-	//mfxLightBool->SetBool(flashlight.isOn);
+	mfxLightBool->SetBool(flashlight.isOn);
 
 	// set the point to the shader technique
 	D3D10_TECHNIQUE_DESC techDesc;
@@ -451,25 +448,25 @@ void CanisMajor::levelsDraw()
 
 	for(int i = 0 ; i < CM::MAX_SCENERY; i++)
 	{
-		scenery[0].draw(mfxWVPVar,mView,mProj,mTech);
+		scenery[i].draw(mfxWVPVar,mView,mProj,mTech);
 	}
-	//for(int i = 0 ; i < CM::MAX_KEYS; i++)
-	//{
-	//	keys[i].draw(mfxWVPVar,mView,mProj,mTech);
-	//}
-	//for(int i = 0 ; i < CM::MAX_DOORS; i++)
-	//{
-	//	doors[i].draw(mfxWVPVar,mView,mProj,mTech);
-	//}
-	//for(int i = 0 ; i < CM::MAX_SEARCHABLE_ACTORS; i++)
-	//{
-	//	searchableActors[i].draw(mfxWVPVar,mView,mProj,mTech);
-	//}
+	for(int i = 0 ; i < CM::MAX_KEYS; i++)
+	{
+		keys[i].draw(mfxWVPVar,mView,mProj,mTech);
+	}
+	for(int i = 0 ; i < CM::MAX_DOORS; i++)
+	{
+		doors[i].draw(mfxWVPVar,mView,mProj,mTech);
+	}
+	for(int i = 0 ; i < CM::MAX_SEARCHABLE_ACTORS; i++)
+	{
+		searchableActors[i].draw(mfxWVPVar,mView,mProj,mTech);
+	}
 
-	//flashlight.draw(mfxWVPVar,mView,mProj,mTech);
+	flashlight.draw(mfxWVPVar,mView,mProj,mTech);
 
 #ifdef DEBUG
-	//AABBHelper.draw(mfxWVPVar,mView,mProj,mTech);
+	AABBHelper.draw(mfxWVPVar,mView,mProj,mTech);
 #endif
 
 	drawUtilText();
@@ -605,8 +602,8 @@ void CanisMajor::loadAttic()
 
 	camera.setPosition(Vector3(5,0,5));
 
-	//flashlight.setPosition(Vector3(10,-2.5,5));
-	//flashlight.isActive = true;
+	flashlight.setPosition(Vector3(10,-2.5,5));
+	flashlight.isActive = true;
 
 	spawnScenery(&mCube,Vector3(0,-4,0),Vector3(0,0,0),Vector3(40,1,60));
 

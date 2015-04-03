@@ -24,7 +24,7 @@ void Geometry::init(ID3D10Device* device, D3DXCOLOR color, D3D_PRIMITIVE_TOPOLOG
 	topology = top;
 }
 
-void Geometry::init(ID3D10Device* device, std::string objFile, LPCWSTR texFile,D3DXCOLOR color)
+void Geometry::init(ID3D10Device* device, std::string objFile, LPCWSTR texFile, bool comp)
 {
 	md3dDevice = device;
 	initRasterState();
@@ -36,8 +36,12 @@ void Geometry::init(ID3D10Device* device, std::string objFile, LPCWSTR texFile,D
 
 	if(!fin) throw "THERE WASNT A FILE THERE";
 
-	vector<Vector3> vertices, newVertices, faces, tempnormals, normals, combos;
-	vector<Vector2> tempTex, textures;
+	vector<Vector3> vertices, faces, normals, combos;
+	vector<Vector2> textures;
+
+	//vector<Vector3> vertices, faces, normals, textures;
+	//vector<Vector2> combos;
+
 
 	//NEEDS TO BUILD A NEW VERTICES LIST THAT IS TWICE THE SIZE OF THE NORMALS
 
@@ -45,6 +49,9 @@ void Geometry::init(ID3D10Device* device, std::string objFile, LPCWSTR texFile,D
 	float tx,ty,tz;
 	float nx,ny,nz;
 	float texX, texY, texZ;
+
+	textures.push_back(Vector2(0,1));
+
 	while(getline(fin,l))
 	{
 		stringstream line;
@@ -52,26 +59,27 @@ void Geometry::init(ID3D10Device* device, std::string objFile, LPCWSTR texFile,D
 		line>>temp;
 		if(temp == "vn"){
 			line >>tx>>ty>>tz;
-			tempnormals.push_back(Vector3(tx,ty,tz));
+			normals.push_back(Vector3(tx,ty,tz));
 		}
 		else if(temp == "v")
 		{
 			line>>tx>>ty>>tz;
 			//_RPT1(0, "position y %f \n", tz);
 			vertices.push_back(Vector3(tx,ty,tz));
-			normals.push_back(Vector3(0,0,0));//push back an empty normal for use later
-			textures.push_back(Vector2(0,0));//push back an empty texture for use later
+			//normals.push_back(Vector3(0,0,0));//push back an empty normal for use later
+			//textures.push_back(Vector2(0,0));//push back an empty texture for use later
 		}
 
 		else if(temp == "vt")
 		{
 			line>>tx>>ty;
-			tempTex.push_back(Vector2(tx,ty));
+			textures.push_back(Vector2(tx,ty));
 		}
 
 		else if(temp == "f")
 		{
-			//textures.resize(tempnormals.size()*2);
+			bool foundInd = false;
+
 			char * token;
 			Vector3 index(0,0,0);
 			char * dup = strdup(l.c_str());
@@ -80,76 +88,103 @@ void Geometry::init(ID3D10Device* device, std::string objFile, LPCWSTR texFile,D
 
 			token = strtok(NULL,"/ ");//first face value index
 			tx = atoi(token);
-			token = strtok(NULL,"/ ");//first texture value index
-			texX = atoi(token);
-			token = strtok(NULL,"/ ");//first normal index
-			nx = atoi(token);
-			index.x = tx;
-			index.y = texX;
-			index.z = nx;
-			for(int i = 0; i < combos.size(); i++) {
-				if(index.x != combos.at(i).x) {
-					
-				}
-				if(index.y != combos.at(i).y) {
 
-				}
-				if(index.z != combos.at(i).z) {
-
-				}
+			if(comp) {
+				token = strtok(NULL,"/ ");//first texture value index
+				texX = atoi(token);
+				token = strtok(NULL,"/ ");//first normal index				
+			}
+			else {
+				texX = 1;
+				token = strtok(NULL,"// ");//first normal index
 			}
 
+			nx = atoi(token);	
 
+			//Check if the Vertex already exists
+			for(int i = 0; i < combos.size(); i++) {
+				if(tx == combos.at(i).x && nx == combos.at(i).y && texX == combos.at(i).z) {
+					index.x = i; //If it does set the face location to it.
+					foundInd = true;
+					break;
+				}
+			}
+			if(foundInd == false) { //If it didn't find one at it to the list.
+				combos.push_back(Vector3(tx,nx,texX));
+				index.x = combos.size()-1;
+			}
+
+			foundInd = false;
 			token = strtok(NULL,"/ ");//second face value index
 			ty = atoi(token);
-			token = strtok(NULL,"/ ");//second texture value index
-			texY = atoi(token);
-			token = strtok(NULL,"/ ");//second normal index
+			if(comp) {
+				token = strtok(NULL,"/ ");//first texture value index
+				texY = atoi(token);
+				token = strtok(NULL,"/ ");//first normal index				
+			}
+			else {
+				texY = 1;
+				token = strtok(NULL,"// ");//first normal index
+			}
 			ny = atoi(token);
-			index.x = ty;
-			index.y = texY;
-			index.z = ny;
 
+			//Check if the Vertex already exists
+			for(int i = 0; i < combos.size(); i++) {
+				if(ty == combos.at(i).x && ny == combos.at(i).y && texY == combos.at(i).z) {
+					index.y = i; //If it does set the face location to it.
+					foundInd = true;
+					break;
+				}
+			}
+			if(foundInd == false) {
+				combos.push_back(Vector3(ty,ny,texY));
+				index.y = combos.size()-1;
+			}
+
+			foundInd = false;
 			token = strtok(NULL,"/ ");//third face value index
 			tz = atoi(token);
-			token = strtok(NULL,"/ ");//third texture value index
-			texZ = atoi(token);
-			token = strtok(NULL,"/ ");//third normal index
+			if(comp) {
+				token = strtok(NULL,"/ ");//first texture value index
+				texZ = atoi(token);
+				token = strtok(NULL,"/ ");//first normal index				
+			}
+			else {
+				texZ = 1;
+				token = strtok(NULL,"// ");//first normal index
+			}
 			nz = atoi(token);
-			index.x = tz;
-			index.y = texZ;
-			index.z = nz;
 
-			//line>>tx>>ty>>tz;
-			faces.push_back(Vector3(tx-1,ty-1,tz-1)); //obj file has 1 based indexes
+			//Check if the Vertex already exists
+			for(int i = 0; i < combos.size(); i++) {
+				if(tz == combos.at(i).x && nz == combos.at(i).y && texZ == combos.at(i).z) {
+					index.z = i; //If it does set the face location to it.
+					foundInd = true;
+					break;
+				}
+			}
+			if(foundInd == false) {
+				combos.push_back(Vector3(tz,nz,texZ));
+				index.z = combos.size()-1;
+			}
 
-			////reorganize normals so that first vertex uses the first normal... ect
-			//normals.at(tx-1) = tempnormals.at(nx-1);
-			//normals.at(ty-1) = tempnormals.at(ny-1);
-			//normals.at(tz-1) = tempnormals.at(nz-1);
-
-			////reorganize texture points so that first vertex uses the first texture... ect
-			//textures.at(tx-1) = tempTex.at(texX-1);
-			//textures.at(ty-1) = tempTex.at(texY-1);
-			//textures.at(tz-1) = tempTex.at(texZ-1);
-
-			//NEEDS TO BUILD A NEW VERTEX BUFFER FROM THIS
+			faces.push_back(index); //obj file has 1 based indexes
 		}
 	}
 	fin.close();
 
-	if(vertices.size()>0)
+	if(combos.size()>0)
 	{
-		numVertices = vertices.size();
+		numVertices = combos.size();
 		verts = new Vertex[numVertices];
 
 		for(int i = 0 ; i < numVertices; i++)
 		{
-			verts[i].pos = vertices[i];
-			verts[i].normal = tempnormals.at(i);
+			verts[i].pos = vertices.at(combos.at(i).x-1);
+			verts[i].normal = normals.at(combos.at(i).y-1);
 
 			//normals must be added in according to faces, down below
-			verts[i].texC = tempTex.at(i);
+			verts[i].texC = textures.at(combos.at(i).z-1); // NO CLUE IF THIS IS CORRECT
 		}
 
 		initVectorBuffer(verts);
