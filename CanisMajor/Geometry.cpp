@@ -110,7 +110,7 @@ void Geometry::init(ID3D10Device* device, std::string objFile, LPCWSTR texFile, 
 					break;
 				}
 			}
-			if(foundInd == false) { //If it didn't find one at it to the list.
+			if(foundInd == false) { //If it didn't find one add it to the list.
 				combos.push_back(Vector3(tx,nx,texX));
 				index.x = combos.size()-1;
 			}
@@ -119,13 +119,13 @@ void Geometry::init(ID3D10Device* device, std::string objFile, LPCWSTR texFile, 
 			token = strtok(NULL,"/ ");//second face value index
 			ty = atoi(token);
 			if(comp) {
-				token = strtok(NULL,"/ ");//first texture value index
+				token = strtok(NULL,"/ ");//second texture value index
 				texY = atoi(token);
-				token = strtok(NULL,"/ ");//first normal index				
+				token = strtok(NULL,"/ ");//second normal index				
 			}
 			else {
 				texY = 1;
-				token = strtok(NULL,"// ");//first normal index
+				token = strtok(NULL,"// ");//second normal index
 			}
 			ny = atoi(token);
 
@@ -146,13 +146,13 @@ void Geometry::init(ID3D10Device* device, std::string objFile, LPCWSTR texFile, 
 			token = strtok(NULL,"/ ");//third face value index
 			tz = atoi(token);
 			if(comp) {
-				token = strtok(NULL,"/ ");//first texture value index
+				token = strtok(NULL,"/ ");//second texture value index
 				texZ = atoi(token);
-				token = strtok(NULL,"/ ");//first normal index				
+				token = strtok(NULL,"/ ");//second normal index				
 			}
 			else {
 				texZ = 1;
-				token = strtok(NULL,"// ");//first normal index
+				token = strtok(NULL,"// ");//second normal index
 			}
 			nz = atoi(token);
 
