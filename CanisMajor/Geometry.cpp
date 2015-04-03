@@ -24,7 +24,7 @@ void Geometry::init(ID3D10Device* device, D3DXCOLOR color, D3D_PRIMITIVE_TOPOLOG
 	topology = top;
 }
 
-void Geometry::init(ID3D10Device* device, std::string objFile,D3DXCOLOR color)
+void Geometry::init(ID3D10Device* device, std::string objFile, LPCWSTR texFile, bool comp)
 {
 	md3dDevice = device;
 	initRasterState();
@@ -36,12 +36,17 @@ void Geometry::init(ID3D10Device* device, std::string objFile,D3DXCOLOR color)
 
 	if(!fin) throw "THERE WASNT A FILE THERE";
 
-	vector<Vector3> vertices, faces, normals;
-	vector<Vector2> combos;
+
+	vector<Vector3> vertices, faces, normals, combos;
+	vector<Vector2> textures;
 
 	string l,temp;
 	float tx,ty,tz;
 	float nx,ny,nz;
+	float texX, texY, texZ;
+
+	textures.push_back(Vector2(0,1));
+
 	while(getline(fin,l))
 	{
 		stringstream line;
@@ -58,67 +63,101 @@ void Geometry::init(ID3D10Device* device, std::string objFile,D3DXCOLOR color)
 			vertices.push_back(Vector3(tx,ty,tz));
 		}
 
+		else if(temp == "vt")
+		{
+			line>>tx>>ty;
+			textures.push_back(Vector2(tx,ty));
+		}
+
 		else if(temp == "f")
 		{
 			bool foundInd = false;
-			Vector3 index;
-			char * token;
-			char * dup = strdup(l.c_str());
-			strtok(dup,"// ");
 
-			token = strtok(NULL,"// ");//first face value index
+			char * token;
+			Vector3 index(0,0,0);
+			char * dup = strdup(l.c_str());
+			strtok(dup,"/ ");
+
+
+			token = strtok(NULL,"/ ");//first face value index
 			tx = atoi(token);
-			token = strtok(NULL,"// ");//first normal index
-			nx = atoi(token);
+
+			if(comp) {
+				token = strtok(NULL,"/ ");//first texture value index
+				texX = atoi(token);
+				token = strtok(NULL,"/ ");//first normal index				
+			}
+			else {
+				texX = 1;
+				token = strtok(NULL,"// ");//first normal index
+			}
+
+			nx = atoi(token);	
 
 			//Check if the Vertex already exists
 			for(int i = 0; i < combos.size(); i++) {
-				if(tx == combos.at(i).x && nx == combos.at(i).y) {
+				if(tx == combos.at(i).x && nx == combos.at(i).y && texX == combos.at(i).z) {
 					index.x = i; //If it does set the face location to it.
 					foundInd = true;
 					break;
 				}
 			}
 			if(foundInd == false) { //If it didn't find one at it to the list.
-				combos.push_back(Vector2(tx,nx));
+				combos.push_back(Vector3(tx,nx,texX));
 				index.x = combos.size()-1;
 			}
 
 			foundInd = false;
-			token = strtok(NULL,"// ");//second face value index
+			token = strtok(NULL,"/ ");//second face value index
 			ty = atoi(token);
-			token = strtok(NULL,"// ");//second normal index
+			if(comp) {
+				token = strtok(NULL,"/ ");//first texture value index
+				texY = atoi(token);
+				token = strtok(NULL,"/ ");//first normal index				
+			}
+			else {
+				texY = 1;
+				token = strtok(NULL,"// ");//first normal index
+			}
 			ny = atoi(token);
 
 			//Check if the Vertex already exists
 			for(int i = 0; i < combos.size(); i++) {
-				if(ty == combos.at(i).x && ny == combos.at(i).y) {
+				if(ty == combos.at(i).x && ny == combos.at(i).y && texY == combos.at(i).z) {
 					index.y = i; //If it does set the face location to it.
 					foundInd = true;
 					break;
 				}
 			}
 			if(foundInd == false) {
-				combos.push_back(Vector2(ty,ny));
+				combos.push_back(Vector3(ty,ny,texY));
 				index.y = combos.size()-1;
 			}
 
 			foundInd = false;
-			token = strtok(NULL,"// ");//thrid face value index
+			token = strtok(NULL,"/ ");//third face value index
 			tz = atoi(token);
-			token = strtok(NULL,"// ");//third normal index
+			if(comp) {
+				token = strtok(NULL,"/ ");//first texture value index
+				texZ = atoi(token);
+				token = strtok(NULL,"/ ");//first normal index				
+			}
+			else {
+				texZ = 1;
+				token = strtok(NULL,"// ");//first normal index
+			}
 			nz = atoi(token);
 
 			//Check if the Vertex already exists
 			for(int i = 0; i < combos.size(); i++) {
-				if(tz == combos.at(i).x && nz == combos.at(i).y) {
+				if(tz == combos.at(i).x && nz == combos.at(i).y && texZ == combos.at(i).z) {
 					index.z = i; //If it does set the face location to it.
 					foundInd = true;
 					break;
 				}
 			}
 			if(foundInd == false) {
-				combos.push_back(Vector2(tz,nz));
+				combos.push_back(Vector3(tz,nz,texZ));
 				index.z = combos.size()-1;
 			}
 
@@ -138,8 +177,7 @@ void Geometry::init(ID3D10Device* device, std::string objFile,D3DXCOLOR color)
 			verts[i].normal = normals.at(combos.at(i).y-1);
 
 			//normals must be added in according to faces, down below
-			verts[i].diffuse = this->color;
-			verts[i].spec = D3DXCOLOR(0.2f, 0.2f, 0.2f, 32.0f);
+			verts[i].texC = textures.at(combos.at(i).z-1); // NO CLUE IF THIS IS CORRECT
 		}
 
 		initVectorBuffer(verts);
@@ -159,6 +197,11 @@ void Geometry::init(ID3D10Device* device, std::string objFile,D3DXCOLOR color)
 		initIndexBuffer(indices);
 	}
 
+	//LOAD TEXTURES
+	HR(D3DX10CreateShaderResourceViewFromFile(device, 
+		texFile, 0, 0, &mDiffuseMapRV, 0 ));
+	HR(D3DX10CreateShaderResourceViewFromFile(device, 
+		L".\\textures\\defaultspec.dds", 0, 0, &mSpecMapRV, 0 ));
 
 	calculateDefaultAABB(vertices);
 }

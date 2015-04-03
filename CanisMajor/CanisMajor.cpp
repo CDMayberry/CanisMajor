@@ -22,7 +22,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 CanisMajor::CanisMajor(HINSTANCE hInstance)
 	: D3DApp(hInstance), mFX(0), mTech(0), mVertexLayout(0),
 	mfxWVPVar(0), mfxWorldVar(0),  mfxEyePosVar(0), 
-	mfxLightVar(0), mfxLightBool(0)
+	mfxLightVar(0), mfxLightBool(0), mfxDiffuseMapVar(0),
+	mfxSpecMapVar(0), mfxTexMtxVar(0)
 {
 	D3DXMatrixIdentity(&mView);
 	D3DXMatrixIdentity(&mProj);
@@ -57,8 +58,10 @@ CanisMajor::~CanisMajor()
 
 void CanisMajor::initApp()
 {
-	D3DApp::initApp();
 	
+
+	D3DApp::initApp();
+
 	for(int i = 0; i < MAX_LIGHTS; i++) {
 		rLights[i].init();
 		rLights[i].pos = Vector3(0, -200, 0);
@@ -82,9 +85,9 @@ void CanisMajor::initApp()
 
 	mFrame.init(md3dDevice,".\\geometry\\pictureframe.geo");
 
-	mBookcase.init(md3dDevice,".\\geometry\\bookcase.geo", MEDWOOD);
+	mBookcase.init(md3dDevice,".\\geometry\\bookcase.geo", L".\\textures\\medwood.dds");
 
-	mChair.init(md3dDevice,".\\geometry\\chair.geo", LIGHTWOOD);
+	mChair.init(md3dDevice,".\\geometry\\chair.geo", L".\\textures\\lightwood.dds");
 
 	mCradle.init(md3dDevice,".\\geometry\\cradle.geo");
 
@@ -94,9 +97,9 @@ void CanisMajor::initApp()
 
 	mStaircase.init(md3dDevice,".\\geometry\\staircase.geo");
 
-	mTable.init(md3dDevice,".\\geometry\\table.geo", LIGHTWOOD);
+	mTable.init(md3dDevice,".\\geometry\\table.geo", L".\\textures\\lightwood.dds");
 
-	mBottle.init(md3dDevice,".\\geometry\\bottle.geo", BOTTLEGREEN);
+	mBottle.init(md3dDevice,".\\geometry\\bottle.geo", L".\\textures\\bottlegreen.dds");
 
 	mLock.init(md3dDevice,".\\geometry\\lock.geo");
 
@@ -104,7 +107,7 @@ void CanisMajor::initApp()
 
 	mRail.init(md3dDevice,".\\geometry\\rail.geo");
 
-	mWallpanel.init(md3dDevice,".\\geometry\\wallpanel.geo", WALLCOLOR);
+	mWallpanel.init(md3dDevice,".\\geometry\\wallpanel.geo", L".\\textures\\greywood.dds");
 
 	mWindow.init(md3dDevice,".\\geometry\\window.geo");
 
@@ -112,9 +115,9 @@ void CanisMajor::initApp()
 
 	mFixture.init(md3dDevice,".\\geometry\\fixture.geo");
 
-	mDoor.init(md3dDevice,".\\geometry\\door.geo",GOLD);
+	mDoor.init(md3dDevice,".\\geometry\\door.geo", L".\\textures\\gold.dds");
 
-	mBox.init(md3dDevice,".\\geometry\\cardboardBox.geo", LIGHTCARD);
+	mBox.init(md3dDevice,".\\geometry\\cardboardBox.geo", L".\\textures\\cardboard.dds");
 
 	for(int i = 0 ; i < CM::MAX_DOORS; i++)
 	{
@@ -122,15 +125,13 @@ void CanisMajor::initApp()
 		doors[i].collisionType = AABBox;
 	}
 
-	mCube.init(md3dDevice,".\\geometry\\cube.geo", DARKBROWN);
-	
-	mRoofHole.init(md3dDevice,".\\geometry\\newRoofHole.geo");
-	
-	mKey.init(md3dDevice,".\\geometry\\key.geo", GOLD);
+	mCube.init(md3dDevice,".\\geometry\\cube.geo", L".\\textures\\metal.dds", true);
+
+	mRoofHole.init(md3dDevice,".\\geometry\\newRoofHole.geo", L".\\textures\\greywood.dds");
+
+	mKey.init(md3dDevice,".\\geometry\\key.geo", L".\\textures\\gold.dds");
 
 	mWindowPanel.init(md3dDevice,".\\geometry\\windowpanel.geo");
-
-
 
 	for(int i = 0 ; i < CM::MAX_KEYS; i++)
 	{
@@ -151,17 +152,19 @@ void CanisMajor::initApp()
 		searchableActors[i].init(this,&mCube,1);
 		searchableActors[i].collisionType=AABBox;
 	}
-	
+
 	camera.create(Vector3(10,10,10),Vector3(1,0,0));
 	camera.setPerspective();
 
 	flashlight.toggle();
 
 #ifdef DEBUG
-	mRedCube.init(md3dDevice,".\\geometry\\cube.geo", RED);
+	mRedCube.init(md3dDevice,".\\geometry\\cube.geo", L".\\textures\\metal.dds", true);
 	AABBHelper.init(this,&mRedCube,1);
 	AABBHelper.isActive = true;
 #endif
+
+	
 
 	buildFX();
 	buildVertexLayouts();
@@ -242,6 +245,7 @@ void CanisMajor::menuUpdate(float dt, bool reset)
 
 void CanisMajor::levelsUpdate(float dt)
 {	
+
 	for(int i = 0 ; i < CM::MAX_SCENERY; i++)
 	{
 		scenery[i].update(dt);
@@ -370,7 +374,7 @@ void CanisMajor::drawScene()
 	mfxPLightVar->SetRawValue(&pLight, 0, sizeof(Light));
 	mfxNegaLightVar->SetRawValue(&negaLight, 0, sizeof(Light));
 	mfxLightBool->SetBool(flashlight.isOn);
-	
+
 	// set the point to the shader technique
 	D3D10_TECHNIQUE_DESC techDesc;
 	mTech->GetDesc(&techDesc);
@@ -398,7 +402,7 @@ void CanisMajor::splashDraw()
 		{
 			r.right = r.left = mClientWidth*0.5;
 			r.top = r.bottom = mClientHeight*0.2;
-			
+
 		}
 		else
 		{
@@ -438,8 +442,8 @@ void CanisMajor::menuDraw()
 void CanisMajor::levelsDraw()
 {
 	//Get Camera viewMatrix
-	 mView = camera.getViewMatrix();
-	 mProj = camera.getProjectionMatrix();
+	mView = camera.getViewMatrix();
+	mProj = camera.getProjectionMatrix();
 
 
 	for(int i = 0 ; i < CM::MAX_SCENERY; i++)
@@ -473,10 +477,10 @@ void CanisMajor::buildFX()
 {
 	DWORD shaderFlags = D3D10_SHADER_ENABLE_STRICTNESS;
 #if defined( DEBUG ) || defined( _DEBUG )
-    shaderFlags |= D3D10_SHADER_DEBUG;
+	shaderFlags |= D3D10_SHADER_DEBUG;
 	shaderFlags |= D3D10_SHADER_SKIP_OPTIMIZATION;
 #endif
- 
+
 	ID3D10Blob* compilationErrors = 0;
 	HRESULT hr = 0;
 	hr = D3DX10CreateEffectFromFile(L"lighting.fx", 0, 0, 
@@ -492,7 +496,7 @@ void CanisMajor::buildFX()
 	} 
 
 	mTech = mFX->GetTechniqueByName("LightTech");
-	
+
 	mfxWVPVar    = mFX->GetVariableByName("gWVP")->AsMatrix();
 	mfxWorldVar  = mFX->GetVariableByName("gWorld")->AsMatrix();
 	mfxEyePosVar = mFX->GetVariableByName("gEyePosW");
@@ -504,12 +508,17 @@ void CanisMajor::buildFX()
 	for(int i = 0; i < MAX_LIGHTS; i++) {
 		mfxLightType[i] = mFX->GetVariableByName("type")->GetElement(i)->AsScalar();
 	}
-	
+
 	mfxActiveLights = mFX->GetVariableByName("activeLights")->AsScalar();
 	mfxPLightVar = mFX->GetVariableByName("pLight");
 	mfxNegaLightVar = mFX->GetVariableByName("negaLight");
 	mfxAmbientVar = mFX->GetVariableByName("ambient");
 	mfxLightBool = mFX->GetVariableByName("gLightType")->AsScalar();
+
+	//TEXTURES
+	mfxDiffuseMapVar = mFX->GetVariableByName("gDiffuseMap")->AsShaderResource();
+	mfxSpecMapVar    = mFX->GetVariableByName("gSpecMap")->AsShaderResource();
+	mfxTexMtxVar     = mFX->GetVariableByName("gTexMtx")->AsMatrix();
 }
 
 void CanisMajor::buildVertexLayouts()
@@ -517,16 +526,19 @@ void CanisMajor::buildVertexLayouts()
 	// Create the vertex input layout.
 	D3D10_INPUT_ELEMENT_DESC vertexDesc[] =
 	{
-		{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,  D3D10_INPUT_PER_VERTEX_DATA, 0},
-		{"NORMAL",   0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D10_INPUT_PER_VERTEX_DATA, 0},
-		{"DIFFUSE",  0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 24, D3D10_INPUT_PER_VERTEX_DATA, 0},
-		{"SPECULAR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 40, D3D10_INPUT_PER_VERTEX_DATA, 0}
+		{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,
+		D3D10_INPUT_PER_VERTEX_DATA, 0},
+		{"NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12,
+		D3D10_INPUT_PER_VERTEX_DATA, 0},
+		{"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 24,
+		D3D10_INPUT_PER_VERTEX_DATA, 0},
 	};
+
 
 	// Create the input layout
 	D3D10_PASS_DESC PassDesc;
 	mTech->GetPassByIndex(0)->GetDesc(&PassDesc);
-	HR(md3dDevice->CreateInputLayout(vertexDesc, 4, PassDesc.pIAInputSignature,
+	HR(md3dDevice->CreateInputLayout(vertexDesc, 3, PassDesc.pIAInputSignature,
 		PassDesc.IAInputSignatureSize, &mVertexLayout));
 }
 
@@ -696,7 +708,7 @@ void CanisMajor::loadAttic()
 	//Comedic effect cubes
 	spawnSearchable(&mBox,L"Conspicuous Cube",nullptr,Vector3(10,-2,10),Vector3(0,0,0),CM::BOX_SCALE);
 	spawnSearchable(&mBox,L"Inconspicuous Cube",nullptr,Vector3(22,-2,6),Vector3(0,PI/2,0),CM::BOX_SCALE);
-	
+
 	Door* d = spawnDoor(Vector3(39.9,-2.7,29),Vector3(0,0,0),Vector3(1.4,3.5,2.1),k);
 
 	negaLight.pos = Vector3(20, 0, 30);
@@ -714,10 +726,10 @@ void CanisMajor::loadSecondFloor()
 		for(int j = 0; j<7; j++)
 			spawnLight(Vector3(i*10, 7, j*10),0);
 	spawnScenery(&mCube,Vector3(0,-4,0),Vector3(0,0,0),Vector3(200,1,200));
-	
+
 	//Left outer wall
 	spawnScenery(&mWallpanel,Vector3(0,3,10),Vector3(0,0,0), Vector3(1,1.2,2));
-	
+
 	spawnScenery(&mWindowPanel,Vector3(0,3,25),Vector3(PI,0,0),CM::WALL_SCALE2);
 	spawnScenery(&mWindowPanel,Vector3(0,3,35),Vector3(PI,0,0),CM::WALL_SCALE2);
 	spawnScenery(&mWallpanel,Vector3(0,3,50),Vector3(0,0,0), Vector3(1,1.2,2));
@@ -852,7 +864,7 @@ SearchableActor* CanisMajor::spawnSearchable(Geometry* g, std::wstring name, Act
 }
 
 Light* CanisMajor::spawnLight(Vector3 pos, int type) {
-	
+
 	if(activeLights < MAX_LIGHTS) {
 		lightType[activeLights] = rLights[activeLights].init(type);
 		rLights[activeLights].pos = pos;

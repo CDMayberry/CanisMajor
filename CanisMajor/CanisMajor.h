@@ -113,6 +113,13 @@ public:
 	Actor AABBHelper;
 #endif
 
+	//TEXTURE RELATED ITEMS
+	ID3D10ShaderResourceView* mDiffuseMapRV;
+	ID3D10ShaderResourceView* mSpecMapRV;
+
+	ID3D10EffectShaderResourceVariable* mfxDiffuseMapVar;
+	ID3D10EffectShaderResourceVariable* mfxSpecMapVar;
+	ID3D10EffectMatrixVariable* mfxTexMtxVar;
 	
 	Light fLight;
 	Light ambient;

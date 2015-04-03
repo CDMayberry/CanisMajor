@@ -32,6 +32,13 @@ void Actor::draw(ID3D10EffectMatrixVariable* fx, Matrix& camera, Matrix& project
 
 	fx->SetMatrix((float*)&wvp);
 	game->mfxWorldVar->SetMatrix((float*)&world);
+
+	//TEXTURES
+	D3DXMatrixIdentity(&texMtx);
+	game->mfxTexMtxVar->SetMatrix((float*)&texMtx);
+	game->mfxDiffuseMapVar->SetResource(geometry->mDiffuseMapRV);
+	game->mfxSpecMapVar->SetResource(geometry->mSpecMapRV);
+
 	setMTech(tech);
 
 	D3D10_TECHNIQUE_DESC techDesc;
