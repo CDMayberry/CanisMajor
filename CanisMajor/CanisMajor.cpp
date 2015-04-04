@@ -566,6 +566,7 @@ void CanisMajor::clearLevel()
 		rLights[i].init();
 		lightType[i] = 0;
 	}
+	activeLights = 0;
 }
 
 void CanisMajor::loadSplashScreen(bool status)
@@ -784,6 +785,12 @@ void CanisMajor::loadSecondFloor()
 	spawnScenery(&mWallpanel,Vector3(29,3,39.5),Vector3(0,0,0), Vector3(1,1.2,1.2));
 	spawnDoor(Vector3(36.5,-3.5,26.7),Vector3(0,PI,0),Vector3(2,4,2));
 	spawnScenery(&mWallpanel,Vector3(36,3,37.5),Vector3(0,0,0), Vector3(1,1.2,1.4));
+
+	spawnLight(Vector3(1.25,5.5,10));
+	spawnScenery(&mFixture,Vector3(.75,5,10),Vector3(0,PI/2,0));
+
+	spawnLight(Vector3(1.25,5.5,50));
+	spawnScenery(&mFixture,Vector3(.75,5,50),Vector3(0,PI/2,0));
 }
 
 void CanisMajor::loadFirstFloor()

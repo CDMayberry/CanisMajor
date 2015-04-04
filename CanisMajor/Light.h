@@ -37,7 +37,7 @@ struct Light
 			att.x    = 1.0f;
 			att.y    = 0.001f;
 			att.z    = 0.0f;
-			spotPow  = 16.0f;
+			spotPow  = 8.0f;
 			range    = 10000.0f;
 			return 1;
 		}
