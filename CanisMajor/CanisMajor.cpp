@@ -63,6 +63,8 @@ void CanisMajor::initApp()
 
 	D3DApp::initApp();
 
+	numwaypoints = 0;
+
 	for(int i = 0; i < MAX_LIGHTS; i++) {
 		rLights[i].init();
 		rLights[i].pos = Vector3(0, -200, 0);
@@ -127,6 +129,7 @@ void CanisMajor::initApp()
 	}
 
 	mCube.init(md3dDevice,".\\geometry\\cube.geo", L".\\textures\\metal.dds", true);
+	doge.init(this,&mCube,1.0f);
 
 	mRoofHole.init(md3dDevice,".\\geometry\\newRoofHole.geo", L".\\textures\\greywood.dds");
 
@@ -217,6 +220,7 @@ void CanisMajor::menuUpdate(float dt, bool reset)
 			{
 			case 1://play
 				loadAttic();
+				//loadSecondFloor();
 				break;
 			case 2://quit
 				PostQuitMessage(0);
@@ -278,8 +282,15 @@ void CanisMajor::levelsUpdate(float dt)
 	flashlight.update(dt);
 
 	camera.update(dt);
+	doge.update(dt);
 
 	updateStoryText(dt);
+
+	//displays the player's current location. Use for mapping/debugging
+	#ifdef DEBUG
+		wstring xzpos = std::to_wstring((int)camera.getPosition().x) + L", "+ std::to_wstring((int)camera.getPosition().z);
+		drawUtilText(xzpos);
+	#endif
 
 	collisions();
 }
@@ -485,6 +496,7 @@ void CanisMajor::levelsDraw()
 	AABBHelper.draw(mfxWVPVar,mView,mProj,mTech);
 #endif
 
+	doge.draw(mfxWVPVar,mView,mProj,mTech);
 	drawUtilText();
 	drawStoryText();
 }
@@ -741,6 +753,22 @@ void CanisMajor::loadSecondFloor()
 	clearLevel();
 	flashlight.setPosition(Vector3(10,-2.5,10));
 	flashlight.isActive = true;
+	doge.isActive = true;
+	doge.setPosition(Vector3(10,-2.5,10));
+
+	if (numwaypoints !=0)
+		delete [] dogeWaypoints;
+	numwaypoints = 7;
+	dogeWaypoints = new Vector3[numwaypoints];
+	dogeWaypoints[0] = Vector3(10,-2.5,30);
+	dogeWaypoints[1] = Vector3(24,-2.5,40);
+	dogeWaypoints[2] = Vector3(25,-2.5,54);
+	dogeWaypoints[3] = Vector3(65, -2.5,51);
+	dogeWaypoints[4] = Vector3(65,-2.5,5);
+	dogeWaypoints[5] = Vector3(25,-2.5,5);
+	dogeWaypoints[6] = Vector3(25,-2.5,20);
+	doge.SetWaypoints(dogeWaypoints,numwaypoints);
+
 	spawnScenery(&mCube,Vector3(0,-4,0),Vector3(0,0,0),Vector3(71,1,61));
 	spawnScenery(&mCube,Vector3(0,10,0),Vector3(0,0,0),Vector3(71,1,61));
 

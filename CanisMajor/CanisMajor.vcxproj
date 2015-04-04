@@ -95,6 +95,7 @@
     <ClCompile Include="Cube.cpp" />
     <ClCompile Include="d3dApp.cpp" />
     <ClCompile Include="Actor.cpp" />
+    <ClCompile Include="Dog.cpp" />
     <ClCompile Include="Door.cpp" />
     <ClCompile Include="Flashlight.cpp" />
     <ClCompile Include="GameTimer.cpp" />
@@ -119,6 +120,7 @@
     <ClInclude Include="d3dApp.h" />
     <ClInclude Include="d3dUtil.h" />
     <ClInclude Include="Actor.h" />
+    <ClInclude Include="Dog.h" />
     <ClInclude Include="Door.h" />
     <ClInclude Include="Flashlight.h" />
     <ClInclude Include="gameError.h" />

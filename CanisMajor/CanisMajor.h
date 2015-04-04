@@ -18,6 +18,7 @@
 #include "SearchableActor.h"
 #include "sharedDefines.h"
 #include "Staircase.h"
+#include "Dog.h"
 using std::wstring;
 
 namespace CM{
@@ -104,6 +105,7 @@ public:
 	Origin origin;
 
 	Flashlight flashlight;
+	Dog doge;
 
 
 	//EVERTHING PUBLIC BELOW THIS IS FOR TESTING
@@ -169,6 +171,9 @@ private:
 	//Origin origin;
 	bool test;
 	bool howl;
+
+	Vector3 * dogeWaypoints;
+	int numwaypoints;
 
 protected:
 
