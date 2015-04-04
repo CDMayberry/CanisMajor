@@ -214,7 +214,7 @@ void CanisMajor::menuUpdate(float dt, bool reset)
 			switch(menuChoice)
 			{
 			case 1://play
-				loadAttic();
+				loadSecondFloor();
 				break;
 			case 2://quit
 				PostQuitMessage(0);
@@ -722,21 +722,68 @@ void CanisMajor::loadAttic()
 void CanisMajor::loadSecondFloor()
 {
 	state = SECOND_FLOOR;
-	flashlight.setPosition(Vector3(0,-2.5,60));
+	flashlight.setPosition(Vector3(10,-2.5,10));
 	flashlight.isActive = true;
-	for(int i = 0; i< 7; i++)
-		for(int j = 0; j<7; j++)
-			spawnLight(Vector3(i*10, 7, j*10),0);
-	spawnScenery(&mCube,Vector3(0,-4,0),Vector3(0,0,0),Vector3(200,1,200));
+	spawnScenery(&mCube,Vector3(0,-4,0),Vector3(0,0,0),Vector3(71,1,61));
+	spawnScenery(&mCube,Vector3(0,10,0),Vector3(0,0,0),Vector3(71,1,61));
 
 	//Left outer wall
 	spawnScenery(&mWallpanel,Vector3(0,3,10),Vector3(0,0,0), Vector3(1,1.2,2));
-
 	spawnScenery(&mWindowPanel,Vector3(0,3,25),Vector3(PI,0,0),CM::WALL_SCALE2);
 	spawnScenery(&mWindowPanel,Vector3(0,3,35),Vector3(PI,0,0),CM::WALL_SCALE2);
 	spawnScenery(&mWallpanel,Vector3(0,3,50),Vector3(0,0,0), Vector3(1,1.2,2));
-	spawnScenery(&mWallpanel,Vector3(5,3,60),Vector3(0,1.5707963268,0), CM::WALL_SCALE2);
 
+	//Far wall with door to attic
+	spawnScenery(&mWallpanel,Vector3(10,3,60),Vector3(0,1.5707963268,0), Vector3(1,1.2,2));
+	spawnScenery(&mWindowPanel,Vector3(25,3,60),Vector3(0,1.5707963268,0), CM::WALL_SCALE2);
+	spawnScenery(&mWallpanel,Vector3(32.5,3,60),Vector3(0,1.5707963268,0), Vector3(1,1.2,.5));
+	spawnDoor(Vector3(35,-2.6,60),Vector3(0,-PI/2,0),Vector3(2,5,2));
+	spawnScenery(&mWallpanel,Vector3(41.5,3,60),Vector3(0,1.5707963268,0), Vector3(1,1.2,.5));
+	spawnScenery(&mWindowPanel,Vector3(49,3,60),Vector3(0,1.5707963268,0), CM::WALL_SCALE2);
+	spawnScenery(&mWallpanel,Vector3(62,3,60),Vector3(0,1.5707963268,0), Vector3(1,1.2,1.6));
+
+	//Right outer wall
+	spawnScenery(&mWallpanel,Vector3(70,3,45),Vector3(0,0,0), Vector3(1,1.2,3));
+	spawnDoor(Vector3(70,-3.5,30),Vector3(0,0,0),Vector3(2,4,3));
+	spawnScenery(&mWallpanel,Vector3(70,3,12),Vector3(0,0,0), Vector3(1,1.2,2.5));
+
+	//Close outer wall
+	spawnScenery(&mWallpanel,Vector3(10,3,0),Vector3(0,1.5707963268,0), Vector3(1,1.2,2));
+	spawnScenery(&mWindowPanel,Vector3(25,3,0),Vector3(0,1.5707963268,0), CM::WALL_SCALE2);
+	spawnScenery(&mWallpanel,Vector3(62.5,3,0),Vector3(0,1.5707963268,0), Vector3(1,1.2,1.5));
+	spawnScenery(&mWindowPanel,Vector3(50,3,0),Vector3(0,1.5707963268,0), CM::WALL_SCALE2);
+	spawnScenery(&mWallpanel,Vector3(37.5,3,0),Vector3(0,1.5707963268,0), Vector3(1,1.2,1.5));
+
+	//Library walls
+	spawnScenery(&mWallpanel,Vector3(5,3,20),Vector3(0,1.5707963268,0), CM::WALL_SCALE2);
+	spawnDoor(Vector3(13.9,-3,20),Vector3(0,-3*PI/2,0),Vector3(2,5,2));
+	spawnScenery(&mWallpanel,Vector3(17,3,20),Vector3(0,1.5707963268,0), Vector3(1,1.2,.65));
+	spawnScenery(&mWallpanel,Vector3(20,3,2.5),Vector3(0,0,0), Vector3(1,1.2,.5));
+	spawnDoor(Vector3(20,-3,5),Vector3(0,PI,0),Vector3(2,5,2));
+	spawnScenery(&mWallpanel,Vector3(20,3,14.4),Vector3(0,0,0), Vector3(1,1.2,1.1));
+
+	//Office walls
+	spawnScenery(&mWallpanel,Vector3(5,3,40),Vector3(0,1.5707963268,0), CM::WALL_SCALE2);
+	spawnDoor(Vector3(10,-3,40),Vector3(0,-PI/2,0),Vector3(2,5,2));
+	spawnScenery(&mWallpanel,Vector3(17,3,40),Vector3(0,1.5707963268,0), Vector3(1,1.2,.65));
+	spawnScenery(&mWallpanel,Vector3(20,3,57.5),Vector3(0,0,0), Vector3(1,1.2,.5));
+	spawnDoor(Vector3(20,-3,51),Vector3(0,PI,0),Vector3(2,5,2));
+	spawnScenery(&mWallpanel,Vector3(20,3,45.6),Vector3(0,0,0), Vector3(1,1.2,1.1));
+
+	//MasterBed walls
+	spawnScenery(&mWallpanel,Vector3(44.5,3,45.5),Vector3(0,1.5707963268,0), Vector3(1,1.2,3.1));
+	spawnScenery(&mWallpanel,Vector3(60,3,37),Vector3(0,0,0), Vector3(1,1.2,1.75));
+	spawnDoor(Vector3(60,-3.5,30),Vector3(0,0,0),Vector3(2,4,3));
+	spawnScenery(&mWallpanel,Vector3(60,3,16.6),Vector3(0,0,0), Vector3(1,1.2,1.5));
+	spawnDoor(Vector3(55.9,-3.5,9.2),Vector3(0,-PI/2,0),Vector3(2,4,2));
+	spawnScenery(&mWallpanel,Vector3(46,3,9),Vector3(0,PI/2,0), Vector3(1,1.2,2));
+	spawnScenery(&mWallpanel,Vector3(36,3,18),Vector3(0,0,0), Vector3(1,1.2,1.75));
+	spawnScenery(&mWallpanel,Vector3(29,3,25.5),Vector3(0,PI/2,0), Vector3(1,1.2,1.4));
+	spawnScenery(&mWallpanel,Vector3(22,3,29.5),Vector3(0,0,0), Vector3(1,1.2,.8));
+	spawnScenery(&mWallpanel,Vector3(25.5,3,33.5),Vector3(0,PI/2,0), Vector3(1,1.2,.7));
+	spawnScenery(&mWallpanel,Vector3(29,3,39.5),Vector3(0,0,0), Vector3(1,1.2,1.2));
+	spawnDoor(Vector3(36.5,-3.5,26.7),Vector3(0,PI,0),Vector3(2,4,2));
+	spawnScenery(&mWallpanel,Vector3(36,3,37.5),Vector3(0,0,0), Vector3(1,1.2,1.4));
 }
 
 void CanisMajor::loadFirstFloor()
