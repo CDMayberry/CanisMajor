@@ -36,5 +36,13 @@ void Dog::update(float dt){
 			velocity*=5;
 		}
 		Actor::update(dt);
+
+		//rotate so that the dog is always facing the player
+		Vector2 vectortoplayer = Vector2(game->getCamera().getPosition().x - position.x, game->getCamera().getPosition().z - position.z);
+		double facerot = acos((game->getCamera().getPosition().x - position.x)/(D3DXVec2Length(&vectortoplayer)));
+		if (game->getCamera().getPosition().z <= position.z)
+			setRotation(Vector3(0,facerot,0));
+		else
+			setRotation(Vector3(0,-facerot,0));
 	}
 }
