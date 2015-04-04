@@ -62,6 +62,8 @@ void CanisMajor::initApp()
 
 	D3DApp::initApp();
 
+	
+
 	for(int i = 0; i < MAX_LIGHTS; i++) {
 		rLights[i].init();
 		rLights[i].pos = Vector3(0, -200, 0);

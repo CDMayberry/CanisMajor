@@ -57,6 +57,8 @@ void Camera::setPerspective()
 }
 void Camera::update(float dt)
 {
+	std::string s = "walk" + std::to_string(rand()%1+1);
+
 	prevLoc = getPosition();
 
 	Vector3 forward = direction;

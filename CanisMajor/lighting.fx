@@ -125,8 +125,9 @@ float4 PS(VS_OUT pIn) : SV_Target
 
 	//Dark emitter
 	//litColor += PointLight(v, negaLight, gEyePosW);
-
-	return float4(litColor, diffuse.a);
+	float4 retval = float4(litColor, diffuse.a);
+	saturate(retval);
+	return retval;
 }
 
 technique10 LightTech
