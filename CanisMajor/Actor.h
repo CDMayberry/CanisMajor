@@ -27,11 +27,11 @@ private:
 	ID3D10EffectTechnique* mTech;
 
 	Matrix wvp,s,t,rx,ry,rz,texMtx;//world view projection
-	Vector3 rotation;
 protected:
 	Matrix world;
 	Vector3 position;
 	Vector3 velocity;
+	Vector3 rotation;
 	float speed;
 	float health;//simple health value. Starts at MAX_HEATH at spawn and object dies if health hits 0
 	//consider 100 health to be the "standard"
@@ -46,7 +46,7 @@ public:
 	void init(CanisMajor* game,Geometry *b, float r=1);
 	void draw(ID3D10EffectMatrixVariable* fx, Matrix& camera, Matrix& projection, ID3D10EffectTechnique* mTech);
 	void update(float dt);
-	void create(Vector3 pos);
+	void create(Vector3 pos, Vector3 rotate = Vector3(0,0,0), Vector3 scale = Vector3(1,1,1));
 
 
 	void setPosition (Vector3 pos) {position = pos;}

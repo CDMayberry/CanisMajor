@@ -30,15 +30,21 @@ void Flashlight::update(float dt)
 
 void Flashlight::setDirection(Vector3 v)
 {
+
 	v.y=0;
 	Normalize(&v,&v);
 	direction = v;
 	//float rz = asin(v.y);
-	float ry = atan2(v.z,v.x);
-	setRotation(Vector3(PI/2,-ry,0));
+	float ry = -atan2(v.z,v.x);
+	setRotation(Vector3(PI/2,ry,0));
 }
 
 void Flashlight::interactWith(Camera* player)
 {
 	player->setFlashlight(this);
+}
+
+void Flashlight::recharge(float dt)
+{
+	batteryLevel=min(MAX_BATTERY,batteryLevel+dt*RECHARGE_RATE);
 }

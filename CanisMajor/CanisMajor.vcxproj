@@ -95,6 +95,7 @@
     <ClCompile Include="Cube.cpp" />
     <ClCompile Include="d3dApp.cpp" />
     <ClCompile Include="Actor.cpp" />
+    <ClCompile Include="Dog.cpp" />
     <ClCompile Include="Door.cpp" />
     <ClCompile Include="Flashlight.cpp" />
     <ClCompile Include="GameTimer.cpp" />
@@ -107,6 +108,7 @@
     <ClCompile Include="Origin.cpp" />
     <ClCompile Include="Quad.cpp" />
     <ClCompile Include="SearchableActor.cpp" />
+    <ClCompile Include="Staircase.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="audio.h" />
@@ -118,6 +120,7 @@
     <ClInclude Include="d3dApp.h" />
     <ClInclude Include="d3dUtil.h" />
     <ClInclude Include="Actor.h" />
+    <ClInclude Include="Dog.h" />
     <ClInclude Include="Door.h" />
     <ClInclude Include="Flashlight.h" />
     <ClInclude Include="gameError.h" />
@@ -134,6 +137,7 @@
     <ClInclude Include="Quad.h" />
     <ClInclude Include="SearchableActor.h" />
     <ClInclude Include="sharedDefines.h" />
+    <ClInclude Include="Staircase.h" />
     <ClInclude Include="Vertex.h" />
   </ItemGroup>
   <ItemGroup>

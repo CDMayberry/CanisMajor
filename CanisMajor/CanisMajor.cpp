@@ -36,6 +36,7 @@ CanisMajor::CanisMajor(HINSTANCE hInstance)
 	controls.flashlight = 'F';
 	controls.crouch = VK_CONTROL;
 	controls.run = VK_SHIFT;
+	controls.recharge = 'R';
 
 	//Camera Object
 	camera.init(this,&mCube,controls);
@@ -62,7 +63,7 @@ void CanisMajor::initApp()
 
 	D3DApp::initApp();
 
-	
+	numwaypoints = 0;
 
 	for(int i = 0; i < MAX_LIGHTS; i++) {
 		rLights[i].init();
@@ -128,6 +129,7 @@ void CanisMajor::initApp()
 	}
 
 	mCube.init(md3dDevice,".\\geometry\\cube.geo", L".\\textures\\metal.dds", true);
+	doge.init(this,&mCube,1.0f);
 
 	mRoofHole.init(md3dDevice,".\\geometry\\newRoofHole.geo", L".\\textures\\greywood.dds");
 
@@ -154,6 +156,9 @@ void CanisMajor::initApp()
 		searchableActors[i].init(this,&mCube,1);
 		searchableActors[i].collisionType=AABBox;
 	}
+
+	for(int i = 0 ; i < CM::MAX_STAIRCASES; i++)
+		staircases[i].init(this,&mStaircase,10);
 
 	camera.create(Vector3(10,10,10),Vector3(1,0,0));
 	camera.setPerspective();
@@ -214,7 +219,8 @@ void CanisMajor::menuUpdate(float dt, bool reset)
 			switch(menuChoice)
 			{
 			case 1://play
-				loadSecondFloor();
+				loadAttic();
+				//loadSecondFloor();
 				break;
 			case 2://quit
 				PostQuitMessage(0);
@@ -270,11 +276,21 @@ void CanisMajor::levelsUpdate(float dt)
 		howl = true;
 	}
 
+	for(int i = 0 ; i < CM::MAX_STAIRCASES; i++)
+		staircases[i].update(dt);
+
 	flashlight.update(dt);
 
 	camera.update(dt);
+	doge.update(dt);
 
 	updateStoryText(dt);
+
+	//displays the player's current location. Use for mapping/debugging
+	#ifdef DEBUG
+		wstring xzpos = std::to_wstring((int)camera.getPosition().x) + L", "+ std::to_wstring((int)camera.getPosition().z);
+		drawUtilText(xzpos);
+	#endif
 
 	collisions();
 }
@@ -346,6 +362,14 @@ void CanisMajor::collisions()
 		}
 	}
 
+	for(int i = 0 ; i < CM::MAX_STAIRCASES; i++)
+	{
+		if(camera.collided(&staircases[i]))
+		{
+			camera.setNearbyInteractable(&staircases[i]);
+			drawUtilText(L"Press E to travel " + staircases[i].name);
+		}
+	}
 
 }
 
@@ -464,13 +488,15 @@ void CanisMajor::levelsDraw()
 	{
 		searchableActors[i].draw(mfxWVPVar,mView,mProj,mTech);
 	}
-
+	for(int i = 0 ; i < CM::MAX_STAIRCASES; i++)
+		staircases[i].draw(mfxWVPVar,mView,mProj,mTech);
 	flashlight.draw(mfxWVPVar,mView,mProj,mTech);
 
 #ifdef DEBUG
 	AABBHelper.draw(mfxWVPVar,mView,mProj,mTech);
 #endif
 
+	doge.draw(mfxWVPVar,mView,mProj,mTech);
 	drawUtilText();
 	drawStoryText();
 }
@@ -566,7 +592,10 @@ void CanisMajor::clearLevel()
 		rLights[i].init();
 		lightType[i] = 0;
 	}
+
 	activeLights = 0;
+	for(int i = 0 ; i < CM::MAX_STAIRCASES; i++)
+		staircases[i].isActive=false;
 }
 
 void CanisMajor::loadSplashScreen(bool status)
@@ -703,10 +732,10 @@ void CanisMajor::loadAttic()
 	//Stairwell
 	//Note, you cannot progress forward because of the axis-aligned bounding box
 	//Comment out the last wall panel to move forward.
-	spawnScenery(&mStaircase,Vector3(44.2,-9.6, 27), Vector3(0,0,0), Vector3(1,1,.6));
+	spawnStaircase(L"downstairs",&CanisMajor::loadSecondFloor,Vector3(44.2,-9.6, 27), Vector3(0,0,0), Vector3(1,1,.6));
 	spawnScenery(&mWallpanel,Vector3(45,0,30),Vector3(0,1.5707963268,0),Vector3(1,3,1));
 	spawnScenery(&mWallpanel,Vector3(45,0,24.7),Vector3(0,1.5707963268,0),Vector3(1,3,1));
-	spawnScenery(&mWallpanel,Vector3(47,5,26),Vector3(0,0,.8),Vector3(1,2,3));
+	//spawnScenery(&mWallpanel,Vector3(47,5,26),Vector3(0,0,.8),Vector3(1,2,3));
 
 	//Comedic effect cubes
 	spawnSearchable(&mBox,L"Conspicuous Cube",nullptr,Vector3(10,-2,10),Vector3(0,0,0),CM::BOX_SCALE);
@@ -723,8 +752,25 @@ void CanisMajor::loadAttic()
 void CanisMajor::loadSecondFloor()
 {
 	state = SECOND_FLOOR;
+	clearLevel();
 	flashlight.setPosition(Vector3(10,-2.5,10));
 	flashlight.isActive = true;
+	doge.isActive = true;
+	doge.setPosition(Vector3(10,-2.5,10));
+
+	if (numwaypoints !=0)
+		delete [] dogeWaypoints;
+	numwaypoints = 7;
+	dogeWaypoints = new Vector3[numwaypoints];
+	dogeWaypoints[0] = Vector3(10,-2.5,30);
+	dogeWaypoints[1] = Vector3(24,-2.5,40);
+	dogeWaypoints[2] = Vector3(25,-2.5,54);
+	dogeWaypoints[3] = Vector3(65, -2.5,51);
+	dogeWaypoints[4] = Vector3(65,-2.5,5);
+	dogeWaypoints[5] = Vector3(25,-2.5,5);
+	dogeWaypoints[6] = Vector3(25,-2.5,20);
+	doge.SetWaypoints(dogeWaypoints,numwaypoints);
+
 	spawnScenery(&mCube,Vector3(0,-4,0),Vector3(0,0,0),Vector3(71,1,61));
 	spawnScenery(&mCube,Vector3(0,10,0),Vector3(0,0,0),Vector3(71,1,61));
 
@@ -892,6 +938,7 @@ Key* CanisMajor::spawnKey(wstring name, Vector3 pos, Vector3 rot)
 
 Door* CanisMajor::spawnDoor(Vector3 pos, Vector3 rot,Vector3 scale, Key* k, bool open)
 {
+	pos.y+=6;
 	for(int i = 0 ; i < CM::MAX_DOORS; i++)
 	{
 		if(!doors[i].isActive)
@@ -940,6 +987,19 @@ Light* CanisMajor::spawnLight(Vector3 pos, Vector3 dir, int type) {
 		return &rLights[activeLights-1];
 	}
 
+	return nullptr;
+}
+Staircase* CanisMajor::spawnStaircase(std::wstring name, LLevel func, Vector3 pos, Vector3 rotation, Vector3 scale)
+{
+	for(int i = 0 ; i < CM::MAX_STAIRCASES; i++)
+	{
+		if(!staircases[i].isActive)
+		{
+			staircases[i].create(pos,rotation,scale);
+			staircases[i].setLLevel(func,name);
+			return &staircases[i];
+		}
+	}
 	return nullptr;
 }
 

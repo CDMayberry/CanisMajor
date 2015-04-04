@@ -16,6 +16,7 @@ Camera::Camera()
 	position = Vector3(0,0,0);
 	direction = Vector3(0.0f, 0.0f, 0.0f);
 	bobTimer = 0;
+	shakeTimer = 0;
 	flashlight=nullptr;
 	nearbyItem = nullptr;
 	// register handler for relative mouse movement events
@@ -32,6 +33,7 @@ void Camera::init(CanisMajor* game,Geometry* geo, Controls c)
 	Actor::init(game,geo,COLISION_RADIUS);
 	controls = c;
 	camHeight = DEFAULT_HEIGHT;
+	flashHeight = 0;
 	isActive = true;
 	isVisible = false;
 
@@ -57,8 +59,6 @@ void Camera::setPerspective()
 }
 void Camera::update(float dt)
 {
-	std::string s = "walk" + std::to_string(rand()%1+1);
-
 	prevLoc = getPosition();
 
 	Vector3 forward = direction;
@@ -111,7 +111,6 @@ void Camera::update(float dt)
 				game->audio->playCue(RUN1);
 			else
 				game->audio->playCue(WALK1);
-			//game->setStoryText(1,L"Walk...");
 		}
 	}
 	else{
@@ -175,7 +174,19 @@ void Camera::update(float dt)
 		}
 		else
 			buttonPushed = false;
-		flashlight->setPosition(position-0.3*up+0.9*forward-0.3*right);
+
+		if(GetAsyncKeyState(controls.recharge))
+		{
+			flashlight->recharge(dt);
+			shakeTimer+=SHAKE_SPEED*dt;
+			if(shakeTimer>2*PI)shakeTimer-=2*PI;
+			flashHeight = 1+sin(shakeTimer)/2;
+		}
+		else
+			flashHeight = 1;
+
+		flashlight->setPosition(position-(flashHeight*0.3*up)+(0.4*forward)-(0.3*right));
+
 		flashlight->setDirection(direction);
 	}
 	else
@@ -188,6 +199,7 @@ void Camera::update(float dt)
 	//Generate new matrix
 	D3DXMatrixLookAtLH(&mView, &position, &lookAt, &up);
 }
+
 
 bool Camera::collided(Actor *gameObject)
 {
