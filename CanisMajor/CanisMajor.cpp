@@ -738,6 +738,7 @@ void CanisMajor::loadAttic()
 void CanisMajor::loadSecondFloor()
 {
 	state = SECOND_FLOOR;
+	clearLevel();
 	flashlight.setPosition(Vector3(10,-2.5,10));
 	flashlight.isActive = true;
 	spawnScenery(&mCube,Vector3(0,-4,0),Vector3(0,0,0),Vector3(71,1,61));
