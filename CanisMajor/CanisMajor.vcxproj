@@ -107,6 +107,7 @@
     <ClCompile Include="Origin.cpp" />
     <ClCompile Include="Quad.cpp" />
     <ClCompile Include="SearchableActor.cpp" />
+    <ClCompile Include="Staircase.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="audio.h" />
@@ -134,6 +135,7 @@
     <ClInclude Include="Quad.h" />
     <ClInclude Include="SearchableActor.h" />
     <ClInclude Include="sharedDefines.h" />
+    <ClInclude Include="Staircase.h" />
     <ClInclude Include="Vertex.h" />
   </ItemGroup>
   <ItemGroup>

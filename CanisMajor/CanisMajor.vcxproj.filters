@@ -55,6 +55,9 @@
     <ClCompile Include="SearchableActor.cpp">
       <Filter>Sources\GameObj</Filter>
     </ClCompile>
+    <ClCompile Include="Staircase.cpp">
+      <Filter>Sources\GameObj</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CanisMajor.h">
@@ -134,6 +137,9 @@
     </ClInclude>
     <ClInclude Include="Light.h">
       <Filter>Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Staircase.h">
+      <Filter>Headers\GameObj</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

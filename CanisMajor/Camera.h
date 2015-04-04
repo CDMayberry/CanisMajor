@@ -32,6 +32,7 @@ namespace CameraNS
 	const float COLISION_RADIUS = 3;
 	const float RUN_TIME = .598;
 	const float WALK_TIME = .340;
+	const float SHAKE_SPEED = 8;
 };
 
 class Camera: public virtual Actor
@@ -73,6 +74,7 @@ public:
 	Controls controls;
 
 private:
+
 	Matrix mView;
 	Matrix mProj;
 	Vector3 direction;
@@ -83,9 +85,10 @@ private:
 	float farClippingPlane;
 	Vector3 up;
 	Vector3 right;
-	float bobTimer, walkTimer;
+	float bobTimer, walkTimer, shakeTimer;
 	Flashlight* flashlight;
 	float camHeight;
+	float flashHeight;
 	Interactable* nearbyItem;
 
 	Vector3 prevLoc;

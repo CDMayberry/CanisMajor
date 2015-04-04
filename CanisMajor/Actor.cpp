@@ -65,11 +65,13 @@ void Actor::init(CanisMajor* game,Geometry *b, float r)
 	isActive = false;
 }
 
-void Actor::create(Vector3 pos) {
+void Actor::create(Vector3 pos, Vector3 rot, Vector3 s) {
 	isActive = true;
 	isVisible = true;
 	health = MAX_HEALTH;
 	position = pos;
+	rotation = rot;
+	scale = s;
 }
 
 
