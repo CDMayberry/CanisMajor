@@ -130,6 +130,7 @@ void CanisMajor::initApp()
 
 	mCube.init(md3dDevice,".\\geometry\\cube.geo", L".\\textures\\metal.dds", true);
 	doge.init(this,&mCube,1.0f);
+	doge.setScale(Vector3(0.1f,5.0f,5.0f));
 
 	mRoofHole.init(md3dDevice,".\\geometry\\newRoofHole.geo", L".\\textures\\greywood.dds");
 
@@ -756,7 +757,7 @@ void CanisMajor::loadSecondFloor()
 	flashlight.setPosition(Vector3(10,-2.5,10));
 	flashlight.isActive = true;
 	doge.isActive = true;
-	doge.setPosition(Vector3(10,-2.5,10));
+	doge.setPosition(Vector3(10,0,30));
 
 	if (numwaypoints !=0)
 		delete [] dogeWaypoints;
