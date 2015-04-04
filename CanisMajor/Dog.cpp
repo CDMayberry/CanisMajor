@@ -35,6 +35,9 @@ void Dog::update(float dt){
 			D3DXVec3Normalize(&velocity,&velocity);
 			velocity*=5;
 		}
+
+		negalight->pos = position;
+
 		Actor::update(dt);
 
 		//rotate so that the dog is always facing the player

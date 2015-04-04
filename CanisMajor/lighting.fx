@@ -9,14 +9,15 @@
 
 cbuffer cbPerFrame
 {
+	Light pLight;
+	Light ambient;
+	Light negaLight;
 	Light gLight;
 	bool gLightType; 
 	Light lights[MAX_LIGHTS];
 	int type[MAX_LIGHTS];
 
-	Light pLight;
-	Light ambient;
-	Light negaLight;
+	
 
 	int activeLights; //Set this in-game: Number of ACTIVE lights
 	float3 gEyePosW;
@@ -124,9 +125,10 @@ float4 PS(VS_OUT pIn) : SV_Target
 	}
 
 	//Dark emitter
-	//litColor += PointLight(v, negaLight, gEyePosW);
+	litColor += PointLight(v, negaLight, gEyePosW);
+	
 	float4 retval = float4(litColor, diffuse.a);
-	saturate(retval);
+	retval = saturate(retval);
 	return retval;
 }
 

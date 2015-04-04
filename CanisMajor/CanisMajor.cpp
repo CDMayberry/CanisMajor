@@ -130,6 +130,7 @@ void CanisMajor::initApp()
 
 	mCube.init(md3dDevice,".\\geometry\\cube.geo", L".\\textures\\metal.dds", true);
 	doge.init(this,&mCube,1.0f);
+	doge.setNegalight(&negaLight);
 	doge.setScale(Vector3(0.1f,5.0f,5.0f));
 
 	mRoofHole.init(md3dDevice,".\\geometry\\newRoofHole.geo", L".\\textures\\greywood.dds");

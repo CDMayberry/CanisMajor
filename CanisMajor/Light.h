@@ -43,14 +43,25 @@ struct Light
 		}
 
 		else if(settings == 3) { //Negalight, for the dog or spooky places
+#ifdef DEBUG
+			ambient  = D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f);
+			diffuse  = D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f);
+			specular = D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f);
+			att.x    = 0.0f;
+			att.y    = 0.0f;
+			att.z    = 0.0f;
+			range    = 15.0f;
+			return 0;
+#else
 			ambient  = D3DXCOLOR(-.5f, -.5f, -.5f, 1.0f);
 			diffuse  = D3DXCOLOR(-.5f, -.5f, -.5f, 1.0f);
 			specular = D3DXCOLOR(-.5f, -.5f, -.5f, 1.0f);
 			att.x    = 1.0f;
-			att.y    = .2f;
-			att.z    = 0.1f;
+			att.y    = .1f;
+			att.z    = 0.01f;
 			range    = 15.0f;
 			return 0;
+#endif
 		}
 
 		else if(settings == 4) { //Spotlight, moonlight
