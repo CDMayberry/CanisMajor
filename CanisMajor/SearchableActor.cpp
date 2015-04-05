@@ -5,9 +5,9 @@ void SearchableActor::interactWith(Camera* player)
 {
 	if(concealedItem != nullptr)
 	{
-		Vector3 pos(0,0,-3);
-		pos = rotateY(pos,getRotation().y);
-		concealedItem->create(pos+getPosition());
+		Vector3 pos= concealedItem->getPosition();
+		Vector3 rot= concealedItem->getRotation();
+		concealedItem->create(pos,rot);
 		concealedItem = nullptr;
 		game->setStoryText(2,L"You found something in the " + name);
 	}
