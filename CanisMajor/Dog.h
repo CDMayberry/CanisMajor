@@ -15,10 +15,12 @@ public:
 	void update(float dt);
 	void Dog::init(CanisMajor* game,Geometry *b,  float r);
 	void setNegalight(Light* nega) {negalight = nega;}
+	void setEyes(Light* eyes) {rEyes = eyes;}
 private:
 	int TargetWaypoint;//waypoint the dog is traveling to. set to -1 if tracking player
 	int numwaypoints;
 	Light* negalight;
+	Light* rEyes;
 	Vector3 * Waypoints;//pointer to array of waypoints
 };
 #endif

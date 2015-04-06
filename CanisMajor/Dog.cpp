@@ -37,6 +37,7 @@ void Dog::update(float dt){
 		}
 
 		negalight->pos = position;
+		rEyes->pos = position;
 
 		Actor::update(dt);
 

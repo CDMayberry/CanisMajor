@@ -125,7 +125,7 @@ float4 PS(VS_OUT pIn) : SV_Target
 		litColor += Spotlight(v, gLight, gEyePosW);
 	}
 
-	litColor += Spotlight(v, eyes, gEyePosW);
+	//litColor += Spotlight(v, eyes, gEyePosW);
 
 	//Dark emitter
 	litColor += PointLight(v, negaLight, gEyePosW);

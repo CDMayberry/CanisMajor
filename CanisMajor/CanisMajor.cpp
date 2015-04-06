@@ -73,6 +73,7 @@ void CanisMajor::initApp()
 	fLight.init(2);  //Flashlight
 	ambient.init(1); //Ambientlight (DUH)
 	negaLight.init(3); //Dog's anti-light
+	eyes.init(5);
 	activeLights = 0;
 
 	howl = false;
