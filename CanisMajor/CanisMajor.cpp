@@ -828,11 +828,20 @@ void CanisMajor::loadSecondFloor()
 
 	//Staircase to attic
 	spawnScenery(&mCube,Vector3(37,-4,65),Vector3(0,0,0),Vector3(4,1,5));
-	spawnScenery(&mWallpanel,Vector3(33,5,70),Vector3(0,0,0),Vector3(4,5,2));
-	spawnScenery(&mWallpanel,Vector3(42,5,70),Vector3(0,0,0),Vector3(4,5,2));
-	spawnScenery(&mWallpanel,Vector3(42,5,70),Vector3(0,0,0),Vector3(4,5,2));
+	spawnScenery(&mWallpanel,Vector3(33,5,70),Vector3(0,0,0),Vector3(4,3,2));
+	spawnScenery(&mWallpanel,Vector3(42,5,70),Vector3(0,0,0),Vector3(4,3,2));
+	spawnScenery(&mWallpanel,Vector3(42,5,70),Vector3(0,0,0),Vector3(4,3,2));
 	spawnStaircase(L"upstairs",&CanisMajor::loadAttic,Vector3(37,-3, 71), Vector3(0,PI/2,0), Vector3(1,1,.9));
 	spawnScenery(&mStaircase,Vector3(37,3, 78), Vector3(0,PI/2,0), Vector3(1,1,.9));
+	spawnScenery(&mStaircase,Vector3(37,-3, 71.1), Vector3(0,PI/2,0), Vector3(1,1,.9));
+
+	//Staircase to main floor
+	spawnScenery(&mWallpanel, Vector3(28,-4,15),Vector3(0,0,0),Vector3(1,4,1.2));
+	spawnDoor(Vector3(28,-3,25.3),Vector3(0,0,0),Vector3(2,4,2.2));
+	spawnScenery(&mWallpanel, Vector3(32,-4,9),Vector3(0,PI/2,0),Vector3(1,4,.8));
+	spawnScenery(&mWallpanel, Vector3(36,-18,15),Vector3(0,0,0),Vector3(1,3,1.2));
+	spawnScenery(&mStaircase, Vector3(32,-9,16),Vector3(0,PI/2,0),Vector3(1,1,1));
+	spawnScenery(&mStaircase, Vector3(32,-15,9),Vector3(0,PI/2,0),Vector3(1,1,1));
 
 	//master bed decor
 	spawnScenery(&mMasterbed,Vector3(49,-3,39),Vector3(0,1.5707963268,0), Vector3(5,4,5));
