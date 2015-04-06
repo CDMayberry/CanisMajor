@@ -129,6 +129,7 @@ public:
 	Light pLight;
 	Light negaLight;
 	Light rLights[MAX_LIGHTS];		//Room Lights, point lights
+	Light eyes;
 	int activeLights;
 	int lightType[MAX_LIGHTS];
 
@@ -139,6 +140,7 @@ public:
 	ID3D10EffectVariable* mfxPLightsVar[MAX_LIGHTS];
 	ID3D10EffectVariable* mfxPLightVar;
 	ID3D10EffectVariable* mfxNegaLightVar;
+	ID3D10EffectVariable* mfxEyesVar;
 	ID3D10EffectVariable* mfxAmbientVar;
 	
 	ID3D10EffectScalarVariable* mfxLightBool;

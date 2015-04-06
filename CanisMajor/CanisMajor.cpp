@@ -388,6 +388,7 @@ void CanisMajor::drawScene()
 	md3dDevice->IASetInputLayout(mVertexLayout);
 
 	mfxEyePosVar->SetRawValue(&camera.getPosition(), 0, sizeof(D3DXVECTOR3));
+	mfxEyesVar->SetRawValue(&eyes, 0, sizeof(Light));
 	mfxLightVar->SetRawValue(&fLight, 0, sizeof(Light));
 	mfxAmbientVar->SetRawValue(&ambient, 0, sizeof(Light));
 	for(int i = 0; i < MAX_LIGHTS; i++) { //Individually setting lights.
@@ -542,6 +543,7 @@ void CanisMajor::buildFX()
 	mfxActiveLights = mFX->GetVariableByName("activeLights")->AsScalar();
 	mfxPLightVar = mFX->GetVariableByName("pLight");
 	mfxNegaLightVar = mFX->GetVariableByName("negaLight");
+	mfxEyesVar = mFX->GetVariableByName("eyes");
 	mfxAmbientVar = mFX->GetVariableByName("ambient");
 	mfxLightBool = mFX->GetVariableByName("gLightType")->AsScalar();
 

@@ -76,6 +76,17 @@ struct Light
 			return 1;
 		}
 
+		else if(settings == 5) { //Pointlight, eyes
+			ambient  = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);
+			diffuse  = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+			specular = D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f);
+			att.x    = 0.0f;	//Flat increase/decrease
+			att.y    = 0.0f;		//Linear increase/decrease
+			att.z    = 0.0f;	//Exponential increase/decrease
+			range    = 5.0f;	
+			return 0;
+		}
+
 		else { //Pointlight, mostly our room lights
 			ambient  = D3DXCOLOR(0.45490196078f, 0.29803921568f, 0.12549019607f, 1.0f);
 			diffuse  = D3DXCOLOR(.1f, .1f ,.1f, 1.0f);

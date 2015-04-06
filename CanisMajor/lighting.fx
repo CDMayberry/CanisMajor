@@ -13,6 +13,7 @@ cbuffer cbPerFrame
 	Light ambient;
 	Light negaLight;
 	Light gLight;
+	Light eyes;
 	bool gLightType; 
 	Light lights[MAX_LIGHTS];
 	int type[MAX_LIGHTS];
@@ -123,6 +124,8 @@ float4 PS(VS_OUT pIn) : SV_Target
 	{
 		litColor += Spotlight(v, gLight, gEyePosW);
 	}
+
+	litColor += Spotlight(v, eyes, gEyePosW);
 
 	//Dark emitter
 	litColor += PointLight(v, negaLight, gEyePosW);
