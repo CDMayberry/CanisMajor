@@ -124,6 +124,7 @@
     <ClInclude Include="Door.h" />
     <ClInclude Include="Flashlight.h" />
     <ClInclude Include="gameError.h" />
+    <ClInclude Include="GameState.h" />
     <ClInclude Include="GameTimer.h" />
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="input.h" />

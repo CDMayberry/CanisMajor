@@ -188,7 +188,7 @@ void CanisMajor::updateScene(float dt)
 	D3DApp::updateScene(dt);
 	if(GetAsyncKeyState(VK_ESCAPE))
 		PostQuitMessage(0);
-	switch(state){
+	switch(state.level){
 	case MENU:
 	case SPLASH:
 		menuUpdate(dt);
@@ -396,7 +396,7 @@ void CanisMajor::drawScene()
 	D3D10_TECHNIQUE_DESC techDesc;
 	mTech->GetDesc(&techDesc);
 
-	switch(state){
+	switch(state.level){
 	case MENU:
 		menuDraw();
 		break;
@@ -589,7 +589,7 @@ void CanisMajor::clearLevel()
 
 void CanisMajor::loadSplashScreen(bool status)
 {
-	state = GameState::SPLASH;
+	state.level = SPLASH;
 	clearLevel();
 	menuUpdate(0,true);
 
@@ -604,7 +604,7 @@ void CanisMajor::loadSplashScreen(bool status)
 void CanisMajor::menuLoad()
 {
 	audio->stopCue(BG);
-	state = GameState::MENU;
+	state.level = MENU;
 	clearLevel();
 	menuUpdate(0,true);
 
@@ -615,7 +615,7 @@ void CanisMajor::menuLoad()
 
 void CanisMajor::loadAttic()
 {
-	state = ATTIC;
+	state.level = ATTIC;
 	clearLevel();
 	setStoryText(10,L"WELCOME TO THE ATTIC");
 	int iter = 0;
@@ -742,7 +742,7 @@ void CanisMajor::loadAttic()
 void CanisMajor::loadSecondFloor()
 {
 	Key* patKey = spawnKey(L"BALCONY KEY",Vector3(7,1,15));
-	state = SECOND_FLOOR;
+	state.level = SECOND_FLOOR;
 	clearLevel();
 	flashlight.setPosition(Vector3(10,-2.5,10));
 	flashlight.isActive = true;
@@ -866,12 +866,12 @@ void CanisMajor::loadSecondFloor()
 
 void CanisMajor::loadFirstFloor()
 {
-	state = FIRST_FLOOR;
+	state.level = FIRST_FLOOR;
 }
 
 void CanisMajor::loadBasement()
 {
-	state = BASEMENT;
+	state.level = BASEMENT;
 }
 
 void CanisMajor::onPlayerDeath()

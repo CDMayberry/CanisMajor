@@ -147,6 +147,9 @@
     <ClInclude Include="Dog.h">
       <Filter>Headers\GameObj</Filter>
     </ClInclude>
+    <ClInclude Include="GameState.h">
+      <Filter>Headers\Util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="lighthelper.fx">
