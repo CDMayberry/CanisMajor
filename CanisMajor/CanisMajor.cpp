@@ -63,8 +63,6 @@ void CanisMajor::initApp()
 
 	D3DApp::initApp();
 
-	numwaypoints = 0;
-
 	for(int i = 0; i < MAX_LIGHTS; i++) {
 		rLights[i].init();
 		rLights[i].pos = Vector3(0, -200, 0);
@@ -129,9 +127,6 @@ void CanisMajor::initApp()
 	}
 
 	mCube.init(md3dDevice,".\\geometry\\cube.geo", L".\\textures\\metal.dds", true);
-	doge.init(this,&mCube,1.0f);
-	doge.setNegalight(&negaLight);
-	doge.setScale(Vector3(0.1f,5.0f,5.0f));
 
 	mRoofHole.init(md3dDevice,".\\geometry\\newRoofHole.geo", L".\\textures\\greywood.dds");
 
@@ -222,7 +217,6 @@ void CanisMajor::menuUpdate(float dt, bool reset)
 			{
 			case 1://play
 				loadAttic();
-				//loadSecondFloor();
 				break;
 			case 2://quit
 				PostQuitMessage(0);
@@ -284,15 +278,8 @@ void CanisMajor::levelsUpdate(float dt)
 	flashlight.update(dt);
 
 	camera.update(dt);
-	doge.update(dt);
 
 	updateStoryText(dt);
-
-	//displays the player's current location. Use for mapping/debugging
-	#ifdef DEBUG
-		wstring xzpos = std::to_wstring((int)camera.getPosition().x) + L", "+ std::to_wstring((int)camera.getPosition().z);
-		drawUtilText(xzpos);
-	#endif
 
 	collisions();
 }
@@ -499,7 +486,6 @@ void CanisMajor::levelsDraw()
 	AABBHelper.draw(mfxWVPVar,mView,mProj,mTech);
 #endif
 
-	doge.draw(mfxWVPVar,mView,mProj,mTech);
 	drawUtilText();
 	drawStoryText();
 }
@@ -596,8 +582,6 @@ void CanisMajor::clearLevel()
 		rLights[i].init();
 		lightType[i] = 0;
 	}
-
-	activeLights = 0;
 	for(int i = 0 ; i < CM::MAX_STAIRCASES; i++)
 		staircases[i].isActive=false;
 }
@@ -631,6 +615,7 @@ void CanisMajor::menuLoad()
 void CanisMajor::loadAttic()
 {
 	state = ATTIC;
+	clearLevel();
 	setStoryText(10,L"WELCOME TO THE ATTIC");
 	int iter = 0;
 
@@ -709,7 +694,7 @@ void CanisMajor::loadAttic()
 
 	spawnScenery(&mWallpanel,Vector3(40,5,32),Vector3(0,0,0),Vector3(1,1.6,.6));
 
-	Key* k = spawnKey(L"GOLD KEY",Vector3(20,0,5));
+	Key* k = spawnKey(L"GOLD KEY",Vector3(37.3,2,51));
 
 	//Bookcases
 	spawnSearchable(&mBookcase,L"Bookcase",k,Vector3(37.3,2.3,53.7),Vector3(0,0,0), CM::BOOKCASE_SCALE);
@@ -755,28 +740,32 @@ void CanisMajor::loadAttic()
 
 void CanisMajor::loadSecondFloor()
 {
+	Key* patKey = spawnKey(L"BALCONY KEY",Vector3(7,1,15));
 	state = SECOND_FLOOR;
 	clearLevel();
 	flashlight.setPosition(Vector3(10,-2.5,10));
 	flashlight.isActive = true;
-	doge.isActive = true;
-	doge.setPosition(Vector3(10,0,30));
+	
+	//Floor panels
+	spawnScenery(&mCube,Vector3(0,-4,30),Vector3(0,0,0),Vector3(28,1,30));
+	spawnScenery(&mCube,Vector3(53,-4,30),Vector3(0,0,0),Vector3(17,1,30));
+	spawnScenery(&mCube,Vector3(32,-4,4),Vector3(0,0,0),Vector3(4,1,5));
+	spawnScenery(&mCube,Vector3(32,-4,40),Vector3(0,0,0),Vector3(4,1,20));
 
-	if (numwaypoints !=0)
-		delete [] dogeWaypoints;
-	numwaypoints = 7;
-	dogeWaypoints = new Vector3[numwaypoints];
-	dogeWaypoints[0] = Vector3(10,-2.5,30);
-	dogeWaypoints[1] = Vector3(24,-2.5,40);
-	dogeWaypoints[2] = Vector3(25,-2.5,54);
-	dogeWaypoints[3] = Vector3(65, -2.5,51);
-	dogeWaypoints[4] = Vector3(65,-2.5,5);
-	dogeWaypoints[5] = Vector3(25,-2.5,5);
-	dogeWaypoints[6] = Vector3(25,-2.5,20);
-	doge.SetWaypoints(dogeWaypoints,numwaypoints);
+	//Roof panels
+	spawnScenery(&mCube,Vector3(0,10,30),Vector3(0,0,0),Vector3(71,1,30));
 
-	spawnScenery(&mCube,Vector3(0,-4,0),Vector3(0,0,0),Vector3(71,1,61));
-	spawnScenery(&mCube,Vector3(0,10,0),Vector3(0,0,0),Vector3(71,1,61));
+	//Balcony railing and floor
+	spawnScenery(&mCube,Vector3(80,-4,30),Vector3(0,PI/2,0),Vector3(15,1,10));
+	for(int i= 0; i<10;i++)
+		spawnScenery(&mRail,Vector3(71.5+(i*2),-3,44),Vector3(0,PI/2,0),Vector3(2,2,1.5));
+	for(int i= 0; i<15;i++)
+		spawnScenery(&mRail,Vector3(89.5,-3,43-(i*2)),Vector3(0,PI,0),Vector3(2,2,1.5));
+	for(int i= 0; i<10;i++)
+		spawnScenery(&mRail,Vector3(71.5+(i*2),-3,15),Vector3(0,PI/2,0),Vector3(2,2,1.5));
+
+	//Telescope. It should contain something for a puzzle
+	spawnSearchable(&mTelescope,L"Telescope",nullptr,Vector3(85,-2.7,40),Vector3(0,-2*PI/3,0),Vector3(7,7,7));
 
 	//Left outer wall
 	spawnScenery(&mWallpanel,Vector3(0,3,10),Vector3(0,0,0), Vector3(1,1.2,2));
@@ -795,7 +784,7 @@ void CanisMajor::loadSecondFloor()
 
 	//Right outer wall
 	spawnScenery(&mWallpanel,Vector3(70,3,45),Vector3(0,0,0), Vector3(1,1.2,3));
-	spawnDoor(Vector3(70,-3.5,30),Vector3(0,0,0),Vector3(2,4,3));
+	spawnDoor(Vector3(70,-3.5,30),Vector3(0,0,0),Vector3(2,4,3),patKey);
 	spawnScenery(&mWallpanel,Vector3(70,3,12),Vector3(0,0,0), Vector3(1,1.2,2.5));
 
 	//Close outer wall
@@ -836,11 +825,33 @@ void CanisMajor::loadSecondFloor()
 	spawnDoor(Vector3(36.5,-3.5,26.7),Vector3(0,PI,0),Vector3(2,4,2));
 	spawnScenery(&mWallpanel,Vector3(36,3,37.5),Vector3(0,0,0), Vector3(1,1.2,1.4));
 
-	spawnLight(Vector3(1.25,5.5,10));
-	spawnScenery(&mFixture,Vector3(.75,5,10),Vector3(0,PI/2,0));
+	//Staircase to attic
+	spawnScenery(&mCube,Vector3(37,-4,65),Vector3(0,0,0),Vector3(4,1,5));
+	spawnScenery(&mWallpanel,Vector3(33,5,70),Vector3(0,0,0),Vector3(4,5,2));
+	spawnScenery(&mWallpanel,Vector3(42,5,70),Vector3(0,0,0),Vector3(4,5,2));
+	spawnScenery(&mWallpanel,Vector3(42,5,70),Vector3(0,0,0),Vector3(4,5,2));
+	spawnStaircase(L"upstairs",&CanisMajor::loadAttic,Vector3(37,-3, 71), Vector3(0,PI/2,0), Vector3(1,1,.9));
+	spawnScenery(&mStaircase,Vector3(37,3, 78), Vector3(0,PI/2,0), Vector3(1,1,.9));
 
-	spawnLight(Vector3(1.25,5.5,50));
-	spawnScenery(&mFixture,Vector3(.75,5,50),Vector3(0,PI/2,0));
+	//master bed decor
+	spawnScenery(&mMasterbed,Vector3(49,-3,39),Vector3(0,1.5707963268,0), Vector3(5,4,5));
+	spawnScenery(&mTable,Vector3(42,-3,43),Vector3(0,0,0), Vector3(.8,1.5,.8));
+	spawnScenery(&mTable,Vector3(55.5,-3,43),Vector3(0,0,0), Vector3(.8,1.5,.8));
+	spawnSearchable(&mDresser,L"Dresser",nullptr,Vector3(40,-3,11),Vector3(0,-PI/2,0), Vector3(2,2,2));
+	spawnSearchable(&mDresser,L"Dresser",nullptr,Vector3(50,-3,11),Vector3(0,-PI/2,0), Vector3(2,2,2));
+
+	//Library decor
+	//Bookcases
+	spawnSearchable(&mBookcase,L"Bookcase",nullptr,Vector3(1,2.3,2.5),Vector3(0,-PI/2,0),CM::BOOKCASE_SCALE);
+	spawnSearchable(&mBookcase,L"Bookcase",nullptr,Vector3(1,2.3,6.5),Vector3(0,-PI/2,0),CM::BOOKCASE_SCALE);
+	spawnSearchable(&mBookcase,L"Bookcase",nullptr,Vector3(7,2.3,1),Vector3(0,PI,0),CM::BOOKCASE_SCALE);
+	spawnSearchable(&mBookcase,L"Bookcase",nullptr,Vector3(11,2.3,1),Vector3(0,PI,0),CM::BOOKCASE_SCALE);
+	spawnSearchable(&mBookcase,L"Bookcase",nullptr,Vector3(15,2.3,1),Vector3(0,PI,0),CM::BOOKCASE_SCALE);
+	spawnSearchable(&mBookcase,L"Bookcase",nullptr,Vector3(17,2.3,19),Vector3(0,0,0),CM::BOOKCASE_SCALE);
+
+	//Table with stuff on it and chair
+	spawnSearchable(&mTable,L"Table",patKey,Vector3(3.8,-3,16),Vector3(0,PI/2,0),Vector3(1.5,1.5,1.5));
+	spawnScenery(&mChair,Vector3(4.7,-1.8,11),Vector3(0,-PI/2,1), CM::CHAIR_SCALE);
 }
 
 void CanisMajor::loadFirstFloor()
