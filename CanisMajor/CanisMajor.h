@@ -19,6 +19,7 @@
 #include "sharedDefines.h"
 #include "Staircase.h"
 #include "Dog.h"
+#include "GameState.h"
 using std::wstring;
 
 namespace CM{
@@ -41,14 +42,7 @@ namespace CM{
 	const Vector3 BOX_SCALE = Vector3(2,2,2);
 };
 
-enum GameState{
-	MENU,
-	ATTIC,
-	SECOND_FLOOR,
-	FIRST_FLOOR,
-	BASEMENT,
-	SPLASH
-};
+
 
 class CanisMajor : public D3DApp{
 
