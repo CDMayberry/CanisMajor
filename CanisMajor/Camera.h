@@ -16,6 +16,7 @@
 
 namespace CameraNS
 {
+	const float INTERACTION_RADIUS_SQ = 256;
 	const float NEAR_CLIPPING_DIST = 0.1;
 	const float FAR_CLIPPING_DIST = 100;//originally 1000
 	const float SPEED = 10;
@@ -41,6 +42,8 @@ public:
 	Camera();
 	~Camera();
 
+	
+
 	//Geo used for AABB collision
 	void init(CanisMajor* game,Geometry* geo, Controls c);
 	void create(Vector3 pos, Vector3 dir);
@@ -49,7 +52,10 @@ public:
 
 	bool hasFlashlight(){return flashlight!=nullptr;};
 
-	void setNearbyInteractable(Interactable* i){nearbyItem = i;}
+	bool isPicked(Actor* o, float &distance);
+
+	void setNearbyInteractable(Interactable* i, float dist);
+	void resetNearbyInteractable();
 
 	Matrix getViewMatrix() {return mView;}
 	Matrix getProjectionMatrix() {return mProj;}
@@ -71,6 +77,8 @@ public:
 
 	void backUp(){position=prevLoc;}
 
+	
+
 	Controls controls;
 
 private:
@@ -90,8 +98,9 @@ private:
 	float camHeight;
 	float flashHeight;
 	Interactable* nearbyItem;
-
+	float distToInteractable;
 	Vector3 prevLoc;
 	Key** keys;
+
 };
 #endif

@@ -156,6 +156,12 @@ void D3DApp::initApp()
 
 	D3DX10CreateFontIndirect(md3dDevice, &fontDesc, &mFont);
 
+	
+	fontDesc.Height = 15;
+	wcscpy(fontDesc.FaceName, L"Lucida Console");
+
+	D3DX10CreateFontIndirect(md3dDevice, &fontDesc, &utilFont);
+
 	audio = new Audio();
     if (*WAVE_BANK != '\0' && *SOUND_BANK != '\0')  // if sound files defined
     {

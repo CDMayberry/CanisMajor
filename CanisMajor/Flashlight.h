@@ -19,7 +19,7 @@ namespace flashlightNS{
 class Flashlight : public virtual Actor, public Interactable
 {
 public:
-	void init(CanisMajor* game,Geometry *b, Light* l, float r=3);
+	void init(CanisMajor* game,Geometry *b, Light* l, float r=1);
 	void update(float dt);
 
 	void setDirection(Vector3 v);
