@@ -19,8 +19,10 @@ void Dog::SetWaypoints(Vector3* wp, int numwp){
 void Dog::update(float dt){
 	if(isActive)
 	{
-		//negalight->pos = position;
-		//rEyes->pos = position;
+		if(negalight != nullptr)
+			negalight->pos = position;
+		if(rEyes != nullptr)
+			rEyes->pos = position;
 
 		//rotate so that the dog is always facing the player
 		//distance from dog to player

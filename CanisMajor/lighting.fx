@@ -125,10 +125,10 @@ float4 PS(VS_OUT pIn) : SV_Target
 		litColor += Spotlight(v, gLight, gEyePosW);
 	}
 
-	//litColor += PointLight(v, eyes, gEyePosW);
+	litColor += PointLight(v, eyes, gEyePosW);
 
 	//Dark emitter
-	//litColor += PointLight(v, negaLight, gEyePosW);
+	litColor += PointLight(v, negaLight, gEyePosW);
 	
 	float4 retval = float4(litColor, diffuse.a);
 	retval = saturate(retval);
