@@ -123,6 +123,8 @@ void CanisMajor::initApp()
 
 	mBox.init(md3dDevice,".\\geometry\\cardboardBox.geo", L".\\textures\\cardboard.dds");
 
+	mBook.init(md3dDevice,".\\geometry\\book.geo");
+
 	for(int i = 0 ; i < CM::MAX_DOORS; i++)
 	{
 		doors[i].init(this,&mDoor,1);
@@ -886,6 +888,7 @@ void CanisMajor::loadSecondFloor()
 	//Table with stuff on it and chair
 	spawnSearchable(&mTable,L"Table",patKey,Vector3(3.8,-3,16),Vector3(0,PI/2,0),Vector3(1.5,1.5,1.5));
 	spawnScenery(&mChair,Vector3(4.7,-1.8,11),Vector3(0,-PI/2,1), CM::CHAIR_SCALE);
+	spawnScenery(&mBook,Vector3(5,0,13),Vector3(0,0,0),Vector3(1,1,1));
 }
 
 void CanisMajor::loadFirstFloor()
