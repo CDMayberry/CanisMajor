@@ -89,19 +89,19 @@ void Actor::update(float dt)
 		Identity(&world);
 		Identity(&s);
 		Identity(&t);
-		Identity(&rx);
-		Identity(&ry);
-		Identity(&rz);
+		Identity(&r);
 
 		D3DXMatrixScaling(&s,scale.x,scale.y,scale.z);
 
-		D3DXMatrixRotationX(&rx,rotation.x);
-		D3DXMatrixRotationY(&ry,rotation.y);
-		D3DXMatrixRotationZ(&rz,rotation.z);
+		D3DXQUATERNION q;
+		D3DXQuaternionRotationYawPitchRoll(&q,rotation.y,rotation.x,rotation.z);
+
+		D3DXMatrixRotationQuaternion(&r,&q);
+		
 
 		Translate(&t, position.x, position.y, position.z);
 
-		world *= s*rx*ry*rz*t;
+		world *= s*r*t;
 		
 	}
 }

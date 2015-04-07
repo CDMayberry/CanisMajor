@@ -9,6 +9,7 @@ void Flashlight::init(CanisMajor* game,Geometry *b, Light* l, float r)
 	batteryLevel = MAX_BATTERY;
 	direction = Vector3(1,0,0);
 	isOn=false;
+	name = L"flashlight";
 }
 void Flashlight::update(float dt)
 {
@@ -30,8 +31,9 @@ void Flashlight::update(float dt)
 
 void Flashlight::setDirection(Vector3 v)
 {
-
+#ifndef DEBUG
 	v.y=0;
+#endif
 	Normalize(&v,&v);
 	direction = v;
 	//float rz = asin(v.y);

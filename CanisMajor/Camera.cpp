@@ -183,15 +183,17 @@ void Camera::update(float dt)
 			flashHeight = 1+sin(shakeTimer)/2;
 		}
 		else
-			flashHeight = 1;
-
-		flashlight->setPosition(position-(flashHeight*0.3*up)+(0.4*forward)-(0.3*right));
-
-		flashlight->setDirection(direction);
+			flashHeight = 1;	
 	}
 	else
 	{
 		buttonPushed = false;
+	}
+
+	if(flashlight!=nullptr)
+	{
+		flashlight->setPosition(position-(flashHeight*0.3*up)+(0.4*forward)-(0.3*right));
+		flashlight->setDirection(direction);
 	}
 	
 	nearbyItem=nullptr;
@@ -291,7 +293,7 @@ bool Camera::isPicked(Actor* o, float & distance)
 					return false;
 				}
 
-				distance = minDisp;
+				distance = minDisp*minDisp;
 				return true;
 
 			}
