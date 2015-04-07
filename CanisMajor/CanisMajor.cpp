@@ -541,6 +541,7 @@ void CanisMajor::buildFX()
 	mfxEyesVar = mFX->GetVariableByName("eyes");
 	mfxAmbientVar = mFX->GetVariableByName("ambient");
 	mfxLightBool = mFX->GetVariableByName("gLightType")->AsScalar();
+	mfxHighlightBool = mFX->GetVariableByName("highlight")->AsScalar();
 
 	//TEXTURES
 	mfxDiffuseMapVar = mFX->GetVariableByName("gDiffuseMap")->AsShaderResource();

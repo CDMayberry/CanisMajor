@@ -24,4 +24,16 @@ void SearchableActor::create(Vector3 pos, Vector3 rot, Vector3 scale, Actor* ite
 	concealedItem = item;
 	if(item!=nullptr)
 		item->isVisible = false;
+	targeted = false;
+}
+
+void SearchableActor::update(float dt) {
+	Actor::update(dt);
+	targeted = false;
+
+}
+
+void SearchableActor::draw(ID3D10EffectMatrixVariable* fx, Matrix& camera, Matrix& projection, ID3D10EffectTechnique* mTech) {
+	game->mfxHighlightBool->SetBool(targeted);
+	Actor::draw(fx, camera, projection, mTech);
 }
