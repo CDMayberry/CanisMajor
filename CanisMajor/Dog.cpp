@@ -36,8 +36,8 @@ void Dog::update(float dt){
 			velocity*=5;
 		}
 
-		negalight->pos = position;
-		rEyes->pos = position;
+		//negalight->pos = position;
+		//rEyes->pos = position;
 
 		Actor::update(dt);
 
