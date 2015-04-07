@@ -297,34 +297,30 @@ void CanisMajor::levelsUpdate(float dt)
 //COLLISIONS GIVE LOADS OF FALSE POSITIVES
 void CanisMajor::collisions()
 {
+	camera.resetNearbyInteractable();
+	float dist;
 
 	for(int i = 0; i< CM::MAX_SEARCHABLE_ACTORS; i++)
 	{
-		if(searchableActors[i].isActive)
+		if(camera.isPicked(&searchableActors[i],dist))
 		{
-			Vector3 diff = camera.getPosition()-searchableActors[i].getPosition();
-			if(D3DXVec3LengthSq(&diff) < CM::INTERACTION_RADIUS_SQ)
-			{
-				camera.setNearbyInteractable(&searchableActors[i]);
-				drawUtilText(L"Press E to search the " + searchableActors[i].name + L".");
-			}
+			camera.setNearbyInteractable(&searchableActors[i],dist);
+			drawUtilText(L"Press E to search the " + searchableActors[i].name + L".");
+		}
 
-			if(camera.collided(&searchableActors[i]))
-			{
-				camera.backUp();
-			}
+		if(camera.collided(&searchableActors[i]))
+		{
+			camera.backUp();
 		}
 	}
-
-
+	
 	for(int i = 0 ; i < CM::MAX_DOORS; i++)
 	{
 		if(doors[i].isActive)
 		{
-			Vector3 diff = camera.getPosition()-doors[i].getPosition();
-			if(D3DXVec3LengthSq(&diff) < CM::INTERACTION_RADIUS_SQ)
+			if(camera.isPicked(&doors[i],dist))
 			{
-				camera.setNearbyInteractable(&doors[i]);
+				camera.setNearbyInteractable(&doors[i],dist);
 				if(doors[i].getOpen())
 					drawUtilText(L"Press E to close door.");
 				else
@@ -340,16 +336,16 @@ void CanisMajor::collisions()
 
 	for(int i = 0 ; i < CM::MAX_KEYS; i++)
 	{
-		if(camera.collided(&keys[i]))
+		if(camera.isPicked(&keys[i],dist))
 		{
-			camera.setNearbyInteractable(&keys[i]);
+			camera.setNearbyInteractable(&keys[i],dist);
 			drawUtilText(L"Press E to pick up key.");
 		}
 	}
 
-	if(!camera.hasFlashlight()&&camera.collided(&flashlight))
+	if(!camera.hasFlashlight()&&camera.isPicked(&flashlight,dist))
 	{
-		camera.setNearbyInteractable(&flashlight);
+		camera.setNearbyInteractable(&flashlight,dist);
 		drawUtilText(L"Press E to pick up flashlight.");
 	}
 
@@ -363,9 +359,9 @@ void CanisMajor::collisions()
 
 	for(int i = 0 ; i < CM::MAX_STAIRCASES; i++)
 	{
-		if(camera.collided(&staircases[i]))
+		if(camera.isPicked(&staircases[i],dist))
 		{
-			camera.setNearbyInteractable(&staircases[i]);
+			camera.setNearbyInteractable(&staircases[i],dist);
 			drawUtilText(L"Press E to travel " + staircases[i].name);
 		}
 	}
@@ -499,6 +495,12 @@ void CanisMajor::levelsDraw()
 
 	drawUtilText();
 	drawStoryText();
+
+//#ifdef DEBUG
+	RECT r = {mClientWidth/2,mClientHeight/2,mClientWidth/2,mClientHeight/2};
+	utilFont->DrawText(0,L"\u25CF",-1,&r,DT_NOCLIP|DT_CENTER|DT_VCENTER,WHITE);
+//#endif
+
 }
 
 void CanisMajor::buildFX()

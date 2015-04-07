@@ -240,3 +240,88 @@ void Camera::removeKey(Key* k)
 		}
 	}
 }
+
+
+bool Camera::isPicked(Actor* o, float & distance)
+{
+	if(o->isActive && o->isVisible)
+	{
+		//if they are close
+		if(D3DXVec3LengthSq(&(position - o->getPosition())) <= INTERACTION_RADIUS_SQ)
+		{
+			if(o->collisionType==SPHERE)
+			{
+				//http://www.dreamincode.net/forums/topic/124203-ray-sphere-intersection/
+				Vector3 diff = o->getPosition() - this->getPosition();
+				float distSQ = D3DXVec3LengthSq(&diff);
+				float dirSQ = pow(D3DXVec3Dot(&diff,&this->direction),2);
+				float res = o->getRadiusSquare() - (distSQ-dirSQ);
+				if(res < 0)
+					return false;
+				distance = dirSQ - sqrt(distSQ);
+				return true;
+
+			}
+			else if(o->collisionType==AABBox)
+			{
+				Geometry* g = o->getGeometry();
+				Vector3 min = g->getAABBMin();
+				Vector3 max = g->getAABBMax();
+				o->transformAABB(min,max);
+
+				//http://gamedev.stackexchange.com/questions/18436/most-efficient-aabb-vs-ray-collision-algorithms
+				Vector3 frac(1/direction.x, 1/direction.y, 1/direction.z);
+				
+				Vector3 tmin = (min - position);
+				tmin.x*=frac.x;
+				tmin.y*=frac.y;
+				tmin.z*=frac.z;
+
+				Vector3 tmax = (max - position);
+				tmax.x*=frac.x;
+				tmax.y*=frac.y;
+				tmax.z*=frac.z;
+
+				float minDisp = max(max(min(tmin.x,tmax.x),min(tmin.y,tmax.y)),min(tmin.z,tmax.z));
+				float maxDisp = min(min(max(tmin.x,tmax.x),max(tmin.y,tmax.y)),max(tmin.z,tmax.z));
+
+				if(maxDisp < 0 || minDisp > maxDisp)
+				{
+					distance = maxDisp;
+					return false;
+				}
+
+				distance = minDisp;
+				return true;
+
+			}
+			else
+			{
+				throw "Justin hasn't bothered to build this yet.";
+			}
+		}
+	}
+	return false;
+}
+
+
+void Camera::setNearbyInteractable(Interactable* i, float dist)
+{
+	if(distToInteractable > dist)
+	{
+		distToInteractable = dist;
+
+		if(nearbyItem!=nullptr)
+			nearbyItem->targeted = false;
+
+		nearbyItem = i;
+		nearbyItem->targeted = true;
+	}
+}
+void Camera::resetNearbyInteractable()
+{
+	if(nearbyItem!=nullptr)
+			nearbyItem->targeted = false;
+	nearbyItem=nullptr;
+	distToInteractable=CameraNS::INTERACTION_RADIUS_SQ;
+};
