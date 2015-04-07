@@ -131,6 +131,7 @@ void CanisMajor::initApp()
 	{
 		doors[i].init(this,&mDoor,1);
 		doors[i].collisionType = AABBox;
+		doors[i].name = L"door";
 	}
 
 	mCube.init(md3dDevice,".\\geometry\\cube.geo", L".\\textures\\metal.dds", true);
@@ -296,6 +297,11 @@ void CanisMajor::levelsUpdate(float dt)
 	updateStoryText(dt);
 
 	collisions();
+	
+	if(camera.getNearbyItem()!=nullptr)
+	{
+		drawUtilText(camera.getNearbyItem()->getUtilText());
+	}
 }
 
 //COLLISIONS GIVE LOADS OF FALSE POSITIVES
@@ -309,7 +315,6 @@ void CanisMajor::collisions()
 		if(camera.isPicked(&searchableActors[i],dist))
 		{
 			camera.setNearbyInteractable(&searchableActors[i],dist);
-			drawUtilText(L"Press E to search the " + searchableActors[i].name + L".");
 		}
 
 		if(camera.collided(&searchableActors[i]))
@@ -325,13 +330,9 @@ void CanisMajor::collisions()
 			if(camera.isPicked(&doors[i],dist))
 			{
 				camera.setNearbyInteractable(&doors[i],dist);
-				if(doors[i].getOpen())
-					drawUtilText(L"Press E to close door.");
-				else
-					drawUtilText(L"Press E to open door.");
 			}
 
-			if(camera.collided(&doors[i]))
+			if(!doors[i].getOpen() && camera.collided(&doors[i]))
 			{
 				camera.backUp();
 			}
@@ -343,14 +344,12 @@ void CanisMajor::collisions()
 		if(camera.isPicked(&keys[i],dist))
 		{
 			camera.setNearbyInteractable(&keys[i],dist);
-			drawUtilText(L"Press E to pick up key.");
 		}
 	}
 
 	if(!camera.hasFlashlight()&&camera.isPicked(&flashlight,dist))
 	{
 		camera.setNearbyInteractable(&flashlight,dist);
-		drawUtilText(L"Press E to pick up flashlight.");
 	}
 
 	for(int i = 0 ; i < CM::MAX_SCENERY;i++)
@@ -366,7 +365,6 @@ void CanisMajor::collisions()
 		if(camera.isPicked(&staircases[i],dist))
 		{
 			camera.setNearbyInteractable(&staircases[i],dist);
-			drawUtilText(L"Press E to travel " + staircases[i].name);
 		}
 	}
 
@@ -739,7 +737,7 @@ void CanisMajor::loadAttic()
 	//Stairwell
 	//Note, you cannot progress forward because of the axis-aligned bounding box
 	//Comment out the last wall panel to move forward.
-	spawnStaircase(L"downstairs",&CanisMajor::loadSecondFloor,Vector3(44.2,-9.6, 27), Vector3(0,0,0), Vector3(1,1,.6));
+	spawnStaircase(L"downstairs",&CanisMajor::loadSecondFloor,Vector3(40,-4, 27), Vector3(0,0,0), Vector3(1,1,.6));
 	spawnScenery(&mWallpanel,Vector3(45,0,30),Vector3(0,1.5707963268,0),Vector3(1,3,1));
 	spawnScenery(&mWallpanel,Vector3(45,0,24.7),Vector3(0,1.5707963268,0),Vector3(1,3,1));
 	//spawnScenery(&mWallpanel,Vector3(47,5,26),Vector3(0,0,.8),Vector3(1,2,3));

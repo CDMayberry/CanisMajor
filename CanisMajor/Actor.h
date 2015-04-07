@@ -26,7 +26,7 @@ private:
 	Vector3 scale;
 	ID3D10EffectTechnique* mTech;
 
-	Matrix wvp,s,t,rx,ry,rz,texMtx;//world view projection
+	Matrix wvp,s,t,r,texMtx;//world view projection
 protected:
 	Matrix world;
 	Vector3 position;
