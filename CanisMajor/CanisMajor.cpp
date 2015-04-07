@@ -148,6 +148,10 @@ void CanisMajor::initApp()
 	mBookStack.init(md3dDevice,".\\geometry\\bookStack.geo");
 	mDesk.init(md3dDevice,".\\geometry\\desk.geo");
 
+	mSink.init(md3dDevice,".\\geometry\\sink.geo");
+
+	mTub.init(md3dDevice,".\\geometry\\tub.geo");
+
 	for(int i = 0 ; i < CM::MAX_KEYS; i++)
 	{
 		keys[i].init(this,&mKey,1);
@@ -746,7 +750,7 @@ void CanisMajor::loadAttic()
 	spawnSearchable(&mBox,L"Conspicuous Cube",nullptr,Vector3(10,-2,10),Vector3(0,0,0),CM::BOX_SCALE);
 	spawnSearchable(&mBox,L"Inconspicuous Cube",nullptr,Vector3(22,-2,6),Vector3(0,PI/2,0),CM::BOX_SCALE);
 
-	Door* d = spawnDoor(Vector3(39.9,-2.7,29),Vector3(0,0,0),Vector3(1.4,3.5,2.1),k);
+	spawnDoor(Vector3(39.9,-3.5,29),Vector3(0,0,0),Vector3(1.4,3.5,2.1),k);
 
 	negaLight.pos = Vector3(20, 0, 30);
 	pLight.pos = Vector3(20, -212, 20);
@@ -872,8 +876,8 @@ void CanisMajor::loadSecondFloor()
 	spawnDoor(Vector3(28,-3,25.3),Vector3(0,0,0),Vector3(2,4,2.2));
 	spawnScenery(&mWallpanel, Vector3(32,-4,9),Vector3(0,PI/2,0),Vector3(1,4,.8));
 	spawnScenery(&mWallpanel, Vector3(36,-18,15),Vector3(0,0,0),Vector3(1,3,1.2));
-	spawnScenery(&mStaircase, Vector3(32,-9,16),Vector3(0,PI/2,0),Vector3(1,1,1));
-	spawnScenery(&mStaircase, Vector3(32,-15,9),Vector3(0,PI/2,0),Vector3(1,1,1));
+	spawnScenery(&mStaircase, Vector3(32,-9,14),Vector3(0,PI/2,0),Vector3(1,1,1));
+	spawnScenery(&mStaircase, Vector3(32,-3,20),Vector3(0,PI/2,0),Vector3(1,1,1));
 
 	//master bed decor
 	spawnScenery(&mMasterbed,Vector3(49,-3,39),Vector3(0,1.5707963268,0), Vector3(5,4,5));
@@ -913,7 +917,10 @@ void CanisMajor::loadSecondFloor()
 	spawnSearchable(&mBookcase,L"Bookcase",nullptr,Vector3(19,2.3,43),Vector3(0,PI/2,0),CM::BOOKCASE_SCALE);
 
 	//Bathroom Decor
-	spawnScenery(&mToilet, Vector3(25,-1,28),Vector3(0,PI/2,0),Vector3(1.5,1.5,1.5));
+	spawnScenery(&mToilet, Vector3(25,-1,28.5),Vector3(0,PI/2,0),Vector3(1.5,1.5,1.5));
+	spawnScenery(&mSink, Vector3(25,-2.5,33),Vector3(0,PI/2,0),Vector3(1.5,1.7,1.5));
+	spawnScenery(&mTub,Vector3(33.5,-1.2,40),Vector3(0,PI/2,0), Vector3(1.5,2,1.5));
+	
 }
 
 void CanisMajor::loadFirstFloor()
