@@ -138,6 +138,7 @@ public:
 	ID3D10EffectVariable* mfxAmbientVar;
 	
 	ID3D10EffectScalarVariable* mfxLightBool;
+	ID3D10EffectScalarVariable* mfxHighlightBool;
 	ID3D10EffectScalarVariable* mfxActiveLights;
 	ID3D10EffectScalarVariable* mfxLightType[MAX_LIGHTS];
 

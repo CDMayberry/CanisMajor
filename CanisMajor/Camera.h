@@ -49,7 +49,7 @@ public:
 
 	bool hasFlashlight(){return flashlight!=nullptr;};
 
-	void setNearbyInteractable(Interactable* i){nearbyItem = i;}
+	void setNearbyInteractable(Interactable* i){nearbyItem = i; i->targeted = true;}
 
 	Matrix getViewMatrix() {return mView;}
 	Matrix getProjectionMatrix() {return mProj;}
