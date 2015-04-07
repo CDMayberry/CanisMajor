@@ -125,6 +125,8 @@ void CanisMajor::initApp()
 
 	mBook.init(md3dDevice,".\\geometry\\book.geo");
 
+	mToilet.init(md3dDevice,".\\geometry\\toilet.geo");
+
 	for(int i = 0 ; i < CM::MAX_DOORS; i++)
 	{
 		doors[i].init(this,&mDoor,1);
@@ -142,6 +144,8 @@ void CanisMajor::initApp()
 	mKey.init(md3dDevice,".\\geometry\\key.geo", L".\\textures\\gold.dds");
 
 	mWindowPanel.init(md3dDevice,".\\geometry\\windowpanel.geo");
+	mBookStack.init(md3dDevice,".\\geometry\\bookStack.geo");
+	mDesk.init(md3dDevice,".\\geometry\\desk.geo");
 
 	for(int i = 0 ; i < CM::MAX_KEYS; i++)
 	{
@@ -715,7 +719,7 @@ void CanisMajor::loadAttic()
 	spawnSearchable(&mBookcase,L"Bookcase",nullptr,Vector3(31,2.3,53.7),Vector3(0,0,0), CM::BOOKCASE_SCALE);
 
 	//Table and chairs
-	spawnSearchable(&mTable,L"Table",nullptr,Vector3(11,-3.5,35),Vector3(0,PI,0),Vector3(1.2,1.5,1.2));
+	spawnSearchable(&mTable,L"Table",nullptr,Vector3(10.5,-2.5,35),Vector3(0,PI,0),Vector3(1.2,1.4,1));
 	spawnScenery(&mChair,Vector3(8,-3,34),Vector3(0,0,0), CM::CHAIR_SCALE);
 	spawnScenery(&mChair,Vector3(11,-1.4,39),Vector3(PI/2,.9,0), CM::CHAIR_SCALE);
 	spawnScenery(&mChair,Vector3(13,2.3,34),Vector3(PI,PI,0), CM::CHAIR_SCALE);
@@ -756,6 +760,7 @@ void CanisMajor::loadSecondFloor()
 {
 	Key* patKey = spawnKey(L"BALCONY KEY",Vector3(7,1,15));
 	state.level = SECOND_FLOOR;
+	camera.setPosition(Vector3(50,3,50));
 	clearLevel();
 	flashlight.setPosition(Vector3(10,-2.5,10));
 	flashlight.isActive = true;
@@ -889,9 +894,28 @@ void CanisMajor::loadSecondFloor()
 	spawnSearchable(&mBookcase,L"Bookcase",nullptr,Vector3(17,2.3,19),Vector3(0,0,0),CM::BOOKCASE_SCALE);
 
 	//Table with stuff on it and chair
-	spawnSearchable(&mTable,L"Table",patKey,Vector3(3.8,-3,16),Vector3(0,PI/2,0),Vector3(1.5,1.5,1.5));
+	spawnSearchable(&mTable,L"Table",patKey,Vector3(5,-2.4,16),Vector3(0,PI/2,0),Vector3(1.5,1.5,1.5));
 	spawnScenery(&mChair,Vector3(4.7,-1.8,11),Vector3(0,-PI/2,1), CM::CHAIR_SCALE);
-	spawnScenery(&mBook,Vector3(5,0,13),Vector3(0,0,0),Vector3(1,1,1));
+	spawnScenery(&mBook,Vector3(5.5,.5,17.5),Vector3(0,PI/2,0),Vector3(.8,1,.8));
+	spawnScenery(&mBookStack,Vector3(2.5,.5,16.8),Vector3(0,0,0),Vector3(1,1,1));
+	spawnScenery(&mBottle,Vector3(5,1,13.5),Vector3(0,0,0),Vector3(1,1,1));
+	spawnScenery(&mBottle,Vector3(2,.4,14.5),Vector3(0,0,PI/2),Vector3(1,1,1));
+
+	//Office Decor
+	spawnSearchable(&mDesk,L"Desk",nullptr,Vector3(2,-1.5,47),Vector3(0,PI,0),Vector3(1,1,1));
+	spawnScenery(&mChair,Vector3(2.5,-2.6,46),Vector3(0,PI,-.6), CM::CHAIR_SCALE);
+	spawnScenery(&mBookStack,Vector3(1,1,48.5),Vector3(0,0,0),Vector3(1,1,1));
+	spawnScenery(&mBook,Vector3(2.5,1,45),Vector3(0,PI/2,0),Vector3(.5,.75,.5));
+	spawnScenery(&mTable,Vector3(6,-1,57),Vector3(0,0,0),Vector3(2,1,1.2));
+	spawnScenery(&mChair,Vector3(4,-3,53),Vector3(0,-PI/2,0), CM::CHAIR_SCALE);
+	spawnScenery(&mBookStack,Vector3(2,1,55.5),Vector3(0,0,0),Vector3(1,1,1));
+	spawnScenery(&mBook,Vector3(2.5,1.8,56),Vector3(PI,PI/2,0),Vector3(.5,.75,.5));
+	spawnScenery(&mBook,Vector3(6,1.2,55),Vector3(0,PI,0),Vector3(1.5,1.5,1.5));
+	spawnSearchable(&mBookcase,L"Bookcase",nullptr,Vector3(17,2.3,59),Vector3(0,0,0),CM::BOOKCASE_SCALE);
+	spawnSearchable(&mBookcase,L"Bookcase",nullptr,Vector3(19,2.3,43),Vector3(0,PI/2,0),CM::BOOKCASE_SCALE);
+
+	//Bathroom Decor
+	spawnScenery(&mToilet, Vector3(25,-1,28),Vector3(0,PI/2,0),Vector3(1.5,1.5,1.5));
 }
 
 void CanisMajor::loadFirstFloor()
