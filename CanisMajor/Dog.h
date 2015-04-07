@@ -5,7 +5,10 @@
 #include "Light.h"
 
 namespace dogNS{
-	const Vector3 maxmovespeed = Vector3(1.0f,1.0f,1.0f);
+	const float WALK_SPEED = 5.0;
+	const float RUN_SPEED = 10.0f;
+	const float AGRO_DIST = 10.0f;//distance to start dog agro
+	const float NEUTRAL_DIST = 20.0f;//distance to leave agro field
 };
 
 class Dog: public virtual Actor
@@ -21,6 +24,7 @@ private:
 	int numwaypoints;
 	Light* negalight;
 	Light* rEyes;
+	bool following;//following player
 	Vector3 * Waypoints;//pointer to array of waypoints
 };
 #endif
