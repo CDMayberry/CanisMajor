@@ -36,6 +36,7 @@ protected:
 	float health;//simple health value. Starts at MAX_HEATH at spawn and object dies if health hits 0
 	//consider 100 health to be the "standard"
 	float MAX_HEALTH;
+	//bool targeted; 
 	CanisMajor* game;
 
 public:
@@ -44,8 +45,8 @@ public:
 	~Actor();
 
 	void init(CanisMajor* game,Geometry *b, float r=1);
-	void draw(ID3D10EffectMatrixVariable* fx, Matrix& camera, Matrix& projection, ID3D10EffectTechnique* mTech);
-	void update(float dt);
+	virtual void draw(ID3D10EffectMatrixVariable* fx, Matrix& camera, Matrix& projection, ID3D10EffectTechnique* mTech);
+	virtual void update(float dt);
 	void create(Vector3 pos, Vector3 rotate = Vector3(0,0,0), Vector3 scale = Vector3(1,1,1));
 
 

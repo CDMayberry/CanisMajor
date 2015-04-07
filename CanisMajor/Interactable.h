@@ -12,4 +12,5 @@ class Interactable
 public:
 	std::wstring name;
 	virtual void interactWith(Camera* player)=0;
+	bool targeted;
 };

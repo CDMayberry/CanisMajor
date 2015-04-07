@@ -53,7 +53,6 @@ public:
 	bool hasFlashlight(){return flashlight!=nullptr;};
 
 	bool isPicked(Actor* o, float &distance);
-
 	void setNearbyInteractable(Interactable* i, float dist);
 	void resetNearbyInteractable();
 

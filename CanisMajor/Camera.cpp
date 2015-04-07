@@ -244,7 +244,7 @@ void Camera::removeKey(Key* k)
 
 bool Camera::isPicked(Actor* o, float & distance)
 {
-	if(o->isActive)
+	if(o->isActive && o->isVisible)
 	{
 		//if they are close
 		if(D3DXVec3LengthSq(&(position - o->getPosition())) <= INTERACTION_RADIUS_SQ)
@@ -310,11 +310,18 @@ void Camera::setNearbyInteractable(Interactable* i, float dist)
 	if(distToInteractable > dist)
 	{
 		distToInteractable = dist;
+
+		if(nearbyItem!=nullptr)
+			nearbyItem->targeted = false;
+
 		nearbyItem = i;
+		nearbyItem->targeted = true;
 	}
 }
 void Camera::resetNearbyInteractable()
 {
+	if(nearbyItem!=nullptr)
+			nearbyItem->targeted = false;
 	nearbyItem=nullptr;
 	distToInteractable=CameraNS::INTERACTION_RADIUS_SQ;
 };

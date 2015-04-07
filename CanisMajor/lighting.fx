@@ -15,6 +15,7 @@ cbuffer cbPerFrame
 	Light gLight;
 	Light eyes;
 	bool gLightType; 
+	bool highlight;
 	Light lights[MAX_LIGHTS];
 	int type[MAX_LIGHTS];
 
@@ -82,6 +83,9 @@ float4 PS(VS_OUT pIn) : SV_Target
 	float4 diffuse = gDiffuseMap.Sample( gTriLinearSam, pIn.texC );
 	float4 spec    = gSpecMap.Sample( gTriLinearSam, pIn.texC );
 	
+	if(highlight)
+		diffuse = diffuse * 2.0;
+	
 	// Map [0,1] --> [0,256]
 	spec.a *= 256.0f;
 
@@ -129,7 +133,7 @@ float4 PS(VS_OUT pIn) : SV_Target
 
 	//Dark emitter
 	litColor += PointLight(v, negaLight, gEyePosW);
-	
+
 	float4 retval = float4(litColor, diffuse.a);
 	retval = saturate(retval);
 	return retval;
