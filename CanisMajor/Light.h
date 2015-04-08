@@ -50,7 +50,7 @@ struct Light
 			att.x    = 0.0f;
 			att.y    = 0.0f;
 			att.z    = 0.0f;
-			range    = 15.0f;
+			range    = 7.0f;
 			return 0;
 #else
 			ambient  = D3DXCOLOR(-.5f, -.5f, -.5f, 1.0f);
@@ -59,7 +59,7 @@ struct Light
 			att.x    = 1.0f;
 			att.y    = .1f;
 			att.z    = 0.01f;
-			range    = 15.0f;
+			range    = 7.0f;
 			return 0;
 #endif
 		}
