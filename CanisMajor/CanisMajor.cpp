@@ -150,6 +150,8 @@ void CanisMajor::threadInit()
 	loadingStatus++;
 	mToilet.init(md3dDevice,".\\geometry\\toilet.geo");
 	loadingStatus++;
+	mDog.init(md3dDevice,".\\geometry\\dog.geo");
+	loadingStatus++;
 	for(int i = 0 ; i < CM::MAX_DOORS; i++)
 	{
 		doors[i].init(this,&mDoor,1);
@@ -158,7 +160,7 @@ void CanisMajor::threadInit()
 	}
 
 	mCube.init(md3dDevice,".\\geometry\\cube.geo", L".\\textures\\metal.dds", true);
-	dog.init(this,&mCube,1.0f);
+	dog.init(this,&mDog,1.0f,Vector3(.5,.5,.5));
 	dog.setScale(Vector3(0.1f,5.0f,5.0f));
 	dog.setNegalight(&negaLight);
 	dog.setEyes(&eyes);
@@ -175,7 +177,7 @@ void CanisMajor::threadInit()
 	loadingStatus++;
 	mSink.init(md3dDevice,".\\geometry\\sink.geo");
 	loadingStatus++;
-	mTub.init(md3dDevice,".\\geometry\\cube.geo", L".\\textures\\metal.dds", true);
+	mTub.init(md3dDevice,".\\geometry\\desk.geo");
 	loadingStatus++;
 	mArrow.init(md3dDevice,".\\geometry\\arrow.geo", L".\\textures\\gold.dds");
 	loadingStatus++;

@@ -15,14 +15,10 @@ void Door::interactWith(Camera* player)
 		{
 			if(player->checkItem(key))
 			{
-				//game->audio->stopCue(CREAK1);
-				//game->audio->stopCue(CREAK2);
-				//game->audio->stopCue(CREAK3);
-				//game->audio->playCue(s.c_str());
 				player->removeItem(key);
 				isOpen = true;
 				key = nullptr;//unlock
-				game->audio->playCue(CREAK1);
+				game->playSound(CREAK1,getPosition());
 				game->setStoryText(2,L"The door unlocks.");
 			}
 			else
@@ -32,17 +28,13 @@ void Door::interactWith(Camera* player)
 		}
 		else//door unlocked
 		{
-			game->audio->playCue(CREAK1);
+			game->playSound(CREAK1,getPosition());
 			isOpen=true;
 		}
 	}
 	else
 	{
-		//game->audio->stopCue(CREAK1);
-		//game->audio->stopCue(CREAK2);
-		//game->audio->stopCue(CREAK3);
-		//game->audio->playCue(s.c_str());
-		game->audio->playCue(CLOSE);
+		game->playSound(CLOSE,getPosition());
 		isOpen=false;
 	}
 }

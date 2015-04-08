@@ -51,7 +51,7 @@ void Actor::draw(ID3D10EffectMatrixVariable* fx, Matrix& camera, Matrix& project
     }
 }
 
-void Actor::init(CanisMajor* game,Geometry *b, float r)
+void Actor::init(CanisMajor* game,Geometry *b, float r,  Vector3 s )
 {
 	this->game = game;
 	geometry = b;
@@ -59,7 +59,7 @@ void Actor::init(CanisMajor* game,Geometry *b, float r)
 	position = Vector3(0,0,0);
 	velocity = Vector3(0,0,0);
 	speed = 0;
-	scale = Vector3(1,1,1);
+	scale = s;
 	health = 1;					//THIS MIGHT SCREW SOMETHING UP: CAELAN
 	radiusSquared = radius * radius;
 	isActive = false;

@@ -3,9 +3,9 @@
 
 using namespace dogNS;
 
-void Dog::init(CanisMajor* game,Geometry *b,  float r)
+void Dog::init(CanisMajor* game,Geometry *b,  float r, Vector3 s)
 {
-	Actor::init(game,b,r);
+	Actor::init(game,b,r, s);
 	TargetWaypoint = -1;
 	following = false;
 }

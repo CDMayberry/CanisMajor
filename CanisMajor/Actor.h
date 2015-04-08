@@ -44,7 +44,7 @@ public:
 	Actor();
 	~Actor();
 
-	void init(CanisMajor* game,Geometry *b, float r=1);
+	void init(CanisMajor* game,Geometry *b, float r=1,  Vector3 scale = Vector3(1,1,1));
 	virtual void draw(ID3D10EffectMatrixVariable* fx, Matrix& camera, Matrix& projection, ID3D10EffectTechnique* mTech);
 	virtual void update(float dt);
 	void create(Vector3 pos, Vector3 rotate = Vector3(0,0,0), Vector3 scale = Vector3(1,1,1));
