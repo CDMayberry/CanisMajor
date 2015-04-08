@@ -6,8 +6,8 @@
 
 namespace dogNS{
 	const float WALK_SPEED = 5.0;
-	const float RUN_SPEED = 10.0f;
-	const float AGRO_DIST = 10.0f;//distance to start dog agro
+	const float RUN_SPEED = 15.0f;
+	const float AGRO_DIST = 7.0f;//distance to start dog agro
 	const float NEUTRAL_DIST = 20.0f;//distance to leave agro field
 };
 
@@ -20,6 +20,7 @@ public:
 	void setNegalight(Light* nega) {negalight = nega;}
 	void setEyes(Light* eyes) {rEyes = eyes;}
 private:
+	void targetClosestWaypoint();
 	int TargetWaypoint;//waypoint the dog is traveling to. set to -1 if tracking player
 	int numwaypoints;
 	Light* negalight;
