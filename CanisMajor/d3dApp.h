@@ -66,7 +66,7 @@ protected:
 	ID3D10Texture2D* mDepthStencilBuffer;
 	ID3D10RenderTargetView* mRenderTargetView;
 	ID3D10DepthStencilView* mDepthStencilView;
-	ID3DX10Font *mFont, *utilFont;
+	ID3DX10Font *mFont, *nFont, *utilFont;
 	
 
 	// Derived class should set these in derived constructor to customize starting values.

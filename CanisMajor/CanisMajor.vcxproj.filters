@@ -61,6 +61,9 @@
     <ClCompile Include="Dog.cpp">
       <Filter>Sources\GameObj</Filter>
     </ClCompile>
+    <ClCompile Include="ReadableActor.cpp">
+      <Filter>Sources\GameObj</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CanisMajor.h">
@@ -149,6 +152,9 @@
     </ClInclude>
     <ClInclude Include="GameState.h">
       <Filter>Headers\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="ReadableActor.h">
+      <Filter>Headers\GameObj</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

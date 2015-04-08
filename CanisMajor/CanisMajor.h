@@ -16,6 +16,7 @@
 #include "Key.h"
 #include "Door.h"
 #include "SearchableActor.h"
+#include "ReadableActor.h"
 #include "sharedDefines.h"
 #include "Staircase.h"
 #include "Dog.h"
@@ -38,6 +39,7 @@ namespace CM{
 	const int MAX_STAIRCASES = 10;
 	const float INTERACTION_RADIUS_SQ=36;
 	const int MAX_SEARCHABLE_ACTORS = 1000;
+	const int MAX_READABLE_ACTORS = 100;
 	const Vector3 CHAIR_SCALE = Vector3(2,2,1.7);
 	const Vector3 BOX_SCALE = Vector3(2,2,2);
 };
@@ -78,6 +80,10 @@ public:
 	void drawStoryText();
 	void updateStoryText(float dt);
 	void setStoryText(float durration,wstring s, D3DXCOLOR c = WHITE);
+
+	void drawNoteText();
+	void updateNoteText(float dt);
+	void setNoteText(float duration,wstring s, D3DXCOLOR c = WHITE);
 
 	Camera& getCamera() {return camera;}
 
@@ -146,6 +152,7 @@ public:
 
 	Actor* scenery;
 	SearchableActor* searchableActors;
+	ReadableActor* readableActors;
 	Key keys[CM::MAX_KEYS];
 	Door doors[CM::MAX_DOORS];
 	Staircase staircases[CM::MAX_STAIRCASES];
@@ -153,6 +160,7 @@ public:
 	Key* spawnKey(wstring name, Vector3 pos, Vector3 rot = Vector3(0,0,0));
 	Door* spawnDoor(Vector3 pos, Vector3 rot=Vector3(0,0,0), Vector3 Scale=Vector3(1,1,1), Key* k = nullptr, bool isOpen = false);
 	SearchableActor* spawnSearchable(Geometry* g, std::wstring name, Actor* in= nullptr, Vector3 pos = Vector3(0,0,0), Vector3 rot = Vector3(0,0,0), Vector3 scale = Vector3(1,1,1));
+	ReadableActor* spawnReadable(Geometry* g, std::wstring name, Actor* in= nullptr, Vector3 pos = Vector3(0,0,0), Vector3 rot = Vector3(0,0,0), Vector3 scale = Vector3(1,1,1), wstring text = L"The note is empty.");
 	Light* spawnLight(Vector3 pos, int type = 0);
 	Light* spawnLight(Vector3 pos, Vector3 dir, int type = 0);
 	Staircase* spawnStaircase(std::wstring name, LLevel func, Vector3 pos, Vector3 rotation = Vector3(0,0,0), Vector3 scale = Vector3(1,1,1));
@@ -193,5 +201,10 @@ protected:
 	float storyTextLifespan;
 	float storyTextAge;
 	D3DXCOLOR storyTextColor;
+
+	wstring noteText;
+	float noteTextLifespan;
+	float noteTextAge;
+	D3DXCOLOR noteTextColor;
 
 };

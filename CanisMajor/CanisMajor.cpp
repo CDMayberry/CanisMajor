@@ -43,6 +43,7 @@ CanisMajor::CanisMajor(HINSTANCE hInstance)
 
 	scenery = new Actor[CM::MAX_SCENERY];
 	searchableActors = new SearchableActor[CM::MAX_SEARCHABLE_ACTORS];
+	readableActors = new ReadableActor[CM::MAX_READABLE_ACTORS];
 }
 
 CanisMajor::~CanisMajor()
@@ -52,9 +53,11 @@ CanisMajor::~CanisMajor()
 
 	delete [] scenery;
 	delete [] searchableActors;
+	delete [] readableActors;
 
 	ReleaseCOM(mFX);
 	ReleaseCOM(mVertexLayout);
+
 }
 
 void CanisMajor::initApp()
@@ -73,7 +76,9 @@ void CanisMajor::initApp()
 	fLight.init(2);  //Flashlight
 	ambient.init(1); //Ambientlight (DUH)
 	negaLight.init(3); //Dog's anti-light
+	negaLight.pos = Vector3(0,-200,0);
 	eyes.init(5);
+	eyes.pos = Vector3(0,-200,0);
 	activeLights = 0;
 
 	howl = false;
@@ -113,7 +118,7 @@ void CanisMajor::initApp()
 
 	mWallpanel.init(md3dDevice,".\\geometry\\wallpanel.geo", L".\\textures\\greywood.dds");
 
-	mWindow.init(md3dDevice,".\\geometry\\window.geo");
+	mWindow.init(md3dDevice,".\\geometry\\window.geo", L".\\textures\\greywood.dds");
 
 	mCage.init(md3dDevice,".\\geometry\\cage.geo");
 
@@ -123,7 +128,7 @@ void CanisMajor::initApp()
 
 	mBox.init(md3dDevice,".\\geometry\\cardboardBox.geo", L".\\textures\\cardboard.dds");
 
-	mBook.init(md3dDevice,".\\geometry\\book.geo");
+	mBook.init(md3dDevice,".\\geometry\\book.geo",L".\\textures\\paper.dds");
 
 	mToilet.init(md3dDevice,".\\geometry\\toilet.geo");
 
@@ -144,13 +149,13 @@ void CanisMajor::initApp()
 
 	mKey.init(md3dDevice,".\\geometry\\key.geo", L".\\textures\\gold.dds");
 
-	mWindowPanel.init(md3dDevice,".\\geometry\\windowpanel.geo");
+	mWindowPanel.init(md3dDevice,".\\geometry\\windowpanel.geo", L".\\textures\\greywood.dds");
 	mBookStack.init(md3dDevice,".\\geometry\\bookStack.geo");
 	mDesk.init(md3dDevice,".\\geometry\\desk.geo");
 
 	mSink.init(md3dDevice,".\\geometry\\sink.geo");
 
-	mTub.init(md3dDevice,".\\geometry\\tub.geo");
+	mTub.init(md3dDevice,".\\geometry\\cube.geo", L".\\textures\\metal.dds", true);
 
 	for(int i = 0 ; i < CM::MAX_KEYS; i++)
 	{
@@ -170,6 +175,12 @@ void CanisMajor::initApp()
 	{
 		searchableActors[i].init(this,&mCube,1);
 		searchableActors[i].collisionType=AABBox;
+	}
+
+	for(int i = 0; i< CM::MAX_READABLE_ACTORS; i++)
+	{
+		readableActors[i].init(this,&mCube,1);
+		readableActors[i].collisionType=AABBox;
 	}
 
 	for(int i = 0 ; i < CM::MAX_STAIRCASES; i++)
@@ -284,6 +295,10 @@ void CanisMajor::levelsUpdate(float dt)
 	{
 		searchableActors[i].update(dt);
 	}
+	for(int i = 0; i< CM::MAX_READABLE_ACTORS; i++)
+	{
+		readableActors[i].update(dt);
+	}
 
 	if(!howl && doors[0].getOpen()) {
 		audio->playCue(HOWL);
@@ -299,6 +314,7 @@ void CanisMajor::levelsUpdate(float dt)
 	doge.update(dt);
 
 	updateStoryText(dt);
+	updateNoteText(dt);
 
 	collisions();
 	
@@ -322,6 +338,19 @@ void CanisMajor::collisions()
 		}
 
 		if(camera.collided(&searchableActors[i]))
+		{
+			camera.backUp();
+		}
+	}
+
+		for(int i = 0; i< CM::MAX_READABLE_ACTORS; i++)
+	{
+		if(camera.isPicked(&readableActors[i],dist))
+		{
+			camera.setNearbyInteractable(&readableActors[i],dist);
+		}
+
+		if(camera.collided(&readableActors[i]))
 		{
 			camera.backUp();
 		}
@@ -491,6 +520,10 @@ void CanisMajor::levelsDraw()
 	{
 		searchableActors[i].draw(mfxWVPVar,mView,mProj,mTech);
 	}
+	for(int i = 0 ; i < CM::MAX_READABLE_ACTORS; i++)
+	{
+		readableActors[i].draw(mfxWVPVar,mView,mProj,mTech);
+	}
 	for(int i = 0 ; i < CM::MAX_STAIRCASES; i++)
 		staircases[i].draw(mfxWVPVar,mView,mProj,mTech);
 	flashlight.draw(mfxWVPVar,mView,mProj,mTech);
@@ -501,6 +534,7 @@ void CanisMajor::levelsDraw()
 
 	drawUtilText();
 	drawStoryText();
+	drawNoteText();
 
 //#ifdef DEBUG
 	RECT r = {mClientWidth/2,mClientHeight/2,mClientWidth/2,mClientHeight/2};
@@ -598,10 +632,15 @@ void CanisMajor::clearLevel()
 	{
 		searchableActors[i].isActive = false;
 	}
+	for(int i = 0 ; i < CM::MAX_READABLE_ACTORS; i++)
+	{
+		readableActors[i].isActive = false;
+	}
 	for(int i = 0; i < MAX_LIGHTS; i++) {
 		rLights[i].init();
 		lightType[i] = 0;
 	}
+	activeLights = 0;
 	for(int i = 0 ; i < CM::MAX_STAIRCASES; i++)
 		staircases[i].isActive=false;
 }
@@ -727,7 +766,8 @@ void CanisMajor::loadAttic()
 	spawnScenery(&mChair,Vector3(13,2.3,34),Vector3(PI,PI,0), CM::CHAIR_SCALE);
 
 	//Bottle on table
-	spawnScenery(&mBottle,Vector3(10,.8,36));
+	spawnScenery(&mBottle,Vector3(13,.8,36));
+	spawnReadable(&mBook, L"Note", nullptr, Vector3(10,.3,36),Vector3(0,0,0),Vector3(.5,.5,.5), L"We couldn't get out...\nSomeone help us");
 
 	//Boxes
 	spawnScenery(&mBox,Vector3(37.5,-2,20),Vector3(0,0,0), CM::BOX_SCALE);
@@ -838,6 +878,9 @@ void CanisMajor::loadSecondFloor()
 	spawnScenery(&mWallpanel,Vector3(20,3,2.5),Vector3(0,0,0), Vector3(1,1.2,.5));
 	spawnDoor(Vector3(20,-3,5),Vector3(0,PI,0),Vector3(2,5,2));
 	spawnScenery(&mWallpanel,Vector3(20,3,14.4),Vector3(0,0,0), Vector3(1,1.2,1.1));
+	spawnScenery(&mFixture,Vector3(1,5,10),Vector3(0,PI/2,0));
+	spawnLight(Vector3(1.3,5.3,10));
+
 
 	//Office walls
 	spawnScenery(&mWallpanel,Vector3(5,3,40),Vector3(0,1.5707963268,0), CM::WALL_SCALE2);
@@ -898,7 +941,7 @@ void CanisMajor::loadSecondFloor()
 	//Table with stuff on it and chair
 	spawnSearchable(&mTable,L"Table",patKey,Vector3(5,-2.4,16),Vector3(0,PI/2,0),Vector3(1.5,1.5,1.5));
 	spawnScenery(&mChair,Vector3(4.7,-1.8,11),Vector3(1,-PI/2,0), CM::CHAIR_SCALE);
-	spawnScenery(&mBook,Vector3(5.5,.5,17.5),Vector3(0,PI/2,0),Vector3(.8,1,.8));
+	spawnReadable(&mBook, L"Book", nullptr,Vector3(5.5,.5,17.5),Vector3(0,PI/2,0),Vector3(.8,1,.8), L"August 20th:\nBloody hell, where have those children hidden my artifacts???");
 	spawnScenery(&mBookStack,Vector3(2.5,.5,16.8),Vector3(0,0,0),Vector3(1,1,1));
 	spawnScenery(&mBottle,Vector3(5,1,13.5),Vector3(0,0,0),Vector3(1,1,1));
 	spawnScenery(&mBottle,Vector3(2,.4,14.5),Vector3(0,0,PI/2),Vector3(1,1,1));
@@ -907,12 +950,12 @@ void CanisMajor::loadSecondFloor()
 	spawnSearchable(&mDesk,L"Desk",nullptr,Vector3(2,-1.5,47),Vector3(0,PI,0),Vector3(1,1,1));
 	spawnScenery(&mChair,Vector3(2.5,-2.6,46),Vector3(0,PI,.6), CM::CHAIR_SCALE);
 	spawnScenery(&mBookStack,Vector3(1,1,48.5),Vector3(0,0,0),Vector3(1,1,1));
-	spawnScenery(&mBook,Vector3(2.5,1,45),Vector3(0,PI/2,0),Vector3(.5,.75,.5));
+	spawnReadable(&mBook, L"Book", nullptr,Vector3(2.5,1,45),Vector3(0,PI/2,0),Vector3(.5,.75,.5));
 	spawnScenery(&mTable,Vector3(6,-1,57),Vector3(0,0,0),Vector3(2,1,1.2));
 	spawnScenery(&mChair,Vector3(4,-3,53),Vector3(0,-PI/2,0), CM::CHAIR_SCALE);
 	spawnScenery(&mBookStack,Vector3(2,1,55.5),Vector3(0,0,0),Vector3(1,1,1));
-	spawnScenery(&mBook,Vector3(2.5,1.8,56),Vector3(PI,PI/2,0),Vector3(.5,.75,.5));
-	spawnScenery(&mBook,Vector3(6,1.2,55),Vector3(0,PI,0),Vector3(1.5,1.5,1.5));
+	spawnReadable(&mBook, L"Book", nullptr,Vector3(2.5,1.8,56),Vector3(PI,PI/2,0),Vector3(.5,.75,.5));
+	spawnReadable(&mBook, L"Book", nullptr,Vector3(6,1.2,55),Vector3(0,PI,0),Vector3(1.5,1.5,1.5));
 	spawnSearchable(&mBookcase,L"Bookcase",nullptr,Vector3(17,2.3,59),Vector3(0,0,0),CM::BOOKCASE_SCALE);
 	spawnSearchable(&mBookcase,L"Bookcase",nullptr,Vector3(19,2.3,43),Vector3(0,PI/2,0),CM::BOOKCASE_SCALE);
 
@@ -972,6 +1015,7 @@ void CanisMajor::drawStoryText()
 		mFont->DrawText(0,storyText.c_str(),-1,&r,DT_NOCLIP,storyTextColor);
 	}
 }
+
 void CanisMajor::updateStoryText(float dt)
 {
 	if(storyTextAge<storyTextLifespan)
@@ -985,6 +1029,35 @@ void CanisMajor::setStoryText(float durration,wstring s, D3DXCOLOR c)
 	storyTextLifespan = durration;
 	storyTextAge = 0;
 	storyTextColor = c;
+}
+
+void CanisMajor::drawNoteText()
+{
+	if(noteTextAge<noteTextLifespan)
+	{
+		float alpha = 1;
+		if(noteTextLifespan-noteTextAge < CM::TEXT_FADEOUT_TIME)
+		{
+			alpha = (noteTextLifespan-noteTextAge) / CM::TEXT_FADEOUT_TIME;
+		}
+		noteTextColor.a = alpha;
+		RECT r = {mClientWidth/5,mClientHeight/2 + mClientHeight/8,0,0};
+		nFont->DrawText(0,noteText.c_str(),-1,&r,DT_NOCLIP,noteTextColor);
+	}
+}
+void CanisMajor::updateNoteText(float dt)
+{
+	if(noteTextAge<noteTextLifespan)
+	{
+		noteTextAge+=dt;
+	}
+}
+void CanisMajor::setNoteText(float duration,wstring s, D3DXCOLOR c)
+{
+	noteText = s;
+	noteTextLifespan = duration;
+	noteTextAge = 0;
+	noteTextColor = c;
 }
 
 
@@ -1049,6 +1122,23 @@ SearchableActor* CanisMajor::spawnSearchable(Geometry* g, std::wstring name, Act
 	}
 	return nullptr;
 }
+
+ReadableActor* CanisMajor::spawnReadable(Geometry* g, std::wstring name, Actor* in, Vector3 pos, Vector3 rot, Vector3 scale,  wstring text)
+{
+	for(int i = 0 ; i < CM::MAX_READABLE_ACTORS; i++)
+	{
+		if(!readableActors[i].isActive)
+		{
+			readableActors[i].create(pos,rot,scale,in);
+			readableActors[i].setGeometry(g);
+			readableActors[i].setText(text);
+			readableActors[i].name = name;
+			return &readableActors[i];
+		}
+	}
+	return nullptr;
+}
+
 
 Light* CanisMajor::spawnLight(Vector3 pos, int type) {
 
