@@ -16,12 +16,13 @@
 #include "QuestItem.h"
 #include "Door.h"
 #include "SearchableActor.h"
+#include "ReadableActor.h"
 #include "sharedDefines.h"
 #include "Staircase.h"
 #include "Dog.h"
 #include "GameState.h"
+#include <chrono>
 #include "Pedestal.h"
-
 using std::wstring;
 
 namespace CM{
@@ -40,6 +41,7 @@ namespace CM{
 	const int MAX_STAIRCASES = 10;
 	const float INTERACTION_RADIUS_SQ=36;
 	const int MAX_SEARCHABLE_ACTORS = 1000;
+	const int MAX_READABLE_ACTORS = 100;
 	const Vector3 CHAIR_SCALE = Vector3(2,2,1.7);
 	const Vector3 BOX_SCALE = Vector3(2,2,2);
 };
@@ -83,6 +85,10 @@ public:
 	void updateStoryText(float dt);
 	void setStoryText(float durration,wstring s, D3DXCOLOR c = WHITE);
 
+	void drawNoteText();
+	void updateNoteText(float dt);
+	void setNoteText(float duration,wstring s, D3DXCOLOR c = WHITE);
+
 	Camera& getCamera() {return camera;}
 
 	GameState state;
@@ -102,6 +108,14 @@ public:
 
 
 	Origin origin;
+
+	Camera camera;
+
+	clock_t start;
+	clock_t current;
+
+	bool waiting;
+
 
 	Flashlight flashlight;
 	Dog dog;
@@ -153,6 +167,7 @@ public:
 
 	Actor* scenery;
 	SearchableActor* searchableActors;
+	ReadableActor* readableActors;
 	QuestItem items[CM::NUM_QUEST_ITEMS];
 	Door doors[CM::MAX_DOORS];
 	Staircase staircases[CM::MAX_STAIRCASES];
@@ -160,6 +175,7 @@ public:
 	QuestItem* spawnQuestItem(Geometry* g, wstring name, Vector3 pos, Vector3 rot = Vector3(0,0,0), Vector3 scale = Vector3(1,1,1));
 	Door* spawnDoor(Vector3 pos, Vector3 rot=Vector3(0,0,0), Vector3 Scale=Vector3(1,1,1), QuestItem* k = nullptr, bool isOpen = false);
 	SearchableActor* spawnSearchable(Geometry* g, std::wstring name, Actor* in= nullptr, Vector3 pos = Vector3(0,0,0), Vector3 rot = Vector3(0,0,0), Vector3 scale = Vector3(1,1,1));
+	ReadableActor* spawnReadable(Geometry* g, std::wstring name, Actor* in= nullptr, Vector3 pos = Vector3(0,0,0), Vector3 rot = Vector3(0,0,0), Vector3 scale = Vector3(1,1,1), wstring text = L"The note is empty.");
 	Light* spawnLight(Vector3 pos, int type = 0);
 	Light* spawnLight(Vector3 pos, Vector3 dir, int type = 0);
 	Staircase* spawnStaircase(std::wstring name, LLevel func, Vector3 pos, Vector3 rotation = Vector3(0,0,0), Vector3 scale = Vector3(1,1,1));
@@ -180,6 +196,7 @@ private:
 	Vector3 * dogWaypoints;
 	int numwaypoints;
 
+	int loadingStatus;
 	HANDLE loadingThread;
 	bool threadComplete;
 
@@ -194,7 +211,7 @@ protected:
 	D3DXMATRIX mProj;
 
 	//Camera Object stuff
-	Camera camera;
+	
 
 	std::wstring menuText[CM::NUM_MENU_ITEMS];
 	int menuChoice;
@@ -203,5 +220,10 @@ protected:
 	float storyTextLifespan;
 	float storyTextAge;
 	D3DXCOLOR storyTextColor;
+
+	wstring noteText;
+	float noteTextLifespan;
+	float noteTextAge;
+	D3DXCOLOR noteTextColor;
 
 };

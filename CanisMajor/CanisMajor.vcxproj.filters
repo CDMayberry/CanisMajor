@@ -58,6 +58,9 @@
     <ClCompile Include="Dog.cpp">
       <Filter>Sources\GameObj</Filter>
     </ClCompile>
+    <ClCompile Include="ReadableActor.cpp">
+      <Filter>Sources\GameObj</Filter>
+    </ClCompile>
     <ClCompile Include="QuestItem.cpp">
       <Filter>Sources\GameObj</Filter>
     </ClCompile>
@@ -150,10 +153,11 @@
     <ClInclude Include="GameState.h">
       <Filter>Headers\Util</Filter>
     </ClInclude>
-    <ClInclude Include="QuestItem.h">
+    <ClInclude Include="ReadableActor.h">
       <Filter>Headers\GameObj</Filter>
     </ClInclude>
-    <ClInclude Include="Pedestal.h">
+    <ClInclude Include="Pedestal.h" />
+    <ClInclude Include="QuestItem.h">
       <Filter>Headers\GameObj</Filter>
     </ClInclude>
   </ItemGroup>

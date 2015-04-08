@@ -108,6 +108,7 @@
     <ClCompile Include="CanisMajor.cpp" />
     <ClCompile Include="Origin.cpp" />
     <ClCompile Include="Quad.cpp" />
+    <ClCompile Include="ReadableActor.cpp" />
     <ClCompile Include="SearchableActor.cpp" />
     <ClCompile Include="Staircase.cpp" />
   </ItemGroup>
@@ -138,6 +139,7 @@
     <ClInclude Include="CanisMajor.h" />
     <ClInclude Include="Line.h" />
     <ClInclude Include="Quad.h" />
+    <ClInclude Include="ReadableActor.h" />
     <ClInclude Include="SearchableActor.h" />
     <ClInclude Include="sharedDefines.h" />
     <ClInclude Include="Staircase.h" />
