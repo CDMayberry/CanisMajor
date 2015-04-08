@@ -38,10 +38,13 @@ void Dog::update(float dt){
 		//using vector tracking. If player exceeds 10 units,
 		//stop chasing and return to waypoint path
 
-		if (D3DXVec2Length(&vectortoplayer) <=AGRO_DIST)
+		if (D3DXVec2Length(&vectortoplayer) <=AGRO_DIST && following == false){
 			following = true;
-		else if (D3DXVec2Length(&vectortoplayer) >=NEUTRAL_DIST)
+		}
+		else if (D3DXVec2Length(&vectortoplayer) >=NEUTRAL_DIST && following ==true){
 			following = false;
+			targetClosestWaypoint();//reset waypoint if need be
+		}
 
 		if (following){//begin chase and start running!
 			velocity.x = vectortoplayer.x;
@@ -54,6 +57,7 @@ void Dog::update(float dt){
 		else {//default to waypoint system
 			if (TargetWaypoint != -1){
 				//check if we've reached a waypoint
+
 				Vector3 twp = Waypoints[TargetWaypoint];//target waypoint
 				float distsqrt = (twp.x - position.x)*(twp.x - position.x) + (twp.y - position.y)*(twp.y - position.y) + (twp.z - position.z)*(twp.z - position.z);
 				if (distsqrt < 0.25){
@@ -74,4 +78,21 @@ void Dog::update(float dt){
 
 		Actor::update(dt);
 	}
+}
+
+void Dog::targetClosestWaypoint(){
+	int waypointindex = 0;//index of shortest waypoint
+	float waypointdist = 9999;//distance of shortest waypoint
+
+	for (int i=0;i<numwaypoints;i++){
+		Vector3 twp = Waypoints[i];
+		float distsqrt = (twp.x - position.x)*(twp.x - position.x) + (twp.y - position.y)*(twp.y - position.y) + (twp.z - position.z)*(twp.z - position.z);
+		
+		if (distsqrt < waypointdist){
+			waypointindex = i;
+			waypointdist = distsqrt;
+		}
+	}
+
+	TargetWaypoint = waypointindex;//set the new target waypoint to the closest waypoint from dog's current position
 }
