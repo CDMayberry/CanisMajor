@@ -2,6 +2,8 @@
 #define SKYDOME_H
 
 #include "d3dUtil.h"
+#include "constants.h"
+#include <vector>
 
 class CanisMajor;
 
@@ -13,11 +15,14 @@ public:
 
 	void init(ID3D10Device* device, CanisMajor* g, float radius);
 
-	void draw();
+	void draw(Matrix& camera, Matrix& projection);
 
 private:
 	Sky(const Sky& rhs);
 	Sky& operator=(const Sky& rhs);
+	void Subdivide(std::vector<D3DXVECTOR3>& vertices, std::vector<DWORD>& indices);
+	void BuildGeoSphere(UINT numSubdivisions, float radius, std::vector<D3DXVECTOR3>& vertices, std::vector<DWORD>& indices);
+	CanisMajor* game;
 
 private:
 	ID3D10Device* md3dDevice;
@@ -31,6 +36,8 @@ private:
 	ID3D10EffectTechnique* mTech;
 	ID3D10EffectMatrixVariable* mfxWVPVar;
 	ID3D10EffectShaderResourceVariable* mfxCubeMapVar;
+
+	Matrix world;
 };
 
 #endif // SKY_H

@@ -156,7 +156,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="sky.fx" />
+    <None Include="sky.fx">
+      <FileType>Document</FileType>
+    </None>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

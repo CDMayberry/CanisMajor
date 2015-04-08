@@ -170,6 +170,7 @@
     <None Include="lighting.fx">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="sky.fx" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Shaders">
@@ -199,8 +200,5 @@
     <Filter Include="Sources\Util">
       <UniqueIdentifier>{fd362ca2-cece-4231-a724-807ce3ef66c3}</UniqueIdentifier>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="sky.fx" />
   </ItemGroup>
 </Project>

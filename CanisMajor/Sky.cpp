@@ -3,6 +3,9 @@
 //#include "Effects.h"
 #include "CanisMajor.h"
 
+typedef std::vector<D3DXVECTOR3> VertexList;
+typedef std::vector<DWORD> IndexList;
+
 struct SkyVertex
 {
 	D3DXVECTOR3 pos;
@@ -12,6 +15,7 @@ Sky::Sky()
 : md3dDevice(0), mVB(0), mIB(0), mCubeMap(0)
 {
 	mNumIndices = 0;
+	Identity(&world);
 }
 
 Sky::~Sky()
@@ -23,7 +27,11 @@ Sky::~Sky()
 void Sky::init(ID3D10Device* device, CanisMajor* g, float radius)
 {
 	md3dDevice = device;
-	mCubeMap;
+
+	HR(D3DX10CreateShaderResourceViewFromFile(device, 
+		L".\\textures\\skybox.dds", 0, 0, &mCubeMap, 0 ));
+
+	game = g;
 
 	mTech         = g->skyFX->GetTechniqueByName("SkyTech");
 	mfxWVPVar     = g->skyFX->GetVariableByName("gWVP")->AsMatrix();
@@ -65,16 +73,16 @@ void Sky::init(ID3D10Device* device, CanisMajor* g, float radius)
     HR(md3dDevice->CreateBuffer(&ibd, &iinitData, &mIB));
 }
 
-void Sky::draw()
+void Sky::draw(Matrix& camera, Matrix& projection)
 {
-	D3DXVECTOR3 eyePos = GetCamera().position();
+	Vector3 eyePos = game->getCamera().getPosition();
 
 	// center Sky about eye in world space
 	D3DXMATRIX W;
 	D3DXMatrixTranslation(&W, eyePos.x, eyePos.y, eyePos.z);
 
-	D3DXMATRIX V = GetCamera().view();
-	D3DXMATRIX P = GetCamera().proj();
+	D3DXMATRIX V = camera;
+	D3DXMATRIX P = projection;
 
 	D3DXMATRIX WVP = W*V*P;
 
@@ -85,7 +93,7 @@ void Sky::draw()
     UINT offset = 0;
     md3dDevice->IASetVertexBuffers(0, 1, &mVB, &stride, &offset);
 	md3dDevice->IASetIndexBuffer(mIB, DXGI_FORMAT_R32_UINT, 0);
-	md3dDevice->IASetInputLayout(InputLayout::Pos);
+	//md3dDevice->IASetInputLayout(InputLayout::Pos);
 	md3dDevice->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	
 	D3D10_TECHNIQUE_DESC techDesc;
@@ -100,3 +108,98 @@ void Sky::draw()
 	}
 }
  
+
+void Sky::BuildGeoSphere(UINT numSubdivisions, float radius, std::vector<D3DXVECTOR3>& vertices, std::vector<DWORD>& indices)
+{
+	// Put a cap on the number of subdivisions.
+	numSubdivisions = Min(numSubdivisions, UINT(5));
+
+	// Approximate a sphere by tesselating an icosahedron.
+
+	const float X = 0.525731f; 
+	const float Z = 0.850651f;
+
+	D3DXVECTOR3 pos[12] = 
+	{
+		D3DXVECTOR3(-X, 0.0f, Z),  D3DXVECTOR3(X, 0.0f, Z),  
+		D3DXVECTOR3(-X, 0.0f, -Z), D3DXVECTOR3(X, 0.0f, -Z),    
+		D3DXVECTOR3(0.0f, Z, X),   D3DXVECTOR3(0.0f, Z, -X), 
+		D3DXVECTOR3(0.0f, -Z, X),  D3DXVECTOR3(0.0f, -Z, -X),    
+		D3DXVECTOR3(Z, X, 0.0f),   D3DXVECTOR3(-Z, X, 0.0f), 
+		D3DXVECTOR3(Z, -X, 0.0f),  D3DXVECTOR3(-Z, -X, 0.0f)
+	};
+
+	DWORD k[60] = 
+	{
+		1,4,0,  4,9,0,  4,5,9,  8,5,4,  1,8,4,    
+		1,10,8, 10,3,8, 8,3,5,  3,2,5,  3,7,2,    
+		3,10,7, 10,6,7, 6,11,7, 6,0,11, 6,1,0, 
+		10,1,6, 11,0,9, 2,11,9, 5,2,9,  11,2,7 
+	};
+
+	vertices.resize(12);
+	indices.resize(60);
+
+	for(int i = 0; i < 12; ++i)
+		vertices[i] = pos[i];
+
+	for(int i = 0; i < 60; ++i)
+		indices[i] = k[i];
+
+	for(UINT i = 0; i < numSubdivisions; ++i)
+		Subdivide(vertices, indices);
+
+	// Project vertices onto sphere and scale.
+	for(size_t i = 0; i < vertices.size(); ++i)
+	{
+		D3DXVec3Normalize(&vertices[i], &vertices[i]);
+		vertices[i] *= radius;
+	}
+}
+
+typedef std::vector<D3DXVECTOR3> VertexList;
+typedef std::vector<DWORD> IndexList;
+
+void Sky::Subdivide(std::vector<D3DXVECTOR3>& vertices, std::vector<DWORD>& indices)
+{
+	VertexList vin = vertices;
+	IndexList  iin = indices;
+
+	vertices.resize(0);
+	indices.resize(0);
+
+	UINT numTris = (UINT)iin.size()/3;
+	for(UINT i = 0; i < numTris; ++i)
+	{
+		D3DXVECTOR3 v0 = vin[ iin[i*3+0] ];
+		D3DXVECTOR3 v1 = vin[ iin[i*3+1] ];
+		D3DXVECTOR3 v2 = vin[ iin[i*3+2] ];
+
+		D3DXVECTOR3 m0 = 0.5f*(v0 + v1);
+		D3DXVECTOR3 m1 = 0.5f*(v1 + v2);
+		D3DXVECTOR3 m2 = 0.5f*(v0 + v2);
+
+		vertices.push_back(v0); // 0
+		vertices.push_back(v1); // 1
+		vertices.push_back(v2); // 2
+		vertices.push_back(m0); // 3
+		vertices.push_back(m1); // 4
+		vertices.push_back(m2); // 5
+ 
+		indices.push_back(i*6+0);
+		indices.push_back(i*6+3);
+		indices.push_back(i*6+5);
+
+		indices.push_back(i*6+3);
+		indices.push_back(i*6+4);
+		indices.push_back(i*6+5);
+
+		indices.push_back(i*6+5);
+		indices.push_back(i*6+4);
+		indices.push_back(i*6+2);
+
+		indices.push_back(i*6+3);
+		indices.push_back(i*6+1);
+		indices.push_back(i*6+4);
+	}
+}

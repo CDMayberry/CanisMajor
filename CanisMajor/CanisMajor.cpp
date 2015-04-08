@@ -231,7 +231,7 @@ void CanisMajor::threadInit()
 
 	
 
-	buildFX();
+	//buildFX();
 	buildVertexLayouts();
 
 	loadingStatus++;
