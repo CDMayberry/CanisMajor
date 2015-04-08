@@ -22,6 +22,7 @@ void Door::interactWith(Camera* player)
 				player->removeKey(key);
 				isOpen = true;
 				key = nullptr;//unlock
+				game->audio->playCue(CREAK1);
 				game->setStoryText(2,L"The door unlocks.");
 			}
 			else
@@ -31,6 +32,7 @@ void Door::interactWith(Camera* player)
 		}
 		else//door unlocked
 		{
+			game->audio->playCue(CREAK1);
 			isOpen=true;
 		}
 	}
@@ -40,6 +42,7 @@ void Door::interactWith(Camera* player)
 		//game->audio->stopCue(CREAK2);
 		//game->audio->stopCue(CREAK3);
 		//game->audio->playCue(s.c_str());
+		game->audio->playCue(CLOSE);
 		isOpen=false;
 	}
 }

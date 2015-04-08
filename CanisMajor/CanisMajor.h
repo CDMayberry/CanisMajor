@@ -20,6 +20,7 @@
 #include "Staircase.h"
 #include "Dog.h"
 #include "GameState.h"
+#include <chrono>
 using std::wstring;
 
 namespace CM{
@@ -99,6 +100,14 @@ public:
 
 	Origin origin;
 
+	Camera camera;
+
+	clock_t start;
+	clock_t current;
+
+	bool waiting;
+
+
 	Flashlight flashlight;
 	Dog doge;
 
@@ -172,7 +181,7 @@ private:
 
 	Vector3 * dogeWaypoints;
 	int numwaypoints;
-
+	
 protected:
 
 	ID3D10Effect* mFX;
@@ -184,7 +193,7 @@ protected:
 	D3DXMATRIX mProj;
 
 	//Camera Object stuff
-	Camera camera;
+	
 
 	std::wstring menuText[CM::NUM_MENU_ITEMS];
 	int menuChoice;

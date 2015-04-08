@@ -76,6 +76,7 @@ void CanisMajor::initApp()
 	eyes.init(5);
 	activeLights = 0;
 
+	waiting = false;
 	howl = false;
 
 	numwaypoints = 0;
