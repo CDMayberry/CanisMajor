@@ -13,13 +13,13 @@ void Door::interactWith(Camera* player)
 		//door is locked
 		if(key!=nullptr)
 		{
-			if(player->checkKey(key))
+			if(player->checkItem(key))
 			{
 				//game->audio->stopCue(CREAK1);
 				//game->audio->stopCue(CREAK2);
 				//game->audio->stopCue(CREAK3);
 				//game->audio->playCue(s.c_str());
-				player->removeKey(key);
+				player->removeItem(key);
 				isOpen = true;
 				key = nullptr;//unlock
 				game->audio->playCue(CREAK1);
@@ -46,7 +46,7 @@ void Door::interactWith(Camera* player)
 		isOpen=false;
 	}
 }
-void Door::create(Vector3 pos, Vector3 rot, Vector3 scale, Key* k, bool open)
+void Door::create(Vector3 pos, Vector3 rot, Vector3 scale, QuestItem* k, bool open)
 {
 	Actor::create(pos);
 	setRotation(rot);

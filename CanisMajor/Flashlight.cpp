@@ -31,11 +31,12 @@ void Flashlight::update(float dt)
 
 void Flashlight::setDirection(Vector3 v)
 {
+	direction = v;
 #ifndef DEBUG
 	v.y=0;
 #endif
 	Normalize(&v,&v);
-	direction = v;
+	
 	//float rz = asin(v.y);
 	float ry = -atan2(v.z,v.x);
 	setRotation(Vector3(PI/2,ry,0));
