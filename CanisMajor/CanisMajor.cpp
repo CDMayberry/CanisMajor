@@ -71,11 +71,12 @@ void CanisMajor::initApp()
 
 	D3DApp::initApp();
 
+	buildFX();
+
 	threadComplete = false;
 	loadingStatus = 0;
 	loadingThread = CreateThread(0,0,threadFunct,this,0,0);
 
-	buildFX();
 	buildVertexLayouts();
 	menuLoad();
 
@@ -83,6 +84,8 @@ void CanisMajor::initApp()
 
 void CanisMajor::threadInit()
 {
+	sky.init(md3dDevice, this, 5000.0f);
+
 	for(int i = 0; i < MAX_LIGHTS; i++) {
 		rLights[i].init();
 		rLights[i].pos = Vector3(0, -200, 0);
@@ -611,6 +614,18 @@ void CanisMajor::buildFX()
 	HRESULT hr = 0;
 	hr = D3DX10CreateEffectFromFile(L"lighting.fx", 0, 0, 
 		"fx_4_0", shaderFlags, 0, md3dDevice, 0, 0, &mFX, &compilationErrors, 0);
+	if(FAILED(hr))
+	{
+		if( compilationErrors )
+		{
+			MessageBoxA(0, (char*)compilationErrors->GetBufferPointer(), 0, 0);
+			ReleaseCOM(compilationErrors);
+		}
+		DXTrace(__FILE__, (DWORD)__LINE__, hr, L"D3DX10CreateEffectFromFile", true);
+	} 
+
+	hr = D3DX10CreateEffectFromFile(L"sky.fx", 0, 0, 
+		"fx_4_0", shaderFlags, 0, md3dDevice, 0, 0, &skyFX, &compilationErrors, 0);
 	if(FAILED(hr))
 	{
 		if( compilationErrors )
