@@ -53,6 +53,8 @@ public:
 	~CanisMajor();
 
 	void initApp();
+	void threadInit();
+	
 	void initBackground();
 	void onResize();
 	void updateScene(float dt);
@@ -177,6 +179,9 @@ private:
 
 	Vector3 * dogWaypoints;
 	int numwaypoints;
+
+	HANDLE loadingThread;
+	bool threadComplete;
 
 protected:
 

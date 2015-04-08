@@ -57,12 +57,28 @@ CanisMajor::~CanisMajor()
 	ReleaseCOM(mVertexLayout);
 }
 
+DWORD WINAPI threadFunct(LPVOID lpParameter)
+{
+	static_cast<CanisMajor*>(lpParameter)->threadInit();
+	return 0;
+}
+
 void CanisMajor::initApp()
 {
-	
 
 	D3DApp::initApp();
 
+	bool threadComplete = false;
+	loadingThread = CreateThread(0,0,threadFunct,this,0,0);
+
+	buildFX();
+	buildVertexLayouts();
+	menuLoad();
+
+}
+
+void CanisMajor::threadInit()
+{
 	for(int i = 0; i < MAX_LIGHTS; i++) {
 		rLights[i].init();
 		rLights[i].pos = Vector3(0, -200, 0);
@@ -196,7 +212,8 @@ void CanisMajor::initApp()
 
 	buildFX();
 	buildVertexLayouts();
-	menuLoad();
+
+	threadComplete = true;
 
 }
 
@@ -225,6 +242,9 @@ void CanisMajor::updateScene(float dt)
 
 void CanisMajor::menuUpdate(float dt, bool reset)
 {
+	if(!threadComplete)
+		return;
+
 	static bool isKeyDown = true;
 
 	if(reset)
@@ -420,16 +440,26 @@ void CanisMajor::drawScene()
 	D3D10_TECHNIQUE_DESC techDesc;
 	mTech->GetDesc(&techDesc);
 
-	switch(state.level){
-	case MENU:
-		menuDraw();
-		break;
-	case SPLASH:
-		splashDraw();
-		break;
-	default:
-		levelsDraw();
-		break;
+	if(!threadComplete)
+	{
+		RECT r; //its a point because DT_NOCLIP
+		r.right = r.left = mClientWidth*0.5;
+		r.top = r.bottom = mClientHeight*0.2;
+		mFont->DrawText(0,L"LOADING",-1,&r,DT_NOCLIP|DT_CENTER,RED);
+	}
+	else
+	{
+		switch(state.level){
+		case MENU:
+			menuDraw();
+			break;
+		case SPLASH:
+			splashDraw();
+			break;
+		default:
+			levelsDraw();
+			break;
+		}
 	}
 	mSwapChain->Present(0, 0);
 }
