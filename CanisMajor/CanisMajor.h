@@ -13,13 +13,15 @@
 #include "Camera.h"
 #include "Light.h"
 #include "Flashlight.h"
-#include "Key.h"
+#include "QuestItem.h"
 #include "Door.h"
 #include "SearchableActor.h"
 #include "sharedDefines.h"
 #include "Staircase.h"
 #include "Dog.h"
 #include "GameState.h"
+#include "Pedestal.h"
+
 using std::wstring;
 
 namespace CM{
@@ -33,7 +35,7 @@ namespace CM{
 	const Vector3 WALL_SCALE2 = Vector3(1,1.2,1);
 	const float ROOF_SCALE = 3.8;
 	const Vector3 BOOKCASE_SCALE = Vector3(2.5, 5, 2);
-	const int MAX_KEYS=10;
+	const int NUM_QUEST_ITEMS=100;
 	const int MAX_DOORS=100;
 	const int MAX_STAIRCASES = 10;
 	const float INTERACTION_RADIUS_SQ=36;
@@ -93,13 +95,15 @@ public:
 
 	Geometry mTelescope, mDresser, mFlashlight, mFrame, mBookcase, mChair, mCradle, mMasterbed, 
 			mServantbed, mStaircase, mTable, mBottle, mLock, mPictureframe, mRail, mWallpanel, mWindow,
-			mCage, mFixture, mDoor, mCube, mRoofHole,mKey, mBox, mWindowPanel;
+			mCage, mFixture, mDoor, mCube, mRoofHole,mKey, mBox, mWindowPanel,mArrow,mRing;
 
 
 	Origin origin;
 
 	Flashlight flashlight;
 	Dog doge;
+
+	Pedestal pedestal;
 
 
 	//EVERTHING PUBLIC BELOW THIS IS FOR TESTING
@@ -145,12 +149,12 @@ public:
 
 	Actor* scenery;
 	SearchableActor* searchableActors;
-	Key keys[CM::MAX_KEYS];
+	QuestItem items[CM::NUM_QUEST_ITEMS];
 	Door doors[CM::MAX_DOORS];
 	Staircase staircases[CM::MAX_STAIRCASES];
 	Actor* spawnScenery(Geometry* g, Vector3 pos = Vector3(0,0,0), Vector3 rot = Vector3(0,0,0), Vector3 scale = Vector3(1,1,1));
-	Key* spawnKey(wstring name, Vector3 pos, Vector3 rot = Vector3(0,0,0));
-	Door* spawnDoor(Vector3 pos, Vector3 rot=Vector3(0,0,0), Vector3 Scale=Vector3(1,1,1), Key* k = nullptr, bool isOpen = false);
+	QuestItem* spawnQuestItem(Geometry* g, wstring name, Vector3 pos, Vector3 rot = Vector3(0,0,0), Vector3 scale = Vector3(1,1,1));
+	Door* spawnDoor(Vector3 pos, Vector3 rot=Vector3(0,0,0), Vector3 Scale=Vector3(1,1,1), QuestItem* k = nullptr, bool isOpen = false);
 	SearchableActor* spawnSearchable(Geometry* g, std::wstring name, Actor* in= nullptr, Vector3 pos = Vector3(0,0,0), Vector3 rot = Vector3(0,0,0), Vector3 scale = Vector3(1,1,1));
 	Light* spawnLight(Vector3 pos, int type = 0);
 	Light* spawnLight(Vector3 pos, Vector3 dir, int type = 0);

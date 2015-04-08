@@ -6,7 +6,7 @@ using namespace CameraNS;
 #define Transform D3DXVec3TransformCoord
 Camera::Camera()
 {
-	keys = new Key*[CM::MAX_KEYS];
+	items = new QuestItem*[CM::NUM_QUEST_ITEMS];
 	speed = 10;
 	FoV = 0.5*PI;
 	aspectRatio = 480.0f/640.0f;
@@ -19,13 +19,11 @@ Camera::Camera()
 	shakeTimer = 0;
 	flashlight=nullptr;
 	nearbyItem = nullptr;
-	// register handler for relative mouse movement events
-	//Windows::Devices::Input::MouseDevice::GetForCurrentView()->MouseMoved += ref new TypedEventHandler<MouseDevice^, MouseEventArgs^>(this, &MoveLookController::OnMouseMoved);
 }
 
 Camera::~Camera()
 {
-	delete [] keys;
+	delete [] items;
 }
 
 void Camera::init(CanisMajor* game,Geometry* geo, Controls c)
@@ -40,9 +38,9 @@ void Camera::init(CanisMajor* game,Geometry* geo, Controls c)
 	collisionType = AABBox;
 	setScale(Vector3(.7,1.5,.7));
 
-	for(int i = 0 ; i < CM::MAX_KEYS; i++)
+	for(int i = 0 ; i < CM::NUM_QUEST_ITEMS; i++)
 	{
-		keys[i]=nullptr;
+		items[i]=nullptr;
 	}
 }
 
@@ -192,7 +190,7 @@ void Camera::update(float dt)
 
 	if(flashlight!=nullptr)
 	{
-		flashlight->setPosition(position-(flashHeight*0.3*up)+(0.4*forward)-(0.3*right));
+		flashlight->setPosition(position-(flashHeight*0.3*up)+(0.2*forward)-(0.3*right));
 		flashlight->setDirection(direction);
 	}
 	
@@ -213,32 +211,33 @@ bool Camera::collided(Actor *gameObject)
 	return r;
 }
 
-void Camera::addKey(Key* k)
+void Camera::addItem(QuestItem* k)
 {
-	for(int i = 0 ; i < CM::MAX_KEYS; i++)
+	for(int i = 0 ; i < CM::NUM_QUEST_ITEMS; i++)
 	{
-		if(keys[i]==nullptr)
+		if(items[i]==nullptr)
 		{
-			keys[i] = k;
+			items[i] = k;
+			return;
 		}
 	}
 }
-bool Camera::checkKey(Key* k)
+bool Camera::checkItem(QuestItem* k)
 {
-	for(int i = 0 ; i < CM::MAX_KEYS; i++)
+	for(int i = 0 ; i < CM::NUM_QUEST_ITEMS; i++)
 	{
-		if(keys[i]==k)
+		if(items[i]==k)
 			return true;
 	}
 	return false;
 }
-void Camera::removeKey(Key* k)
+void Camera::removeItem(QuestItem* k)
 {
-	for(int i = 0 ; i < CM::MAX_KEYS; i++)
+	for(int i = 0 ; i < CM::NUM_QUEST_ITEMS; i++)
 	{
-		if(keys[i]==k)
+		if(items[i]==k)
 		{
-			keys[i]=nullptr;
+			items[i]=nullptr;
 		}
 	}
 }

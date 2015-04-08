@@ -142,9 +142,15 @@ void CanisMajor::initApp()
 
 	mWindowPanel.init(md3dDevice,".\\geometry\\windowpanel.geo");
 
-	for(int i = 0 ; i < CM::MAX_KEYS; i++)
+	mArrow.init(md3dDevice,".\\geometry\\arrow.geo", L".\\textures\\gold.dds");
+	mRing.init(md3dDevice,".\\geometry\\ring.geo", L".\\textures\\gold.dds");
+
+	pedestal.init(this,&mCube);
+	pedestal.collisionType = AABBox;
+	
+	for(int i = 0 ; i < CM::NUM_QUEST_ITEMS; i++)
 	{
-		keys[i].init(this,&mKey,1);
+		items[i].init(this,&mCube,1);
 	}
 
 	origin.init(this,1);
@@ -262,9 +268,9 @@ void CanisMajor::levelsUpdate(float dt)
 	{
 		scenery[i].update(dt);
 	}
-	for(int i = 0 ; i < CM::MAX_KEYS; i++)
+	for(int i = 0 ; i < CM::NUM_QUEST_ITEMS; i++)
 	{
-		keys[i].update(dt);
+		items[i].update(dt);
 	}
 	for(int i = 0 ; i < CM::MAX_DOORS; i++)
 	{
@@ -282,6 +288,8 @@ void CanisMajor::levelsUpdate(float dt)
 
 	for(int i = 0 ; i < CM::MAX_STAIRCASES; i++)
 		staircases[i].update(dt);
+
+	pedestal.update(dt);
 
 	flashlight.update(dt);
 
@@ -333,11 +341,11 @@ void CanisMajor::collisions()
 		}
 	}
 
-	for(int i = 0 ; i < CM::MAX_KEYS; i++)
+	for(int i = 0 ; i < CM::NUM_QUEST_ITEMS; i++)
 	{
-		if(camera.isPicked(&keys[i],dist))
+		if(camera.isPicked(&items[i],dist))
 		{
-			camera.setNearbyInteractable(&keys[i],dist);
+			camera.setNearbyInteractable(&items[i],dist);
 		}
 	}
 
@@ -361,6 +369,11 @@ void CanisMajor::collisions()
 			camera.setNearbyInteractable(&staircases[i],dist);
 		}
 	}
+
+	if(camera.collided(&pedestal))
+		camera.backUp();
+	if(camera.isPicked(&pedestal,dist))
+		camera.setNearbyInteractable(&pedestal,dist);
 
 }
 
@@ -469,9 +482,9 @@ void CanisMajor::levelsDraw()
 	{
 		scenery[i].draw(mfxWVPVar,mView,mProj,mTech);
 	}
-	for(int i = 0 ; i < CM::MAX_KEYS; i++)
+	for(int i = 0 ; i < CM::NUM_QUEST_ITEMS; i++)
 	{
-		keys[i].draw(mfxWVPVar,mView,mProj,mTech);
+		items[i].draw(mfxWVPVar,mView,mProj,mTech);
 	}
 	for(int i = 0 ; i < CM::MAX_DOORS; i++)
 	{
@@ -484,6 +497,7 @@ void CanisMajor::levelsDraw()
 	for(int i = 0 ; i < CM::MAX_STAIRCASES; i++)
 		staircases[i].draw(mfxWVPVar,mView,mProj,mTech);
 	flashlight.draw(mfxWVPVar,mView,mProj,mTech);
+	pedestal.draw(mfxWVPVar,mView,mProj,mTech);
 
 #ifdef DEBUG
 	AABBHelper.draw(mfxWVPVar,mView,mProj,mTech);
@@ -576,9 +590,9 @@ void CanisMajor::clearLevel()
 	{
 		scenery[i].isActive=false;
 	}
-	for(int i = 0 ; i < CM::MAX_KEYS; i++)
+	for(int i = 0 ; i < CM::NUM_QUEST_ITEMS; i++)
 	{
-		keys[i].isActive=false;
+		items[i].isActive=false;
 	}
 	for(int i = 0 ; i < CM::MAX_DOORS; i++)
 	{
@@ -594,6 +608,8 @@ void CanisMajor::clearLevel()
 	}
 	for(int i = 0 ; i < CM::MAX_STAIRCASES; i++)
 		staircases[i].isActive=false;
+	pedestal.isActive = false;
+	flashlight.isActive = false;
 }
 
 void CanisMajor::loadSplashScreen(bool status)
@@ -630,6 +646,8 @@ void CanisMajor::loadAttic()
 	int iter = 0;
 
 	audio->playCue(BG);
+
+	QuestItem* k = spawnQuestItem(&mKey,L"GOLD KEY",Vector3(37.3,2,51));
 
 	camera.setPosition(Vector3(5,0,5));
 
@@ -704,7 +722,6 @@ void CanisMajor::loadAttic()
 
 	spawnScenery(&mWallpanel,Vector3(40,5,32),Vector3(0,0,0),Vector3(1,1.6,.6));
 
-	Key* k = spawnKey(L"GOLD KEY",Vector3(37.3,2,51));
 
 	//Bookcases
 	spawnSearchable(&mBookcase,L"Bookcase",k,Vector3(37.3,2.3,53.7),Vector3(0,0,0), CM::BOOKCASE_SCALE);
@@ -720,10 +737,10 @@ void CanisMajor::loadAttic()
 	spawnScenery(&mBottle,Vector3(10,.8,36));
 
 	//Boxes
-	spawnScenery(&mBox,Vector3(37.5,-2,20),Vector3(0,0,0), CM::BOX_SCALE);
+	spawnSearchable(&mBox,L"Cardboard Box",nullptr,Vector3(37.5,-2,20),Vector3(0,0,0), CM::BOX_SCALE);
 	spawnScenery(&mCube,Vector3(37.5,-2,15.7),Vector3(0,0,0), CM::BOX_SCALE);
 	spawnScenery(&mCube,Vector3(37.5,-2,11.5),Vector3(0,0,0), CM::BOX_SCALE);
-	spawnScenery(&mBox,Vector3(37.5, 2.1,13.5),Vector3(0,.5,0), CM::BOX_SCALE);
+	spawnSearchable(&mBox,L"Cardboard Box",nullptr,Vector3(37.5, 2.1,13.5),Vector3(0,.5,0), CM::BOX_SCALE);
 
 	//Ligthing fixture. We should put a point light here
 	spawnScenery(&mFixture,Vector3(20,3, 54),Vector3(0,PI,0));
@@ -740,7 +757,7 @@ void CanisMajor::loadAttic()
 	spawnSearchable(&mBox,L"Conspicuous Cube",nullptr,Vector3(10,-2,10),Vector3(0,0,0),CM::BOX_SCALE);
 	spawnSearchable(&mBox,L"Inconspicuous Cube",nullptr,Vector3(22,-2,6),Vector3(0,PI/2,0),CM::BOX_SCALE);
 
-	Door* d = spawnDoor(Vector3(39.9,-2.7,29),Vector3(0,0,0),Vector3(1.4,3.5,2.1),k);
+	Door* d = spawnDoor(Vector3(39.9,-3.5,29),Vector3(0,0,0),Vector3(1.4,3.5,2.1),k);
 
 	negaLight.pos = Vector3(20, 0, 30);
 	pLight.pos = Vector3(20, -212, 20);
@@ -750,7 +767,14 @@ void CanisMajor::loadAttic()
 
 void CanisMajor::loadSecondFloor()
 {
-	Key* patKey = spawnKey(L"BALCONY KEY",Vector3(7,1,15));
+	QuestItem* patKey = spawnQuestItem(&mKey,L"BALCONY KEY",Vector3(7,1,15));
+
+	/*QuestItem *r1 = spawnQuestItem(&mRing,L"Large Ring",Vector3(20,0,10),Vector3(0,0,0),Vector3(1.2,1,1.2));
+	QuestItem *r2 = spawnQuestItem(&mRing,L"Medium Ring",Vector3(20,0,12),Vector3(0,0,0),Vector3(1,1,1));
+	QuestItem *r3 = spawnQuestItem(&mRing,L"Small Ring",Vector3(20,0,14),Vector3(0,0,0),Vector3(.8,1,.8));
+	QuestItem *a = spawnQuestItem(&mArrow,L"Arrow",Vector3(20,0,16),Vector3(0,0,0),Vector3(1,1,1));
+	pedestal.create(k,a,r1,r2,r3,Vector3(20,0,20),Vector3(0,0,0),Vector3(1,1,1));*/
+
 	state.level = SECOND_FLOOR;
 	clearLevel();
 	flashlight.setPosition(Vector3(10,-2.5,10));
@@ -971,22 +995,24 @@ Actor* CanisMajor::spawnScenery(Geometry* g, Vector3 pos, Vector3 rot, Vector3 s
 	return nullptr;
 }
 
-Key* CanisMajor::spawnKey(wstring name, Vector3 pos, Vector3 rot)
+QuestItem* CanisMajor::spawnQuestItem(Geometry* g, wstring name, Vector3 pos, Vector3 rot, Vector3 scale)
 {
-	for(int i = 0 ; i < CM::MAX_KEYS; i++)
+	for(int i = 0 ; i < CM::NUM_QUEST_ITEMS; i++)
 	{
-		if(!keys[i].isActive)
+		if(!items[i].isActive)
 		{
-			keys[i].create(pos);
-			keys[i].name = name;
-			keys[i].setRotation(rot);
-			return &keys[i];
+			items[i].create(pos);
+			items[i].name = name;
+			items[i].setRotation(rot);
+			items[i].setScale(scale);
+			items[i].setGeometry(g);
+			return &items[i];
 		}
 	}
 	return nullptr;
 }
 
-Door* CanisMajor::spawnDoor(Vector3 pos, Vector3 rot,Vector3 scale, Key* k, bool open)
+Door* CanisMajor::spawnDoor(Vector3 pos, Vector3 rot,Vector3 scale, QuestItem* k, bool open)
 {
 	pos.y+=6;
 	for(int i = 0 ; i < CM::MAX_DOORS; i++)

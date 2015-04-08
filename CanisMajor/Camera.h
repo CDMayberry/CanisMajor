@@ -12,7 +12,7 @@
 #include "mathUtil.h"
 #include "Flashlight.h"
 #include "Interactable.h"
-#include "Key.h"
+#include "QuestItem.h"
 
 namespace CameraNS
 {
@@ -71,13 +71,11 @@ public:
 	void setPerspective();
 	void setFlashlight(Flashlight* f) {flashlight = f;}
 
-	void addKey(Key* k);
-	bool checkKey(Key* k);
-	void removeKey(Key* k);
+	void addItem(QuestItem* k);
+	bool checkItem(QuestItem* k);
+	void removeItem(QuestItem* k);
 
-	void backUp(){position=prevLoc;}
-
-	
+	void backUp(){position=prevLoc;}	
 
 	Controls controls;
 
@@ -100,7 +98,7 @@ private:
 	Interactable* nearbyItem;
 	float distToInteractable;
 	Vector3 prevLoc;
-	Key** keys;
+	QuestItem** items;
 
 };
 #endif
