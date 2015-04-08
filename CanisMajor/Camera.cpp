@@ -106,9 +106,9 @@ void Camera::update(float dt)
 		if(bobTimer>PI/BOB_FREQUENCY)  {
 			bobTimer-=PI/BOB_FREQUENCY;
 			if(GetAsyncKeyState(controls.run))
-				game->audio->playCue(RUN1);
+				game->playSound(RUN1,getPosition());
 			else
-				game->audio->playCue(WALK1);
+				game->playSound(WALK1,getPosition());
 		}
 	}
 	else{
@@ -166,7 +166,7 @@ void Camera::update(float dt)
 			if(!buttonPushed)
 			{
 				flashlight->toggle();
-				game->audio->playCue(CLICK);
+				game->playSound(CLICK,getPosition());
 				buttonPushed = true;
 			}
 		}

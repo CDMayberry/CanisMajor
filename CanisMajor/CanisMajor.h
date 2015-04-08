@@ -102,10 +102,11 @@ public:
 	Origin origin;
 
 	Flashlight flashlight;
-	Dog doge;
+	Dog dog;
 
 	Pedestal pedestal;
 
+	void playSound(const char* cue, Vector3 pos);
 
 	//EVERTHING PUBLIC BELOW THIS IS FOR TESTING
 	Vector3 pos;
@@ -174,7 +175,7 @@ private:
 	bool test;
 	bool howl;
 
-	Vector3 * dogeWaypoints;
+	Vector3 * dogWaypoints;
 	int numwaypoints;
 
 protected:

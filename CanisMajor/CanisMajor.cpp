@@ -135,10 +135,10 @@ void CanisMajor::initApp()
 	}
 
 	mCube.init(md3dDevice,".\\geometry\\cube.geo", L".\\textures\\metal.dds", true);
-	doge.init(this,&mCube,1.0f);
-	doge.setScale(Vector3(0.1f,5.0f,5.0f));
-	doge.setNegalight(&negaLight);
-	doge.setEyes(&eyes);
+	dog.init(this,&mCube,1.0f);
+	dog.setScale(Vector3(0.1f,5.0f,5.0f));
+	dog.setNegalight(&negaLight);
+	dog.setEyes(&eyes);
 
 	mRoofHole.init(md3dDevice,".\\geometry\\newRoofHole.geo", L".\\textures\\greywood.dds");
 
@@ -304,7 +304,7 @@ void CanisMajor::levelsUpdate(float dt)
 	flashlight.update(dt);
 
 	camera.update(dt);
-	doge.update(dt);
+	dog.update(dt);
 
 	updateStoryText(dt);
 
@@ -486,7 +486,7 @@ void CanisMajor::levelsDraw()
 	mView = camera.getViewMatrix();
 	mProj = camera.getProjectionMatrix();
 
-	doge.draw(mfxWVPVar,mView,mProj,mTech);
+	dog.draw(mfxWVPVar,mView,mProj,mTech);
 
 	for(int i = 0 ; i < CM::MAX_SCENERY; i++)
 	{
@@ -792,21 +792,21 @@ void CanisMajor::loadSecondFloor()
 	flashlight.setPosition(Vector3(10,-2.5,10));
 	flashlight.isActive = true;
 
-	doge.isActive = true;
-	doge.setPosition(Vector3(10,0,30));
+	dog.isActive = true;
+	dog.setPosition(Vector3(10,0,30));
 
 	if (numwaypoints !=0)
-		delete [] dogeWaypoints;
+		delete [] dogWaypoints;
 	numwaypoints = 7;
-	dogeWaypoints = new Vector3[numwaypoints];
-	dogeWaypoints[0] = Vector3(10,-2.5,30);
-	dogeWaypoints[1] = Vector3(24,-2.5,40);
-	dogeWaypoints[2] = Vector3(25,-2.5,54);
-	dogeWaypoints[3] = Vector3(65, -2.5,51);
-	dogeWaypoints[4] = Vector3(65,-2.5,5);
-	dogeWaypoints[5] = Vector3(25,-2.5,5);
-	dogeWaypoints[6] = Vector3(25,-2.5,20);
-	doge.SetWaypoints(dogeWaypoints,numwaypoints);
+	dogWaypoints = new Vector3[numwaypoints];
+	dogWaypoints[0] = Vector3(10,-2.5,30);
+	dogWaypoints[1] = Vector3(24,-2.5,40);
+	dogWaypoints[2] = Vector3(25,-2.5,54);
+	dogWaypoints[3] = Vector3(65, -2.5,51);
+	dogWaypoints[4] = Vector3(65,-2.5,5);
+	dogWaypoints[5] = Vector3(25,-2.5,5);
+	dogWaypoints[6] = Vector3(25,-2.5,20);
+	dog.SetWaypoints(dogWaypoints,numwaypoints);
 	
 	//Floor panels
 	spawnScenery(&mCube,Vector3(0,-4,30),Vector3(0,0,0),Vector3(28,1,30));
@@ -1141,3 +1141,9 @@ void CanisMajor::updateDebugAABB(Actor* a)
 
 }
 #endif
+
+
+void CanisMajor::playSound(const char* cue, Vector3 pos)
+{
+	audio->playCue(cue);
+}
