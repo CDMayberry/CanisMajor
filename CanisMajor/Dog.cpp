@@ -76,6 +76,22 @@ void Dog::update(float dt){
 			}
 		}
 
+		if(position.x - game->camera.getPosition().x < 15 && position.z - game->camera.getPosition().z < 15)
+		{
+			if(!game->waiting)
+			{
+				game->start = clock();
+				game->waiting = true;
+			}
+			game->current = clock();
+
+			if(game->current - game->start > 10000)
+			{
+				game->audio->playCue(DOGGROWL);
+				game->waiting = false;
+			}
+		}
+
 		Actor::update(dt);
 	}
 }

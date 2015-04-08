@@ -26,8 +26,9 @@ public:
 
 	HINSTANCE	getAppInst();
 	HWND		getMainWnd();
-	Audio*		audio;
+	
 	Input*		input;
+	Audio*		audio;
 
 	int run();
 
@@ -48,7 +49,7 @@ protected:
 	void initDirect3D();
 	
 protected:
-
+	
 	HINSTANCE	mhAppInst;
 	HRESULT		hr;                 // standard return type
 	HWND		mhMainWnd;

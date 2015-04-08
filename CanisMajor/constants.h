@@ -38,6 +38,9 @@ const char HOWL[] = "howl";//Caelan
 const char WALK1[] = "walk1";
 const char WALK2[] = "walk2";
 const char RUN1[] = "run1";
+const char OPEN[] = "doorOpen";//Zared
+const char CLOSE[] = "doorClose";//Zared
+const char DOGGROWL[] = "dogGrowl";//Zared
 
 
 #endif

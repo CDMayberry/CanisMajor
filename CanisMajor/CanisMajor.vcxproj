@@ -101,7 +101,8 @@
     <ClCompile Include="GameTimer.cpp" />
     <ClCompile Include="Geometry.cpp" />
     <ClCompile Include="input.cpp" />
-    <ClCompile Include="Key.cpp" />
+    <ClCompile Include="Pedestal.cpp" />
+    <ClCompile Include="QuestItem.cpp" />
     <ClCompile Include="Line.cpp" />
     <ClCompile Include="mathUtil.cpp" />
     <ClCompile Include="CanisMajor.cpp" />
@@ -130,7 +131,8 @@
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="Interactable.h" />
-    <ClInclude Include="Key.h" />
+    <ClInclude Include="Pedestal.h" />
+    <ClInclude Include="QuestItem.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="mathUtil.h" />
     <ClInclude Include="Origin.h" />

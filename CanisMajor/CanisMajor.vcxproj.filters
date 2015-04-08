@@ -46,9 +46,6 @@
     <ClCompile Include="Quad.cpp">
       <Filter>Sources\Geometry</Filter>
     </ClCompile>
-    <ClCompile Include="Key.cpp">
-      <Filter>Sources\GameObj</Filter>
-    </ClCompile>
     <ClCompile Include="Door.cpp">
       <Filter>Sources\GameObj</Filter>
     </ClCompile>
@@ -62,6 +59,12 @@
       <Filter>Sources\GameObj</Filter>
     </ClCompile>
     <ClCompile Include="ReadableActor.cpp">
+      <Filter>Sources\GameObj</Filter>
+    </ClCompile>
+    <ClCompile Include="QuestItem.cpp">
+      <Filter>Sources\GameObj</Filter>
+    </ClCompile>
+    <ClCompile Include="Pedestal.cpp">
       <Filter>Sources\GameObj</Filter>
     </ClCompile>
   </ItemGroup>
@@ -129,9 +132,6 @@
     <ClInclude Include="Vertex.h">
       <Filter>Headers\Util</Filter>
     </ClInclude>
-    <ClInclude Include="Key.h">
-      <Filter>Headers\GameObj</Filter>
-    </ClInclude>
     <ClInclude Include="Door.h">
       <Filter>Headers\GameObj</Filter>
     </ClInclude>
@@ -154,6 +154,10 @@
       <Filter>Headers\Util</Filter>
     </ClInclude>
     <ClInclude Include="ReadableActor.h">
+      <Filter>Headers\GameObj</Filter>
+    </ClInclude>
+    <ClInclude Include="Pedestal.h" />
+    <ClInclude Include="QuestItem.h">
       <Filter>Headers\GameObj</Filter>
     </ClInclude>
   </ItemGroup>
