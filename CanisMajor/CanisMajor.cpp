@@ -502,7 +502,7 @@ void CanisMajor::drawScene()
 			break;
 		}
 	}
-	mSwapChain->Present(0, 0);
+	mSwapChain->Present(1, 0);
 }
 
 void CanisMajor::splashDraw()
@@ -733,12 +733,14 @@ void CanisMajor::loadAttic()
 {
 	state.level = ATTIC;
 	clearLevel();
-	setStoryText(10,L"WELCOME TO THE ATTIC");
+	setStoryText(10,L"Where am I?");
 	int iter = 0;
 
 	audio->playCue(BG);
 
-	QuestItem* k = spawnQuestItem(&mKey,L"GOLD KEY",Vector3(37.3,2,51));
+	QuestItem* k = nullptr;
+	if(!state.atticDoorUnlocked)
+		k=spawnQuestItem(&mKey,L"GOLD KEY",Vector3(37.3,2,51));
 
 	camera.setPosition(Vector3(5,0,5));
 
@@ -860,6 +862,8 @@ void CanisMajor::loadAttic()
 
 void CanisMajor::loadSecondFloor()
 {
+	setStoryText(10,L"this is a big house...");
+
 	QuestItem* patKey = spawnQuestItem(&mKey,L"BALCONY KEY",Vector3(7,1,15));
 
 	/*QuestItem *r1 = spawnQuestItem(&mRing,L"Large Ring",Vector3(20,0,10),Vector3(0,0,0),Vector3(1.2,1,1.2));
