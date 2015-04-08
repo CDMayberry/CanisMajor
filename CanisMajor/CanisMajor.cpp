@@ -701,6 +701,12 @@ void CanisMajor::clearLevel()
 		staircases[i].isActive=false;
 	pedestal.isActive = false;
 	flashlight.isActive = false;
+
+	if (numwaypoints !=0)//clear waypoints
+		delete [] dogWaypoints;
+	numwaypoints = 0;
+	dog.SetWaypoints(dogWaypoints,numwaypoints);//update dog's waypoint count
+	dog.isActive = false;//disable dog
 }
 
 void CanisMajor::loadSplashScreen(bool status)

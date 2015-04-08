@@ -6,8 +6,8 @@
 
 namespace dogNS{
 	const float WALK_SPEED = 5.0;
-	const float RUN_SPEED = 15.0f;
-	const float AGRO_DIST = 7.0f;//distance to start dog agro
+	const float RUN_SPEED = 12.0f;
+	const float AGRO_DIST = 10.0f;//distance to start dog agro
 	const float NEUTRAL_DIST = 20.0f;//distance to leave agro field
 };
 
