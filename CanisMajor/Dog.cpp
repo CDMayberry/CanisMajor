@@ -22,7 +22,7 @@ void Dog::update(float dt){
 		if(negalight != nullptr)
 			negalight->pos = position;
 		if(rEyes != nullptr)
-			rEyes->pos = position;
+			rEyes->pos = position+Vector3(-.15,1.5*scale.y,0);
 
 		//rotate so that the dog is always facing the player
 		//distance from dog to player
