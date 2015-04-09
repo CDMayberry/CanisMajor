@@ -159,12 +159,14 @@
     <ClInclude Include="ReadableActor.h">
       <Filter>Headers\GameObj</Filter>
     </ClInclude>
-    <ClInclude Include="Pedestal.h" />
     <ClInclude Include="QuestItem.h">
       <Filter>Headers\GameObj</Filter>
     </ClInclude>
     <ClInclude Include="Sky.h">
       <Filter>Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Pedestal.h">
+      <Filter>Headers\GameObj</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

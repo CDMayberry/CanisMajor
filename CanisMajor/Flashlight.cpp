@@ -31,6 +31,7 @@ void Flashlight::update(float dt)
 
 void Flashlight::setDirection(Vector3 v)
 {
+	Normalize(&v,&v);
 	direction = v;
 	
 	float rz = asin(v.y);

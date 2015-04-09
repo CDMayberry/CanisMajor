@@ -153,7 +153,7 @@ void CanisMajor::threadInit()
 	loadingStatus++; //21
 	mBook.init(md3dDevice,".\\geometry\\book.geo",L".\\textures\\paper.dds");
 	loadingStatus++; //22
-	mToilet.init(md3dDevice,".\\geometry\\cardboardBox.geo");
+	mToilet.init(md3dDevice,".\\geometry\\toilet.geo");
 	loadingStatus++; //23
 	mDog.init(md3dDevice,".\\geometry\\dog.geo");
 	loadingStatus++; //24
@@ -182,7 +182,7 @@ void CanisMajor::threadInit()
 	loadingStatus++; //30
 	mSink.init(md3dDevice,".\\geometry\\sink.geo");
 	loadingStatus++;
-	mTub.init(md3dDevice,".\\geometry\\desk.geo");
+	mTub.init(md3dDevice,".\\geometry\\tub.geo");
 	loadingStatus++;
 	mArrow.init(md3dDevice,".\\geometry\\arrow.geo", L".\\textures\\gold.dds");
 	loadingStatus++;
@@ -802,8 +802,8 @@ void CanisMajor::loadAttic()
 
 	if(!state.tookFlashlight)
 	{
-		flashlight.setPosition(Vector3(10,-2.5,5));
-		flashlight.setDirection(Vector3(1,0,0));
+		flashlight.setPosition(Vector3(18,-2,15));
+		flashlight.setDirection(Vector3(1,0,-.5));
 		flashlight.isActive = true;
 		flashlight.setStateSwitch(&state,&GameState::tookFlashlight);
 	}
@@ -910,7 +910,7 @@ void CanisMajor::loadAttic()
 	spawnScenery(&mWallpanel,Vector3(51,-3,26),Vector3(0,0,0),Vector3(1,4,1));
 
 	//Comedic effect cubes
-	spawnSearchable(&mBox,L"Conspicuous Cube",nullptr,Vector3(10,-2,10),Vector3(0,0,0),CM::BOX_SCALE);
+	spawnSearchable(&mBox,L"Conspicuous Cube",nullptr,Vector3(10,-2,15),Vector3(0,0,0),CM::BOX_SCALE);
 	spawnSearchable(&mBox,L"Inconspicuous Cube",nullptr,Vector3(22,-2,6),Vector3(0,PI/2,0),CM::BOX_SCALE);
 
 
