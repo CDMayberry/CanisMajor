@@ -17,7 +17,7 @@ public:
 	bool targeted;
 	void setStateSwitch(GameState* s,bool GameState::*sw){state = s;stateSwitch=sw;}
 
-private:
+protected:
 	GameState* state;
 	bool GameState::*stateSwitch;
 };

@@ -49,56 +49,69 @@ void Pedestal::update(float dt)
 }
 void Pedestal::interactWith(Camera* player)
 {
-	if(player->checkItem(arrow))
+	if(!solved)
 	{
-		player->removeItem(arrow);
-		arrow->isVisible = true;
-		arrow->isActive = true;
-		arrow->ableToBeTaken = false;
-		arrow->setPosition(getPosition()+RING_LOCATION);
-		hasArrow = true;
-		game->setStoryText(3,L"You place the golden arrow on the pedestal");
-	}
-	else if(player->checkItem(LRing))
-	{
-		player->removeItem(LRing);
-		LRing->isVisible = true;
-		LRing->isActive = true;
-		LRing->ableToBeTaken = false;
-		LRing->setPosition(getPosition()+RING_LOCATION);
-		hasLR = true;
-		game->setStoryText(3,L"You place the largest ring on the pedestal");
-	}
-	else if(player->checkItem(MRing))
-	{
-		player->removeItem(MRing);
-		MRing->isVisible = true;
-		MRing->isActive = true;
-		MRing->ableToBeTaken = false;
-		MRing->setPosition(getPosition()+RING_LOCATION);
-		hasMR = true;
-		game->setStoryText(3,L"You place the ring on the pedestal");
-	}
-	else if(player->checkItem(SRing))
-	{
-		player->removeItem(SRing);
-		SRing->isVisible = true;
-		SRing->isActive = true;
-		SRing->ableToBeTaken = false;
-		SRing->setPosition(getPosition()+RING_LOCATION);
-		hasSR = true;
-		game->setStoryText(3,L"You place the smallest ring on the pedestal");
-	}
-	else
-		game->setStoryText(3,L"The inscription of 3 rings and an arrow can be faintly seen.");
+		if(player->checkItem(arrow))
+		{
+			player->removeItem(arrow);
+			arrow->isVisible = true;
+			arrow->isActive = true;
+			arrow->ableToBeTaken = false;
+			arrow->setPosition(getPosition()+RING_LOCATION);
+			hasArrow = true;
+			game->setStoryText(3,L"You place the golden arrow on the pedestal");
+		}
+		else if(player->checkItem(LRing))
+		{
+			player->removeItem(LRing);
+			LRing->isVisible = true;
+			LRing->isActive = true;
+			LRing->ableToBeTaken = false;
+			LRing->setPosition(getPosition()+RING_LOCATION);
+			hasLR = true;
+			game->setStoryText(3,L"You place the largest ring on the pedestal");
+		}
+		else if(player->checkItem(MRing))
+		{
+			player->removeItem(MRing);
+			MRing->isVisible = true;
+			MRing->isActive = true;
+			MRing->ableToBeTaken = false;
+			MRing->setPosition(getPosition()+RING_LOCATION);
+			hasMR = true;
+			game->setStoryText(3,L"You place the ring on the pedestal");
+		}
+		else if(player->checkItem(SRing))
+		{
+			player->removeItem(SRing);
+			SRing->isVisible = true;
+			SRing->isActive = true;
+			SRing->ableToBeTaken = false;
+			SRing->setPosition(getPosition()+RING_LOCATION);
+			hasSR = true;
+			game->setStoryText(3,L"You place the smallest ring on the pedestal");
+		}
+		else
+			game->setStoryText(3,L"The inscription of 3 rings and an arrow can be faintly seen.");
 
-	if(hasArrow&&hasLR&&hasMR&&hasSR)
-	{
-		hidden->isVisible = true;
+		if(hasArrow&&hasLR&&hasMR&&hasSR)
+		{
+			hidden->isVisible = true;
+			solved=true;
+		}
 	}
 }
 
 std::wstring Pedestal::getUtilText()
 {
 	return L"Press E to examine the " + name;
+}
+
+void Pedestal::load(GameState state)
+{
+	hasArrow = state.arrowPlaced;
+	hasLR = state.LRPlaced;
+	hasMR = state.MRPlaced;
+	hasSR = state.SRPlaced;
+
 }
