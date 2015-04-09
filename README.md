@@ -1,6 +1,6 @@
 # CanisMajor
-Game 2
 
+Canis Major README
 
 //HOW TO USE .init ON NEW MODELS:
 
