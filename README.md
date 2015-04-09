@@ -9,9 +9,7 @@ Geometry.init now has 4 fields, only the first two of which are required. Here i
  
 the first two are the same. Like before, you pass it the device and the filename of the object, nothing changed here.
 
-'LPCWSTR texFile' is the new way to set either a texture or a color. 
-It is defaulted to a plain white color if you just want to init the object and run, 
-this way we don't need to make any changes to old objects for this to work.
+'LPCWSTR texFile' is the new way to set either a texture or a color. It is defaulted to a plain white color if you just want to init the object and run, this way we don't need to make any changes to old objects for this to work.
 
 if you want to do a basic color like we had before, you now need to have that color saved as a .dds file.
 This is easily done using paint .net, just create a 256x256 image(it can probably be smaller, I just default chose that), fill it with your color, and save it as a .dds in the 'textures' folder. 
