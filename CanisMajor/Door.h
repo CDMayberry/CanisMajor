@@ -19,6 +19,7 @@ public:
 		else return L"Press E to open the "+name;
 	}
 	bool getOpen(){return isOpen;}
+
 private:
 	QuestItem * key;
 	float closedRotation;
