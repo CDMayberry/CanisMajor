@@ -387,6 +387,7 @@ void CanisMajor::levelsUpdate(float dt)
 void CanisMajor::collisions()
 {
 	camera.resetNearbyInteractable();
+	dog.resetNearest();
 	float dist;
 
 	for(int i = 0; i< CM::MAX_SEARCHABLE_ACTORS; i++)
@@ -468,6 +469,25 @@ void CanisMajor::collisions()
 		camera.backUp();
 	if(camera.isPicked(&pedestal,dist))
 		camera.setNearbyInteractable(&pedestal,dist);
+
+	
+	//Dog AI
+	bool isPlayer = false;
+	for(int i = 0; i<CM::MAX_SCENERY; i++)
+	{
+		if(dog.isPicked(&scenery[i], dist))
+			dog.setNearest(&scenery[i],dist);
+	}
+
+	for(int i = 0; i<CM::MAX_DOORS; i++)
+	{
+		if(!doors[i].getOpen() && dog.isPicked(&doors[i], dist))
+			dog.setNearest(&doors[i],dist);
+	}
+
+	isPlayer = true;
+	if(dog.isPicked(&camera,dist))
+		dog.setNearest(&camera,dist);
 
 }
 

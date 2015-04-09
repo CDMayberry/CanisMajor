@@ -49,7 +49,6 @@ public:
 	virtual void update(float dt);
 
 	bool rayCollidesWith(Vector3 pos, Vector3 dir, float& dist);
-
 	void create(Vector3 pos, Vector3 rotate = Vector3(0,0,0), Vector3 scale = Vector3(1,1,1));
 	void setPosition (Vector3 pos) {position = pos;}
 	Vector3 getPosition() {return position;}
