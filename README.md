@@ -7,7 +7,7 @@ HOW TO USE .init ON NEW MODELS
 
 Geometry.init now has 4 fields, only the first two of which are required. Here is the new init:
 
-init(ID3D10Device* device, std::string objFile, LPCWSTR texFile = L".\\textures\\grey.dds", bool comp = false);
+    init(ID3D10Device* device, std::string objFile, LPCWSTR texFile = L".\\textures\\grey.dds", bool comp = false);
  
 the first two are the same. Like before, you pass it the device and the filename of the object, nothing changed here.
 
@@ -23,10 +23,10 @@ The issue is that if no textures are exported then the faces are exported as 'f 
 which will screw up any untextured models. By setting it to false it compensates for the // and 
 adds false texture coordinates instead. Thus an incomplete model would look like this:
 
-mBox.init(md3dDevice,".\\geometry\\cardboardBox.geo", L".\\textures\\cardboard.dds");
+    mBox.init(md3dDevice,".\\geometry\\cardboardBox.geo", L".\\textures\\cardboard.dds");
 
 Now, if your model is complete, you have a texture that correctly wraps the model and 
 you exported the texture coordinates with the model, then you simply pass the full 
 texture and 'true' to comp, like this:
 
-mCube.init(md3dDevice,".\\geometry\\cube.geo", L".\\textures\\metal.dds", true);
+    mCube.init(md3dDevice,".\\geometry\\cube.geo", L".\\textures\\metal.dds", true);
