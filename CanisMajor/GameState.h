@@ -19,6 +19,7 @@ struct GameState
 
 	Level level;
 	bool atticDoorUnlocked;
+	bool atticKeyTaken;
 	bool balconyDoorUnlocked;
 
 };

@@ -389,6 +389,14 @@ void CanisMajor::collisions()
 		}
 	}
 
+	for(int i = 0; i<CM::MAX_STAIRCASES;i++)
+	{
+		if(camera.collided(&staircases[i]))
+		{
+			camera.backUp();
+		}
+	}
+
 		for(int i = 0; i< CM::MAX_READABLE_ACTORS; i++)
 	{
 		if(camera.isPicked(&readableActors[i],dist))
@@ -767,8 +775,11 @@ void CanisMajor::loadAttic()
 	audio->playCue(BG);
 
 	QuestItem* k = nullptr;
-	if(!state.atticDoorUnlocked)
+	if(!state.atticKeyTaken)
+	{
 		k=spawnQuestItem(&mKey,L"GOLD KEY",Vector3(37.3,2,53));
+		k->setStateSwitch(&state,&GameState::atticKeyTaken);
+	}
 
 	camera.setPosition(Vector3(5,0,5));
 
@@ -903,7 +914,7 @@ void CanisMajor::loadSecondFloor()
 	pedestal.create(mainKey,a,r1,r2,r3,Vector3(75,0,40),Vector3(0,0,0),Vector3(1,1,1));
 
 	state.level = SECOND_FLOOR;
-	camera.setPosition(Vector3(37,3,69/*tehe*/));
+	camera.setPosition(Vector3(37,3,65));
 	clearLevel();
 	flashlight.setPosition(Vector3(10,-2.5,10));
 	flashlight.isActive = true;
@@ -1011,9 +1022,9 @@ void CanisMajor::loadSecondFloor()
 	spawnScenery(&mWallpanel,Vector3(33,5,70),Vector3(0,0,0),Vector3(4,3,2));
 	spawnScenery(&mWallpanel,Vector3(42,5,70),Vector3(0,0,0),Vector3(4,3,2));
 	spawnScenery(&mWallpanel,Vector3(42,5,70),Vector3(0,0,0),Vector3(4,3,2));
-	spawnStaircase(L"upstairs",&CanisMajor::loadAttic,Vector3(37,-3, 71), Vector3(0,PI/2,0), Vector3(1,1,.9));
-	spawnScenery(&mStaircase,Vector3(37,3, 78), Vector3(0,PI/2,0), Vector3(1,1,.9));
-	spawnScenery(&mStaircase,Vector3(37,-3, 71.1), Vector3(0,PI/2,0), Vector3(1,1,.9));
+	spawnStaircase(L"upstairs",&CanisMajor::loadAttic,Vector3(37,3, 76), Vector3(0,PI/2,0), Vector3(1,1,.9));
+	spawnScenery(&mStaircase,Vector3(37,11, 79), Vector3(0,PI/2,0), Vector3(1,4,.9));
+	spawnScenery(&mWallpanel,Vector3(37,10, 70), Vector3(0,0,PI/2), Vector3(1,1,3));
 
 	//Staircase to main floor
 	spawnScenery(&mWallpanel, Vector3(28,-4,15),Vector3(0,0,0),Vector3(1,4,1.2));
