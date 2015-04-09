@@ -70,7 +70,7 @@ void Pedestal::interactWith(Camera* player)
 			LRing->ableToBeTaken = false;
 			LRing->setPosition(getPosition()+RING_LOCATION);
 			hasLR = true;
-			game->setStoryText(3,L"You place the largest ring on the pedestal");
+			game->setNoteText(3,L"You place the largest ring on the pedestal");
 			state->LRPlaced = true;
 		}
 		else if(player->checkItem(MRing))
@@ -81,7 +81,7 @@ void Pedestal::interactWith(Camera* player)
 			MRing->ableToBeTaken = false;
 			MRing->setPosition(getPosition()+RING_LOCATION);
 			hasMR = true;
-			game->setStoryText(3,L"You place the ring on the pedestal");
+			game->setNoteText(3,L"You place the ring on the pedestal");
 			state->MRPlaced = true;
 		}
 		else if(player->checkItem(SRing))
@@ -92,11 +92,11 @@ void Pedestal::interactWith(Camera* player)
 			SRing->ableToBeTaken = false;
 			SRing->setPosition(getPosition()+RING_LOCATION);
 			hasSR = true;
-			game->setStoryText(3,L"You place the smallest ring on the pedestal");
+			game->setNoteText(3,L"You place the smallest ring on the pedestal");
 			state->SRPlaced = true;
 		}
 		else
-			game->setStoryText(3,L"The inscription of 3 rings and an arrow can be faintly seen.");
+			game->setNoteText(3,L"The inscription of 3 rings revolving around an arrow can be faintly seen.");
 
 		if(hasArrow&&hasLR&&hasMR&&hasSR)
 		{
