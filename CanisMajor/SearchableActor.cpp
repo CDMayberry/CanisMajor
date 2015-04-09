@@ -10,6 +10,7 @@ void SearchableActor::interactWith(Camera* player)
 		concealedItem->create(pos,rot);
 		concealedItem = nullptr;
 		game->setStoryText(2,L"You found something in the " + name);
+		game->playSound(JINGLE, pos);
 	}
 	else
 	{

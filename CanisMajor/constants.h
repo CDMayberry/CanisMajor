@@ -18,9 +18,9 @@
 #define FAILED(hr) (((HRESULT)(hr)) < 0)
 
 // WAVE_BANK must be location of .xwb file.
-const char WAVE_BANK[]  = "audio\\Win\\wave Bank.xwb";
+const char WAVE_BANK[]  = "audio\\Win\\CMwavebank.xwb";
 // SOUND_BANK must be location of .xsb file.
-const char SOUND_BANK[] = "audio\\Win\\sound Bank.xsb";
+const char SOUND_BANK[] = "audio\\Win\\CMsoundbank.xsb";
 // XGS_FILE must be location of .xgs file.
 const char XGS_FILE[]   = "audio\\Win\\audioProject.xgs";
 
@@ -41,6 +41,7 @@ const char RUN1[] = "run1";
 const char OPEN[] = "doorOpen";//Zared
 const char CLOSE[] = "doorClose";//Zared
 const char DOGGROWL[] = "dogGrowl";//Zared
-
+const char JINGLE[] = "jingle";//Caelan
+const char PICKUP[] = "pickup";//Caelan
 
 #endif

@@ -89,7 +89,7 @@ void Dog::update(float dt){
 
 			if(game->current - game->start > 10000)
 			{
-				game->audio->playCue(DOGGROWL);
+				game->playSound(DOGGROWL,position);
 				game->waiting = false;
 			}
 		}
