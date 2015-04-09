@@ -290,7 +290,10 @@ void CanisMajor::menuUpdate(float dt, bool reset)
 			switch(menuChoice)
 			{
 			case 1://play
-				loadAttic();
+				if(state.level==SPLASH)
+					menuLoad();
+				else
+					loadAttic();
 				break;
 			case 2://quit
 				PostQuitMessage(0);
@@ -323,6 +326,9 @@ void CanisMajor::menuUpdate(float dt, bool reset)
 
 void CanisMajor::levelsUpdate(float dt)
 {	
+
+	if(state.secondFloorSairsUsed)
+		return loadSplashScreen(true);
 
 	for(int i = 0 ; i < CM::MAX_SCENERY; i++)
 	{
@@ -761,7 +767,8 @@ void CanisMajor::loadSplashScreen(bool status)
 void CanisMajor::menuLoad()
 {
 	audio->stopCue(BG);
-	state.level = MENU;
+	state.reset();//sets menu state
+	camera.reset();
 	clearLevel();
 	menuUpdate(0,true);
 
@@ -781,6 +788,7 @@ void CanisMajor::loadAttic()
 		audio->playCue(BG);
 		state.gameStarted = true;
 		camera.setPosition(Vector3(5,0,5));
+		camera.setDirection(Vector3(1,0,0));
 	}
 	else
 	{
@@ -798,6 +806,7 @@ void CanisMajor::loadAttic()
 	if(!state.tookFlashlight)
 	{
 		flashlight.setPosition(Vector3(10,-2.5,5));
+		flashlight.setDirection(Vector3(1,0,0));
 		flashlight.isActive = true;
 		flashlight.setStateSwitch(&state,&GameState::tookFlashlight);
 	}
@@ -1051,7 +1060,8 @@ void CanisMajor::loadSecondFloor()
 	spawnScenery(&mWallpanel,Vector3(33,5,70),Vector3(0,0,0),Vector3(4,3,2));
 	spawnScenery(&mWallpanel,Vector3(42,5,70),Vector3(0,0,0),Vector3(4,3,2));
 	spawnScenery(&mWallpanel,Vector3(42,5,70),Vector3(0,0,0),Vector3(4,3,2));
-	spawnStaircase(L"upstairs",&CanisMajor::loadAttic,Vector3(37,3, 76), Vector3(0,PI/2,0), Vector3(1,1,.9));
+	//spawnStaircase(L"upstairs",&CanisMajor::loadAttic,Vector3(37,3, 76), Vector3(0,PI/2,0), Vector3(1,1,.9));
+	spawnScenery(&mStaircase,Vector3(37,3, 76), Vector3(0,PI/2,0), Vector3(1,1,.9));
 	spawnScenery(&mStaircase,Vector3(37,11, 79), Vector3(0,PI/2,0), Vector3(1,4,.9));
 	spawnScenery(&mWallpanel,Vector3(37,10, 70), Vector3(0,0,PI/2), Vector3(1,1,3));
 
