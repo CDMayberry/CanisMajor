@@ -42,7 +42,7 @@ public:
 	Camera();
 	~Camera();
 
-	
+	void reset();
 
 	//Geo used for AABB collision
 	void init(CanisMajor* game,Geometry* geo, Controls c);

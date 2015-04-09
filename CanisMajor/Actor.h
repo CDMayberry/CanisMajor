@@ -23,7 +23,6 @@ private:
 	Geometry *geometry; 
 	float radius;
 	float radiusSquared;
-	Vector3 scale;
 	ID3D10EffectTechnique* mTech;
 
 	Matrix wvp,s,t,r,texMtx;//world view projection
@@ -38,6 +37,7 @@ protected:
 	float MAX_HEALTH;
 	//bool targeted; 
 	CanisMajor* game;
+	Vector3 scale;
 
 public:
 

@@ -25,6 +25,7 @@ Camera::~Camera()
 {
 	delete [] items;
 }
+void Camera::reset(){flashlight=nullptr;for(int i = 0 ; i < CM::NUM_QUEST_ITEMS; i++){items[i]=nullptr;}}
 
 void Camera::init(CanisMajor* game,Geometry* geo, Controls c)
 {
@@ -177,8 +178,15 @@ void Camera::update(float dt)
 		{
 			flashlight->recharge(dt);
 			shakeTimer+=SHAKE_SPEED*dt;
-			if(shakeTimer>2*PI)shakeTimer-=2*PI;
-			flashHeight = 1+sin(shakeTimer)/2;
+			if(shakeTimer>2*PI) {
+				shakeTimer-=2*PI;
+				game->playSound(SHAKE, position);
+			}
+			else if(flashHeight == 1) {
+				game->playSound(SHAKE, position);
+			}
+				flashHeight = 1+sin(shakeTimer)/2;
+
 		}
 		else
 			flashHeight = 1;	

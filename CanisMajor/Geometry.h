@@ -26,6 +26,8 @@ public:
 	Vector3 getAABBMin(){return min;}
 	Vector3 getAABBMax(){return max;}
 
+	void setCustomAABB(Vector3 min, Vector3 max){this->min = min; this->max = max;}
+
 	ID3D10ShaderResourceView* mDiffuseMapRV;
 	ID3D10ShaderResourceView* mSpecMapRV;
 

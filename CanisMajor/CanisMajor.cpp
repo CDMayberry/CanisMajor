@@ -109,9 +109,9 @@ void CanisMajor::threadInit()
 
 	mTelescope.init(md3dDevice,".\\geometry\\telescope.geo");
 	loadingStatus++; //1
-	mDresser.init(md3dDevice,".\\geometry\\dresser.geo");
+	mDresser.init(md3dDevice,".\\geometry\\dresser.geo", L".\\textures\\lightwood.dds");
 	loadingStatus++; //2
-	mFlashlight.init(md3dDevice,".\\geometry\\flashlight.geo");
+	mFlashlight.init(md3dDevice,".\\geometry\\flashlight.geo", L".\\textures\\grey.dds");
 	flashlight.init(this,&mFlashlight,&fLight);
 	loadingStatus++; //3
 	mFrame.init(md3dDevice,".\\geometry\\pictureframe.geo");
@@ -120,13 +120,14 @@ void CanisMajor::threadInit()
 	loadingStatus++; //5
 	mChair.init(md3dDevice,".\\geometry\\chair.geo", L".\\textures\\lightwood.dds");
 	loadingStatus++; //6
-	mCradle.init(md3dDevice,".\\geometry\\cradle.geo");
+	mCradle.init(md3dDevice,".\\geometry\\cradle.geo", L".\\textures\\medwood.dds");
 	loadingStatus++; //7
-	mMasterbed.init(md3dDevice,".\\geometry\\masterBed.geo");
+	mMasterbed.init(md3dDevice,".\\geometry\\masterBed.geo", L".\\textures\\medwood.dds");
 	loadingStatus++; //8
-	mServantbed.init(md3dDevice,".\\geometry\\servantBed.geo");
+	mServantbed.init(md3dDevice,".\\geometry\\servantBed.geo",L".\\textures\\medwood.dds");
 	loadingStatus++; //9
-	mStaircase.init(md3dDevice,".\\geometry\\staircase.geo");
+	mStaircase.init(md3dDevice,".\\geometry\\staircase.geo", L".\\lightwood.dds");
+	mStaircase.setCustomAABB(mStaircase.getAABBMin(),mStaircase.getAABBMax()+Vector3(0,10,0));
 	loadingStatus++; //10
 	mTable.init(md3dDevice,".\\geometry\\table.geo", L".\\textures\\lightwood.dds");
 	loadingStatus++; //11
@@ -144,7 +145,7 @@ void CanisMajor::threadInit()
 	loadingStatus++; //17
 	mCage.init(md3dDevice,".\\geometry\\cage.geo");
 	loadingStatus++; //18
-	mFixture.init(md3dDevice,".\\geometry\\fixture.geo");
+	mFixture.init(md3dDevice,".\\geometry\\fixture.geo", L".\\textures\\cardboard.dds");
 	loadingStatus++; //19
 	mDoor.init(md3dDevice,".\\geometry\\door.geo", L".\\textures\\gold.dds");
 	loadingStatus++; //20
@@ -152,9 +153,13 @@ void CanisMajor::threadInit()
 	loadingStatus++; //21
 	mBook.init(md3dDevice,".\\geometry\\book.geo",L".\\textures\\paper.dds");
 	loadingStatus++; //22
-	mToilet.init(md3dDevice,".\\geometry\\cardboardBox.geo");
+#ifndef DEBUG
+	mToilet.init(md3dDevice,".\\geometry\\toilet.geo");
+#else
+	mToilet.init(md3dDevice,".\\geometry\\cardboardBox.geo", L".\\textures\\paper.dds");
+#endif
 	loadingStatus++; //23
-	mDog.init(md3dDevice,".\\geometry\\cardboardBox.geo");
+	mDog.init(md3dDevice,".\\geometry\\dog.geo");
 	loadingStatus++; //24
 	for(int i = 0 ; i < CM::MAX_DOORS; i++)
 	{
@@ -164,8 +169,8 @@ void CanisMajor::threadInit()
 	}
 
 	mCube.init(md3dDevice,".\\geometry\\cube.geo", L".\\textures\\metal.dds", true);
-	dog.init(this,&mDog,1.0f,Vector3(.5,.5,.5));
-	dog.setScale(Vector3(0.1f,5.0f,5.0f));
+	dog.init(this,&mDog,1.0f,Vector3(1,2,2));
+	//dog.setScale(Vector3(0.1f,5.0f,5.0f));
 	dog.setNegalight(&negaLight);
 	dog.setEyes(&eyes);
 	loadingStatus++; //25
@@ -181,7 +186,7 @@ void CanisMajor::threadInit()
 	loadingStatus++; //30
 	mSink.init(md3dDevice,".\\geometry\\sink.geo");
 	loadingStatus++;
-	mTub.init(md3dDevice,".\\geometry\\desk.geo");
+	mTub.init(md3dDevice,".\\geometry\\tub.geo");
 	loadingStatus++;
 	mArrow.init(md3dDevice,".\\geometry\\arrow.geo", L".\\textures\\gold.dds");
 	loadingStatus++;
@@ -290,7 +295,10 @@ void CanisMajor::menuUpdate(float dt, bool reset)
 			switch(menuChoice)
 			{
 			case 1://play
-				loadAttic();
+				if(state.level==SPLASH)
+					menuLoad();
+				else
+					loadAttic();
 				break;
 			case 2://quit
 				PostQuitMessage(0);
@@ -323,6 +331,9 @@ void CanisMajor::menuUpdate(float dt, bool reset)
 
 void CanisMajor::levelsUpdate(float dt)
 {	
+
+	if(state.secondFloorSairsUsed)
+		return loadSplashScreen(true);
 
 	for(int i = 0 ; i < CM::MAX_SCENERY; i++)
 	{
@@ -398,6 +409,10 @@ void CanisMajor::collisions()
 		{
 			camera.backUp();
 		}
+		if(camera.isPicked(&staircases[i],dist))
+		{
+			camera.setNearbyInteractable(&staircases[i],dist);
+		}
 	}
 
 		for(int i = 0; i< CM::MAX_READABLE_ACTORS; i++)
@@ -447,14 +462,6 @@ void CanisMajor::collisions()
 		if(camera.collided(&scenery[i]))
 		{
 			camera.backUp();
-		}
-	}
-
-	for(int i = 0 ; i < CM::MAX_STAIRCASES; i++)
-	{
-		if(camera.isPicked(&staircases[i],dist))
-		{
-			camera.setNearbyInteractable(&staircases[i],dist);
 		}
 	}
 
@@ -732,27 +739,35 @@ void CanisMajor::clearLevel()
 	for(int i = 0 ; i < CM::NUM_QUEST_ITEMS; i++)
 	{
 		items[i].isActive=false;
+		items[i].reset();
 	}
 	for(int i = 0 ; i < CM::MAX_DOORS; i++)
 	{
 		doors[i].isActive=false;
+		doors[i].reset();
 	}
 	for(int i = 0 ; i < CM::MAX_SEARCHABLE_ACTORS; i++)
 	{
 		searchableActors[i].isActive = false;
+		searchableActors[i].reset();
 	}
 	for(int i = 0 ; i < CM::MAX_READABLE_ACTORS; i++)
 	{
 		readableActors[i].isActive = false;
+		readableActors[i].reset();
+	}
+	for(int i = 0 ; i < CM::MAX_STAIRCASES; i++)
+	{
+		staircases[i].isActive=false;
+		staircases[i].reset();
 	}
 	for(int i = 0; i < MAX_LIGHTS; i++) {
 		rLights[i].init();
 		lightType[i] = 0;
 	}
 	activeLights = 0;
-	for(int i = 0 ; i < CM::MAX_STAIRCASES; i++)
-		staircases[i].isActive=false;
 	pedestal.isActive = false;
+	pedestal.reset();
 	flashlight.isActive = false;
 
 	if (numwaypoints !=0)//clear waypoints
@@ -781,7 +796,8 @@ void CanisMajor::loadSplashScreen(bool status)
 void CanisMajor::menuLoad()
 {
 	audio->stopCue(BG);
-	state.level = MENU;
+	state.reset();//sets menu state
+	camera.reset();
 	clearLevel();
 	menuUpdate(0,true);
 
@@ -801,6 +817,7 @@ void CanisMajor::loadAttic()
 		audio->playCue(BG);
 		state.gameStarted = true;
 		camera.setPosition(Vector3(5,0,5));
+		camera.setDirection(Vector3(1,0,0));
 	}
 	else
 	{
@@ -817,7 +834,8 @@ void CanisMajor::loadAttic()
 
 	if(!state.tookFlashlight)
 	{
-		flashlight.setPosition(Vector3(10,-2.5,5));
+		flashlight.setPosition(Vector3(18,-2,15));
+		flashlight.setDirection(Vector3(1,0,-.5));
 		flashlight.isActive = true;
 		flashlight.setStateSwitch(&state,&GameState::tookFlashlight);
 	}
@@ -886,7 +904,7 @@ void CanisMajor::loadAttic()
 
 	spawnScenery(&mWallpanel,Vector3(10,5,55.01),Vector3(0,1.5707963268,0),Vector3(1,4,6));
 
-	spawnScenery(&mRoofHole,Vector3(19,13.3,7.1),Vector3(0,0,.41),Vector3(6, 2.8, 5.1));
+	spawnScenery(&mRoofHole,Vector3(19.6,12,7.1),Vector3(0,0,.42),Vector3(6.5, 4.5, 5.1));
 
 	spawnScenery(&mWallpanel,Vector3(40,5,32),Vector3(0,0,0),Vector3(1,1.6,.6));
 
@@ -924,7 +942,7 @@ void CanisMajor::loadAttic()
 	spawnScenery(&mWallpanel,Vector3(51,-3,26),Vector3(0,0,0),Vector3(1,4,1));
 
 	//Comedic effect cubes
-	spawnSearchable(&mBox,L"Conspicuous Cube",nullptr,Vector3(10,-2,10),Vector3(0,0,0),CM::BOX_SCALE);
+	spawnSearchable(&mBox,L"Conspicuous Cube",nullptr,Vector3(10,-2,15),Vector3(0,0,0),CM::BOX_SCALE);
 	spawnSearchable(&mBox,L"Inconspicuous Cube",nullptr,Vector3(22,-2,6),Vector3(0,PI/2,0),CM::BOX_SCALE);
 
 
@@ -1003,7 +1021,7 @@ void CanisMajor::loadSecondFloor()
 		spawnScenery(&mRail,Vector3(71.5+(i*2),-3,15),Vector3(0,PI/2,0),Vector3(2,2,1.5));
 
 	//Telescope. It should contain something for a puzzle
-	spawnSearchable(&mTelescope,L"Telescope",nullptr,Vector3(85,-2.7,40),Vector3(0,-2*PI/3,0),Vector3(7,7,7));
+	spawnReadable(&mTelescope,L"Telescope",nullptr,Vector3(85,-2.7,40),Vector3(0,-2*PI/3,0),Vector3(7,7,7), L"Canis Major can be seen rising just over the horizon");
 
 	//Left outer wall
 	spawnScenery(&mWallpanel,Vector3(0,3,10),Vector3(0,0,0), Vector3(1,1.2,2));
@@ -1071,7 +1089,8 @@ void CanisMajor::loadSecondFloor()
 	spawnScenery(&mWallpanel,Vector3(33,5,70),Vector3(0,0,0),Vector3(4,3,2));
 	spawnScenery(&mWallpanel,Vector3(42,5,70),Vector3(0,0,0),Vector3(4,3,2));
 	spawnScenery(&mWallpanel,Vector3(42,5,70),Vector3(0,0,0),Vector3(4,3,2));
-	spawnStaircase(L"upstairs",&CanisMajor::loadAttic,Vector3(37,3, 76), Vector3(0,PI/2,0), Vector3(1,1,.9));
+	//spawnStaircase(L"upstairs",&CanisMajor::loadAttic,Vector3(37,3, 76), Vector3(0,PI/2,0), Vector3(1,1,.9));
+	spawnScenery(&mStaircase,Vector3(37,3, 76), Vector3(0,PI/2,0), Vector3(1,1,.9));
 	spawnScenery(&mStaircase,Vector3(37,11, 79), Vector3(0,PI/2,0), Vector3(1,4,.9));
 	spawnScenery(&mWallpanel,Vector3(37,10, 70), Vector3(0,0,PI/2), Vector3(1,1,3));
 

@@ -59,7 +59,7 @@ struct Light
 			att.x    = 0.0f;
 			att.y    = .1f;
 			att.z    = 0.01f;
-			range    = 7.0f;
+			range    = 5.0f;
 			return 0;
 #endif
 		}
@@ -83,7 +83,7 @@ struct Light
 			att.x    = 0.0f;	//Flat increase/decrease
 			att.y    = 0.0f;		//Linear increase/decrease
 			att.z    = 0.0001f;	//Exponential increase/decrease
-			range    = 3.0f;	
+			range    = 0.95f;	
 			return 0;
 		}
 
