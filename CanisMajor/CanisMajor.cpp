@@ -1093,7 +1093,7 @@ void CanisMajor::loadSecondFloor()
 	//Table with stuff on it and chair
 	spawnSearchable(&mTable,L"Table",patKey,Vector3(5,-2.4,16),Vector3(0,PI/2,0),Vector3(1.5,1.5,1.5));
 	spawnScenery(&mChair,Vector3(4.7,-1.8,11),Vector3(1,-PI/2,0), CM::CHAIR_SCALE);
-	spawnReadable(&mBook, L"Book", nullptr,Vector3(5.5,.5,17.5),Vector3(0,PI/2,0),Vector3(.8,1,.8), L"August 20th:\nBloody hell, where have those children hidden my artifacts???");
+	spawnReadable(&mBook, L"Book", nullptr,Vector3(5.0,.5,17.5),Vector3(0,PI/2,0),Vector3(.8,1,.8), L"August 20th:\nBloody hell, where have those children hidden my artifacts???");
 	spawnScenery(&mBookStack,Vector3(2.5,.5,16.8),Vector3(0,0,0),Vector3(1,1,1));
 	spawnScenery(&mBottle,Vector3(5,1,13.5),Vector3(0,0,0),Vector3(1,1,1));
 	spawnScenery(&mBottle,Vector3(2,.4,14.5),Vector3(0,0,PI/2),Vector3(1,1,1));
@@ -1102,7 +1102,9 @@ void CanisMajor::loadSecondFloor()
 	spawnSearchable(&mDesk,L"Desk",r3,Vector3(2,-1.5,47),Vector3(0,PI,0),Vector3(1,1,1));
 	spawnScenery(&mChair,Vector3(2.5,-2.6,46),Vector3(0,PI,.6), CM::CHAIR_SCALE);
 	spawnScenery(&mBookStack,Vector3(1,1,48.5),Vector3(0,0,0),Vector3(1,1,1));
-	spawnReadable(&mBook, L"Book", nullptr,Vector3(2.5,1,45),Vector3(0,PI/2,0),Vector3(.5,.75,.5));
+	spawnReadable(&mBook, L"Book", nullptr,Vector3(3.5,.65,45),Vector3(PI/8,PI/2,0),Vector3(.5,.75,.5), L"Scrawled in child's writing:\nDolan loves it when we hide daddy's things!\n We even hid one in his dresser.");
+	spawnScenery(&mFixture,Vector3(1,5,51),Vector3(0,PI/2,0));
+	spawnLight(Vector3(1.3,5.3,51));
 	spawnScenery(&mTable,Vector3(6,-1,57),Vector3(0,0,0),Vector3(2,1,1.2));
 	spawnScenery(&mChair,Vector3(4,-3,53),Vector3(0,-PI/2,0), CM::CHAIR_SCALE);
 	spawnScenery(&mBookStack,Vector3(2,1,55.5),Vector3(0,0,0),Vector3(1,1,1));
