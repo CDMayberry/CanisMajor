@@ -46,5 +46,6 @@ const char PICKUP[] = "pickup";//Caelan
 const char UNLOCK[] = "unlock";//Caelan 
 const char BITE[] = "bite";//Caelan 
 const char BITESCREAM[] = "bitescream";//Caelan 
+const char SHAKE[] = "shake"; //Caelan
 
 #endif
