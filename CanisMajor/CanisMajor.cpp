@@ -44,6 +44,7 @@ CanisMajor::CanisMajor(HINSTANCE hInstance)
 	scenery = new Actor[CM::MAX_SCENERY];
 	searchableActors = new SearchableActor[CM::MAX_SEARCHABLE_ACTORS];
 	readableActors = new ReadableActor[CM::MAX_READABLE_ACTORS];
+	numwaypoints = 0;
 }
 
 CanisMajor::~CanisMajor()
