@@ -1,5 +1,6 @@
 #include "Flashlight.h"
 #include "Camera.h"
+#include "CanisMajor.h"
 using namespace flashlightNS;
 
 void Flashlight::init(CanisMajor* game,Geometry *b, Light* l, float r)
@@ -44,6 +45,7 @@ void Flashlight::interactWith(Camera* player)
 {
 	Interactable::interactWith(player);
 	player->setFlashlight(this);
+	game->setStoryText(4,L"A shake light? At least it won't run out of charge...");
 }
 
 void Flashlight::recharge(float dt)

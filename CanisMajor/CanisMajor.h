@@ -27,7 +27,7 @@
 using std::wstring;
 
 namespace CM{
-	const int NUM_MENU_ITEMS = 3;//title, play, quit
+	const int NUM_MENU_ITEMS = 6;//title, play, quit, "", instructions 1/2
 	const int NUM_SPLASH_MENU_ITEMS = 3;//title, continue, quit
 	const float TEXT_FADEOUT_TIME = 3;
 	const int MAX_WALLS = 750;
