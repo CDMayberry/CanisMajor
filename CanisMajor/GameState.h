@@ -13,6 +13,11 @@ enum Level{
 struct GameState
 {
 	GameState(){
+		reset();
+	}
+
+	void reset()
+	{
 		level = MENU;
 		atticDoorUnlocked = false;
 		balconyDoorUnlocked = false;
