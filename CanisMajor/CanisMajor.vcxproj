@@ -110,6 +110,7 @@
     <ClCompile Include="Quad.cpp" />
     <ClCompile Include="ReadableActor.cpp" />
     <ClCompile Include="SearchableActor.cpp" />
+    <ClCompile Include="Sky.cpp" />
     <ClCompile Include="Staircase.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -142,6 +143,7 @@
     <ClInclude Include="ReadableActor.h" />
     <ClInclude Include="SearchableActor.h" />
     <ClInclude Include="sharedDefines.h" />
+    <ClInclude Include="Sky.h" />
     <ClInclude Include="Staircase.h" />
     <ClInclude Include="Vertex.h" />
   </ItemGroup>
@@ -150,6 +152,11 @@
       <FileType>Document</FileType>
     </None>
     <None Include="lighting.fx">
+      <FileType>Document</FileType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="sky.fx">
       <FileType>Document</FileType>
     </None>
   </ItemGroup>

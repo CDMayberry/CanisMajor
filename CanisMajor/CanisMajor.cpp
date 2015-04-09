@@ -44,6 +44,7 @@ CanisMajor::CanisMajor(HINSTANCE hInstance)
 	scenery = new Actor[CM::MAX_SCENERY];
 	searchableActors = new SearchableActor[CM::MAX_SEARCHABLE_ACTORS];
 	readableActors = new ReadableActor[CM::MAX_READABLE_ACTORS];
+	numwaypoints = 0;
 }
 
 CanisMajor::~CanisMajor()
@@ -71,11 +72,12 @@ void CanisMajor::initApp()
 
 	D3DApp::initApp();
 
+	buildFX();
+
 	threadComplete = false;
 	loadingStatus = 0;
 	loadingThread = CreateThread(0,0,threadFunct,this,0,0);
 
-	buildFX();
 	buildVertexLayouts();
 	menuLoad();
 
@@ -83,6 +85,8 @@ void CanisMajor::initApp()
 
 void CanisMajor::threadInit()
 {
+	sky.init(md3dDevice, this, 5000.0f);
+
 	for(int i = 0; i < MAX_LIGHTS; i++) {
 		rLights[i].init();
 		rLights[i].pos = Vector3(0, -200, 0);
@@ -104,54 +108,54 @@ void CanisMajor::threadInit()
 	numwaypoints = 0;
 
 	mTelescope.init(md3dDevice,".\\geometry\\telescope.geo");
-	loadingStatus++;
+	loadingStatus++; //1
 	mDresser.init(md3dDevice,".\\geometry\\dresser.geo");
-	loadingStatus++;
+	loadingStatus++; //2
 	mFlashlight.init(md3dDevice,".\\geometry\\flashlight.geo");
 	flashlight.init(this,&mFlashlight,&fLight);
-	loadingStatus++;
+	loadingStatus++; //3
 	mFrame.init(md3dDevice,".\\geometry\\pictureframe.geo");
-	loadingStatus++;
+	loadingStatus++; //4
 	mBookcase.init(md3dDevice,".\\geometry\\bookcase.geo", L".\\textures\\medwood.dds");
-	loadingStatus++;
+	loadingStatus++; //5
 	mChair.init(md3dDevice,".\\geometry\\chair.geo", L".\\textures\\lightwood.dds");
-	loadingStatus++;
+	loadingStatus++; //6
 	mCradle.init(md3dDevice,".\\geometry\\cradle.geo");
-	loadingStatus++;
+	loadingStatus++; //7
 	mMasterbed.init(md3dDevice,".\\geometry\\masterBed.geo");
-	loadingStatus++;
+	loadingStatus++; //8
 	mServantbed.init(md3dDevice,".\\geometry\\servantBed.geo");
-	loadingStatus++;
+	loadingStatus++; //9
 	mStaircase.init(md3dDevice,".\\geometry\\staircase.geo");
-	loadingStatus++;
+	loadingStatus++; //10
 	mTable.init(md3dDevice,".\\geometry\\table.geo", L".\\textures\\lightwood.dds");
-	loadingStatus++;
+	loadingStatus++; //11
 	mBottle.init(md3dDevice,".\\geometry\\bottle.geo", L".\\textures\\bottlegreen.dds");
-	loadingStatus++;
+	loadingStatus++; //12
 	mLock.init(md3dDevice,".\\geometry\\lock.geo");
-	loadingStatus++;
+	loadingStatus++; //13
 	mPictureframe.init(md3dDevice,".\\geometry\\pictureframe.geo");
-	loadingStatus++;
+	loadingStatus++; //14
 	mRail.init(md3dDevice,".\\geometry\\rail.geo");
-	loadingStatus++;
+	loadingStatus++; //15
 	mWallpanel.init(md3dDevice,".\\geometry\\wallpanel.geo", L".\\textures\\greywood.dds");
-	loadingStatus++;
+	loadingStatus++; //16
 	mWindow.init(md3dDevice,".\\geometry\\window.geo", L".\\textures\\greywood.dds");
-	loadingStatus++;
+	loadingStatus++; //17
 	mCage.init(md3dDevice,".\\geometry\\cage.geo");
-	loadingStatus++;
+	loadingStatus++; //18
 	mFixture.init(md3dDevice,".\\geometry\\fixture.geo");
-	loadingStatus++;
+	loadingStatus++; //19
 	mDoor.init(md3dDevice,".\\geometry\\door.geo", L".\\textures\\gold.dds");
-	loadingStatus++;
+	loadingStatus++; //20
 	mBox.init(md3dDevice,".\\geometry\\cardboardBox.geo", L".\\textures\\cardboard.dds");
-	loadingStatus++;
+	loadingStatus++; //21
 	mBook.init(md3dDevice,".\\geometry\\book.geo",L".\\textures\\paper.dds");
-	loadingStatus++;
-	mToilet.init(md3dDevice,".\\geometry\\toilet.geo");
-	loadingStatus++;
-	mDog.init(md3dDevice,".\\geometry\\dog.geo");
-	loadingStatus++;
+	loadingStatus++; //22
+	mToilet.init(md3dDevice,".\\geometry\\cardboardBox.geo");
+	loadingStatus++; //23
+	mDog.init(md3dDevice,".\\geometry\\cardboardBox.geo");
+	loadingStatus++; //24
 	for(int i = 0 ; i < CM::MAX_DOORS; i++)
 	{
 		doors[i].init(this,&mDoor,1);
@@ -164,18 +168,18 @@ void CanisMajor::threadInit()
 	dog.setScale(Vector3(0.1f,5.0f,5.0f));
 	dog.setNegalight(&negaLight);
 	dog.setEyes(&eyes);
-	loadingStatus++;
+	loadingStatus++; //25
 	mRoofHole.init(md3dDevice,".\\geometry\\newRoofHole.geo", L".\\textures\\greywood.dds");
-	loadingStatus++;
+	loadingStatus++; //26
 	mKey.init(md3dDevice,".\\geometry\\key.geo", L".\\textures\\gold.dds");
-	loadingStatus++;
+	loadingStatus++; //27
 	mWindowPanel.init(md3dDevice,".\\geometry\\windowpanel.geo", L".\\textures\\greywood.dds");
-	loadingStatus++;
+	loadingStatus++; //28
 	mBookStack.init(md3dDevice,".\\geometry\\bookStack.geo");
-	loadingStatus++;
+	loadingStatus++; //29
 	mDesk.init(md3dDevice,".\\geometry\\desk.geo");
-	loadingStatus++;
-	mSink.init(md3dDevice,".\\geometry\\sink.geo");
+	loadingStatus++; //30
+	mSink.init(md3dDevice,".\\geometry\\cardboardBox.geo");
 	loadingStatus++;
 	mTub.init(md3dDevice,".\\geometry\\desk.geo");
 	loadingStatus++;
@@ -228,7 +232,7 @@ void CanisMajor::threadInit()
 
 	
 
-	buildFX();
+	//buildFX();
 	buildVertexLayouts();
 
 	loadingStatus++;
@@ -346,9 +350,10 @@ void CanisMajor::levelsUpdate(float dt)
 
 	pedestal.update(dt);
 
-	flashlight.update(dt);
-
 	camera.update(dt);
+
+	flashlight.update(dt);
+	
 	dog.update(dt);
 
 	updateStoryText(dt);
@@ -556,6 +561,8 @@ void CanisMajor::levelsDraw()
 	//Get Camera viewMatrix
 	mView = camera.getViewMatrix();
 	mProj = camera.getProjectionMatrix();
+	
+	sky.draw(mView, mProj);
 
 	dog.draw(mfxWVPVar,mView,mProj,mTech);
 
@@ -611,6 +618,18 @@ void CanisMajor::buildFX()
 	HRESULT hr = 0;
 	hr = D3DX10CreateEffectFromFile(L"lighting.fx", 0, 0, 
 		"fx_4_0", shaderFlags, 0, md3dDevice, 0, 0, &mFX, &compilationErrors, 0);
+	if(FAILED(hr))
+	{
+		if( compilationErrors )
+		{
+			MessageBoxA(0, (char*)compilationErrors->GetBufferPointer(), 0, 0);
+			ReleaseCOM(compilationErrors);
+		}
+		DXTrace(__FILE__, (DWORD)__LINE__, hr, L"D3DX10CreateEffectFromFile", true);
+	} 
+
+	hr = D3DX10CreateEffectFromFile(L"sky.fx", 0, 0, 
+		"fx_4_0", shaderFlags, 0, md3dDevice, 0, 0, &skyFX, &compilationErrors, 0);
 	if(FAILED(hr))
 	{
 		if( compilationErrors )

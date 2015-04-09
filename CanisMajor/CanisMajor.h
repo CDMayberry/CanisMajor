@@ -23,6 +23,7 @@
 #include "GameState.h"
 #include <chrono>
 #include "Pedestal.h"
+#include "Sky.h"
 using std::wstring;
 
 namespace CM{
@@ -111,6 +112,8 @@ public:
 
 	Camera camera;
 
+	Sky sky;
+
 	clock_t start;
 	clock_t current;
 
@@ -139,6 +142,7 @@ public:
 	ID3D10EffectShaderResourceVariable* mfxDiffuseMapVar;
 	ID3D10EffectShaderResourceVariable* mfxSpecMapVar;
 	ID3D10EffectMatrixVariable* mfxTexMtxVar;
+	ID3D10Effect* skyFX;
 	
 	Light fLight;
 	Light ambient;
