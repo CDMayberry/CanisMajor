@@ -994,11 +994,11 @@ void CanisMajor::loadSecondFloor()
 	//Balcony railing and floor
 	spawnScenery(&mCube,Vector3(80,-4,30),Vector3(0,PI/2,0),Vector3(15,1,10));
 	for(int i= 0; i<10;i++)
-		spawnScenery(&mRail,Vector3(71.5+(i*2),-3,44),Vector3(0,PI/2,0),Vector3(2,2,1.5));
+		spawnScenery(&mRail,Vector3(71.5+(i*2),-3,45),Vector3(0,PI/2,0),Vector3(2,2,1.6));
 	for(int i= 0; i<15;i++)
-		spawnScenery(&mRail,Vector3(89.5,-3,43-(i*2)),Vector3(0,PI,0),Vector3(2,2,1.5));
+		spawnScenery(&mRail,Vector3(89.5,-3,43-(i*2)),Vector3(0,PI,0),Vector3(2,2,1.6));
 	for(int i= 0; i<10;i++)
-		spawnScenery(&mRail,Vector3(71.5+(i*2),-3,15),Vector3(0,PI/2,0),Vector3(2,2,1.5));
+		spawnScenery(&mRail,Vector3(71.5+(i*2),-3,15),Vector3(0,PI/2,0),Vector3(2,2,1.6));
 
 	//Telescope. It should contain something for a puzzle
 	spawnReadable(&mTelescope,L"Telescope",nullptr,Vector3(85,-2.7,40),Vector3(0,-2*PI/3,0),Vector3(7,7,7), L"Canis Major can be seen rising just over the horizon");
