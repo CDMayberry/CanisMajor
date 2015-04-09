@@ -97,7 +97,7 @@ void CanisMajor::threadInit()
 	fLight.init(2);  //Flashlight
 	ambient.init(1); //Ambientlight (DUH)
 	negaLight.init(3); //Dog's anti-light
-	negaLight.pos = Vector3(0,-200,0);
+	negaLight.pos = Vector3(-20,0,0);
 	eyes.init(5);
 	eyes.pos = Vector3(0,-200,0);
 	activeLights = 0;
@@ -880,7 +880,7 @@ void CanisMajor::loadAttic()
 
 	spawnDoor(Vector3(39.9,-3.5,29),Vector3(0,0,0),Vector3(1.4,3.5,2.1),k);
 
-	negaLight.pos = Vector3(20, 0, 30);
+	//negaLight.pos = Vector3(20, 0, 30);
 	pLight.pos = Vector3(20, -212, 20);
 	spawnLight(Vector3(20,3.5, 53.5));
 	spawnLight(Vector3(10.5, 20, 9.8),Vector3(.8, -1, 0), 4);
@@ -891,15 +891,16 @@ void CanisMajor::loadSecondFloor()
 	setStoryText(10,L"this is a big house...");
 
 	QuestItem* patKey = spawnQuestItem(&mKey,L"BALCONY KEY",Vector3(7,1,15));
+	QuestItem* mainKey = spawnQuestItem(&mKey,L"KEY",Vector3(73,1,20));
 
-	/*QuestItem *r1 = spawnQuestItem(&mRing,L"Large Ring",Vector3(20,0,10),Vector3(0,0,0),Vector3(1.2,1,1.2));
+	QuestItem *r1 = spawnQuestItem(&mRing,L"Large Ring",Vector3(20,0,10),Vector3(0,0,0),Vector3(1.2,1,1.2));
 	QuestItem *r2 = spawnQuestItem(&mRing,L"Medium Ring",Vector3(20,0,12),Vector3(0,0,0),Vector3(1,1,1));
 	QuestItem *r3 = spawnQuestItem(&mRing,L"Small Ring",Vector3(20,0,14),Vector3(0,0,0),Vector3(.8,1,.8));
 	QuestItem *a = spawnQuestItem(&mArrow,L"Arrow",Vector3(20,0,16),Vector3(0,0,0),Vector3(1,1,1));
-	pedestal.create(k,a,r1,r2,r3,Vector3(20,0,20),Vector3(0,0,0),Vector3(1,1,1));*/
+	pedestal.create(mainKey,a,r1,r2,r3,Vector3(75,0,40),Vector3(0,0,0),Vector3(1,1,1));
 
 	state.level = SECOND_FLOOR;
-	camera.setPosition(Vector3(50,3,50));
+	camera.setPosition(Vector3(37,3,69/*tehe*/));
 	clearLevel();
 	flashlight.setPosition(Vector3(10,-2.5,10));
 	flashlight.isActive = true;
@@ -927,7 +928,7 @@ void CanisMajor::loadSecondFloor()
 	spawnScenery(&mCube,Vector3(32,-4,40),Vector3(0,0,0),Vector3(4,1,20));
 
 	//Roof panels
-	spawnScenery(&mCube,Vector3(0,10,30),Vector3(0,0,0),Vector3(71,1,30));
+	spawnScenery(&mCube,Vector3(35,10,30),Vector3(0,0,0),Vector3(35,1,30));
 
 	//Balcony railing and floor
 	spawnScenery(&mCube,Vector3(80,-4,30),Vector3(0,PI/2,0),Vector3(15,1,10));
