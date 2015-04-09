@@ -346,9 +346,10 @@ void CanisMajor::levelsUpdate(float dt)
 
 	pedestal.update(dt);
 
-	flashlight.update(dt);
-
 	camera.update(dt);
+
+	flashlight.update(dt);
+	
 	dog.update(dt);
 
 	updateStoryText(dt);
