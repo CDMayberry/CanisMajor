@@ -41,6 +41,7 @@ void Flashlight::setDirection(Vector3 v)
 
 void Flashlight::interactWith(Camera* player)
 {
+	Interactable::interactWith(player);
 	player->setFlashlight(this);
 }
 

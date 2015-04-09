@@ -18,7 +18,7 @@ public:
 	virtual void update(float dt);
 	void interactWith(Camera* player);
 	virtual std::wstring getUtilText();
-	void load(GameState state);
+	void load(GameState *state);
 
 private:
 	QuestItem *arrow, *LRing, *MRing, *SRing, *hidden;

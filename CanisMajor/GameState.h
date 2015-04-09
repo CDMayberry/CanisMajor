@@ -16,19 +16,23 @@ struct GameState
 		level = MENU;
 		atticDoorUnlocked = false;
 		balconyDoorUnlocked = false;
-		arrowPlaced=SRPlaced=MRPlaced=LRPlaced = false;
+		arrowPlaced=SRPlaced=MRPlaced=LRPlaced=pedestalInteractedWith = false;
 		atticStairsUsed = false;
-		atticKeyTaken = false;
+		atticKeyTaken=balconyKeyTaken=secondFloorMainKeyTaken = false;
 		gameStarted=false;
 		tookFlashlight = false;
+		secondFloorSairsUsed=false;
+		secondFloorMainStairDoorUnlocked=false;
 	}
 
 	Level level;
 	bool atticDoorUnlocked;
-	bool atticKeyTaken;
+	bool atticKeyTaken, balconyKeyTaken, secondFloorMainKeyTaken;
 	bool balconyDoorUnlocked;
-	bool arrowPlaced, SRPlaced, MRPlaced, LRPlaced;
+	bool secondFloorMainStairDoorUnlocked;
+	bool arrowPlaced, SRPlaced, MRPlaced, LRPlaced, pedestalInteractedWith;
 	bool atticStairsUsed;
 	bool gameStarted;
 	bool tookFlashlight;
+	bool secondFloorSairsUsed;
 };
