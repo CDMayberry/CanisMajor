@@ -38,6 +38,7 @@ void Dog::update(float dt){
 		//using vector tracking. If player exceeds 10 units,
 		//stop chasing and return to waypoint path
 		if (D3DXVec2Length(&vectortoplayer) <= 0.5f){
+			game->playSound(BITE,position);
 			game->onPlayerDeath();//the dog caught the player, died
 		}
 		else if (D3DXVec2Length(&vectortoplayer) <=AGRO_DIST && following == false){
