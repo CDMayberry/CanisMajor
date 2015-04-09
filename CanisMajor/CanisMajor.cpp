@@ -872,7 +872,7 @@ void CanisMajor::loadAttic()
 
 	spawnScenery(&mWallpanel,Vector3(10,5,55.01),Vector3(0,1.5707963268,0),Vector3(1,4,6));
 
-	spawnScenery(&mRoofHole,Vector3(19,13.3,7.1),Vector3(0,0,.41),Vector3(6, 2.8, 5.1));
+	spawnScenery(&mRoofHole,Vector3(19.6,12,7.1),Vector3(0,0,.42),Vector3(6.5, 4.5, 5.1));
 
 	spawnScenery(&mWallpanel,Vector3(40,5,32),Vector3(0,0,0),Vector3(1,1.6,.6));
 
