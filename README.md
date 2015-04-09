@@ -2,10 +2,12 @@
 
 Canis Major README
 
-//HOW TO USE .init ON NEW MODELS:
+HOW TO USE .init ON NEW MODELS
+--------------
 
 Geometry.init now has 4 fields, only the first two of which are required. Here is the new init:
- init(ID3D10Device* device, std::string objFile, LPCWSTR texFile = L".\\textures\\grey.dds", bool comp = false);
+
+init(ID3D10Device* device, std::string objFile, LPCWSTR texFile = L".\\textures\\grey.dds", bool comp = false);
  
 the first two are the same. Like before, you pass it the device and the filename of the object, nothing changed here.
 
@@ -20,6 +22,7 @@ IE it doesn't have a textures exported into the .obj file, then you want to leav
 The issue is that if no textures are exported then the faces are exported as 'f 1//1' instead of 'f 1/1/1',
 which will screw up any untextured models. By setting it to false it compensates for the // and 
 adds false texture coordinates instead. Thus an incomplete model would look like this:
+
 mBox.init(md3dDevice,".\\geometry\\cardboardBox.geo", L".\\textures\\cardboard.dds");
 
 Now, if your model is complete, you have a texture that correctly wraps the model and 
