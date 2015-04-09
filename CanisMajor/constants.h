@@ -26,6 +26,7 @@ const char XGS_FILE[]   = "audio\\Win\\audioProject.xgs";
 
 const int CREAK_SIZE = 3;
 
+//Many sound effects found using or relating to http://www.freesfx.co.uk/
 //Audio cues
 const char CLICK[] = "click";//Caelan
 const char GROWL[] = "growl1";//Caelan
