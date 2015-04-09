@@ -784,6 +784,9 @@ void CanisMajor::menuLoad()
 	menuText[0] = L"CANIS MAJOR";
 	menuText[1] = L"PLAY";
 	menuText[2] = L"QUIT";
+	menuText[3] = L"";
+	menuText[4] = L"WASD-move     SHIFT-run     CTRL-crouch";
+	menuText[5] = L"E-use     F-flashlight on/off     R-recharge";
 }
 
 void CanisMajor::loadAttic()
