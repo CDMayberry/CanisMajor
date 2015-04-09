@@ -1055,7 +1055,7 @@ void CanisMajor::loadBasement()
 
 void CanisMajor::onPlayerDeath()
 {
-
+	loadSplashScreen(false);
 }
 
 //calling with s defined sets, calling without clears
