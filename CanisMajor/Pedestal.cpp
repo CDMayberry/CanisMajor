@@ -59,6 +59,7 @@ void Pedestal::interactWith(Camera* player)
 			arrow->ableToBeTaken = false;
 			arrow->setPosition(getPosition()+RING_LOCATION);
 			hasArrow = true;
+			game->playSound(ACTIVATION, position);
 			game->setNoteText(3,L"You place the golden arrow on the pedestal");
 			state->arrowPlaced = true;
 		}
@@ -70,6 +71,7 @@ void Pedestal::interactWith(Camera* player)
 			LRing->ableToBeTaken = false;
 			LRing->setPosition(getPosition()+RING_LOCATION);
 			hasLR = true;
+			game->playSound(ACTIVATION, position);
 			game->setNoteText(3,L"You place the largest ring on the pedestal");
 			state->LRPlaced = true;
 		}
@@ -81,6 +83,7 @@ void Pedestal::interactWith(Camera* player)
 			MRing->ableToBeTaken = false;
 			MRing->setPosition(getPosition()+RING_LOCATION);
 			hasMR = true;
+			game->playSound(ACTIVATION, position);
 			game->setNoteText(3,L"You place the ring on the pedestal");
 			state->MRPlaced = true;
 		}
@@ -92,6 +95,7 @@ void Pedestal::interactWith(Camera* player)
 			SRing->ableToBeTaken = false;
 			SRing->setPosition(getPosition()+RING_LOCATION);
 			hasSR = true;
+			game->playSound(ACTIVATION, position);
 			game->setNoteText(3,L"You place the smallest ring on the pedestal");
 			state->SRPlaced = true;
 		}
