@@ -59,7 +59,7 @@ struct Light
 			att.x    = 0.0f;
 			att.y    = .1f;
 			att.z    = 0.01f;
-			range    = 7.0f;
+			range    = 5.0f;
 			return 0;
 #endif
 		}

@@ -59,7 +59,7 @@ void Pedestal::interactWith(Camera* player)
 			arrow->ableToBeTaken = false;
 			arrow->setPosition(getPosition()+RING_LOCATION);
 			hasArrow = true;
-			game->setStoryText(3,L"You place the golden arrow on the pedestal");
+			game->setNoteText(3,L"You place the golden arrow on the pedestal");
 			state->arrowPlaced = true;
 		}
 		else if(player->checkItem(LRing))
