@@ -60,7 +60,7 @@ public:
 	Matrix getViewMatrix() {return mView;}
 	Matrix getProjectionMatrix() {return mProj;}
 	void update(float dt);
-	void setPosition(Vector3 pos) {position = pos;}
+	void setPosition(Vector3 pos) {position = pos;prevLoc = pos;}
 	Vector3 getPosition() {return position;}
 	void setDirection(Vector3 dir) {direction = dir;}
 	Vector3 getDirection() {return direction;}

@@ -737,6 +737,8 @@ void CanisMajor::clearLevel()
 	numwaypoints = 0;
 	dog.SetWaypoints(dogWaypoints,numwaypoints);//update dog's waypoint count
 	dog.isActive = false;//disable dog
+	negaLight.pos = Vector3(200,200,200);
+	eyes.pos = Vector3(200,200,200);
 }
 
 void CanisMajor::loadSplashScreen(bool status)
@@ -769,10 +771,19 @@ void CanisMajor::loadAttic()
 {
 	state.level = ATTIC;
 	clearLevel();
-	setStoryText(10,L"Where am I?");
 	int iter = 0;
-
-	audio->playCue(BG);
+	if(!state.gameStarted)
+	{
+		setStoryText(10,L"Where am I?");
+		audio->playCue(BG);
+		state.gameStarted = true;
+		camera.setPosition(Vector3(5,0,5));
+	}
+	else
+	{
+		camera.setPosition(Vector3(38,0,27));
+		camera.setDirection(Vector3(-1,0,0));
+	}
 
 	QuestItem* k = nullptr;
 	if(!state.atticKeyTaken)
@@ -781,10 +792,14 @@ void CanisMajor::loadAttic()
 		k->setStateSwitch(&state,&GameState::atticKeyTaken);
 	}
 
-	camera.setPosition(Vector3(5,0,5));
+	
 
-	flashlight.setPosition(Vector3(10,-2.5,5));
-	flashlight.isActive = true;
+	if(!state.tookFlashlight)
+	{
+		flashlight.setPosition(Vector3(10,-2.5,5));
+		flashlight.isActive = true;
+		flashlight.setStateSwitch(&state,&GameState::tookFlashlight);
+	}
 
 	spawnScenery(&mCube,Vector3(0,-4,0),Vector3(0,0,0),Vector3(40,1,60));
 
@@ -892,7 +907,7 @@ void CanisMajor::loadAttic()
 	spawnSearchable(&mBox,L"Inconspicuous Cube",nullptr,Vector3(22,-2,6),Vector3(0,PI/2,0),CM::BOX_SCALE);
 
 
-	spawnDoor(Vector3(39.9,-3.5,29),Vector3(0,0,0),Vector3(1.4,3.5,2.1),k);
+	Door *d = spawnDoor(Vector3(39.9,-3.5,29),Vector3(0,0,0),Vector3(1.4,3.5,2.1),k,state.atticDoorUnlocked);
 
 	//negaLight.pos = Vector3(20, 0, 30);
 	pLight.pos = Vector3(20, -212, 20);

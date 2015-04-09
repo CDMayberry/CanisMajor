@@ -19,6 +19,8 @@ struct GameState
 		arrowPlaced=SRPlaced=MRPlaced=LRPlaced = false;
 		atticStairsUsed = false;
 		atticKeyTaken = false;
+		gameStarted=false;
+		tookFlashlight = false;
 	}
 
 	Level level;
@@ -27,5 +29,6 @@ struct GameState
 	bool balconyDoorUnlocked;
 	bool arrowPlaced, SRPlaced, MRPlaced, LRPlaced;
 	bool atticStairsUsed;
-
+	bool gameStarted;
+	bool tookFlashlight;
 };
