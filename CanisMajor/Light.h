@@ -35,9 +35,9 @@ struct Light
 			diffuse  = D3DXCOLOR(.0005f, .0005f ,.0005f, 1.0f);
 			specular = D3DXCOLOR(.001f, .001f, .001f, 1.0f);
 			att.x    = 1.0f;
-			att.y    = 0.001f;
+			att.y    = 0.01f;
 			att.z    = 0.0f;
-			spotPow  = 8.0f;
+			spotPow  = 16.0f;
 			range    = 10000.0f;
 			return 1;
 		}
@@ -53,10 +53,10 @@ struct Light
 			range    = 7.0f;
 			return 0;
 #else
-			ambient  = D3DXCOLOR(-.5f, -.5f, -.5f, 1.0f);
-			diffuse  = D3DXCOLOR(-.5f, -.5f, -.5f, 1.0f);
-			specular = D3DXCOLOR(-.5f, -.5f, -.5f, 1.0f);
-			att.x    = 1.0f;
+			ambient  = D3DXCOLOR(-.7f, -.7f, -.75f, 1.0f);
+			diffuse  = D3DXCOLOR(-.7f, -.7f, -.7f, 1.0f);
+			specular = D3DXCOLOR(-.7f, -.7f, -.7f, 1.0f);
+			att.x    = 0.0f;
 			att.y    = .1f;
 			att.z    = 0.01f;
 			range    = 7.0f;
