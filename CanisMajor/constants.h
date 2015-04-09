@@ -41,7 +41,7 @@ const char RUN1[] = "run1";
 const char OPEN[] = "doorOpen";//Zared
 const char CLOSE[] = "doorClose";//Zared
 const char DOGGROWL[] = "dogGrowl";//Zared
-const char JINGLE[] = "jingle";//Zared
-
+const char JINGLE[] = "jingle";//Caelan
+const char PICKUP[] = "pickup";//Caelan
 
 #endif

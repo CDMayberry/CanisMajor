@@ -6,6 +6,7 @@ void QuestItem::interactWith(Camera* player)
 	Interactable::interactWith(player);
 	if(ableToBeTaken)
 	{
+		game->playSound(PICKUP, position);
 		game->setStoryText(2,L"Found " + name);
 		player->addItem(this);
 		isActive = false;
