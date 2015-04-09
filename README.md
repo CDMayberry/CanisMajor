@@ -2,8 +2,8 @@
 
 Canis Major README
 
-HOW TO USE .init ON NEW MODELS
---------------
+####HOW TO USE .init ON NEW MODELS
+
 
 Geometry.init now has 4 fields, only the first two of which are required. Here is the new init:
 
