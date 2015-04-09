@@ -179,7 +179,7 @@ void CanisMajor::threadInit()
 	loadingStatus++; //29
 	mDesk.init(md3dDevice,".\\geometry\\desk.geo");
 	loadingStatus++; //30
-	mSink.init(md3dDevice,".\\geometry\\cardboardBox.geo");
+	mSink.init(md3dDevice,".\\geometry\\sink.geo");
 	loadingStatus++;
 	mTub.init(md3dDevice,".\\geometry\\desk.geo");
 	loadingStatus++;
@@ -187,7 +187,9 @@ void CanisMajor::threadInit()
 	loadingStatus++;
 	mRing.init(md3dDevice,".\\geometry\\ring.geo", L".\\textures\\gold.dds");
 	loadingStatus++;
-	pedestal.init(this,&mCube);
+	mPedastal.init(md3dDevice,".\\geometry\\pedastal.geo");
+	loadingStatus++;
+	pedestal.init(this,&mPedastal);
 	pedestal.collisionType = AABBox;
 	
 	for(int i = 0 ; i < CM::NUM_QUEST_ITEMS; i++)
@@ -600,7 +602,8 @@ void CanisMajor::levelsDraw()
 	for(int i = 0 ; i < CM::MAX_STAIRCASES; i++)
 		staircases[i].draw(mfxWVPVar,mView,mProj,mTech);
 	flashlight.draw(mfxWVPVar,mView,mProj,mTech);
-	pedestal.draw(mfxWVPVar,mView,mProj,mTech);
+	if(state.level==SECOND_FLOOR)
+		pedestal.draw(mfxWVPVar,mView,mProj,mTech);
 
 #ifdef DEBUG
 	AABBHelper.draw(mfxWVPVar,mView,mProj,mTech);
@@ -902,20 +905,21 @@ void CanisMajor::loadAttic()
 
 void CanisMajor::loadSecondFloor()
 {
+	clearLevel();
 	setStoryText(10,L"this is a big house...");
 
 	QuestItem* patKey = spawnQuestItem(&mKey,L"BALCONY KEY",Vector3(7,1,15));
-	QuestItem* mainKey = spawnQuestItem(&mKey,L"KEY",Vector3(73,1,20));
+	QuestItem* mainKey = spawnQuestItem(&mKey,L"KEY",Vector3(81,1,20));
 
-	QuestItem *r1 = spawnQuestItem(&mRing,L"Large Ring",Vector3(20,0,10),Vector3(0,0,0),Vector3(1.2,1,1.2));
-	QuestItem *r2 = spawnQuestItem(&mRing,L"Medium Ring",Vector3(20,0,12),Vector3(0,0,0),Vector3(1,1,1));
-	QuestItem *r3 = spawnQuestItem(&mRing,L"Small Ring",Vector3(20,0,14),Vector3(0,0,0),Vector3(.8,1,.8));
-	QuestItem *a = spawnQuestItem(&mArrow,L"Arrow",Vector3(20,0,16),Vector3(0,0,0),Vector3(1,1,1));
-	pedestal.create(mainKey,a,r1,r2,r3,Vector3(75,0,40),Vector3(0,0,0),Vector3(1,1,1));
+	QuestItem *r1 = spawnQuestItem(&mRing,L"Large Ring",Vector3(18,0,17),Vector3(0,0,0),Vector3(1.2,1,1.2));
+	QuestItem *r2 = spawnQuestItem(&mRing,L"Medium Ring",Vector3(25,1.5,32),Vector3(0,0,0),Vector3(1,1,1));
+	QuestItem *r3 = spawnQuestItem(&mRing,L"Small Ring",Vector3(2,2,47),Vector3(0,0,0),Vector3(.8,1,.8));
+	QuestItem *a = spawnQuestItem(&mArrow,L"Arrow",Vector3(40,1.5,14),Vector3(0,0,0),Vector3(1,1,1));
+	pedestal.create(mainKey,a,r1,r2,r3,Vector3(82,-.5,20),Vector3(0,0,0),Vector3(1,1,1));
 
 	state.level = SECOND_FLOOR;
 	camera.setPosition(Vector3(37,3,65));
-	clearLevel();
+
 	flashlight.setPosition(Vector3(10,-2.5,10));
 	flashlight.isActive = true;
 
@@ -1028,7 +1032,7 @@ void CanisMajor::loadSecondFloor()
 
 	//Staircase to main floor
 	spawnScenery(&mWallpanel, Vector3(28,-4,15),Vector3(0,0,0),Vector3(1,4,1.2));
-	spawnDoor(Vector3(28,-3,25.3),Vector3(0,0,0),Vector3(2,4,2.2));
+	spawnDoor(Vector3(28,-3,25.3),Vector3(0,0,0),Vector3(2,4,2.2),mainKey);
 	spawnScenery(&mWallpanel, Vector3(32,-4,9),Vector3(0,PI/2,0),Vector3(1,4,.8));
 	spawnScenery(&mWallpanel, Vector3(36,-18,15),Vector3(0,0,0),Vector3(1,3,1.2));
 	spawnScenery(&mStaircase, Vector3(32,-9,14),Vector3(0,PI/2,0),Vector3(1,1,1));
@@ -1038,7 +1042,7 @@ void CanisMajor::loadSecondFloor()
 	spawnScenery(&mMasterbed,Vector3(49,-3,39),Vector3(0,1.5707963268,0), Vector3(5,4,5));
 	spawnScenery(&mTable,Vector3(42,-3,43),Vector3(0,0,0), Vector3(.8,1.5,.8));
 	spawnScenery(&mTable,Vector3(55.5,-3,43),Vector3(0,0,0), Vector3(.8,1.5,.8));
-	spawnSearchable(&mDresser,L"Dresser",nullptr,Vector3(40,-3,11),Vector3(0,-PI/2,0), Vector3(2,2,2));
+	spawnSearchable(&mDresser,L"Dresser",a,Vector3(40,-3,11),Vector3(0,-PI/2,0), Vector3(2,2,2));
 	spawnSearchable(&mDresser,L"Dresser",nullptr,Vector3(50,-3,11),Vector3(0,-PI/2,0), Vector3(2,2,2));
 
 	//Library decor
@@ -1048,7 +1052,7 @@ void CanisMajor::loadSecondFloor()
 	spawnSearchable(&mBookcase,L"Bookcase",nullptr,Vector3(7,2.3,1),Vector3(0,PI,0),CM::BOOKCASE_SCALE);
 	spawnSearchable(&mBookcase,L"Bookcase",nullptr,Vector3(11,2.3,1),Vector3(0,PI,0),CM::BOOKCASE_SCALE);
 	spawnSearchable(&mBookcase,L"Bookcase",nullptr,Vector3(15,2.3,1),Vector3(0,PI,0),CM::BOOKCASE_SCALE);
-	spawnSearchable(&mBookcase,L"Bookcase",nullptr,Vector3(17,2.3,19),Vector3(0,0,0),CM::BOOKCASE_SCALE);
+	spawnSearchable(&mBookcase,L"Bookcase",r1,Vector3(17,2.3,19),Vector3(0,0,0),CM::BOOKCASE_SCALE);
 
 	//Table with stuff on it and chair
 	spawnSearchable(&mTable,L"Table",patKey,Vector3(5,-2.4,16),Vector3(0,PI/2,0),Vector3(1.5,1.5,1.5));
@@ -1059,7 +1063,7 @@ void CanisMajor::loadSecondFloor()
 	spawnScenery(&mBottle,Vector3(2,.4,14.5),Vector3(0,0,PI/2),Vector3(1,1,1));
 
 	//Office Decor
-	spawnSearchable(&mDesk,L"Desk",nullptr,Vector3(2,-1.5,47),Vector3(0,PI,0),Vector3(1,1,1));
+	spawnSearchable(&mDesk,L"Desk",r3,Vector3(2,-1.5,47),Vector3(0,PI,0),Vector3(1,1,1));
 	spawnScenery(&mChair,Vector3(2.5,-2.6,46),Vector3(0,PI,.6), CM::CHAIR_SCALE);
 	spawnScenery(&mBookStack,Vector3(1,1,48.5),Vector3(0,0,0),Vector3(1,1,1));
 	spawnReadable(&mBook, L"Book", nullptr,Vector3(2.5,1,45),Vector3(0,PI/2,0),Vector3(.5,.75,.5));
@@ -1073,8 +1077,8 @@ void CanisMajor::loadSecondFloor()
 
 	//Bathroom Decor
 	spawnScenery(&mToilet, Vector3(25,-1,28.5),Vector3(0,PI/2,0),Vector3(1.5,1.5,1.5));
-	spawnScenery(&mSink, Vector3(25,-2.5,33),Vector3(0,PI/2,0),Vector3(1.5,1.7,1.5));
-	spawnScenery(&mTub,Vector3(33.5,-1.2,40),Vector3(0,PI/2,0), Vector3(1.5,2,1.5));
+	spawnSearchable(&mSink, L"Sink",r2,Vector3(25,-2.5,33),Vector3(0,PI/2,0),Vector3(1.5,1.7,1.5));
+	spawnSearchable(&mTub,L"Bath Tub",nullptr,Vector3(33.5,-1.2,40),Vector3(0,PI/2,0), Vector3(1.5,2,1.5));
 	
 }
 
