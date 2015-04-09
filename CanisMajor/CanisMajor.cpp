@@ -109,9 +109,9 @@ void CanisMajor::threadInit()
 
 	mTelescope.init(md3dDevice,".\\geometry\\telescope.geo");
 	loadingStatus++; //1
-	mDresser.init(md3dDevice,".\\geometry\\dresser.geo");
+	mDresser.init(md3dDevice,".\\geometry\\dresser.geo", L".\\textures\\lightwood.dds");
 	loadingStatus++; //2
-	mFlashlight.init(md3dDevice,".\\geometry\\flashlight.geo");
+	mFlashlight.init(md3dDevice,".\\geometry\\flashlight.geo", L".\\textures\\grey.dds");
 	flashlight.init(this,&mFlashlight,&fLight);
 	loadingStatus++; //3
 	mFrame.init(md3dDevice,".\\geometry\\pictureframe.geo");
@@ -120,13 +120,13 @@ void CanisMajor::threadInit()
 	loadingStatus++; //5
 	mChair.init(md3dDevice,".\\geometry\\chair.geo", L".\\textures\\lightwood.dds");
 	loadingStatus++; //6
-	mCradle.init(md3dDevice,".\\geometry\\cradle.geo");
+	mCradle.init(md3dDevice,".\\geometry\\cradle.geo", L".\\textures\\medwood.dds");
 	loadingStatus++; //7
-	mMasterbed.init(md3dDevice,".\\geometry\\masterBed.geo");
+	mMasterbed.init(md3dDevice,".\\geometry\\masterBed.geo", L".\\textures\\medwood.dds");
 	loadingStatus++; //8
-	mServantbed.init(md3dDevice,".\\geometry\\servantBed.geo");
+	mServantbed.init(md3dDevice,".\\geometry\\servantBed.geo",L".\\textures\\medwood.dds");
 	loadingStatus++; //9
-	mStaircase.init(md3dDevice,".\\geometry\\staircase.geo");
+	mStaircase.init(md3dDevice,".\\geometry\\staircase.geo", L".\\lightwood.dds");
 	mStaircase.setCustomAABB(mStaircase.getAABBMin(),mStaircase.getAABBMax()+Vector3(0,10,0));
 	loadingStatus++; //10
 	mTable.init(md3dDevice,".\\geometry\\table.geo", L".\\textures\\lightwood.dds");
@@ -145,7 +145,7 @@ void CanisMajor::threadInit()
 	loadingStatus++; //17
 	mCage.init(md3dDevice,".\\geometry\\cage.geo");
 	loadingStatus++; //18
-	mFixture.init(md3dDevice,".\\geometry\\fixture.geo");
+	mFixture.init(md3dDevice,".\\geometry\\fixture.geo", L".\\textures\\cardboard.dds");
 	loadingStatus++; //19
 	mDoor.init(md3dDevice,".\\geometry\\door.geo", L".\\textures\\gold.dds");
 	loadingStatus++; //20
@@ -153,7 +153,7 @@ void CanisMajor::threadInit()
 	loadingStatus++; //21
 	mBook.init(md3dDevice,".\\geometry\\book.geo",L".\\textures\\paper.dds");
 	loadingStatus++; //22
-	mToilet.init(md3dDevice,".\\geometry\\cardboardBox.geo");
+	mToilet.init(md3dDevice,".\\geometry\\cardboardBox.geo", L".\\textures\\paper.dds");
 	loadingStatus++; //23
 	mDog.init(md3dDevice,".\\geometry\\dog.geo");
 	loadingStatus++; //24
