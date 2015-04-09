@@ -1001,7 +1001,7 @@ void CanisMajor::loadSecondFloor()
 		spawnScenery(&mRail,Vector3(71.5+(i*2),-3,15),Vector3(0,PI/2,0),Vector3(2,2,1.5));
 
 	//Telescope. It should contain something for a puzzle
-	spawnSearchable(&mTelescope,L"Telescope",nullptr,Vector3(85,-2.7,40),Vector3(0,-2*PI/3,0),Vector3(7,7,7));
+	spawnReadable(&mTelescope,L"Telescope",nullptr,Vector3(85,-2.7,40),Vector3(0,-2*PI/3,0),Vector3(7,7,7), L"Canis Major can be seen rising just over the horizon");
 
 	//Left outer wall
 	spawnScenery(&mWallpanel,Vector3(0,3,10),Vector3(0,0,0), Vector3(1,1.2,2));
