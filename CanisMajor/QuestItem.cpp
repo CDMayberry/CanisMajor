@@ -3,6 +3,7 @@
 #include "CanisMajor.h"
 void QuestItem::interactWith(Camera* player)
 {
+	Interactable::interactWith(player);
 	if(ableToBeTaken)
 	{
 		game->setStoryText(2,L"Found " + name);
