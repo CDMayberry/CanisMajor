@@ -16,8 +16,8 @@ Global Settings
     Header File = C:\Users\mayberrycd1\Documents\CanisMajor\CanisMajor\audio\CanisMajor.h;
     Exclude Category Names = 0;
     Exclude Variable Names = 0;
-    Last Modified Low = 30438022;
-    Last Modified High = 2372751734;
+    Last Modified Low = 1271348805;
+    Last Modified High = 30438032;
 
     Category
     {
@@ -225,6 +225,10 @@ Wave Bank
     Windows Bank Path Edited = 0;
     Seek Tables = 1;
     Compression Preset Name = <none>;
+    Xbox Bank Last Modified Low = 0;
+    Xbox Bank Last Modified High = 0;
+    PC Bank Last Modified Low = 1271428860;
+    PC Bank Last Modified High = 30438032;
     Bank Last Revised Low = 1220891363;
     Bank Last Revised High = 30438032;
 
@@ -742,6 +746,10 @@ Sound Bank
     Windows File = Win\CMsoundbank.xsb;
     Xbox Bank Path Edited = 0;
     Windows Bank Path Edited = 0;
+    Bank Last Modified Low = 1271939218;
+    Bank Last Modified High = 30438032;
+    Header Last Modified High = 0;
+    Header Last Modified Low = 0;
 
     Sound
     {
