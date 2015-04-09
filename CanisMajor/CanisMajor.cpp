@@ -217,7 +217,10 @@ void CanisMajor::threadInit()
 	}
 	loadingStatus++;
 	for(int i = 0 ; i < CM::MAX_STAIRCASES; i++)
+	{
 		staircases[i].init(this,&mStaircase,10);
+		staircases[i].collisionType=AABBox;
+	}
 	loadingStatus++;
 	camera.create(Vector3(10,10,10),Vector3(1,0,0));
 	camera.setPerspective();
@@ -867,7 +870,7 @@ void CanisMajor::loadAttic()
 	//Stairwell
 	//Note, you cannot progress forward because of the axis-aligned bounding box
 	//Comment out the last wall panel to move forward.
-	spawnStaircase(L"downstairs",&CanisMajor::loadSecondFloor,Vector3(40,-4, 27), Vector3(0,0,0), Vector3(1,1,.6));
+	spawnStaircase(L"downstairs",&CanisMajor::loadSecondFloor,Vector3(40,-4, 28), Vector3(0,0,0), Vector3(1,1,.6));
 	spawnScenery(&mWallpanel,Vector3(45,0,30),Vector3(0,1.5707963268,0),Vector3(1,3,1));
 	spawnScenery(&mWallpanel,Vector3(45,0,24.7),Vector3(0,1.5707963268,0),Vector3(1,3,1));
 	spawnScenery(&mWallpanel,Vector3(47,5,26),Vector3(0,0,.8),Vector3(1,2,3));
