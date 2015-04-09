@@ -3,6 +3,7 @@
 
 void SearchableActor::interactWith(Camera* player)
 {
+	Interactable::interactWith(player);
 	if(concealedItem != nullptr)
 	{
 		Vector3 pos= concealedItem->getPosition();

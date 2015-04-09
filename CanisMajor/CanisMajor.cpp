@@ -795,8 +795,6 @@ void CanisMajor::loadAttic()
 		k->setStateSwitch(&state,&GameState::atticKeyTaken);
 	}
 
-	
-
 	if(!state.tookFlashlight)
 	{
 		flashlight.setPosition(Vector3(10,-2.5,5));
@@ -911,6 +909,7 @@ void CanisMajor::loadAttic()
 
 
 	Door *d = spawnDoor(Vector3(39.9,-3.5,29),Vector3(0,0,0),Vector3(1.4,3.5,2.1),k,state.atticDoorUnlocked);
+	d->setStateSwitch(&state,&GameState::atticDoorUnlocked);
 
 	//negaLight.pos = Vector3(20, 0, 30);
 	pLight.pos = Vector3(20, -212, 20);
@@ -923,14 +922,25 @@ void CanisMajor::loadSecondFloor()
 	clearLevel();
 	setStoryText(10,L"this is a big house...");
 
-	QuestItem* patKey = spawnQuestItem(&mKey,L"BALCONY KEY",Vector3(7,1,15));
-	QuestItem* mainKey = spawnQuestItem(&mKey,L"KEY",Vector3(81,1,20));
+	QuestItem* patKey = nullptr;
+	if(!state.balconyKeyTaken)
+	{
+		patKey=spawnQuestItem(&mKey,L"BALCONY KEY",Vector3(7,1,15));
+		patKey->setStateSwitch(&state,&GameState::balconyKeyTaken);
+	}
+	QuestItem* mainKey = nullptr;
+	if(!state.secondFloorMainKeyTaken)
+	{
+		mainKey = spawnQuestItem(&mKey,L"KEY",Vector3(81,1,20));
+		mainKey->setStateSwitch(&state,&GameState::secondFloorMainKeyTaken);
+	}
 
 	QuestItem *r1 = spawnQuestItem(&mRing,L"Large Ring",Vector3(18,0,17),Vector3(0,0,0),Vector3(1.2,1,1.2));
 	QuestItem *r2 = spawnQuestItem(&mRing,L"Medium Ring",Vector3(25,1.5,32),Vector3(0,0,0),Vector3(1,1,1));
 	QuestItem *r3 = spawnQuestItem(&mRing,L"Small Ring",Vector3(2,2,47),Vector3(0,0,0),Vector3(.8,1,.8));
 	QuestItem *a = spawnQuestItem(&mArrow,L"Arrow",Vector3(40,1.5,14),Vector3(0,0,0),Vector3(1,1,1));
 	pedestal.create(mainKey,a,r1,r2,r3,Vector3(82,-.5,20),Vector3(0,0,0),Vector3(1,1,1));
+	pedestal.load(&state);
 
 	state.level = SECOND_FLOOR;
 	camera.setPosition(Vector3(37,3,65));
@@ -1051,7 +1061,8 @@ void CanisMajor::loadSecondFloor()
 	spawnScenery(&mWallpanel, Vector3(32,-4,9),Vector3(0,PI/2,0),Vector3(1,4,.8));
 	spawnScenery(&mWallpanel, Vector3(36,-18,15),Vector3(0,0,0),Vector3(1,3,1.2));
 	spawnScenery(&mStaircase, Vector3(32,-9,14),Vector3(0,PI/2,0),Vector3(1,1,1));
-	spawnStaircase(L"downstairs",&CanisMajor::loadFirstFloor, Vector3(32,-3,20),Vector3(0,PI/2,0),Vector3(1,1,1));
+	Staircase *s = spawnStaircase(L"downstairs",&CanisMajor::loadFirstFloor, Vector3(32,-3,20),Vector3(0,PI/2,0),Vector3(1,1,1));
+	s->setStateSwitch(&state,&GameState::secondFloorSairsUsed);
 
 	//master bed decor
 	spawnScenery(&mMasterbed,Vector3(49,-3,39),Vector3(0,1.5707963268,0), Vector3(5,4,5));

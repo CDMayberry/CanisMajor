@@ -234,3 +234,61 @@ void Actor::transformAABB(Vector3 & low, Vector3 & high)
 	low = i;
 	high = j;
 }
+
+bool Actor::rayCollidesWith(Vector3 pos, Vector3 dir, float& distance)
+{
+	if(isActive && isVisible)
+	{
+			if(collisionType==SPHERE)
+			{
+				//http://www.dreamincode.net/forums/topic/124203-ray-sphere-intersection/
+				Vector3 diff = getPosition() - pos;
+				float distSQ = D3DXVec3LengthSq(&diff);
+				float dirSQ = pow(D3DXVec3Dot(&diff,&dir),2);
+				float res = getRadiusSquare() - (distSQ-dirSQ);
+				if(res < 0)
+					return false;
+				distance = dirSQ - sqrt(distSQ);
+				return true;
+
+			}
+			else if(collisionType==AABBox)
+			{
+				Geometry* g = getGeometry();
+				Vector3 min = g->getAABBMin();
+				Vector3 max = g->getAABBMax();
+				transformAABB(min,max);
+
+				//http://gamedev.stackexchange.com/questions/18436/most-efficient-aabb-vs-ray-collision-algorithms
+				Vector3 frac(1/dir.x, 1/dir.y, 1/dir.z);
+				
+				Vector3 tmin = (min - pos);
+				tmin.x*=frac.x;
+				tmin.y*=frac.y;
+				tmin.z*=frac.z;
+
+				Vector3 tmax = (max - pos);
+				tmax.x*=frac.x;
+				tmax.y*=frac.y;
+				tmax.z*=frac.z;
+
+				float minDisp = max(max(min(tmin.x,tmax.x),min(tmin.y,tmax.y)),min(tmin.z,tmax.z));
+				float maxDisp = min(min(max(tmin.x,tmax.x),max(tmin.y,tmax.y)),max(tmin.z,tmax.z));
+
+				if(maxDisp < 0 || minDisp > maxDisp)
+				{
+					distance = maxDisp;
+					return false;
+				}
+
+				distance = minDisp*minDisp;
+				return true;
+
+			}
+			else
+			{
+				throw "Justin hasn't bothered to build this yet.";
+			}
+	}
+	return false;
+}
