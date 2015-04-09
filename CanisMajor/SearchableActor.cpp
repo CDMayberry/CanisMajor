@@ -15,6 +15,7 @@ void SearchableActor::interactWith(Camera* player)
 	}
 	else
 	{
+		game->playSound(EMPTY, position);
 		game->setStoryText(2,L"The " + name + L" is empty.");
 	}
 }

@@ -47,6 +47,7 @@ const char UNLOCK[] = "unlock";//Caelan
 const char BITE[] = "bite";//Caelan 
 const char BITESCREAM[] = "bitescream";//Caelan 
 const char SHAKE[] = "shake"; //Caelan
-const char ACTIVATION[] = "activation";
+const char ACTIVATION[] = "activation"; //Caelan
+const char EMPTY[] = "empty"; //Caelan
 
 #endif
