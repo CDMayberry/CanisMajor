@@ -19,6 +19,7 @@ void Dog::SetWaypoints(Vector3* wp, int numwp){
 void Dog::update(float dt){
 	if(isActive)
 	{
+		temp = getPosition();
 		if(negalight != nullptr)
 			negalight->pos = position;
 		if(rEyes != nullptr)
@@ -41,10 +42,10 @@ void Dog::update(float dt){
 			game->playSound(BITE,position);
 			game->onPlayerDeath();//the dog caught the player, died
 		}
-		else if (D3DXVec2Length(&vectortoplayer) <=AGRO_DIST && following == false){
+		else if (playerNearby == &game->camera && following == false){
 			following = true;
 		}
-		else if (D3DXVec2Length(&vectortoplayer) >=NEUTRAL_DIST && following ==true){
+		else if (playerNearby != &game->camera && following ==true){
 			following = false;
 			targetClosestWaypoint();//reset waypoint if need be
 		}
@@ -78,6 +79,7 @@ void Dog::update(float dt){
 				velocity*=WALK_SPEED;
 			}
 		}
+		direction = getPosition() - temp;
 
 		if(position.x - game->camera.getPosition().x < 15 && position.z - game->camera.getPosition().z < 15)
 		{
@@ -95,6 +97,8 @@ void Dog::update(float dt){
 			}
 		}
 
+		dirToPlayer = game->camera.getPosition() - getPosition();
+		Normalize(&dirToPlayer, &dirToPlayer);
 		Actor::update(dt);
 	}
 }
@@ -114,4 +118,32 @@ void Dog::targetClosestWaypoint(){
 	}
 
 	TargetWaypoint = waypointindex;//set the new target waypoint to the closest waypoint from dog's current position
+}
+
+bool Dog::isPicked(Actor* o, float & distance)
+{
+	if(o->isActive && o->isVisible)
+	{
+		//if they are close
+		if(D3DXVec3LengthSq(&(position - o->getPosition())) <= dogNS::AGRO_DIST)
+		{
+			return o->rayCollidesWith(getPosition(),dirToPlayer,distance);
+		}
+	}
+	return false;
+}
+
+void Dog::setNearest(Actor* isPlayer, float dist)
+{
+	if(distToNearestObj > dist)
+	{
+		distToNearestObj = dist;
+		playerNearby = isPlayer;
+	}
+}
+
+void Dog::resetNearest()
+{
+	playerNearby=nullptr;
+	distToNearestObj=dogNS::AGRO_DIST;
 }

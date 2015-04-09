@@ -184,12 +184,13 @@ public:
 	Light* spawnLight(Vector3 pos, Vector3 dir, int type = 0);
 	Staircase* spawnStaircase(std::wstring name, LLevel func, Vector3 pos, Vector3 rotation = Vector3(0,0,0), Vector3 scale = Vector3(1,1,1));
 
-private:
+
 
 #ifdef DEBUG
 	void updateDebugAABB(Actor* a);
 #endif
 
+private:
 	void buildFX();
 	void buildVertexLayouts();
 

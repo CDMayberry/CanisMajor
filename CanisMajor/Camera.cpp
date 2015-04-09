@@ -34,7 +34,7 @@ void Camera::init(CanisMajor* game,Geometry* geo, Controls c)
 	camHeight = DEFAULT_HEIGHT;
 	flashHeight = 0;
 	isActive = true;
-	isVisible = false;
+	isVisible = true;
 
 	collisionType = AABBox;
 	setScale(Vector3(.7,1.5,.7));
