@@ -49,64 +49,60 @@ void Pedestal::update(float dt)
 }
 void Pedestal::interactWith(Camera* player)
 {
-	if(!solved)
+	if(player->checkItem(arrow))
 	{
-		if(player->checkItem(arrow))
-		{
-			player->removeItem(arrow);
-			arrow->isVisible = true;
-			arrow->isActive = true;
-			arrow->ableToBeTaken = false;
-			arrow->setPosition(getPosition()+RING_LOCATION);
-			hasArrow = true;
-			game->playSound(ACTIVATION, position);
-			game->setNoteText(3,L"You place the golden arrow on the pedestal");
-			state->arrowPlaced = true;
-		}
-		else if(player->checkItem(LRing))
-		{
-			player->removeItem(LRing);
-			LRing->isVisible = true;
-			LRing->isActive = true;
-			LRing->ableToBeTaken = false;
-			LRing->setPosition(getPosition()+RING_LOCATION);
-			hasLR = true;
-			game->playSound(ACTIVATION, position);
-			game->setNoteText(3,L"You place the largest ring on the pedestal");
-			state->LRPlaced = true;
-		}
-		else if(player->checkItem(MRing))
-		{
-			player->removeItem(MRing);
-			MRing->isVisible = true;
-			MRing->isActive = true;
-			MRing->ableToBeTaken = false;
-			MRing->setPosition(getPosition()+RING_LOCATION);
-			hasMR = true;
-			game->playSound(ACTIVATION, position);
-			game->setNoteText(3,L"You place the ring on the pedestal");
-			state->MRPlaced = true;
-		}
-		else if(player->checkItem(SRing))
-		{
-			player->removeItem(SRing);
-			SRing->isVisible = true;
-			SRing->isActive = true;
-			SRing->ableToBeTaken = false;
-			SRing->setPosition(getPosition()+RING_LOCATION);
-			hasSR = true;
-			game->playSound(ACTIVATION, position);
-			game->setNoteText(3,L"You place the smallest ring on the pedestal");
-			state->SRPlaced = true;
-		}
-		else
-			game->setNoteText(3,L"The inscription of 3 rings revolving around an arrow can be faintly seen.");
+		player->removeItem(arrow);
+		arrow->isVisible = true;
+		arrow->isActive = true;
+		arrow->ableToBeTaken = false;
+		arrow->setPosition(getPosition()+RING_LOCATION);
+		hasArrow = true;
+		game->playSound(ACTIVATION, position);
+		game->setNoteText(3,L"You place the golden arrow on the pedestal");
+		state->arrowPlaced = true;
+	}
+	else if(player->checkItem(LRing))
+	{
+		player->removeItem(LRing);
+		LRing->isVisible = true;
+		LRing->isActive = true;
+		LRing->ableToBeTaken = false;
+		LRing->setPosition(getPosition()+RING_LOCATION);
+		hasLR = true;
+		game->playSound(ACTIVATION, position);
+		game->setNoteText(3,L"You place the largest ring on the pedestal");
+		state->LRPlaced = true;
+	}
+	else if(player->checkItem(MRing))
+	{
+		player->removeItem(MRing);
+		MRing->isVisible = true;
+		MRing->isActive = true;
+		MRing->ableToBeTaken = false;
+		MRing->setPosition(getPosition()+RING_LOCATION);
+		hasMR = true;
+		game->playSound(ACTIVATION, position);
+		game->setNoteText(3,L"You place the ring on the pedestal");
+		state->MRPlaced = true;
+	}
+	else if(player->checkItem(SRing))
+	{
+		player->removeItem(SRing);
+		SRing->isVisible = true;
+		SRing->isActive = true;
+		SRing->ableToBeTaken = false;
+		SRing->setPosition(getPosition()+RING_LOCATION);
+		hasSR = true;
+		game->playSound(ACTIVATION, position);
+		game->setNoteText(3,L"You place the smallest ring on the pedestal");
+		state->SRPlaced = true;
+	}
+	else
+		game->setNoteText(3,L"The inscription of 3 rings revolving around an arrow can be faintly seen.");
 
-		if(hasArrow&&hasLR&&hasMR&&hasSR)
-		{
-			hidden->isVisible = true;
-			solved=true;
-		}
+	if(hasArrow&&hasLR&&hasMR&&hasSR)
+	{
+		hidden->isVisible = true;
 	}
 }
 

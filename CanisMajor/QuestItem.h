@@ -10,4 +10,5 @@ public:
 	void interactWith(Camera* player);
 	virtual std::wstring getUtilText(){return L"Press E to take the " + name;}
 	bool ableToBeTaken;
+	virtual void reset(){Interactable::reset(); ableToBeTaken=true;}
 };

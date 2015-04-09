@@ -16,7 +16,7 @@ public:
 	virtual std::wstring getUtilText(){return L"Press E to search the " + name;}
 	bool targeted;
 	void setStateSwitch(GameState* s,bool GameState::*sw){state = s;stateSwitch=sw;}
-	void reset(){state=nullptr; stateSwitch=nullptr;targeted=false;}
+	virtual void reset(){state=nullptr; stateSwitch=nullptr;targeted=false;}
 protected:
 	GameState* state;
 	bool GameState::*stateSwitch;

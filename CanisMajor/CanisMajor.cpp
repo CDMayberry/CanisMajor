@@ -990,7 +990,7 @@ void CanisMajor::loadSecondFloor()
 	flashlight.isActive = true;
 
 	dog.isActive = true;
-	dog.setPosition(Vector3(10,0,30));
+	dog.setPosition(Vector3(25,0,2));
 
 	if (numwaypoints !=0)
 		delete [] dogWaypoints;
@@ -1227,8 +1227,10 @@ void CanisMajor::drawNoteText()
 			alpha = (noteTextLifespan-noteTextAge) / CM::TEXT_FADEOUT_TIME;
 		}
 		noteTextColor.a = alpha;
-		RECT r = {mClientWidth/5,mClientHeight/2 + mClientHeight/8,0,0};
-		nFont->DrawText(0,noteText.c_str(),-1,&r,DT_NOCLIP,noteTextColor);
+		RECT r;
+		r.left = r.right = mClientWidth/2;
+		r.top = r.bottom = mClientHeight/2 + mClientHeight/8;
+		nFont->DrawText(0,noteText.c_str(),-1,&r,DT_NOCLIP|DT_CENTER|DT_VCENTER,noteTextColor);
 	}
 }
 void CanisMajor::updateNoteText(float dt)

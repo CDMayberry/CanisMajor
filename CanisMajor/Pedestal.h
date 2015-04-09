@@ -23,5 +23,4 @@ public:
 private:
 	QuestItem *arrow, *LRing, *MRing, *SRing, *hidden;
 	bool hasArrow, hasLR, hasMR, hasSR;
-	bool solved;
 };
