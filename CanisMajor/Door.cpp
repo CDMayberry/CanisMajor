@@ -18,7 +18,7 @@ void Door::interactWith(Camera* player)
 				player->removeItem(key);
 				isOpen = true;
 				key = nullptr;//unlock
-				game->playSound(CREAK1,getPosition());
+				game->playSound(UNLOCK,getPosition());
 				game->setStoryText(2,L"The door unlocks.");
 			}
 			else

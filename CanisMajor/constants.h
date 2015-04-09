@@ -43,5 +43,6 @@ const char CLOSE[] = "doorClose";//Zared
 const char DOGGROWL[] = "dogGrowl";//Zared
 const char JINGLE[] = "jingle";//Caelan
 const char PICKUP[] = "pickup";//Caelan
+const char UNLOCK[] = "unlock";//Caelan 
 
 #endif
