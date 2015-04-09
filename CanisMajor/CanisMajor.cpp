@@ -768,7 +768,7 @@ void CanisMajor::loadAttic()
 
 	QuestItem* k = nullptr;
 	if(!state.atticDoorUnlocked)
-		k=spawnQuestItem(&mKey,L"GOLD KEY",Vector3(37.3,2,51));
+		k=spawnQuestItem(&mKey,L"GOLD KEY",Vector3(37.3,2,53));
 
 	camera.setPosition(Vector3(5,0,5));
 
@@ -839,7 +839,7 @@ void CanisMajor::loadAttic()
 
 	spawnScenery(&mWallpanel,Vector3(10,5,55.01),Vector3(0,1.5707963268,0),Vector3(1,4,6));
 
-	spawnScenery(&mRoofHole,Vector3(19,13.4,7.1),Vector3(0,0,.41),Vector3(6.2, 3, 5.1));
+	spawnScenery(&mRoofHole,Vector3(19,13.3,7.1),Vector3(0,0,.41),Vector3(6, 2.8, 5.1));
 
 	spawnScenery(&mWallpanel,Vector3(40,5,32),Vector3(0,0,0),Vector3(1,1.6,.6));
 
@@ -874,6 +874,7 @@ void CanisMajor::loadAttic()
 	spawnScenery(&mWallpanel,Vector3(45,0,30),Vector3(0,1.5707963268,0),Vector3(1,3,1));
 	spawnScenery(&mWallpanel,Vector3(45,0,24.7),Vector3(0,1.5707963268,0),Vector3(1,3,1));
 	spawnScenery(&mWallpanel,Vector3(47,5,26),Vector3(0,0,.8),Vector3(1,2,3));
+	spawnScenery(&mWallpanel,Vector3(51,-3,26),Vector3(0,0,0),Vector3(1,4,1));
 
 	//Comedic effect cubes
 	spawnSearchable(&mBox,L"Conspicuous Cube",nullptr,Vector3(10,-2,10),Vector3(0,0,0),CM::BOX_SCALE);
@@ -1019,7 +1020,7 @@ void CanisMajor::loadSecondFloor()
 	spawnScenery(&mWallpanel, Vector3(32,-4,9),Vector3(0,PI/2,0),Vector3(1,4,.8));
 	spawnScenery(&mWallpanel, Vector3(36,-18,15),Vector3(0,0,0),Vector3(1,3,1.2));
 	spawnScenery(&mStaircase, Vector3(32,-9,14),Vector3(0,PI/2,0),Vector3(1,1,1));
-	spawnScenery(&mStaircase, Vector3(32,-3,20),Vector3(0,PI/2,0),Vector3(1,1,1));
+	spawnStaircase(L"downstairs",&CanisMajor::loadFirstFloor, Vector3(32,-3,20),Vector3(0,PI/2,0),Vector3(1,1,1));
 
 	//master bed decor
 	spawnScenery(&mMasterbed,Vector3(49,-3,39),Vector3(0,1.5707963268,0), Vector3(5,4,5));
@@ -1077,7 +1078,7 @@ void CanisMajor::loadBasement()
 
 void CanisMajor::onPlayerDeath()
 {
-
+	loadSplashScreen(false);
 }
 
 //calling with s defined sets, calling without clears
