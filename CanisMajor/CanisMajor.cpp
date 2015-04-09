@@ -127,6 +127,7 @@ void CanisMajor::threadInit()
 	mServantbed.init(md3dDevice,".\\geometry\\servantBed.geo",L".\\textures\\medwood.dds");
 	loadingStatus++; //9
 	mStaircase.init(md3dDevice,".\\geometry\\staircase.geo", L".\\lightwood.dds");
+	mStaircase.setCustomAABB(mStaircase.getAABBMin(),mStaircase.getAABBMax()+Vector3(0,10,0));
 	loadingStatus++; //10
 	mTable.init(md3dDevice,".\\geometry\\table.geo", L".\\textures\\lightwood.dds");
 	loadingStatus++; //11
@@ -403,6 +404,10 @@ void CanisMajor::collisions()
 		{
 			camera.backUp();
 		}
+		if(camera.isPicked(&staircases[i],dist))
+		{
+			camera.setNearbyInteractable(&staircases[i],dist);
+		}
 	}
 
 		for(int i = 0; i< CM::MAX_READABLE_ACTORS; i++)
@@ -452,14 +457,6 @@ void CanisMajor::collisions()
 		if(camera.collided(&scenery[i]))
 		{
 			camera.backUp();
-		}
-	}
-
-	for(int i = 0 ; i < CM::MAX_STAIRCASES; i++)
-	{
-		if(camera.isPicked(&staircases[i],dist))
-		{
-			camera.setNearbyInteractable(&staircases[i],dist);
 		}
 	}
 
