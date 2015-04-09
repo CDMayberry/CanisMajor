@@ -3,6 +3,7 @@
 #include "Interactable.h"
 #include "QuestItem.h"
 #include "Camera.h"
+#include "GameState.h"
 
 namespace PedestalNS{
 	const Vector3 RING_LOCATION(0,2,0);
@@ -17,8 +18,10 @@ public:
 	virtual void update(float dt);
 	void interactWith(Camera* player);
 	virtual std::wstring getUtilText();
+	void load(GameState state);
 
 private:
 	QuestItem *arrow, *LRing, *MRing, *SRing, *hidden;
 	bool hasArrow, hasLR, hasMR, hasSR;
+	bool solved;
 };
