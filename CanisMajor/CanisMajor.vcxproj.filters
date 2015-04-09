@@ -67,6 +67,7 @@
     <ClCompile Include="Pedestal.cpp">
       <Filter>Sources\GameObj</Filter>
     </ClCompile>
+    <ClCompile Include="Sky.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CanisMajor.h">
@@ -160,6 +161,7 @@
     <ClInclude Include="QuestItem.h">
       <Filter>Headers\GameObj</Filter>
     </ClInclude>
+    <ClInclude Include="Sky.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="lighthelper.fx">
@@ -168,6 +170,7 @@
     <None Include="lighting.fx">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="sky.fx" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Shaders">
