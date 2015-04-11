@@ -1144,8 +1144,8 @@ void CanisMajor::loadSecondFloor()
 	spawnSearchable(&mBookcase,L"Bookcase",nullptr,Vector3(19,2.3,43),Vector3(0,PI/2,0),CM::BOOKCASE_SCALE);
 
 	//Bathroom Decor
-	spawnScenery(&mToilet, Vector3(25,-1,28.5),Vector3(0,PI/2,0),Vector3(1.5,1.5,1.5));
-	spawnSearchable(&mSink, L"Sink",r2,Vector3(25,-2.5,33),Vector3(0,PI/2,0),Vector3(1.5,1.7,1.5));
+	spawnScenery(&mToilet, Vector3(25,-2.75,28.5),Vector3(0,PI/2,0),Vector3(1.5,1.5,1.5));
+	spawnSearchable(&mSink, L"Sink",r2,Vector3(25,-2.75,32.5),Vector3(0,PI/2,0),Vector3(1.5,1.7,1.5));
 	spawnSearchable(&mTub,L"Bath Tub",nullptr,Vector3(33.5,-1.2,40),Vector3(0,PI/2,0), Vector3(1.5,2,1.5));
 	
 }
