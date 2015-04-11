@@ -1,5 +1,6 @@
-# Blender v2.73 (sub 0) OBJ File: ''
+# Blender v2.71 (sub 0) OBJ File: ''
 # www.blender.org
+o flashlight
 v 0.312224 0.111017 0.030000
 v 0.312224 0.111017 -0.030000
 v 0.312224 -0.008983 -0.030000

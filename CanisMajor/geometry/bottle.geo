@@ -1,6 +1,6 @@
 # Blender v2.71 (sub 0) OBJ File: ''
 # www.blender.org
-o Cylinder
+o Cylinder.001
 v -0.007922 0.622637 -0.080430
 v -0.007922 0.911070 -0.080430
 v -0.007922 0.911070 -0.080430

@@ -103,7 +103,7 @@ public:
 	ID3D10Device* getDevice(){return md3dDevice;}
 
 	Geometry mTelescope, mDresser, mFlashlight, mFrame, mBookcase, mChair, mCradle, mMasterbed, 
-			mServantbed, mStaircase, mTable, mBottle, mLock, mPictureframe, mRail, mWallpanel, mWindow,
+			mServantbed, mStaircase, mTable, mBottle, mLock, mPictureframe, mRail, mWallpanel,
 			mCage, mFixture, mDoor, mCube, mRoofHole,mKey, mBox, mWindowPanel, mBook,mBookStack, mDesk,
 			mToilet, mSink, mTub, mArrow, mRing, mDog, mPedastal;
 

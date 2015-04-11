@@ -1,6 +1,6 @@
 # Blender v2.71 (sub 0) OBJ File: ''
 # www.blender.org
-o telescope
+o telescope.001
 v 0.014533 -0.037793 0.339826
 v 0.024672 -0.019005 0.337439
 v 0.007765 -0.023340 0.348961

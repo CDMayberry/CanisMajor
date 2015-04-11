@@ -141,26 +141,24 @@ void CanisMajor::threadInit()
 	loadingStatus++; //15
 	mWallpanel.init(md3dDevice,".\\geometry\\wallpanel.geo", L".\\textures\\greywood.dds");
 	loadingStatus++; //16
-	mWindow.init(md3dDevice,".\\geometry\\window.geo", L".\\textures\\greywood.dds");
-	loadingStatus++; //17
 	mCage.init(md3dDevice,".\\geometry\\cage.geo");
-	loadingStatus++; //18
+	loadingStatus++; //17
 	mFixture.init(md3dDevice,".\\geometry\\fixture.geo", L".\\textures\\cardboard.dds");
-	loadingStatus++; //19
+	loadingStatus++; //18
 	mDoor.init(md3dDevice,".\\geometry\\door.geo", L".\\textures\\gold.dds");
-	loadingStatus++; //20
+	loadingStatus++; //19
 	mBox.init(md3dDevice,".\\geometry\\cardboardBox.geo", L".\\textures\\cardboard.dds");
-	loadingStatus++; //21
+	loadingStatus++; //20
 	mBook.init(md3dDevice,".\\geometry\\book.geo",L".\\textures\\paper.dds");
-	loadingStatus++; //22
+	loadingStatus++; //21
 #ifndef DEBUG
 	mToilet.init(md3dDevice,".\\geometry\\toilet.geo");
 #else
 	mToilet.init(md3dDevice,".\\geometry\\cardboardBox.geo", L".\\textures\\paper.dds");
 #endif
-	loadingStatus++; //23
+	loadingStatus++; //22
 	mDog.init(md3dDevice,".\\geometry\\dog.geo");
-	loadingStatus++; //24
+	loadingStatus++; //23
 	for(int i = 0 ; i < CM::MAX_DOORS; i++)
 	{
 		doors[i].init(this,&mDoor,1);
@@ -173,17 +171,17 @@ void CanisMajor::threadInit()
 	//dog.setScale(Vector3(0.1f,5.0f,5.0f));
 	dog.setNegalight(&negaLight);
 	dog.setEyes(&eyes);
-	loadingStatus++; //25
+	loadingStatus++; //24
 	mRoofHole.init(md3dDevice,".\\geometry\\newRoofHole.geo", L".\\textures\\greywood.dds");
-	loadingStatus++; //26
+	loadingStatus++; //25
 	mKey.init(md3dDevice,".\\geometry\\key.geo", L".\\textures\\gold.dds");
-	loadingStatus++; //27
+	loadingStatus++; //26
 	mWindowPanel.init(md3dDevice,".\\geometry\\windowpanel.geo", L".\\textures\\greywood.dds");
-	loadingStatus++; //28
+	loadingStatus++; //27
 	mBookStack.init(md3dDevice,".\\geometry\\bookStack.geo");
-	loadingStatus++; //29
+	loadingStatus++; //28
 	mDesk.init(md3dDevice,".\\geometry\\desk.geo");
-	loadingStatus++; //30
+	loadingStatus++; //29
 	mSink.init(md3dDevice,".\\geometry\\sink.geo");
 	loadingStatus++;
 	mTub.init(md3dDevice,".\\geometry\\tub.geo");
