@@ -905,7 +905,7 @@ void CanisMajor::loadAttic()
 
 	spawnScenery(&mWallpanel,Vector3(10,5,55.01),Vector3(0,1.5707963268,0),Vector3(1,4,6));
 
-	spawnScenery(&mRoofHole,Vector3(19.6,12,7.1),Vector3(0,0,.42),Vector3(6.5, 4.5, 5.1));
+	spawnScenery(&mRoofHole,Vector3(17,10.7,7.1),Vector3(0,0,.42),Vector3(6.6, 4.6, 5.2));
 
 	spawnScenery(&mWallpanel,Vector3(40,5,32),Vector3(0,0,0),Vector3(1,1.6,.6));
 
@@ -988,7 +988,7 @@ void CanisMajor::loadSecondFloor()
 	flashlight.isActive = true;
 
 	dog.isActive = true;
-	dog.setPosition(Vector3(25,0,2));
+	dog.setPosition(Vector3(35,0,2));
 
 	if (numwaypoints !=0)
 		delete [] dogWaypoints;
@@ -1129,17 +1129,17 @@ void CanisMajor::loadSecondFloor()
 	spawnScenery(&mBottle,Vector3(2,.4,14.5),Vector3(0,0,PI/2),Vector3(1,1,1));
 
 	//Office Decor
-	spawnSearchable(&mDesk,L"Desk",r3,Vector3(2,-1.5,47),Vector3(0,PI,0),Vector3(1,1,1));
+	spawnSearchable(&mDesk,L"Desk",r3,Vector3(2,-3,47),Vector3(0,PI,0),Vector3(1,1,1));
 	spawnScenery(&mChair,Vector3(2.5,-2.6,46),Vector3(0,PI,.6), CM::CHAIR_SCALE);
 	spawnScenery(&mBookStack,Vector3(1,1,48.5),Vector3(0,0,0),Vector3(1,1,1));
-	spawnReadable(&mBook, L"Book", nullptr,Vector3(3.5,.65,45),Vector3(PI/8,PI/2,0),Vector3(.5,.75,.5), L"Scrawled in child's writing:\nDolan loves it when we hide daddy's things!\n We even hid one in his dresser.");
+	spawnReadable(&mBook, L"Book", nullptr,Vector3(3.2,.65,45),Vector3(PI/8,PI/2,0),Vector3(.5,.75,.5), L"Scrawled in child's writing:\nDolan loves it when we hide daddy's things!\n We even hid one in his dresser.");
 	spawnScenery(&mFixture,Vector3(1,5,51),Vector3(0,PI/2,0));
 	spawnLight(Vector3(1.3,5.3,51));
-	spawnScenery(&mTable,Vector3(6,-1,57),Vector3(0,0,0),Vector3(2,1,1.2));
+	spawnScenery(&mTable,Vector3(6,-1.5,57),Vector3(0,0,0),Vector3(2,1,1.2));
 	spawnScenery(&mChair,Vector3(4,-3,53),Vector3(0,-PI/2,0), CM::CHAIR_SCALE);
-	spawnScenery(&mBookStack,Vector3(2,1,55.5),Vector3(0,0,0),Vector3(1,1,1));
-	spawnReadable(&mBook, L"Book", nullptr,Vector3(2.5,1.8,56),Vector3(PI,PI/2,0),Vector3(.5,.75,.5));
-	spawnReadable(&mBook, L"Book", nullptr,Vector3(6,1.2,55),Vector3(0,PI,0),Vector3(1.5,1.5,1.5));
+	spawnScenery(&mBookStack,Vector3(2,.7,55.5),Vector3(0,0,0),Vector3(1,1,1));
+	spawnReadable(&mBook, L"Book", nullptr,Vector3(2.5,1.5,56),Vector3(PI,PI/2,0),Vector3(.5,.75,.5));
+	spawnReadable(&mBook, L"Book", nullptr,Vector3(6,.3,55),Vector3(0,PI,0),Vector3(1.5,1.5,1.5));
 	spawnSearchable(&mBookcase,L"Bookcase",nullptr,Vector3(17,2.3,59),Vector3(0,0,0),CM::BOOKCASE_SCALE);
 	spawnSearchable(&mBookcase,L"Bookcase",nullptr,Vector3(19,2.3,43),Vector3(0,PI/2,0),CM::BOOKCASE_SCALE);
 
