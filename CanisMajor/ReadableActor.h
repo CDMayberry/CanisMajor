@@ -14,7 +14,7 @@ class Camera;
 class ReadableActor: public virtual Actor, public Interactable
 {
 public:
-	ReadableActor():Actor(){concealedItem = nullptr; isActive=false;name=L"Book"; myText = L"The note is scratched and unreadable."; duration = 5.0f;}
+	ReadableActor():Actor(){concealedItem = nullptr; isActive=false;name=L"Book"; sprite = 2;myText = L"The note is scratched and unreadable."; duration = 5.0f;}
 	virtual void interactWith(Camera* player);
 	void create(Vector3 pos, Vector3 rot, Vector3 scale, Actor* item = nullptr);
 	virtual void update(float dt);

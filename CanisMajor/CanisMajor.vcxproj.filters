@@ -70,6 +70,9 @@
     <ClCompile Include="Sky.cpp">
       <Filter>Shaders</Filter>
     </ClCompile>
+    <ClCompile Include="Sprites.cpp">
+      <Filter>Sources\Geometry</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CanisMajor.h">
@@ -168,6 +171,9 @@
     <ClInclude Include="Pedestal.h">
       <Filter>Headers\GameObj</Filter>
     </ClInclude>
+    <ClInclude Include="Sprites.h">
+      <Filter>Headers\Geometry</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="lighthelper.fx">
@@ -177,6 +183,9 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="sky.fx">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="tree.fx">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>

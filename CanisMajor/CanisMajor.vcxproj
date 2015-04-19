@@ -112,6 +112,7 @@
     <ClCompile Include="SearchableActor.cpp" />
     <ClCompile Include="Sky.cpp" />
     <ClCompile Include="Staircase.cpp" />
+    <ClCompile Include="Sprites.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="audio.h" />
@@ -145,6 +146,7 @@
     <ClInclude Include="sharedDefines.h" />
     <ClInclude Include="Sky.h" />
     <ClInclude Include="Staircase.h" />
+    <ClInclude Include="Sprites.h" />
     <ClInclude Include="Vertex.h" />
   </ItemGroup>
   <ItemGroup>
@@ -157,6 +159,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="sky.fx">
+      <FileType>Document</FileType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="tree.fx">
       <FileType>Document</FileType>
     </None>
   </ItemGroup>

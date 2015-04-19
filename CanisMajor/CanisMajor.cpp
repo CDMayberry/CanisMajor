@@ -93,6 +93,24 @@ void CanisMajor::threadInit()
 		lightType[i] = 0;
 	}
 
+	D3DXVECTOR3 centers[SpriteNS::SPRITES];
+	for(int i = 0; i < SpriteNS::HANDS; i++) {
+		Vector3 center(0,0,100);
+		centers[i] = center;
+	}
+
+	//Make sure to have the exact number of file names
+	std::wstring filenames[SpriteNS::SPRITES] = 
+	{ //Put all file names in here.
+		/* L".\\textures\\.dds", */
+		L".\\textures\\hand.dds",
+		L".\\textures\\book.dds",
+		L".\\textures\\maglass.dds",
+		L".\\textures\\key.dds",
+	};
+
+	sprites.init(md3dDevice, centers, MAX_SPRITES, filenames);
+
 	// Spotlight--position and direction changed every frame to animate.
 	fLight.init(2);  //Flashlight
 	ambient.init(1); //Ambientlight (DUH)
@@ -341,7 +359,7 @@ void CanisMajor::menuUpdate(float dt, bool reset)
 
 void CanisMajor::levelsUpdate(float dt)
 {	
-
+	sprites.sprite = -1;
 	if(state.secondFloorSairsUsed)
 		return loadSplashScreen(true);
 
@@ -404,6 +422,7 @@ void CanisMajor::collisions()
 	{
 		if(camera.isPicked(&searchableActors[i],dist))
 		{
+			sprites.sprite = 2;
 			camera.setNearbyInteractable(&searchableActors[i],dist);
 		}
 
@@ -429,6 +448,7 @@ void CanisMajor::collisions()
 	{
 		if(camera.isPicked(&readableActors[i],dist))
 		{
+			sprites.sprite = 1;
 			camera.setNearbyInteractable(&readableActors[i],dist);
 		}
 
@@ -458,6 +478,7 @@ void CanisMajor::collisions()
 	{
 		if(camera.isPicked(&items[i],dist))
 		{
+			sprites.sprite = 0;
 			camera.setNearbyInteractable(&items[i],dist);
 		}
 	}
@@ -650,9 +671,15 @@ void CanisMajor::levelsDraw()
 	drawStoryText();
 	drawNoteText();
 
+	if(sprites.sprite >= 0)
+		sprites.draw(mProj);
+	else {
+		RECT r = {mClientWidth/2,mClientHeight/2,mClientWidth/2,mClientHeight/2};
+		utilFont->DrawText(0,L"\u25CF",-1,&r,DT_NOCLIP|DT_CENTER|DT_VCENTER,WHITE);
+	}
 	//#ifdef DEBUG
-	RECT r = {mClientWidth/2,mClientHeight/2,mClientWidth/2,mClientHeight/2};
-	utilFont->DrawText(0,L"\u25CF",-1,&r,DT_NOCLIP|DT_CENTER|DT_VCENTER,WHITE);
+	//RECT r = {mClientWidth/2,mClientHeight/2,mClientWidth/2,mClientHeight/2};
+	//utilFont->DrawText(0,L"\u25CF",-1,&r,DT_NOCLIP|DT_CENTER|DT_VCENTER,WHITE);
 	//#endif
 
 }
