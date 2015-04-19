@@ -9,12 +9,13 @@ namespace dogNS{
 	const float RUN_SPEED = 15.0f;
 	const float AGRO_DIST = 1100;//distance to start dog agro
 	const float NEUTRAL_DIST = 20.0f;//distance to leave agro field
+	const int DIR_CHANGE_CHANCE = 10;// 10 percent chance of changing direction at any given waypoint 
 };
 
 class Dog: public virtual Actor
 {
 public:
-	void SetWaypoints(Vector3* wp, int numwp);//allows levels to set the dog's waypoint system
+	void SetWaypoints(Vector3* wp, int numwp, int LinInterp);//allows levels to set the dog's waypoint system
 	void update(float dt);
 	void Dog::init(CanisMajor* game,Geometry *b,  float r, Vector3 scale = Vector3(1,1,1));
 	void setNegalight(Light* nega) {negalight = nega;}
@@ -36,5 +37,6 @@ private:
 	bool isNearObjPlayer;
 	Actor* playerNearby;
 	Vector3 dirToPlayer;
+	int waypointdir;//indicates whether the dog is moving clockwise or counterclockwise through the waypoints
 };
 #endif
