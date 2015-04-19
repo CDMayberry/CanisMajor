@@ -1,6 +1,7 @@
 #include "Dog.h"
 #include "CanisMajor.h"
 #include <fstream>
+#include <time.h>
 using namespace std;
 
 using namespace dogNS;
@@ -11,6 +12,8 @@ void Dog::init(CanisMajor* game,Geometry *b,  float r, Vector3 s)
 	TargetWaypoint = -1;
 	following = false;
 	numwaypoints = 0;
+	waypointdir = 1;
+	srand(time(NULL));
 }
 
 void Dog::SetWaypoints(Vector3* wp, int numwp, int LinInterp){
@@ -69,8 +72,10 @@ void Dog::update(float dt){
 
 
 		if (D3DXVec2Length(&vectortoplayer) <= 4){
-			game->playSound(BITE,position);
-			game->onPlayerDeath();//the dog caught the player, died
+			#ifndef DEBUG
+				game->playSound(BITE,position);
+				game->onPlayerDeath();//the dog caught the player, died
+			#endif
 		}
 		else if (playerNearby == &game->camera && following == false){
 			following = true;
@@ -94,10 +99,18 @@ void Dog::update(float dt){
 
 				Vector3 twp = Waypoints[TargetWaypoint];//target waypoint
 				float distsqrt = (twp.x - position.x)*(twp.x - position.x) + (twp.y - position.y)*(twp.y - position.y) + (twp.z - position.z)*(twp.z - position.z);
-				if (distsqrt < 0.25){
-					TargetWaypoint++;
+				if (distsqrt < 0.1){//dog has hit a waypoint, procceed to next wp
+					TargetWaypoint+= waypointdir;
 					if (TargetWaypoint == numwaypoints)
 						TargetWaypoint = 0;//wrap around to first waypoint
+					if (TargetWaypoint == -1)
+						TargetWaypoint = numwaypoints-1;//wrap around to last waypoint
+
+					int switchdir = rand()%100;
+					if (switchdir <= DIR_CHANGE_CHANCE){//1 in 4 chance to switch direction at any given waypoint
+						waypointdir *= -1;
+					}
+				
 				}
 
 				twp = Waypoints[TargetWaypoint];
