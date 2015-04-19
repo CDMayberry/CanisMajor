@@ -106,7 +106,7 @@ void CanisMajor::threadInit()
 		L".\\textures\\hand.dds",
 		L".\\textures\\book.dds",
 		L".\\textures\\maglass.dds",
-		L".\\textures\\key.dds",
+		L".\\textures\\sDoor.dds",
 	};
 
 	sprites.init(md3dDevice, centers, MAX_SPRITES, filenames);
