@@ -69,11 +69,11 @@ void Dog::update(float dt){
 
 
 		if (D3DXVec2Length(&vectortoplayer) <= 4){
-			//game->playSound(BITE,position);
-			//game->onPlayerDeath();//the dog caught the player, died
+			game->playSound(BITE,position);
+			game->onPlayerDeath();//the dog caught the player, died
 		}
 		else if (playerNearby == &game->camera && following == false){
-			//following = true;
+			following = true;
 		}
 		else if (playerNearby != &game->camera && following ==true){
 			following = false;
