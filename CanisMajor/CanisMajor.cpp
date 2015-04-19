@@ -32,7 +32,7 @@ CanisMajor::CanisMajor(HINSTANCE hInstance)
 	controls.down = 'S';
 	controls.left = 'A';
 	controls.right = 'D';
-	controls.use = 'E';
+	controls.use = VK_LBUTTON;
 	controls.flashlight = 'F';
 	controls.crouch = VK_CONTROL;
 	controls.run = VK_SHIFT;
@@ -428,7 +428,7 @@ void CanisMajor::collisions()
 	{
 		if(camera.isPicked(&searchableActors[i],dist))
 		{
-			sprites.sprite = 2;
+			//sprites.sprite = 2;
 			camera.setNearbyInteractable(&searchableActors[i],dist);
 		}
 
@@ -447,20 +447,6 @@ void CanisMajor::collisions()
 		if(camera.isPicked(&staircases[i],dist))
 		{
 			camera.setNearbyInteractable(&staircases[i],dist);
-		}
-	}
-
-	for(int i = 0; i< CM::MAX_READABLE_ACTORS; i++)
-	{
-		if(camera.isPicked(&readableActors[i],dist))
-		{
-			sprites.sprite = 1;
-			camera.setNearbyInteractable(&readableActors[i],dist);
-		}
-
-		if(camera.collided(&readableActors[i]))
-		{
-			camera.backUp();
 		}
 	}
 
@@ -484,7 +470,7 @@ void CanisMajor::collisions()
 	{
 		if(camera.isPicked(&items[i],dist))
 		{
-			sprites.sprite = 0;
+			//sprites.sprite = 0;
 			camera.setNearbyInteractable(&items[i],dist);
 		}
 	}

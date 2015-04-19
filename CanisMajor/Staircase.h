@@ -8,9 +8,10 @@ typedef void(CanisMajor::*LLevel)(void);
 class Staircase: public virtual Actor, public virtual Interactable
 {
 public:
-	void setLLevel(LLevel in, std::wstring n){loadLevel = in;name=n;}
+	Staircase():Actor(){sprite = 3;}
+	void setLLevel(LLevel in, std::wstring n){loadLevel = in;name=n; sprite = 3;}
 	void interactWith(Camera* player);
-	virtual std::wstring getUtilText(){return L"Press E to travel " + name;}
+	virtual std::wstring getUtilText(){return L"Press LMB to travel " + name;}
 
 private:
 	LLevel loadLevel;

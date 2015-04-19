@@ -20,7 +20,7 @@ class Flashlight : public virtual Actor, public Interactable
 {
 public:
 	void init(CanisMajor* game,Geometry *b, Light* l, float r=1);
-	virtual std::wstring getUtilText(){return L"Press E to take the " + name;}
+	virtual std::wstring getUtilText(){return L"Press LMB to take the " + name;}
 	void update(float dt);
 
 	void setDirection(Vector3 v);
