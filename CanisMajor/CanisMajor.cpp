@@ -126,7 +126,7 @@ void CanisMajor::threadInit()
 	loadingStatus++; //8
 	mServantbed.init(md3dDevice,".\\geometry\\servantBed.geo",L".\\textures\\medwood.dds");
 	loadingStatus++; //9
-	mStaircase.init(md3dDevice,".\\geometry\\staircase.geo", L".\\lightwood.dds");
+	mStaircase.init(md3dDevice,".\\geometry\\staircase.geo", L".\\textures\\lightwood.dds");
 	mStaircase.setCustomAABB(mStaircase.getAABBMin(),mStaircase.getAABBMax()+Vector3(0,10,0));
 	loadingStatus++; //10
 	mTable.init(md3dDevice,".\\geometry\\table.geo", L".\\textures\\lightwood.dds");
@@ -157,7 +157,11 @@ void CanisMajor::threadInit()
 	mToilet.init(md3dDevice,".\\geometry\\cardboardBox.geo", L".\\textures\\paper.dds");
 #endif
 	loadingStatus++; //22
+#ifndef DEBUG
 	mDog.init(md3dDevice,".\\geometry\\dog.geo");
+#else
+	mDog.init(md3dDevice,".\\geometry\\cardboardBox.geo", L".\\textures\\paper.dds");
+#endif
 	loadingStatus++; //23
 	for(int i = 0 ; i < CM::MAX_DOORS; i++)
 	{
@@ -174,7 +178,7 @@ void CanisMajor::threadInit()
 	loadingStatus++; //24
 	mRoofHole.init(md3dDevice,".\\geometry\\newRoofHole.geo", L".\\textures\\greywood.dds");
 	loadingStatus++; //25
-	mKey.init(md3dDevice,".\\geometry\\key.geo", L".\\textures\\gold.dds");
+	mKey.init(md3dDevice,".\\geometry\\key2.geo", L".\\textures\\key1D.dds", true);
 	loadingStatus++; //26
 	mWindowPanel.init(md3dDevice,".\\geometry\\windowpanel.geo", L".\\textures\\greywood.dds");
 	loadingStatus++; //27
@@ -182,9 +186,17 @@ void CanisMajor::threadInit()
 	loadingStatus++; //28
 	mDesk.init(md3dDevice,".\\geometry\\desk.geo");
 	loadingStatus++; //29
+#ifndef DEBUG
 	mSink.init(md3dDevice,".\\geometry\\sink.geo");
-	loadingStatus++;
+#else
+	mSink.init(md3dDevice,".\\geometry\\cardboardBox.geo", L".\\textures\\paper.dds");
+#endif
+	loadingStatus++; //30
+#ifndef DEBUG
 	mTub.init(md3dDevice,".\\geometry\\tub.geo");
+#else
+	mTub.init(md3dDevice,".\\geometry\\cardboardBox.geo", L".\\textures\\paper.dds");
+#endif
 	loadingStatus++;
 	mArrow.init(md3dDevice,".\\geometry\\arrow.geo", L".\\textures\\gold.dds");
 	loadingStatus++;
@@ -194,7 +206,7 @@ void CanisMajor::threadInit()
 	loadingStatus++;
 	pedestal.init(this,&mPedastal);
 	pedestal.collisionType = AABBox;
-	
+
 	for(int i = 0 ; i < CM::NUM_QUEST_ITEMS; i++)
 	{
 		items[i].init(this,&mCube,1);
@@ -238,7 +250,7 @@ void CanisMajor::threadInit()
 	AABBHelper.isActive = true;
 #endif
 
-	
+
 
 	//buildFX();
 	buildVertexLayouts();
@@ -367,14 +379,14 @@ void CanisMajor::levelsUpdate(float dt)
 	camera.update(dt);
 
 	flashlight.update(dt);
-	
+
 	dog.update(dt);
 
 	updateStoryText(dt);
 	updateNoteText(dt);
 
 	collisions();
-	
+
 	if(camera.getNearbyItem()!=nullptr)
 	{
 		drawUtilText(camera.getNearbyItem()->getUtilText());
@@ -419,7 +431,7 @@ void CanisMajor::collisions()
 		}
 	}
 
-		for(int i = 0; i< CM::MAX_READABLE_ACTORS; i++)
+	for(int i = 0; i< CM::MAX_READABLE_ACTORS; i++)
 	{
 		if(camera.isPicked(&readableActors[i],dist))
 		{
@@ -431,7 +443,7 @@ void CanisMajor::collisions()
 			camera.backUp();
 		}
 	}
-	
+
 	for(int i = 0 ; i < CM::MAX_DOORS; i++)
 	{
 		if(doors[i].isActive)
@@ -474,7 +486,7 @@ void CanisMajor::collisions()
 	if(camera.isPicked(&pedestal,dist))
 		camera.setNearbyInteractable(&pedestal,dist);
 
-	
+
 	//Dog AI
 	bool isPlayer = false;
 	for(int i = 0; i<CM::MAX_SCENERY; i++)
@@ -605,7 +617,7 @@ void CanisMajor::levelsDraw()
 	//Get Camera viewMatrix
 	mView = camera.getViewMatrix();
 	mProj = camera.getProjectionMatrix();
-	
+
 	sky.draw(mView, mProj);
 
 	dog.draw(mfxWVPVar,mView,mProj,mTech);
@@ -644,10 +656,10 @@ void CanisMajor::levelsDraw()
 	drawStoryText();
 	drawNoteText();
 
-//#ifdef DEBUG
+	//#ifdef DEBUG
 	RECT r = {mClientWidth/2,mClientHeight/2,mClientWidth/2,mClientHeight/2};
 	utilFont->DrawText(0,L"\u25CF",-1,&r,DT_NOCLIP|DT_CENTER|DT_VCENTER,WHITE);
-//#endif
+	//#endif
 
 
 
@@ -837,7 +849,7 @@ void CanisMajor::loadAttic()
 	QuestItem* k = nullptr;
 	if(!state.atticKeyTaken)
 	{
-		k=spawnQuestItem(&mKey,L"GOLD KEY",Vector3(37.3,2,53));
+		k=spawnQuestItem(&mKey,L"GOLD KEY",Vector3(37.3,2,53),Vector3(0,0,0),Vector3(4,4,4));
 		k->setStateSwitch(&state,&GameState::atticKeyTaken);
 	}
 
@@ -1010,7 +1022,6 @@ void CanisMajor::loadSecondFloor()
 	dogWaypoints[5] = Vector3(25,-2.5,5);
 	dogWaypoints[6] = Vector3(25,-2.5,20);
 	dog.SetWaypoints(dogWaypoints,numwaypoints,3);
-	
 	//Floor panels
 	spawnScenery(&mCube,Vector3(0,-4,30),Vector3(0,0,0),Vector3(28,1,30));
 	spawnScenery(&mCube,Vector3(53,-4,30),Vector3(0,0,0),Vector3(17,1,30));
@@ -1155,7 +1166,7 @@ void CanisMajor::loadSecondFloor()
 	spawnScenery(&mToilet, Vector3(25,-2.75,28.5),Vector3(0,PI/2,0),Vector3(1.5,1.5,1.5));
 	spawnSearchable(&mSink, L"Sink",r2,Vector3(25,-2.75,32.5),Vector3(0,PI/2,0),Vector3(1.5,1.7,1.5));
 	spawnSearchable(&mTub,L"Bath Tub",nullptr,Vector3(33.5,-1.2,40),Vector3(0,PI/2,0), Vector3(1.5,2,1.5));
-	
+
 }
 
 void CanisMajor::loadFirstFloor()
