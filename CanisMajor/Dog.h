@@ -14,7 +14,7 @@ namespace dogNS{
 class Dog: public virtual Actor
 {
 public:
-	void SetWaypoints(Vector3* wp, int numwp);//allows levels to set the dog's waypoint system
+	void SetWaypoints(Vector3* wp, int numwp, int LinInterp);//allows levels to set the dog's waypoint system
 	void update(float dt);
 	void Dog::init(CanisMajor* game,Geometry *b,  float r, Vector3 scale = Vector3(1,1,1));
 	void setNegalight(Light* nega) {negalight = nega;}

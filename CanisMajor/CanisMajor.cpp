@@ -379,6 +379,12 @@ void CanisMajor::levelsUpdate(float dt)
 	{
 		drawUtilText(camera.getNearbyItem()->getUtilText());
 	}
+
+	//displays the player's current location. Use for mapping/debugging
+	#ifdef DEBUG
+		wstring xzpos = std::to_wstring((int)camera.getPosition().x) + L", "+ std::to_wstring((int)camera.getPosition().z);
+		drawUtilText(xzpos);
+	#endif
 }
 
 //COLLISIONS GIVE LOADS OF FALSE POSITIVES
@@ -643,6 +649,8 @@ void CanisMajor::levelsDraw()
 	utilFont->DrawText(0,L"\u25CF",-1,&r,DT_NOCLIP|DT_CENTER|DT_VCENTER,WHITE);
 //#endif
 
+
+
 }
 
 void CanisMajor::buildFX()
@@ -771,7 +779,7 @@ void CanisMajor::clearLevel()
 	if (numwaypoints !=0)//clear waypoints
 		delete [] dogWaypoints;
 	numwaypoints = 0;
-	dog.SetWaypoints(dogWaypoints,numwaypoints);//update dog's waypoint count
+	dog.SetWaypoints(dogWaypoints,numwaypoints,1);//update dog's waypoint count
 	dog.isActive = false;//disable dog
 	negaLight.pos = Vector3(200,200,200);
 	eyes.pos = Vector3(200,200,200);
@@ -996,12 +1004,12 @@ void CanisMajor::loadSecondFloor()
 	dogWaypoints = new Vector3[numwaypoints];
 	dogWaypoints[0] = Vector3(10,-2.5,30);
 	dogWaypoints[1] = Vector3(24,-2.5,40);
-	dogWaypoints[2] = Vector3(25,-2.5,54);
-	dogWaypoints[3] = Vector3(65, -2.5,51);
+	dogWaypoints[2] = Vector3(25,-2.5,53);
+	dogWaypoints[3] = Vector3(65, -2.5,53);
 	dogWaypoints[4] = Vector3(65,-2.5,5);
 	dogWaypoints[5] = Vector3(25,-2.5,5);
 	dogWaypoints[6] = Vector3(25,-2.5,20);
-	dog.SetWaypoints(dogWaypoints,numwaypoints);
+	dog.SetWaypoints(dogWaypoints,numwaypoints,3);
 	
 	//Floor panels
 	spawnScenery(&mCube,Vector3(0,-4,30),Vector3(0,0,0),Vector3(28,1,30));
