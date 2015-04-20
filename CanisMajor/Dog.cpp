@@ -17,10 +17,10 @@ void Dog::init(CanisMajor* game,Geometry *b,  float r, Vector3 s)
 }
 
 void Dog::SetWaypoints(Vector3* wp, int numwp, int LinInterp){
-	if (numwaypoints != 0 ){
-		delete [] Waypoints;
-		numwaypoints = 0;
-	}
+	//if (numwaypoints != 0 ){
+		//delete [] Waypoints;
+		//numwaypoints = 0;
+	//}
 	if(numwp ==0)
 		return;
 

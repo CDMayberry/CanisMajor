@@ -286,7 +286,7 @@ void CanisMajor::threadInit()
 	AABBHelper.isActive = true;
 #endif
 
-
+	camera.update(0);
 
 	//buildFX();
 	buildVertexLayouts();
@@ -377,6 +377,20 @@ void CanisMajor::menuUpdate(float dt, bool reset)
 
 void CanisMajor::levelsUpdate(float dt)
 {	
+	static AudioData* d = audio->buildData(DOGGROWL);
+	
+
+	static float count = 0;
+	count+=dt;
+	if(count > 2)
+	{
+		audio->playCue(d);
+		count=0;
+	}
+	else
+	{
+		d->update(Vector3(0,0,0));
+	}
 	gui.sprite = -1;
 	if(state.secondFloorSairsUsed)
 		return loadSplashScreen(true);
@@ -405,7 +419,7 @@ void CanisMajor::levelsUpdate(float dt)
 
 	//for initial sound effect with howling door
 	if(!howl && doors[0].getOpen()) {
-		audio->playCue(HOWL, doors[0].getPosition());
+		audio->playCue(HOWL);
 		howl = true;
 	}
 
@@ -835,8 +849,8 @@ void CanisMajor::clearLevel()
 	pedestal.reset();
 	flashlight.isActive = false;
 
-	if (numwaypoints !=0)//clear waypoints
-		delete [] dogWaypoints;
+	//if (numwaypoints !=0)//clear waypoints
+		//delete [] dogWaypoints;
 	numwaypoints = 0;
 	dog.SetWaypoints(dogWaypoints,numwaypoints,1);//update dog's waypoint count
 	dog.isActive = false;//disable dog
@@ -884,7 +898,7 @@ void CanisMajor::loadAttic()
 		camera.setPosition(Vector3(5,0,5));
 		camera.setDirection(Vector3(1,0,0));
 		setStoryText(10,L"Where am I?");
-		audio->playCue(BG,camera.getPosition());
+		playSound(BG,camera.getPosition());
 		state.gameStarted = true;	
 	}
 	else
@@ -1462,5 +1476,5 @@ void CanisMajor::updateDebugAABB(Actor* a)
 
 void CanisMajor::playSound(const char* cue, Vector3 pos)
 {
-	audio->playCue(cue,pos);
+	audio->playCue(cue);
 }

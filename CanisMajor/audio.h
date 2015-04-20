@@ -16,7 +16,21 @@ class Audio;
 #include "constants.h"
 
 namespace audioNS{
-	//const int NUM_EMITTERS = 10;
+	const int NUM_EMITTERS = 10;
+	const int CHANNEL_COUNT = 1;
+};
+
+struct AudioData{
+	AudioData(){inUse=played = false;}
+	bool inUse;
+	bool played;
+
+	void update(Vector3 pos);
+
+	//don't touch
+	X3DAUDIO_EMITTER _emitter;
+	IXACT3Cue* _cue;
+	char* _name;
 };
 
 using namespace audioNS;
@@ -40,10 +54,7 @@ class Audio
 	X3DAUDIO_DSP_SETTINGS dspSettings;
 	X3DAUDIO_LISTENER listener;
  
-	// and one set of these PER 3D sound
-	// probably put it into a struct or similar
-	X3DAUDIO_EMITTER emitter;
-	IXACT3Cue* cue;
+public: AudioData data;
 
   public:
     // Constructor
@@ -62,7 +73,10 @@ class Audio
 
     // Play sound specified by cue from sound bank.
     // If cue does not exist no error occurs, there is simply no sound played.
-    void playCue(const char name[], Vector3 pos);
+    void playCue(const char name[]);
+
+	//use for 3d sounds
+	void playCue(AudioData* data);
 
     // Stop a playing sound specified by cue from sound bank.
     // If cue does not exist no error occurs.
@@ -77,6 +91,8 @@ class Audio
     void resumeCategory(const char category[]);
 
 	void updateCamera(Vector3 pos, Vector3 dir, Vector3 up, Vector3 vel);
+
+	AudioData* buildData(const char name[]);
 };
 
 #endif

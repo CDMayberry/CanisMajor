@@ -185,17 +185,14 @@ HRESULT Audio::initialize()
 	ZeroMemory(&dspSettings,sizeof(dspSettings));
 	// different code's seem to suggest 1 or 2 channels for the emitter
 	// i'm going for 1
-	dspSettings.SrcChannelCount = 1;
+	dspSettings.SrcChannelCount = CHANNEL_COUNT;
 	dspSettings.DstChannelCount = format.Format.nChannels;  // as supported  
 	dspSettings.pMatrixCoefficients = new FLOAT32[dspSettings.SrcChannelCount * dspSettings.DstChannelCount];
 	ZeroMemory(dspSettings.pMatrixCoefficients ,sizeof(FLOAT32)*dspSettings.SrcChannelCount * dspSettings.DstChannelCount);
 
 
 
-
-
-
-
+	updateCamera(Vector3(0,0,0),Vector3(1,0,0),Vector3(0,1,0),Vector3(0,0,0));
 
 
 
@@ -209,36 +206,41 @@ HRESULT Audio::initialize()
 void Audio::run()
 {
     if (xactEngine == NULL)
-        return;
-    xactEngine->DoWork();
+        return;  
+	if(data.inUse && data.played)
+	{
+	XACT3DCalculate( xact3dInstance, &listener, &data._emitter, &dspSettings );
+	XACT3DApply( &dspSettings, data._cue);
+	}
+	xactEngine->DoWork();
 }
 
 //=============================================================================
 // play sound specified by cue from sound bank
 // if cue does not exist no error occurs, there is simply no sound played
 //=============================================================================
-void Audio::playCue(const char name[], Vector3 pos)
+void Audio::playCue(const char name[])
 {
     if (soundBank == NULL)
         return;
     cueI = soundBank->GetCueIndex( name );       // get cue index from sound bank
-    soundBank->Play( cueI, 0, 0, &cue );//store pointer to played audio
+    soundBank->Play( cueI, 0, 0, NULL );//store pointer to played audio
 
+}
 
-	// Set the emitter information
-	ZeroMemory(&emitter,sizeof(emitter));
- 
-	// only worrying about its position, just giving fixed other info
-	emitter.OrientFront = D3DXVECTOR3(0,0,1);
-	emitter.OrientTop = D3DXVECTOR3(0,1,0);
-	emitter.Position = pos;
-	emitter.Velocity = D3DXVECTOR3(0,0,0);
- 
-	// emitter ChannelCount and DSP Setting's SrcChannelCount must match
-	emitter.ChannelCount = dspSettings.SrcChannelCount;
+void Audio::playCue(AudioData* d)
+{
+	 if (soundBank == NULL)
+        return;
+
+	cueI = soundBank->GetCueIndex( d->_name );       // get cue index from sound bank
+    soundBank->Play( cueI, 0, 0, &d->_cue );//store pointer to played audio
+	d->played=true;
+	
 	// computer the effects on the sound and apply it
-	XACT3DCalculate( xact3dInstance, &listener, &emitter, &dspSettings );
-	XACT3DApply( &dspSettings, cue);
+	XACT3DCalculate( xact3dInstance, &listener, &d->_emitter, &dspSettings );
+	XACT3DApply( &dspSettings, d->_cue);
+	
 }
 
 //=============================================================================
@@ -291,4 +293,30 @@ void Audio::updateCamera(Vector3 pos, Vector3 dir, Vector3 up, Vector3 vel)
 	listener.OrientTop = up;
 	// assuming no doppler effect 
 	listener.Velocity = vel;
+}
+
+void AudioData::update(Vector3 pos)
+{
+	// Set the emitter information
+	ZeroMemory(&_emitter,sizeof(_emitter));
+ 
+	// only worrying about its position, just giving fixed other info
+	_emitter.OrientFront = D3DXVECTOR3(0,0,1);
+	_emitter.OrientTop = D3DXVECTOR3(0,1,0);
+	_emitter.Position = pos;
+	_emitter.Velocity = D3DXVECTOR3(0,0,0);
+	// emitter ChannelCount and DSP Setting's SrcChannelCount must match
+	_emitter.ChannelCount = CHANNEL_COUNT;
+}
+
+
+AudioData* Audio::buildData(const char name[])
+{
+	data.inUse=true;
+
+	data.update(Vector3(0,0,0));
+
+	data._name = const_cast<char*>(name);
+	
+	return &data;
 }
