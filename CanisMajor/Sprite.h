@@ -10,16 +10,11 @@
 #include "Light.h"
 #include "sharedDefines.h"
 #include <string>
+#include "Vertex.h"
 
 namespace SpriteNS {
 	const int SPRITES = MAX_SPRITES; //Use to set how many files it should load
 }
-
-struct TreeVertex
-{
-	D3DXVECTOR3 centerW;
-	D3DXVECTOR2 sizeW;
-};
 
 class Sprite
 {
