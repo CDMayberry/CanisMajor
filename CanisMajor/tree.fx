@@ -131,8 +131,12 @@ float4 PS(GS_OUT pIn) : SV_Target
 	// Discard pixel if texture alpha < 0.25.  Note that we do this
 	// test as soon as possible so that we can potentially exit the shader 
 	// early, thereby skipping the rest of the shader code.
-	clip(diffuse.a - 0.20f);
-	
+	if(sprite == 5) {
+		clip(diffuse.a);
+	}
+	else {
+		clip(diffuse.a - 0.20f);
+	}
 	// Don't light tree billboards, just use texture color.
     
     return diffuse;

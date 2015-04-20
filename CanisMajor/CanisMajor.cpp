@@ -107,6 +107,8 @@ void CanisMajor::threadInit()
 		L".\\textures\\book.dds",
 		L".\\textures\\maglass.dds",
 		L".\\textures\\sDoor.dds",
+		L".\\textures\\arrow.dds",
+		L".\\textures\\arrowDown.dds",
 	};
 
 	sprites.init(md3dDevice, centers, MAX_SPRITES, filenames);
@@ -433,6 +435,20 @@ void CanisMajor::collisions()
 		}
 
 		if(camera.collided(&searchableActors[i]))
+		{
+			camera.backUp();
+		}
+	}
+
+	for(int i = 0; i< CM::MAX_READABLE_ACTORS; i++)
+	{
+		if(camera.isPicked(&readableActors[i],dist))
+		{
+			//sprites.sprite = 2;
+			camera.setNearbyInteractable(&readableActors[i],dist);
+		}
+
+		if(camera.collided(&readableActors[i]))
 		{
 			camera.backUp();
 		}
