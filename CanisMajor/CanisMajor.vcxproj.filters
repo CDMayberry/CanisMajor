@@ -70,6 +70,12 @@
     <ClCompile Include="Sky.cpp">
       <Filter>Shaders</Filter>
     </ClCompile>
+    <ClCompile Include="GUI.cpp">
+      <Filter>Sources\Sprites</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprite.cpp">
+      <Filter>Sources\Sprites</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CanisMajor.h">
@@ -168,6 +174,12 @@
     <ClInclude Include="Pedestal.h">
       <Filter>Headers\GameObj</Filter>
     </ClInclude>
+    <ClInclude Include="GUI.h">
+      <Filter>Headers\Sprites</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprite.h">
+      <Filter>Headers\Sprites</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="lighthelper.fx">
@@ -177,6 +189,12 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="sky.fx">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="sprite.fx">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="GUI.fx">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>
@@ -207,6 +225,12 @@
     </Filter>
     <Filter Include="Sources\Util">
       <UniqueIdentifier>{fd362ca2-cece-4231-a724-807ce3ef66c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\Sprites">
+      <UniqueIdentifier>{b3eebd8e-4e72-4d10-91ed-fd55cde73232}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Sprites">
+      <UniqueIdentifier>{5e7dbfaf-83b0-493e-8ba5-39b36acdc883}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
