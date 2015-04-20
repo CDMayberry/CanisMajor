@@ -142,29 +142,29 @@ void CanisMajor::threadInit()
 
 	mTelescope.init(md3dDevice,".\\geometry\\telescope.geo");
 	loadingStatus++; //1
-	mDresser.init(md3dDevice,".\\geometry\\dresser.geo", L".\\textures\\WEED.png");
+	mDresser.init(md3dDevice,".\\geometry\\dresser.geo", L".\\textures\\lightwood.dds");
 	loadingStatus++; //2
-	mFlashlight.init(md3dDevice,".\\geometry\\flashlight.geo", L".\\textures\\WEED.png");
+	mFlashlight.init(md3dDevice,".\\geometry\\flashlight.geo", L".\\textures\\grey.dds");
 	flashlight.init(this,&mFlashlight,&fLight);
 	loadingStatus++; //3
 	mFrame.init(md3dDevice,".\\geometry\\pictureframe.geo");
 	loadingStatus++; //4
-	mBookcase.init(md3dDevice,".\\geometry\\bookcase.geo", L".\\textures\\WEED.png");
+	mBookcase.init(md3dDevice,".\\geometry\\bookcase.geo", L".\\textures\\medwood.dds");
 	loadingStatus++; //5
-	mChair.init(md3dDevice,".\\geometry\\chair.geo", L".\\textures\\WEED.png");
+	mChair.init(md3dDevice,".\\geometry\\chair.geo", L".\\textures\\lightwood.dds");
 	loadingStatus++; //6
-	mCradle.init(md3dDevice,".\\geometry\\cradle.geo", L".\\textures\\WEED.png");
+	mCradle.init(md3dDevice,".\\geometry\\cradle.geo", L".\\textures\\medwood.dds");
 	loadingStatus++; //7
-	mMasterbed.init(md3dDevice,".\\geometry\\masterBed.geo", L".\\textures\\WEED.png");
+	mMasterbed.init(md3dDevice,".\\geometry\\masterBed.geo", L".\\textures\\medwood.dds");
 	loadingStatus++; //8
-	mServantbed.init(md3dDevice,".\\geometry\\servantBed.geo",L".\\textures\\WEED.png");
+	mServantbed.init(md3dDevice,".\\geometry\\servantBed.geo",L".\\textures\\medwood.dds");
 	loadingStatus++; //9
-	mStaircase.init(md3dDevice,".\\geometry\\staircase.geo", L".\\textures\\WEED.png");
+	mStaircase.init(md3dDevice,".\\geometry\\staircase.geo", L".\\textures\\lightwood.dds");
 	mStaircase.setCustomAABB(mStaircase.getAABBMin(),mStaircase.getAABBMax()+Vector3(0,10,0));
 	loadingStatus++; //10
-	mTable.init(md3dDevice,".\\geometry\\table.geo", L".\\textures\\WEED.png");
+	mTable.init(md3dDevice,".\\geometry\\table.geo", L".\\textures\\lightwood.dds");
 	loadingStatus++; //11
-	mBottle.init(md3dDevice,".\\geometry\\bottle.geo", L".\\textures\\WEED.png");
+	mBottle.init(md3dDevice,".\\geometry\\bottle.geo", L".\\textures\\bottlegreen.dds");
 	loadingStatus++; //12
 	mLock.init(md3dDevice,".\\geometry\\lock.geo");
 	loadingStatus++; //13
@@ -172,17 +172,17 @@ void CanisMajor::threadInit()
 	loadingStatus++; //14
 	mRail.init(md3dDevice,".\\geometry\\rail.geo");
 	loadingStatus++; //15
-	mWallpanel.init(md3dDevice,".\\geometry\\wallpanel.geo", L".\\textures\\WEED.png");
+	mWallpanel.init(md3dDevice,".\\geometry\\wallpanel.geo", L".\\textures\\greywood.dds");
 	loadingStatus++; //16
 	mCage.init(md3dDevice,".\\geometry\\cage.geo");
 	loadingStatus++; //17
-	mFixture.init(md3dDevice,".\\geometry\\fixture.geo", L".\\textures\\WEED.png");
+	mFixture.init(md3dDevice,".\\geometry\\fixture.geo", L".\\textures\\cardboard.dds");
 	loadingStatus++; //18
-	mDoor.init(md3dDevice,".\\geometry\\door.geo", L".\\textures\\WEED.png");
+	mDoor.init(md3dDevice,".\\geometry\\door.geo", L".\\textures\\gold.dds");
 	loadingStatus++; //19
-	mBox.init(md3dDevice,".\\geometry\\cardboardBox.geo", L".\\textures\\WEED.png");
+	mBox.init(md3dDevice,".\\geometry\\cardboardBox.geo", L".\\textures\\cardboard.dds");
 	loadingStatus++; //20
-	mBook.init(md3dDevice,".\\geometry\\book.geo",L".\\textures\\WEED.png");
+	mBook.init(md3dDevice,".\\geometry\\book.geo",L".\\textures\\paper.dds");
 	loadingStatus++; //21
 #ifndef DEBUG
 	mToilet.init(md3dDevice,".\\geometry\\toilet.geo");
@@ -203,18 +203,18 @@ void CanisMajor::threadInit()
 		doors[i].name = L"door";
 	}
 
-	mCube.init(md3dDevice,".\\geometry\\cube.geo", L".\\textures\\WEED.png", true);
+	mCube.init(md3dDevice,".\\geometry\\cube.geo", L".\\textures\\metal.dds", true);
 	dog.init(this,&mDog,1.0f,Vector3(1,2,2));
 	//dog.setScale(Vector3(0.1f,5.0f,5.0f));
 	dog.setNegalight(&negaLight);
 	dog.setEyes(&eyes);
 	dog.LoadWaypoints(".\\lvl2.txt",3,2);
 	loadingStatus++; //24
-	mRoofHole.init(md3dDevice,".\\geometry\\newRoofHole.geo", L".\\textures\\WEED.png");
+	mRoofHole.init(md3dDevice,".\\geometry\\newRoofHole.geo", L".\\textures\\greywood.dds");
 	loadingStatus++; //25
-	mKey.init(md3dDevice,".\\geometry\\key2.geo", L".\\textures\\WEED.png", true);
+	mKey.init(md3dDevice,".\\geometry\\key2.geo", L".\\textures\\key1D.dds", true);
 	loadingStatus++; //26
-	mWindowPanel.init(md3dDevice,".\\geometry\\windowpanel.geo", L".\\textures\\WEED.png");
+	mWindowPanel.init(md3dDevice,".\\geometry\\windowpanel.geo", L".\\textures\\greywood.dds");
 	loadingStatus++; //27
 	mBookStack.init(md3dDevice,".\\geometry\\bookStack.geo");
 	loadingStatus++; //28
@@ -232,9 +232,9 @@ void CanisMajor::threadInit()
 	mTub.init(md3dDevice,".\\geometry\\cardboardBox.geo", L".\\textures\\paper.dds");
 #endif
 	loadingStatus++;
-	mArrow.init(md3dDevice,".\\geometry\\arrow.geo", L".\\textures\\WEED.png");
+	mArrow.init(md3dDevice,".\\geometry\\arrow.geo", L".\\textures\\gold.dds");
 	loadingStatus++;
-	mRing.init(md3dDevice,".\\geometry\\ring.geo", L".\\textures\\WEED.png");
+	mRing.init(md3dDevice,".\\geometry\\ring.geo", L".\\textures\\gold.dds");
 	loadingStatus++;
 	mPedastal.init(md3dDevice,".\\geometry\\pedastal.geo");
 	loadingStatus++;
@@ -375,18 +375,18 @@ void CanisMajor::menuUpdate(float dt, bool reset)
 
 void CanisMajor::levelsUpdate(float dt)
 {	
-	static AudioData* d = audio->buildData(CLICK);
-	static float count = 0;
-	count+=dt;
-	if(state.level==FIRST_FLOOR && count > 2)
-	{
-		audio->playCue(d);
-		count=0;
-	}
-	else
-	{
-		d->update(Vector3(0,0,0));
-	}
+	//static AudioData* d = audio->buildData(CLICK);
+	//static float count = 0;
+	//count+=dt;
+	//if(state.level==FIRST_FLOOR && count > 2)
+	//{
+	//	audio->playCue(d);
+	//	count=0;
+	//}
+	//else
+	//{
+	//	d->update(Vector3(0,0,0));
+	//}
 
 	gui.sprite = -1;
 	//if(state.secondFloorSairsUsed)
@@ -597,9 +597,9 @@ void CanisMajor::drawScene()
 		RECT r; //its a point because DT_NOCLIP
 		r.right = r.left = mClientWidth*0.5;
 		r.top = r.bottom = mClientHeight*0.2;
-		mFont->DrawText(0,L"BLAZIN",-1,&r,DT_NOCLIP|DT_CENTER,WHITE);
+		mFont->DrawText(0,L"LOADING",-1,&r,DT_NOCLIP|DT_CENTER,WHITE);
 		r.top = r.bottom = mClientHeight*0.3;
-		mFont->DrawText(0,std::to_wstring(loadingStatus).c_str(),-1,&r,DT_NOCLIP|DT_CENTER,GREEN);
+		mFont->DrawText(0,std::to_wstring(loadingStatus).c_str(),-1,&r,DT_NOCLIP|DT_CENTER,RED);
 	}
 	else
 	{
@@ -635,7 +635,7 @@ void CanisMajor::splashDraw()
 			r.top = r.bottom = mClientHeight*0.4 + (i-1)*mClientHeight*0.07;
 		}
 		if(menuChoice == i)
-			mFont->DrawText(0,menuText[i].c_str(),-1,&r,DT_NOCLIP|DT_CENTER,GREEN);
+			mFont->DrawText(0,menuText[i].c_str(),-1,&r,DT_NOCLIP|DT_CENTER,RED);
 		else
 			mFont->DrawText(0,menuText[i].c_str(),-1,&r,DT_NOCLIP|DT_CENTER,WHITE);
 	}
@@ -658,7 +658,7 @@ void CanisMajor::menuDraw()
 			r.top = r.bottom = mClientHeight*0.4 + (i-1)*mClientHeight*0.07;
 		}
 		if(menuChoice == i)
-			mFont->DrawText(0,menuText[i].c_str(),-1,&r,DT_NOCLIP|DT_CENTER,GREEN);
+			mFont->DrawText(0,menuText[i].c_str(),-1,&r,DT_NOCLIP|DT_CENTER,RED);
 		else
 			mFont->DrawText(0,menuText[i].c_str(),-1,&r,DT_NOCLIP|DT_CENTER,WHITE);
 	}
@@ -872,12 +872,12 @@ void CanisMajor::menuLoad()
 	clearLevel();
 	menuUpdate(0,true);
 
-	menuText[0] = L"CANNIBIS MAJOR";
+	menuText[0] = L"CANIS MAJOR";
 	menuText[1] = L"PLAY";
 	menuText[2] = L"QUIT";
 	menuText[3] = L"";
-	menuText[4] = L"WASD-SMOKE WEED     SHIFT-SMOKE WEED     CTRL-SMOKE WEED";
-	menuText[5] = L"E-SMOKE WEED   F-SMOKE WEED on/off     R-SMOKE WEED";
+	menuText[4] = L"WASD-move     SHIFT-run     CTRL-crouch";
+	menuText[5] = L"E-use     F-flashlight on/off     R-recharge";
 }
 
 void CanisMajor::loadBasement()
