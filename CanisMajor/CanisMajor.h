@@ -25,6 +25,7 @@
 #include "Pedestal.h"
 #include "Sky.h"
 #include "GUI.h"
+#include "Sprite.h"
 
 using std::wstring;
 
@@ -147,6 +148,7 @@ public:
 	ID3D10Effect* skyFX;
 
 	GUI gui;
+	Sprite sprite;
 	
 	Light fLight;
 	Light ambient;

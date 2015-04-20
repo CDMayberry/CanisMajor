@@ -30,7 +30,6 @@ public:
 
 	void init(ID3D10Device* device, const D3DXVECTOR3 centers[], UINT numSprites, std::wstring filenames[]);
 	void draw(const D3DXVECTOR3& eyePosW, const D3DXMATRIX& viewProj); //Note: this draws images based on position 
-	void draw(const D3DXMATRIX& proj); //Note: this draws images directly to the screen
 	int sprite;
 private:
 	void buildVB(const D3DXVECTOR3 centers[]);

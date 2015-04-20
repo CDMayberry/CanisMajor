@@ -28,33 +28,6 @@ void GUI::init(ID3D10Device* device, const D3DXVECTOR3 centers[], UINT numSprite
 	buildVertexLayout();
 }
 
-void GUI::draw(const D3DXVECTOR3& eyePosW, const D3DXMATRIX& viewProj)
-{
-	mfxEyePosVar->SetRawValue((void*)&eyePosW, 0, sizeof(D3DXVECTOR3));
-	//mfxLightVar->SetRawValue((void*)&L, 0, sizeof(Light));
-	mfxViewProjVar->SetMatrix((float*)&viewProj);
-	mfxTreeMapArrayVar->SetResource(mTreeMapArrayRV);
-
-	md3dDevice->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_POINTLIST);
-	md3dDevice->IASetInputLayout(mVertexLayout);
-
-	
-
-	D3D10_TECHNIQUE_DESC techDesc;
-    mTech->GetDesc( &techDesc );
-
-    for(UINT i = 0; i < techDesc.Passes; ++i)
-    {
-        ID3D10EffectPass* pass = mTech->GetPassByIndex(i);
-		pass->Apply(0);
-
-		UINT stride = sizeof(TreeVertex);
-		UINT offset = 0;
-		md3dDevice->IASetVertexBuffers(0, 1, &mVB, &stride, &offset);
-		md3dDevice->Draw(mNumSprites, 0);
-	}
-}
-
 //Pass in project matrix only to draw specific items to the screen
 void GUI::draw(const D3DXMATRIX& proj)
 {
