@@ -142,10 +142,10 @@ void D3DApp::initApp()
 
 	ShowCursor(false);
 
-	int x = AddFontResourceEx(L".\\resources\\OctoberCrow.ttf",FR_PRIVATE,0);
+	int x = AddFontResourceEx(L".\\resources\\PotLand.ttf",FR_PRIVATE,0);
 
 	D3DX10_FONT_DESC fontDesc;
-	fontDesc.Height          = 30;
+	fontDesc.Height          = 50;
     fontDesc.Width           = 0;
     fontDesc.Weight          = 0;
     fontDesc.MipLevels       = 1;
@@ -154,11 +154,11 @@ void D3DApp::initApp()
     fontDesc.OutputPrecision = OUT_DEFAULT_PRECIS;
     fontDesc.Quality         = DEFAULT_QUALITY;
     fontDesc.PitchAndFamily  = DEFAULT_PITCH | FF_DONTCARE;
-    wcscpy(fontDesc.FaceName, L"October Crow");
+    wcscpy(fontDesc.FaceName, L"PotLand");
 
 	D3DX10CreateFontIndirect(md3dDevice, &fontDesc, &mFont);
 
-	fontDesc.Height          = 22;
+	fontDesc.Height          = 40;
     fontDesc.Width           = 0;
     fontDesc.Weight          = 0;
     fontDesc.MipLevels       = 1;
@@ -167,7 +167,7 @@ void D3DApp::initApp()
     fontDesc.OutputPrecision = OUT_DEFAULT_PRECIS;
     fontDesc.Quality         = DEFAULT_QUALITY;
     fontDesc.PitchAndFamily  = DEFAULT_PITCH | FF_DONTCARE;
-    wcscpy(fontDesc.FaceName, L"October Crow");
+    wcscpy(fontDesc.FaceName, L"PotLand");
 	D3DX10CreateFontIndirect(md3dDevice, &fontDesc, &nFont);
 
 	
