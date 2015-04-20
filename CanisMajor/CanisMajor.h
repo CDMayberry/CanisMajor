@@ -24,6 +24,9 @@
 #include <chrono>
 #include "Pedestal.h"
 #include "Sky.h"
+#include "GUI.h"
+#include "Sprite.h"
+
 using std::wstring;
 
 namespace CM{
@@ -143,6 +146,9 @@ public:
 	ID3D10EffectShaderResourceVariable* mfxSpecMapVar;
 	ID3D10EffectMatrixVariable* mfxTexMtxVar;
 	ID3D10Effect* skyFX;
+
+	GUI gui;
+	Sprite sprite;
 	
 	Light fLight;
 	Light ambient;

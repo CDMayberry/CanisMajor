@@ -32,7 +32,7 @@ CanisMajor::CanisMajor(HINSTANCE hInstance)
 	controls.down = 'S';
 	controls.left = 'A';
 	controls.right = 'D';
-	controls.use = 'E';
+	controls.use = VK_LBUTTON;
 	controls.flashlight = 'F';
 	controls.crouch = VK_CONTROL;
 	controls.run = VK_SHIFT;
@@ -92,6 +92,42 @@ void CanisMajor::threadInit()
 		rLights[i].pos = Vector3(0, -200, 0);
 		lightType[i] = 0;
 	}
+
+	D3DXVECTOR3 centers[guiNS::SPRITES];
+	for(int i = 0; i < guiNS::SPRITES; i++) {
+		Vector3 center(0,0,100);
+		centers[i] = center;
+	}
+
+	//Make sure to have the exact number of file names
+	std::wstring guiNames[guiNS::SPRITES] = 
+	{ //Put all file names in here.
+		/* L".\\textures\\.dds", */
+		L".\\textures\\hand.dds",
+		L".\\textures\\book.dds",
+		L".\\textures\\maglass.dds",
+		L".\\textures\\sDoor.dds",
+		L".\\textures\\arrow.dds",
+		L".\\textures\\arrowDown.dds",
+	};
+
+	gui.init(md3dDevice, centers, MAX_GUI, guiNames);
+
+	D3DXVECTOR3 centers2[SpriteNS::SPRITES];
+	for(int i = 0; i < SpriteNS::SPRITES; i++) {
+		Vector3 center(0,0,100);
+		centers2[i] = center;
+	}
+
+	//Make sure to have the exact number of file names
+	std::wstring spriteNames[SpriteNS::SPRITES] = 
+	{ //Put all file names in here.
+		/* L".\\textures\\.dds", */
+		L".\\textures\\hand.dds",
+		L".\\textures\\book.dds",
+	};
+	int billboards = 16;
+	sprite.init(md3dDevice, centers2, billboards, spriteNames);
 
 	// Spotlight--position and direction changed every frame to animate.
 	fLight.init(2);  //Flashlight
@@ -341,7 +377,7 @@ void CanisMajor::menuUpdate(float dt, bool reset)
 
 void CanisMajor::levelsUpdate(float dt)
 {	
-
+	gui.sprite = -1;
 	if(state.secondFloorSairsUsed)
 		return loadSplashScreen(true);
 
@@ -410,10 +446,25 @@ void CanisMajor::collisions()
 	{
 		if(camera.isPicked(&searchableActors[i],dist))
 		{
+			//sprites.sprite = 2;
 			camera.setNearbyInteractable(&searchableActors[i],dist);
 		}
 
 		if(camera.collided(&searchableActors[i]))
+		{
+			camera.backUp();
+		}
+	}
+
+	for(int i = 0; i< CM::MAX_READABLE_ACTORS; i++)
+	{
+		if(camera.isPicked(&readableActors[i],dist))
+		{
+			//sprites.sprite = 2;
+			camera.setNearbyInteractable(&readableActors[i],dist);
+		}
+
+		if(camera.collided(&readableActors[i]))
 		{
 			camera.backUp();
 		}
@@ -428,19 +479,6 @@ void CanisMajor::collisions()
 		if(camera.isPicked(&staircases[i],dist))
 		{
 			camera.setNearbyInteractable(&staircases[i],dist);
-		}
-	}
-
-	for(int i = 0; i< CM::MAX_READABLE_ACTORS; i++)
-	{
-		if(camera.isPicked(&readableActors[i],dist))
-		{
-			camera.setNearbyInteractable(&readableActors[i],dist);
-		}
-
-		if(camera.collided(&readableActors[i]))
-		{
-			camera.backUp();
 		}
 	}
 
@@ -464,6 +502,7 @@ void CanisMajor::collisions()
 	{
 		if(camera.isPicked(&items[i],dist))
 		{
+			//sprites.sprite = 0;
 			camera.setNearbyInteractable(&items[i],dist);
 		}
 	}
@@ -656,9 +695,15 @@ void CanisMajor::levelsDraw()
 	drawStoryText();
 	drawNoteText();
 
+	if(gui.sprite >= 0)
+		gui.draw(mProj);
+	else {
+		RECT r = {mClientWidth/2,mClientHeight/2,mClientWidth/2,mClientHeight/2};
+		utilFont->DrawText(0,L"\u25CF",-1,&r,DT_NOCLIP|DT_CENTER|DT_VCENTER,WHITE);
+	}
 	//#ifdef DEBUG
-	RECT r = {mClientWidth/2,mClientHeight/2,mClientWidth/2,mClientHeight/2};
-	utilFont->DrawText(0,L"\u25CF",-1,&r,DT_NOCLIP|DT_CENTER|DT_VCENTER,WHITE);
+	//RECT r = {mClientWidth/2,mClientHeight/2,mClientWidth/2,mClientHeight/2};
+	//utilFont->DrawText(0,L"\u25CF",-1,&r,DT_NOCLIP|DT_CENTER|DT_VCENTER,WHITE);
 	//#endif
 
 

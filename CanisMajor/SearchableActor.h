@@ -8,7 +8,7 @@ class Camera;
 class SearchableActor: public virtual Actor, public Interactable
 {
 public:
-	SearchableActor():Actor(){concealedItem = nullptr; isActive=false;name=L"!NAME!";}
+	SearchableActor():Actor(){concealedItem = nullptr; isActive=false; sprite = 2;name=L"!NAME!";}
 	virtual void interactWith(Camera* player);
 	void create(Vector3 pos, Vector3 rot, Vector3 scale, Actor* item = nullptr);
 	virtual void update(float dt);
