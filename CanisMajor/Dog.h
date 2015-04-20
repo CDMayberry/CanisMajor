@@ -9,7 +9,8 @@ namespace dogNS{
 	const float RUN_SPEED = 15.0f;
 	const float AGRO_DIST = 1100;//distance to start dog agro
 	const float NEUTRAL_DIST = 20.0f;//distance to leave agro field
-	const int DIR_CHANGE_CHANCE = 10;// 10 percent chance of changing direction at any given waypoint 
+	const int DIR_CHANGE_CHANCE = 10;// 10 percent chance of changing direction at any given waypoint
+	const int MAX_NUM_WAYPOINTS = 1000;
 };
 
 class Dog: public virtual Actor
@@ -34,7 +35,8 @@ private:
 	Light* negalight;
 	Light* rEyes;
 	bool following;//following player
-	Vector3 Waypoints[10][1000];//2d array of waypoints. [stage][waypoint] Be sure numwaypoints does not exceed 1000.
+	Vector3 Waypoints[10][dogNS::MAX_NUM_WAYPOINTS];//2d array of waypoints. [stage][waypoint] Be sure numwaypoints does not exceed 1000.
+	Vector3 wp[dogNS::MAX_NUM_WAYPOINTS];//temporary waypoint list of waypoints
 	float distToNearestObj;
 	bool isNearObjPlayer;
 	Actor* playerNearby;

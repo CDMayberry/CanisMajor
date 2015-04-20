@@ -22,7 +22,6 @@ void Dog::init(CanisMajor* game,Geometry *b,  float r, Vector3 s)
 
 
 void Dog::LoadWaypoints(string wpfilename, int LinInterp, int stage){
-	Vector3 wp[1000];//temporary waypoint list of waypoints
 	//parse file for original waypoint verticies
 	string line;
 	ifstream myfile(wpfilename);

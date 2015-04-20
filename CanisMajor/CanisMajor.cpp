@@ -208,6 +208,7 @@ void CanisMajor::threadInit()
 	//dog.setScale(Vector3(0.1f,5.0f,5.0f));
 	dog.setNegalight(&negaLight);
 	dog.setEyes(&eyes);
+	dog.LoadWaypoints(".\\lvl2.txt",3,2);
 	loadingStatus++; //24
 	mRoofHole.init(md3dDevice,".\\geometry\\newRoofHole.geo", L".\\textures\\greywood.dds");
 	loadingStatus++; //25
