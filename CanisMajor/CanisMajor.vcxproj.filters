@@ -70,12 +70,23 @@
     <ClCompile Include="Sky.cpp">
       <Filter>Shaders</Filter>
     </ClCompile>
+<<<<<<< HEAD
+    <ClCompile Include="Attic.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="SecondFloor.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="FirstFloor.cpp" />
+    <ClCompile Include="Basement.cpp" />
+=======
     <ClCompile Include="GUI.cpp">
       <Filter>Sources\Sprites</Filter>
     </ClCompile>
     <ClCompile Include="Sprite.cpp">
       <Filter>Sources\Sprites</Filter>
     </ClCompile>
+>>>>>>> 204a132654c98e4fc993a90b1bf781fff1188376
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CanisMajor.h">
