@@ -34,19 +34,7 @@ void CanisMajor::loadSecondFloor()
 
 	dog.isActive = true;
 	dog.setPosition(Vector3(35,0,2));
-
-	if (numwaypoints !=0)
-		delete [] dogWaypoints;
-	numwaypoints = 7;
-	dogWaypoints = new Vector3[numwaypoints];
-	dogWaypoints[0] = Vector3(10,-2.5,30);
-	dogWaypoints[1] = Vector3(24,-2.5,40);
-	dogWaypoints[2] = Vector3(25,-2.5,53);
-	dogWaypoints[3] = Vector3(65, -2.5,53);
-	dogWaypoints[4] = Vector3(65,-2.5,5);
-	dogWaypoints[5] = Vector3(25,-2.5,5);
-	dogWaypoints[6] = Vector3(25,-2.5,20);
-	dog.SetWaypoints(dogWaypoints,numwaypoints,3);
+	dog.setTargetWPStage(2);
 	//Floor panels
 	spawnScenery(&mCube,Vector3(0,-4,30),Vector3(0,0,0),Vector3(28,1,30));
 	spawnScenery(&mCube,Vector3(53,-4,30),Vector3(0,0,0),Vector3(17,1,30));

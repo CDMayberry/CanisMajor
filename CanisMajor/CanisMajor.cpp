@@ -44,7 +44,6 @@ CanisMajor::CanisMajor(HINSTANCE hInstance)
 	scenery = new Actor[CM::MAX_SCENERY];
 	searchableActors = new SearchableActor[CM::MAX_SEARCHABLE_ACTORS];
 	readableActors = new ReadableActor[CM::MAX_READABLE_ACTORS];
-	numwaypoints = 0;
 }
 
 CanisMajor::~CanisMajor()
@@ -140,8 +139,6 @@ void CanisMajor::threadInit()
 
 	waiting = false;
 	howl = false;
-
-	numwaypoints = 0;
 
 	mTelescope.init(md3dDevice,".\\geometry\\telescope.geo");
 	loadingStatus++; //1
@@ -847,11 +844,6 @@ void CanisMajor::clearLevel()
 	pedestal.isActive = false;
 	pedestal.reset();
 	flashlight.isActive = false;
-
-	//if (numwaypoints !=0)//clear waypoints
-		//delete [] dogWaypoints;
-	numwaypoints = 0;
-	dog.SetWaypoints(dogWaypoints,numwaypoints,1);//update dog's waypoint count
 	dog.isActive = false;//disable dog
 	negaLight.pos = Vector3(200,200,200);
 	eyes.pos = Vector3(200,200,200);

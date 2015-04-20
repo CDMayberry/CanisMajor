@@ -204,9 +204,6 @@ private:
 	bool test;
 	bool howl;
 
-	Vector3 * dogWaypoints;
-	int numwaypoints;
-
 	int loadingStatus;
 	HANDLE loadingThread;
 	bool threadComplete;
