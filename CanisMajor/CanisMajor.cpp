@@ -44,7 +44,6 @@ CanisMajor::CanisMajor(HINSTANCE hInstance)
 	scenery = new Actor[CM::MAX_SCENERY];
 	searchableActors = new SearchableActor[CM::MAX_SEARCHABLE_ACTORS];
 	readableActors = new ReadableActor[CM::MAX_READABLE_ACTORS];
-	numwaypoints = 0;
 }
 
 CanisMajor::~CanisMajor()
@@ -141,8 +140,6 @@ void CanisMajor::threadInit()
 	waiting = false;
 	howl = false;
 
-	numwaypoints = 0;
-
 	mTelescope.init(md3dDevice,".\\geometry\\telescope.geo");
 	loadingStatus++; //1
 	mDresser.init(md3dDevice,".\\geometry\\dresser.geo", L".\\textures\\lightwood.dds");
@@ -211,6 +208,7 @@ void CanisMajor::threadInit()
 	//dog.setScale(Vector3(0.1f,5.0f,5.0f));
 	dog.setNegalight(&negaLight);
 	dog.setEyes(&eyes);
+	dog.LoadWaypoints(".\\lvl2.txt",2,2);//load waypoints into array for stage 2
 	loadingStatus++; //24
 	mRoofHole.init(md3dDevice,".\\geometry\\newRoofHole.geo", L".\\textures\\greywood.dds");
 	loadingStatus++; //25
@@ -833,10 +831,6 @@ void CanisMajor::clearLevel()
 	pedestal.reset();
 	flashlight.isActive = false;
 
-	if (numwaypoints !=0)//clear waypoints
-		delete [] dogWaypoints;
-	numwaypoints = 0;
-	dog.SetWaypoints(dogWaypoints,numwaypoints,1);//update dog's waypoint count
 	dog.isActive = false;//disable dog
 	negaLight.pos = Vector3(200,200,200);
 	eyes.pos = Vector3(200,200,200);
@@ -1051,22 +1045,9 @@ void CanisMajor::loadSecondFloor()
 
 	flashlight.setPosition(Vector3(10,-2.5,10));
 	flashlight.isActive = true;
-
+	dog.setTargetWPStage(2);
 	dog.isActive = true;
 	dog.setPosition(Vector3(35,0,2));
-
-	if (numwaypoints !=0)
-		delete [] dogWaypoints;
-	numwaypoints = 7;
-	dogWaypoints = new Vector3[numwaypoints];
-	dogWaypoints[0] = Vector3(10,-2.5,30);
-	dogWaypoints[1] = Vector3(24,-2.5,40);
-	dogWaypoints[2] = Vector3(25,-2.5,53);
-	dogWaypoints[3] = Vector3(65, -2.5,53);
-	dogWaypoints[4] = Vector3(65,-2.5,5);
-	dogWaypoints[5] = Vector3(25,-2.5,5);
-	dogWaypoints[6] = Vector3(25,-2.5,20);
-	dog.SetWaypoints(dogWaypoints,numwaypoints,3);
 	//Floor panels
 	spawnScenery(&mCube,Vector3(0,-4,30),Vector3(0,0,0),Vector3(28,1,30));
 	spawnScenery(&mCube,Vector3(53,-4,30),Vector3(0,0,0),Vector3(17,1,30));

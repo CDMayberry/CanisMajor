@@ -15,7 +15,7 @@ namespace dogNS{
 class Dog: public virtual Actor
 {
 public:
-	void SetWaypoints(Vector3* wp, int numwp, int LinInterp);//allows levels to set the dog's waypoint system
+	void LoadWaypoints(string wpfilename, int LinInterp, int stage);//allows levels to set the dog's waypoint system
 	void update(float dt);
 	void Dog::init(CanisMajor* game,Geometry *b,  float r, Vector3 scale = Vector3(1,1,1));
 	void setNegalight(Light* nega) {negalight = nega;}
@@ -23,16 +23,18 @@ public:
 	bool isPicked(Actor* o, float &distance);
 	void resetNearest();
 	void setNearest(Actor* isPlayer, float distance);
+	void setTargetWPStage(int s){TargetWPStage = s;}
 	Vector3 getDirection(){return direction;}
 private:
 	void targetClosestWaypoint();
 	int TargetWaypoint;//waypoint the dog is traveling to. set to -1 if tracking player
-	int numwaypoints;
+	int TargetWPStage;
+	int numwaypoints[10];
 	Vector3 direction,temp;
 	Light* negalight;
 	Light* rEyes;
 	bool following;//following player
-	Vector3 * Waypoints;//pointer to array of waypoints
+	Vector3 Waypoints[10][1000];//2d array of waypoints. [stage][waypoint] Be sure numwaypoints does not exceed 1000.
 	float distToNearestObj;
 	bool isNearObjPlayer;
 	Actor* playerNearby;

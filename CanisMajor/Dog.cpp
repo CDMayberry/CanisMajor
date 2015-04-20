@@ -1,6 +1,7 @@
 #include "Dog.h"
 #include "CanisMajor.h"
 #include <fstream>
+#include <iostream>
 #include <time.h>
 using namespace std;
 
@@ -10,44 +11,60 @@ void Dog::init(CanisMajor* game,Geometry *b,  float r, Vector3 s)
 {
 	Actor::init(game,b,r, s);
 	TargetWaypoint = -1;
+	TargetWPStage = 0;
 	following = false;
-	numwaypoints = 0;
+	for (int i=0;i<10;i++){
+		numwaypoints[i] = 0;
+	}
 	waypointdir = 1;
 	srand(time(NULL));
 }
 
-void Dog::SetWaypoints(Vector3* wp, int numwp, int LinInterp){
-	if (numwaypoints != 0 ){
-		delete [] Waypoints;
-		numwaypoints = 0;
+void Dog::LoadWaypoints(string wpfilename, int LinInterp, int stage){
+	Vector3 wp[1000];//temporary waypoint list of waypoints
+	//parse file for original waypoint verticies
+	string line;
+	ifstream myfile(wpfilename);
+	int numwp = 0;
+	if (myfile){
+		while(getline(myfile,line)){
+			std::size_t found = line.find("#");
+			char * tok;
+			char * c = strdup(line.c_str());
+			if (found == std::string::npos){//if the line is not a comment
+				tok = strtok(c,",");
+				float x = atof(tok);
+				tok = strtok(NULL,",");
+				float y = atof(tok);
+				tok = strtok(NULL,",");
+				float z = atof(tok);
+				wp[numwp] = Vector3(x,y,z);
+				numwp++;
+			}
+		}
 	}
-	if(numwp ==0)
-		return;
+	myfile.close();
 
-	//ofstream myfile;
-	//myfile.open("C:\\users\\bowmanrs1\\Desktop\\wp.txt");
-	numwaypoints = numwp*LinInterp;
+	//interpolate
 	TargetWaypoint = 0;
-	Waypoints = new Vector3[numwp*LinInterp];
 	for (int i=0;i<numwp*LinInterp;i++){
 		if (i%LinInterp==0 && LinInterp !=1)
-			Waypoints[i] = Vector3(wp[i/LinInterp].x,wp[i/LinInterp].y,wp[i/LinInterp].z);
+			Waypoints[stage][i] = Vector3(wp[i/LinInterp].x,wp[i/LinInterp].y,wp[i/LinInterp].z);
 		else if (i >= (numwp*LinInterp) - (LinInterp-1)){
 			Vector3 tempwp1, tempwp2;
 			tempwp1 = Vector3(wp[(i/LinInterp)].x,wp[(i/LinInterp)].y,wp[(i/LinInterp)].z);
 			tempwp2 = Vector3(wp[0].x,wp[0].y,wp[0].z);
-			Waypoints[i] = tempwp1 + (tempwp2-tempwp1)*(1.0f/LinInterp);
+			Waypoints[stage][i] = tempwp1 + (tempwp2-tempwp1)*(1.0f/LinInterp);
 		}
 		else{
 			Vector3 tempwp1, tempwp2;
 			tempwp1 = Vector3(wp[(i/LinInterp)].x,wp[(i/LinInterp)].y,wp[(i/LinInterp)].z);
 			tempwp2 = Vector3(wp[(i/LinInterp)+1].x,wp[(i/LinInterp)+1].y,wp[(i/LinInterp)+1].z);
-			Waypoints[i] = tempwp1 + (tempwp2-tempwp1)*(1.0f/LinInterp)*(i%LinInterp);
+			Waypoints[stage][i] = tempwp1 + (tempwp2-tempwp1)*(1.0f/LinInterp)*(i%LinInterp);
 		}
-
-		//myfile << Waypoints[i].x << ", "<< Waypoints[i].y << ", " << Waypoints[i].z<<"\n";
 	}
-	//myfile.close();
+
+	numwaypoints[stage] = numwp*LinInterp;
 
 }
 
@@ -97,14 +114,14 @@ void Dog::update(float dt){
 			if (TargetWaypoint != -1){
 				//check if we've reached a waypoint
 
-				Vector3 twp = Waypoints[TargetWaypoint];//target waypoint
+				Vector3 twp = Waypoints[TargetWPStage][TargetWaypoint];//target waypoint
 				float distsqrt = (twp.x - position.x)*(twp.x - position.x) + (twp.y - position.y)*(twp.y - position.y) + (twp.z - position.z)*(twp.z - position.z);
 				if (distsqrt < 0.1){//dog has hit a waypoint, procceed to next wp
 					TargetWaypoint+= waypointdir;
-					if (TargetWaypoint == numwaypoints)
+					if (TargetWaypoint == numwaypoints[TargetWPStage])
 						TargetWaypoint = 0;//wrap around to first waypoint
 					if (TargetWaypoint == -1)
-						TargetWaypoint = numwaypoints-1;//wrap around to last waypoint
+						TargetWaypoint = numwaypoints[TargetWPStage]-1;//wrap around to last waypoint
 
 					int switchdir = rand()%100;
 					if (switchdir <= DIR_CHANGE_CHANCE){//1 in 4 chance to switch direction at any given waypoint
@@ -113,7 +130,7 @@ void Dog::update(float dt){
 				
 				}
 
-				twp = Waypoints[TargetWaypoint];
+				twp = Waypoints[TargetWPStage][TargetWaypoint];
 				//vector track to waypoint
 				velocity.x = twp.x - position.x;
 				velocity.y = twp.y - position.y;
@@ -150,8 +167,8 @@ void Dog::targetClosestWaypoint(){
 	int waypointindex = 0;//index of shortest waypoint
 	float waypointdist = 9999;//distance of shortest waypoint
 
-	for (int i=0;i<numwaypoints;i++){
-		Vector3 twp = Waypoints[i];
+	for (int i=0;i<numwaypoints[TargetWPStage];i++){
+		Vector3 twp = Waypoints[TargetWPStage][i];
 		float distsqrt = (twp.x - position.x)*(twp.x - position.x) + (twp.y - position.y)*(twp.y - position.y) + (twp.z - position.z)*(twp.z - position.z);
 		
 		if (distsqrt < waypointdist){
