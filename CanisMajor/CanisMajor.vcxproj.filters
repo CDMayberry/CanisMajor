@@ -70,6 +70,14 @@
     <ClCompile Include="Sky.cpp">
       <Filter>Shaders</Filter>
     </ClCompile>
+    <ClCompile Include="Attic.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="SecondFloor.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="FirstFloor.cpp" />
+    <ClCompile Include="Basement.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CanisMajor.h">

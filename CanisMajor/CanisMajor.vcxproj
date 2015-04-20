@@ -90,6 +90,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="audio.cpp" />
+    <ClCompile Include="Basement.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="Cube.cpp" />
@@ -97,6 +98,7 @@
     <ClCompile Include="Actor.cpp" />
     <ClCompile Include="Dog.cpp" />
     <ClCompile Include="Door.cpp" />
+    <ClCompile Include="FirstFloor.cpp" />
     <ClCompile Include="Flashlight.cpp" />
     <ClCompile Include="GameTimer.cpp" />
     <ClCompile Include="Geometry.cpp" />
@@ -110,7 +112,9 @@
     <ClCompile Include="Quad.cpp" />
     <ClCompile Include="ReadableActor.cpp" />
     <ClCompile Include="SearchableActor.cpp" />
+    <ClCompile Include="SecondFloor.cpp" />
     <ClCompile Include="Sky.cpp" />
+    <ClCompile Include="Attic.cpp" />
     <ClCompile Include="Staircase.cpp" />
   </ItemGroup>
   <ItemGroup>
