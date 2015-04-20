@@ -1,13 +1,13 @@
-#include "Sprites.h"
+#include "Sprite.h"
 #include <string>
 
-Sprites::Sprites()
+Sprite::Sprite()
 {
-	ZeroMemory(this, sizeof(Sprites));
+	ZeroMemory(this, sizeof(Sprite));
 	sprite = -1;
 }
 
-Sprites::~Sprites()
+Sprite::~Sprite()
 {
 	ReleaseCOM(mVB);
 	ReleaseCOM(mFX);
@@ -15,7 +15,7 @@ Sprites::~Sprites()
 	ReleaseCOM(mVertexLayout);
 }
 
-void Sprites::init(ID3D10Device* device, const D3DXVECTOR3 centers[], UINT numSprites, std::wstring filenames[])
+void Sprite::init(ID3D10Device* device, const D3DXVECTOR3 centers[], UINT numSprites, std::wstring filenames[])
 {
 	md3dDevice = device;
 
@@ -28,7 +28,7 @@ void Sprites::init(ID3D10Device* device, const D3DXVECTOR3 centers[], UINT numSp
 	buildVertexLayout();
 }
 
-void Sprites::draw(const D3DXVECTOR3& eyePosW, const D3DXMATRIX& viewProj)
+void Sprite::draw(const D3DXVECTOR3& eyePosW, const D3DXMATRIX& viewProj)
 {
 	mfxEyePosVar->SetRawValue((void*)&eyePosW, 0, sizeof(D3DXVECTOR3));
 	//mfxLightVar->SetRawValue((void*)&L, 0, sizeof(Light));
@@ -56,7 +56,7 @@ void Sprites::draw(const D3DXVECTOR3& eyePosW, const D3DXMATRIX& viewProj)
 }
 
 //Pass in project matrix only to draw specific items to the screen
-void Sprites::draw(const D3DXMATRIX& proj)
+void Sprite::draw(const D3DXMATRIX& proj)
 {
 	mfxEyePosVar->SetRawValue((void*)&Vector3(0,0,0), 0, sizeof(D3DXVECTOR3));
 	//mfxLightVar->SetRawValue((void*)&L, 0, sizeof(Light));
@@ -83,7 +83,7 @@ void Sprites::draw(const D3DXMATRIX& proj)
 }
 
 
-void Sprites::buildVB(const D3DXVECTOR3 centers[])
+void Sprite::buildVB(const D3DXVECTOR3 centers[])
 {
 	TreeVertex* v = new TreeVertex[mNumSprites];
 
@@ -106,7 +106,7 @@ void Sprites::buildVB(const D3DXVECTOR3 centers[])
 	delete[] v;
 }
 
-void Sprites::buildFX()
+void Sprite::buildFX()
 {
 	DWORD shaderFlags = D3D10_SHADER_ENABLE_STRICTNESS;
 #if defined( DEBUG ) || defined( _DEBUG )
@@ -116,7 +116,7 @@ void Sprites::buildFX()
   
 	ID3D10Blob* compilationErrors = 0;
 	HRESULT hr = 0;
-	hr = D3DX10CreateEffectFromFile(L"tree.fx", 0, 0, 
+	hr = D3DX10CreateEffectFromFile(L"sprite.fx", 0, 0, 
 		"fx_4_0", shaderFlags, 0, md3dDevice, 0, 0, &mFX, &compilationErrors, 0);
 	if(FAILED(hr))
 	{
@@ -138,7 +138,7 @@ void Sprites::buildFX()
 	mfxSprite = mFX->GetVariableByName("sprite")->AsScalar();
 }
 
-void Sprites::buildVertexLayout()
+void Sprite::buildVertexLayout()
 {
 	// Create the vertex input layout.
 	D3D10_INPUT_ELEMENT_DESC vertexDesc[] =
@@ -154,7 +154,7 @@ void Sprites::buildVertexLayout()
 		PassDesc.IAInputSignatureSize, &mVertexLayout));
 }
 
-void Sprites::buildShaderResourceView(std::wstring filenames[])
+void Sprite::buildShaderResourceView(std::wstring filenames[])
 {
 	//
 	// Load the texture elements individually from file.  These textures

@@ -93,14 +93,14 @@ void CanisMajor::threadInit()
 		lightType[i] = 0;
 	}
 
-	D3DXVECTOR3 centers[SpriteNS::SPRITES];
-	for(int i = 0; i < SpriteNS::HANDS; i++) {
+	D3DXVECTOR3 centers[guiNS::SPRITES];
+	for(int i = 0; i < guiNS::SPRITES; i++) {
 		Vector3 center(0,0,100);
 		centers[i] = center;
 	}
 
 	//Make sure to have the exact number of file names
-	std::wstring filenames[SpriteNS::SPRITES] = 
+	std::wstring guiNames[guiNS::SPRITES] = 
 	{ //Put all file names in here.
 		/* L".\\textures\\.dds", */
 		L".\\textures\\hand.dds",
@@ -111,7 +111,7 @@ void CanisMajor::threadInit()
 		L".\\textures\\arrowDown.dds",
 	};
 
-	sprites.init(md3dDevice, centers, MAX_SPRITES, filenames);
+	gui.init(md3dDevice, centers, MAX_SPRITES, guiNames);
 
 	// Spotlight--position and direction changed every frame to animate.
 	fLight.init(2);  //Flashlight
@@ -361,7 +361,7 @@ void CanisMajor::menuUpdate(float dt, bool reset)
 
 void CanisMajor::levelsUpdate(float dt)
 {	
-	sprites.sprite = -1;
+	gui.sprite = -1;
 	if(state.secondFloorSairsUsed)
 		return loadSplashScreen(true);
 
@@ -679,8 +679,8 @@ void CanisMajor::levelsDraw()
 	drawStoryText();
 	drawNoteText();
 
-	if(sprites.sprite >= 0)
-		sprites.draw(mProj);
+	if(gui.sprite >= 0)
+		gui.draw(mProj);
 	else {
 		RECT r = {mClientWidth/2,mClientHeight/2,mClientWidth/2,mClientHeight/2};
 		utilFont->DrawText(0,L"\u25CF",-1,&r,DT_NOCLIP|DT_CENTER|DT_VCENTER,WHITE);

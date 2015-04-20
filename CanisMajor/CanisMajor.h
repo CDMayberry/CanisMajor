@@ -24,7 +24,7 @@
 #include <chrono>
 #include "Pedestal.h"
 #include "Sky.h"
-#include "Sprites.h"
+#include "GUI.h"
 
 using std::wstring;
 
@@ -146,7 +146,7 @@ public:
 	ID3D10EffectMatrixVariable* mfxTexMtxVar;
 	ID3D10Effect* skyFX;
 
-	Sprites sprites;
+	GUI gui;
 	
 	Light fLight;
 	Light ambient;

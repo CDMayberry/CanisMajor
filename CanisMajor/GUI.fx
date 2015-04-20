@@ -61,7 +61,7 @@ VS_OUT VS(VS_IN vIn)
 	return vOut;
 }
 
-[maxvertexcount(MAX_SPRITES)]
+[maxvertexcount(MAX_GUI)]
 void GS(point VS_OUT gIn[1], 
         uint primID : SV_PrimitiveID, 
         inout TriangleStream<GS_OUT> triStream)

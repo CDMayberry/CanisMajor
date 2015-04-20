@@ -2,8 +2,8 @@
 // TreeSprites.h by Frank Luna (C) 2008 All Rights Reserved.
 //=======================================================================================
 
-#ifndef SPRITES_H
-#define SPRITES_H
+#ifndef GUI_H
+#define GUI_H
 
 #include "d3dUtil.h"
 #include "constants.h"
@@ -11,9 +11,8 @@
 #include "sharedDefines.h"
 #include <string>
 
-namespace SpriteNS {
-	const int SPRITES = MAX_SPRITES; //Use to set how many files it should load
-	const int HANDS = MAX_SPRITES; //How many are the hand files
+namespace guiNS {
+	const int SPRITES = MAX_GUI; //Use to set how many files it should load
 }
 
 struct TreeVertex
@@ -22,12 +21,12 @@ struct TreeVertex
 	D3DXVECTOR2 sizeW;
 };
 
-class Sprites
+class GUI
 {
 public:
 
-	Sprites();
-	~Sprites();
+	GUI();
+	~GUI();
 
 	void init(ID3D10Device* device, const D3DXVECTOR3 centers[], UINT numSprites, std::wstring filenames[]);
 	void draw(const D3DXVECTOR3& eyePosW, const D3DXMATRIX& viewProj); //Note: this draws images based on position 

@@ -19,6 +19,7 @@ namespace flashlightNS{
 class Flashlight : public virtual Actor, public Interactable
 {
 public:
+	Flashlight():Actor(){sprite = 0;}
 	void init(CanisMajor* game,Geometry *b, Light* l, float r=1);
 	virtual std::wstring getUtilText(){return L"Press LMB to take the " + name;}
 	void update(float dt);
