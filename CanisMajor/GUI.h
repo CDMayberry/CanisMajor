@@ -10,16 +10,11 @@
 #include "Light.h"
 #include "sharedDefines.h"
 #include <string>
+#include "Vertex.h"
 
 namespace guiNS {
 	const int SPRITES = MAX_GUI; //Use to set how many files it should load
 }
-
-struct TreeVertex
-{
-	D3DXVECTOR3 centerW;
-	D3DXVECTOR2 sizeW;
-};
 
 class GUI
 {
@@ -29,7 +24,6 @@ public:
 	~GUI();
 
 	void init(ID3D10Device* device, const D3DXVECTOR3 centers[], UINT numSprites, std::wstring filenames[]);
-	void draw(const D3DXVECTOR3& eyePosW, const D3DXMATRIX& viewProj); //Note: this draws images based on position 
 	void draw(const D3DXMATRIX& proj); //Note: this draws images directly to the screen
 	int sprite;
 private:

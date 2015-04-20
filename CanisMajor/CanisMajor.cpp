@@ -113,10 +113,10 @@ void CanisMajor::threadInit()
 
 	gui.init(md3dDevice, centers, MAX_GUI, guiNames);
 
-	D3DXVECTOR3 centers[SpriteNS::SPRITES];
+	D3DXVECTOR3 centers2[SpriteNS::SPRITES];
 	for(int i = 0; i < SpriteNS::SPRITES; i++) {
 		Vector3 center(0,0,100);
-		centers[i] = center;
+		centers2[i] = center;
 	}
 
 	//Make sure to have the exact number of file names
@@ -127,7 +127,7 @@ void CanisMajor::threadInit()
 		L".\\textures\\book.dds",
 	};
 	int billboards = 16;
-	sprite.init(md3dDevice, centers, billboards, spriteNames);
+	sprite.init(md3dDevice, centers2, billboards, spriteNames);
 
 	// Spotlight--position and direction changed every frame to animate.
 	fLight.init(2);  //Flashlight

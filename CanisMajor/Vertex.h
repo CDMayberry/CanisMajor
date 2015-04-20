@@ -14,5 +14,10 @@ struct Vertex
     D3DXVECTOR2 texC;
 };
 
+struct TreeVertex
+{
+	D3DXVECTOR3 centerW;
+	D3DXVECTOR2 sizeW;
+};
  
 #endif // VERTEX_H
