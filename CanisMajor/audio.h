@@ -9,8 +9,17 @@
 
 class Audio;
 
-#include <xact3.h>
+#include "d3dUtil.h"
+#include <Xact3.h>
+#include <Xact3d3.h>
+#include <X3daudio.h>
 #include "constants.h"
+
+namespace audioNS{
+	//const int NUM_EMITTERS = 10;
+};
+
+using namespace audioNS;
 
 class Audio
 {
@@ -24,6 +33,17 @@ class Audio
     void *mapWaveBank;          // call UnmapViewOfFile() to release file
     void *soundBankData;
     bool coInitialized;         // set true if coInitialize is successful
+
+	//3d sound
+	// you need one set of these:
+	X3DAUDIO_HANDLE xact3dInstance;
+	X3DAUDIO_DSP_SETTINGS dspSettings;
+	X3DAUDIO_LISTENER listener;
+ 
+	// and one set of these PER 3D sound
+	// probably put it into a struct or similar
+	X3DAUDIO_EMITTER emitter;
+	IXACT3Cue* cue;
 
   public:
     // Constructor
@@ -42,11 +62,11 @@ class Audio
 
     // Play sound specified by cue from sound bank.
     // If cue does not exist no error occurs, there is simply no sound played.
-    void playCue(const char cue[]);
+    void playCue(const char name[], Vector3 pos);
 
     // Stop a playing sound specified by cue from sound bank.
     // If cue does not exist no error occurs.
-    void stopCue(const char cue[]);
+    void stopCue(const char name[]);
 
     // Pause sound specified by category from sound bank.
     // If category does not exist no error occurs.
@@ -55,6 +75,8 @@ class Audio
     // Resume playback of paused sound specified by category from sound bank.
     // If category does not exist no error occurs.
     void resumeCategory(const char category[]);
+
+	void updateCamera(Vector3 pos, Vector3 dir, Vector3 up, Vector3 vel);
 };
 
 #endif

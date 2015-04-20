@@ -151,6 +151,8 @@ void Camera::update(float dt)
 
 	Vector3 lookAt = position + direction;
 
+	game->audio->updateCamera(getPosition(),getDirection(),up,Vector3(0,0,0));
+
 	static bool buttonPushed = false;
 
 	if(GetAsyncKeyState(controls.use)&&nearbyItem!=nullptr)

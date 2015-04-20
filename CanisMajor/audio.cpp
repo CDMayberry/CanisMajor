@@ -168,6 +168,37 @@ HRESULT Audio::initialize()
     if( FAILED( result ) )
         return HRESULT_FROM_WIN32( ERROR_FILE_NOT_FOUND );
 
+
+
+
+
+
+	//3d sound
+	// setup the XACT3D
+	XACT3DInitialize(xactEngine,xact3dInstance);
+ 
+	// check how many output channels are supported
+	WAVEFORMATEXTENSIBLE format;
+	xactEngine->GetFinalMixFormat(&format);
+ 
+	// fill the DSP
+	ZeroMemory(&dspSettings,sizeof(dspSettings));
+	// different code's seem to suggest 1 or 2 channels for the emitter
+	// i'm going for 1
+	dspSettings.SrcChannelCount = 1;
+	dspSettings.DstChannelCount = format.Format.nChannels;  // as supported  
+	dspSettings.pMatrixCoefficients = new FLOAT32[dspSettings.SrcChannelCount * dspSettings.DstChannelCount];
+	ZeroMemory(dspSettings.pMatrixCoefficients ,sizeof(FLOAT32)*dspSettings.SrcChannelCount * dspSettings.DstChannelCount);
+
+
+
+
+
+
+
+
+
+
     return S_OK;
 
 }
@@ -186,12 +217,28 @@ void Audio::run()
 // play sound specified by cue from sound bank
 // if cue does not exist no error occurs, there is simply no sound played
 //=============================================================================
-void Audio::playCue(const char cue[])
+void Audio::playCue(const char name[], Vector3 pos)
 {
     if (soundBank == NULL)
         return;
-    cueI = soundBank->GetCueIndex( cue );       // get cue index from sound bank
-    soundBank->Play( cueI, 0, 0, NULL );
+    cueI = soundBank->GetCueIndex( name );       // get cue index from sound bank
+    soundBank->Play( cueI, 0, 0, &cue );//store pointer to played audio
+
+
+	// Set the emitter information
+	ZeroMemory(&emitter,sizeof(emitter));
+ 
+	// only worrying about its position, just giving fixed other info
+	emitter.OrientFront = D3DXVECTOR3(0,0,1);
+	emitter.OrientTop = D3DXVECTOR3(0,1,0);
+	emitter.Position = pos;
+	emitter.Velocity = D3DXVECTOR3(0,0,0);
+ 
+	// emitter ChannelCount and DSP Setting's SrcChannelCount must match
+	emitter.ChannelCount = dspSettings.SrcChannelCount;
+	// computer the effects on the sound and apply it
+	XACT3DCalculate( xact3dInstance, &listener, &emitter, &dspSettings );
+	XACT3DApply( &dspSettings, cue);
 }
 
 //=============================================================================
@@ -230,3 +277,18 @@ void Audio::resumeCategory(const char category[])
     xactEngine->Pause(iCategory,false);
 }
 
+void Audio::updateCamera(Vector3 pos, Vector3 dir, Vector3 up, Vector3 vel)
+{
+	// Set the listener information
+	ZeroMemory(&listener,sizeof(listener));
+	// set the XYZ of the camera
+	listener.Position = pos;
+	// set the direction the camera looks in
+	// this must be a unit vector
+	listener.OrientFront = dir;
+	// set the up-direction of the camera
+	// again, this must be a unit vector and orthogonal to camLook
+	listener.OrientTop = up;
+	// assuming no doppler effect 
+	listener.Velocity = vel;
+}

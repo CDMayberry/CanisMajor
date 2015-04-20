@@ -366,8 +366,10 @@ void CanisMajor::levelsUpdate(float dt)
 		readableActors[i].update(dt);
 	}
 
+
+	//for initial sound effect with howling door
 	if(!howl && doors[0].getOpen()) {
-		audio->playCue(HOWL);
+		audio->playCue(HOWL, doors[0].getPosition());
 		howl = true;
 	}
 
@@ -834,11 +836,11 @@ void CanisMajor::loadAttic()
 	int iter = 0;
 	if(!state.gameStarted)
 	{
-		setStoryText(10,L"Where am I?");
-		audio->playCue(BG);
-		state.gameStarted = true;
 		camera.setPosition(Vector3(5,0,5));
 		camera.setDirection(Vector3(1,0,0));
+		setStoryText(10,L"Where am I?");
+		audio->playCue(BG,camera.getPosition());
+		state.gameStarted = true;	
 	}
 	else
 	{
@@ -1415,5 +1417,5 @@ void CanisMajor::updateDebugAABB(Actor* a)
 
 void CanisMajor::playSound(const char* cue, Vector3 pos)
 {
-	audio->playCue(cue);
+	audio->playCue(cue,pos);
 }
