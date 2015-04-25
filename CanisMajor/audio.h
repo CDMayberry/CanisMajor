@@ -18,6 +18,8 @@ class Audio;
 namespace audioNS{
 	const int NUM_EMITTERS = 10;
 	const int CHANNEL_COUNT = 1;
+	const float MIN_SOUND_DIST = 10;
+	const float MAX_SOUND_DIST = 40;
 };
 
 struct AudioData{
@@ -54,7 +56,7 @@ class Audio
 	X3DAUDIO_DSP_SETTINGS dspSettings;
 	X3DAUDIO_LISTENER listener;
  
-public: AudioData data;
+	AudioData datum[NUM_EMITTERS];
 
   public:
     // Constructor
@@ -78,6 +80,9 @@ public: AudioData data;
 	//use for 3d sounds
 	void playCue(AudioData* data);
 
+	//use for 3d sounds
+	void stopCue(AudioData* data);
+
     // Stop a playing sound specified by cue from sound bank.
     // If cue does not exist no error occurs.
     void stopCue(const char name[]);
@@ -93,6 +98,7 @@ public: AudioData data;
 	void updateCamera(Vector3 pos, Vector3 dir, Vector3 up, Vector3 vel);
 
 	AudioData* buildData(const char name[]);
+	void updateCue(AudioData **data, const char name[]);
 };
 
 #endif

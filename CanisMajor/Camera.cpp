@@ -155,7 +155,7 @@ void Camera::update(float dt)
 
 	static bool buttonPushed = false;
 
-	if(GetAsyncKeyState(controls.use)&&nearbyItem!=nullptr)
+	if((GetAsyncKeyState(controls.use)||GetAsyncKeyState(controls.altUse))&&nearbyItem!=nullptr)
 	{
 		if(!buttonPushed)
 		{

@@ -50,5 +50,6 @@ const char BITESCREAM[] = "bitescream";//Caelan
 const char SHAKE[] = "shake"; //Caelan
 const char ACTIVATION[] = "activation"; //Caelan
 const char EMPTY[] = "empty"; //Caelan
-
+const char LOW_GROWL[] = "lowGrowl";//Justin
+const char BARKING[] = "dogBarking"; //Justin
 #endif

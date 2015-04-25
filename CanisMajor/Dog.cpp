@@ -18,6 +18,10 @@ void Dog::init(CanisMajor* game,Geometry *b,  float r, Vector3 s)
 	}
 	waypointdir = 1;
 	srand(time(NULL));
+
+	audioData3D = game->audio->buildData(LOW_GROWL);
+	isGrowling = false;
+	//game->audio->playCue(audioData3D);
 }
 
 
@@ -96,10 +100,14 @@ void Dog::update(float dt){
 		}
 		else if (playerNearby == &game->camera && following == false){
 			following = true;
+			game->audio->updateCue(&audioData3D,BARKING);
+			game->audio->playCue(audioData3D);
 		}
 		else if (playerNearby != &game->camera && following ==true){
 			following = false;
 			targetClosestWaypoint();//reset waypoint if need be
+			game->audio->updateCue(&audioData3D,LOW_GROWL);
+			game->audio->playCue(audioData3D);
 		}
 
 		if (following){//begin chase and start running!
@@ -152,7 +160,7 @@ void Dog::update(float dt){
 
 			if(game->current - game->start > 10000)
 			{
-				game->playSound(DOGGROWL,position);
+				//game->playSound(DOGGROWL,position);
 				game->waiting = false;
 			}
 		}
@@ -160,6 +168,22 @@ void Dog::update(float dt){
 		dirToPlayer = game->camera.getPosition() - getPosition();
 		Normalize(&dirToPlayer, &dirToPlayer);
 		Actor::update(dt);
+		
+		if(!isGrowling)
+		{
+			isGrowling=true;
+			game->audio->playCue(audioData3D);
+		}
+		else
+			audioData3D->update(getPosition());
+	}
+	else
+	{
+		if(isGrowling)
+		{
+			game->audio->stopCue(audioData3D);
+			isGrowling=false;
+		}
 	}
 }
 
