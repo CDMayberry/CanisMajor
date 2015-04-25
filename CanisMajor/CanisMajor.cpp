@@ -33,6 +33,7 @@ CanisMajor::CanisMajor(HINSTANCE hInstance)
 	controls.left = 'A';
 	controls.right = 'D';
 	controls.use = VK_LBUTTON;
+	controls.altUse = 'E';
 	controls.flashlight = 'F';
 	controls.crouch = VK_CONTROL;
 	controls.run = VK_SHIFT;

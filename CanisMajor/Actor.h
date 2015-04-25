@@ -7,6 +7,7 @@
 
 #include "Geometry.h"
 #include "constants.h"
+#include "audio.h"
 
 class CanisMajor;
 
@@ -27,6 +28,7 @@ private:
 
 	Matrix wvp,s,t,r,texMtx;//world view projection
 protected:
+	AudioData * audioData3D;
 	Matrix world;
 	Vector3 position;
 	Vector3 velocity;

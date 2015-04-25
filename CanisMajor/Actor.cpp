@@ -15,6 +15,7 @@ Actor::Actor()
 	MAX_HEALTH = 100;
 	health = MAX_HEALTH;
 	collisionType = SPHERE;
+	audioData3D = nullptr;
 }
 
 Actor::~Actor()
