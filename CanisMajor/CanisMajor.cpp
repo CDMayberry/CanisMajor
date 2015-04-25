@@ -119,14 +119,35 @@ void CanisMajor::threadInit()
 	}
 
 	//Make sure to have the exact number of file names
-	std::wstring spriteNames[SpriteNS::SPRITES] = 
+	//std::wstring spriteNames[SpriteNS::SPRITES] = 
+	//{ //Put all file names in here.
+	//	/* L".\\textures\\.dds", */
+	//	L".\\textures\\hand.dds",
+	//	L".\\textures\\book.dds",
+	//	L".\\textures\\book.dds",
+	//	L".\\textures\\book.dds",
+	//};
+	//int billboards = 16;
+	
+	//sprite.init(md3dDevice, centers2, billboards, spriteNames);
+
+	std::wstring treeNames[SpriteNS::SPRITES] = 
 	{ //Put all file names in here.
 		/* L".\\textures\\.dds", */
-		L".\\textures\\hand.dds",
-		L".\\textures\\book.dds",
+		L".\\textures\\tree0.dds",
+		L".\\textures\\tree1.dds",
+		L".\\textures\\tree2.dds",
+		L".\\textures\\tree3.dds",
 	};
-	int billboards = 16;
-	sprite.init(md3dDevice, centers2, billboards, spriteNames);
+
+	D3DXVECTOR3 centers3[64]; //Number of billboards placed
+	for(int i = 0; i < 64; i++) {
+		Vector3 center(45+RandF(-50,50),-15,30+RandF(-50,50));
+		centers3[i] = center;
+	}
+
+	//billboards = 32;
+	trees.init(md3dDevice, centers3, 64, treeNames);
 
 	// Spotlight--position and direction changed every frame to animate.
 	fLight.init(2);  //Flashlight
@@ -669,6 +690,8 @@ void CanisMajor::levelsDraw()
 	//Get Camera viewMatrix
 	mView = camera.getViewMatrix();
 	mProj = camera.getProjectionMatrix();
+	
+	trees.draw(camera.getPosition(), mView*mProj);
 
 	sky.draw(mView, mProj);
 
@@ -714,6 +737,8 @@ void CanisMajor::levelsDraw()
 		RECT r = {mClientWidth/2,mClientHeight/2,mClientWidth/2,mClientHeight/2};
 		utilFont->DrawText(0,L"\u25CF",-1,&r,DT_NOCLIP|DT_CENTER|DT_VCENTER,WHITE);
 	}
+
+	
 	//#ifdef DEBUG
 	//RECT r = {mClientWidth/2,mClientHeight/2,mClientWidth/2,mClientHeight/2};
 	//utilFont->DrawText(0,L"\u25CF",-1,&r,DT_NOCLIP|DT_CENTER|DT_VCENTER,WHITE);
