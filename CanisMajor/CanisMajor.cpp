@@ -364,7 +364,7 @@ void CanisMajor::menuUpdate(float dt, bool reset)
 				if(state.level==SPLASH)
 					menuLoad();
 				else
-					loadAttic();
+					loadFirstFloor();
 				break;
 			case 2://quit
 				PostQuitMessage(0);
