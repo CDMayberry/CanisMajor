@@ -19,7 +19,7 @@ namespace audioNS{
 	const int NUM_EMITTERS = 10;
 	const int CHANNEL_COUNT = 1;
 	const float MIN_SOUND_DIST = 10;
-	const float MAX_SOUND_DIST = 40;
+	const float MAX_SOUND_DIST = 30;
 };
 
 struct AudioData{
