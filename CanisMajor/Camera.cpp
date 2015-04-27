@@ -37,7 +37,7 @@ void Camera::init(CanisMajor* game,Geometry* geo, Controls c)
 	isVisible = true;
 
 	collisionType = AABBox;
-	setScale(Vector3(.7,1.5,.7));
+	setScale(Vector3(.7,4,.7));
 
 	for(int i = 0 ; i < CM::NUM_QUEST_ITEMS; i++)
 	{
