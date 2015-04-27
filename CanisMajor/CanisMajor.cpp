@@ -160,6 +160,7 @@ void CanisMajor::threadInit()
 	}
 
 	//billboards = 32;
+	//Was screwing up the lighting, I need to reset something correctly.
 	//trees.init(md3dDevice, centers3, 256, treeNames);
 
 	// Spotlight--position and direction changed every frame to animate.

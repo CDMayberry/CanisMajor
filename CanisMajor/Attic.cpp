@@ -1,5 +1,7 @@
 #include "CanisMajor.h"
 
+const wstring helpUs =  L"We couldn't get out...\nSomeone help us";
+
 void CanisMajor::loadAttic()
 {
 	state.level = ATTIC;
@@ -115,7 +117,7 @@ void CanisMajor::loadAttic()
 
 	//Bottle on table
 	spawnScenery(&mBottle,Vector3(13,.8,36));
-	spawnReadable(&mBook, L"Note", nullptr, Vector3(10,.3,36),Vector3(0,0,0),Vector3(.5,.5,.5), L"We couldn't get out...\nSomeone help us");
+	spawnReadable(&mBook, L"Note", nullptr, Vector3(10,.3,36),Vector3(0,0,0),Vector3(.5,.5,.5),helpUs);
 
 	//Boxes
 	spawnSearchable(&mBox,L"Cardboard Box",nullptr,Vector3(37.5,-2,20),Vector3(0,0,0), CM::BOX_SCALE);
