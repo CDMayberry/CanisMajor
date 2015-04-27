@@ -298,12 +298,16 @@ void CanisMajor::threadInit()
 	camera.create(Vector3(10,10,10),Vector3(1,0,0));
 	camera.setPerspective();
 
+	slidingBookcase.init(this,&mBookcase,1,CM::BOOKCASE_SCALE);
+
 	flashlight.toggle();
 
 #ifdef DEBUG
 	mRedCube.init(md3dDevice,".\\geometry\\cube.geo", L".\\textures\\metal.dds", true);
 	AABBHelper.init(this,&mRedCube,1);
 	AABBHelper.isActive = true;
+
+	camera.setFlashlight(&flashlight);
 #endif
 
 	camera.update(0);
@@ -313,7 +317,6 @@ void CanisMajor::threadInit()
 
 	loadingStatus++;
 	threadComplete = true;
-
 }
 
 void CanisMajor::onResize()
@@ -445,6 +448,8 @@ void CanisMajor::levelsUpdate(float dt)
 	for(int i = 0 ; i < CM::MAX_STAIRCASES; i++)
 		staircases[i].update(dt);
 
+	slidingBookcase.update(dt);
+
 	pedestal.update(dt);
 
 	camera.update(dt);
@@ -533,6 +538,14 @@ void CanisMajor::collisions()
 		}
 	}
 
+	if(camera.isPicked(&slidingBookcase,dist)){
+		camera.setNearbyInteractable(&slidingBookcase,dist);
+	}
+	if(!slidingBookcase.getOpen() && camera.collided(&slidingBookcase))
+	{
+		camera.backUp();
+	}
+
 	for(int i = 0 ; i < CM::NUM_QUEST_ITEMS; i++)
 	{
 		if(camera.isPicked(&items[i],dist))
@@ -578,6 +591,8 @@ void CanisMajor::collisions()
 	isPlayer = true;
 	if(dog.isPicked(&camera,dist))
 		dog.setNearest(&camera,dist);
+
+
 
 }
 
@@ -723,6 +738,8 @@ void CanisMajor::levelsDraw()
 	flashlight.draw(mfxWVPVar,mView,mProj,mTech);
 	if(state.level==SECOND_FLOOR)
 		pedestal.draw(mfxWVPVar,mView,mProj,mTech);
+
+	slidingBookcase.draw(mfxWVPVar,mView,mProj,mTech);
 
 #ifdef DEBUG
 	AABBHelper.draw(mfxWVPVar,mView,mProj,mTech);
@@ -874,6 +891,7 @@ void CanisMajor::clearLevel()
 	dog.isActive = false;//disable dog
 	negaLight.pos = Vector3(200,200,200);
 	eyes.pos = Vector3(200,200,200);
+	slidingBookcase.isActive=false;
 }
 
 void CanisMajor::loadSplashScreen(bool status)
