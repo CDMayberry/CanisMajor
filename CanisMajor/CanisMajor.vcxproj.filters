@@ -1,247 +1,239 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="CanisMajor.cpp">
-      <Filter>Sources</Filter>
+    <ClCompile Include="Basement.cpp">
+      <Filter>Levels</Filter>
     </ClCompile>
-    <ClCompile Include="Actor.cpp">
-      <Filter>Sources\GameObj</Filter>
-    </ClCompile>
-    <ClCompile Include="audio.cpp">
-      <Filter>Sources\Util</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Sources\GameObj</Filter>
-    </ClCompile>
-    <ClCompile Include="Coin.cpp">
-      <Filter>Sources\Geometry</Filter>
-    </ClCompile>
-    <ClCompile Include="Cube.cpp">
-      <Filter>Sources\Geometry</Filter>
-    </ClCompile>
-    <ClCompile Include="d3dApp.cpp">
-      <Filter>Sources\Util</Filter>
-    </ClCompile>
-    <ClCompile Include="Flashlight.cpp">
-      <Filter>Sources\GameObj</Filter>
-    </ClCompile>
-    <ClCompile Include="GameTimer.cpp">
-      <Filter>Sources\Util</Filter>
-    </ClCompile>
-    <ClCompile Include="Geometry.cpp">
-      <Filter>Sources\Geometry</Filter>
-    </ClCompile>
-    <ClCompile Include="input.cpp">
-      <Filter>Sources\Util</Filter>
-    </ClCompile>
-    <ClCompile Include="Line.cpp">
-      <Filter>Sources\Geometry</Filter>
-    </ClCompile>
-    <ClCompile Include="mathUtil.cpp">
-      <Filter>Sources\Util</Filter>
-    </ClCompile>
-    <ClCompile Include="Origin.cpp">
-      <Filter>Sources\Geometry</Filter>
-    </ClCompile>
-    <ClCompile Include="Quad.cpp">
-      <Filter>Sources\Geometry</Filter>
-    </ClCompile>
-    <ClCompile Include="Door.cpp">
-      <Filter>Sources\GameObj</Filter>
-    </ClCompile>
-    <ClCompile Include="SearchableActor.cpp">
-      <Filter>Sources\GameObj</Filter>
-    </ClCompile>
-    <ClCompile Include="Staircase.cpp">
-      <Filter>Sources\GameObj</Filter>
-    </ClCompile>
-    <ClCompile Include="Dog.cpp">
-      <Filter>Sources\GameObj</Filter>
-    </ClCompile>
-    <ClCompile Include="ReadableActor.cpp">
-      <Filter>Sources\GameObj</Filter>
-    </ClCompile>
-    <ClCompile Include="QuestItem.cpp">
-      <Filter>Sources\GameObj</Filter>
-    </ClCompile>
-    <ClCompile Include="Pedestal.cpp">
-      <Filter>Sources\GameObj</Filter>
-    </ClCompile>
-    <ClCompile Include="Sky.cpp">
-      <Filter>Shaders</Filter>
-    </ClCompile>
-<<<<<<< HEAD
     <ClCompile Include="Attic.cpp">
-      <Filter>Sources</Filter>
+      <Filter>Levels</Filter>
+    </ClCompile>
+    <ClCompile Include="FirstFloor.cpp">
+      <Filter>Levels</Filter>
     </ClCompile>
     <ClCompile Include="SecondFloor.cpp">
-      <Filter>Sources</Filter>
+      <Filter>Levels</Filter>
     </ClCompile>
-    <ClCompile Include="FirstFloor.cpp" />
-    <ClCompile Include="Basement.cpp" />
-=======
-    <ClCompile Include="GUI.cpp">
-      <Filter>Sources\Sprites</Filter>
+    <ClCompile Include="Actor.cpp">
+      <Filter>Source\Game Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source\Game Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Coin.cpp">
+      <Filter>Source\Game Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Cube.cpp">
+      <Filter>Source\Game Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Dog.cpp">
+      <Filter>Source\Game Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Door.cpp">
+      <Filter>Source\Game Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Flashlight.cpp">
+      <Filter>Source\Game Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Geometry.cpp">
+      <Filter>Source\Game Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Line.cpp">
+      <Filter>Source\Game Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Origin.cpp">
+      <Filter>Source\Game Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Pedestal.cpp">
+      <Filter>Source\Game Object</Filter>
+    </ClCompile>
+    <ClCompile Include="QuestItem.cpp">
+      <Filter>Source\Game Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Quad.cpp">
+      <Filter>Source\Game Object</Filter>
+    </ClCompile>
+    <ClCompile Include="ReadableActor.cpp">
+      <Filter>Source\Game Object</Filter>
+    </ClCompile>
+    <ClCompile Include="SearchableActor.cpp">
+      <Filter>Source\Game Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Sky.cpp">
+      <Filter>Source\Game Object</Filter>
     </ClCompile>
     <ClCompile Include="Sprite.cpp">
-      <Filter>Sources\Sprites</Filter>
+      <Filter>Source\Game Object</Filter>
     </ClCompile>
->>>>>>> 204a132654c98e4fc993a90b1bf781fff1188376
+    <ClCompile Include="Staircase.cpp">
+      <Filter>Source\Game Object</Filter>
+    </ClCompile>
+    <ClCompile Include="audio.cpp">
+      <Filter>Source\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="d3dApp.cpp">
+      <Filter>Source\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="GameTimer.cpp">
+      <Filter>Source\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="input.cpp">
+      <Filter>Source\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="mathUtil.cpp">
+      <Filter>Source\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="CanisMajor.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI.cpp">
+      <Filter>Source\Util</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CanisMajor.h">
-      <Filter>Headers</Filter>
+    <ClInclude Include="Camera.h">
+      <Filter>Header\Util</Filter>
     </ClInclude>
     <ClInclude Include="audio.h">
-      <Filter>Headers\Util</Filter>
-    </ClInclude>
-    <ClInclude Include="Coin.h">
-      <Filter>Headers\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="Actor.h">
-      <Filter>Headers\GameObj</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>Headers\GameObj</Filter>
-    </ClInclude>
-    <ClInclude Include="constants.h">
-      <Filter>Headers\Util</Filter>
-    </ClInclude>
-    <ClInclude Include="Controls.h">
-      <Filter>Headers\Util</Filter>
-    </ClInclude>
-    <ClInclude Include="Cube.h">
-      <Filter>Headers\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="d3dApp.h">
-      <Filter>Headers\Util</Filter>
+      <Filter>Header\Util</Filter>
     </ClInclude>
     <ClInclude Include="d3dUtil.h">
-      <Filter>Headers\Util</Filter>
+      <Filter>Header\Util</Filter>
     </ClInclude>
-    <ClInclude Include="Flashlight.h">
-      <Filter>Headers\GameObj</Filter>
+    <ClInclude Include="d3dApp.h">
+      <Filter>Header\Util</Filter>
     </ClInclude>
     <ClInclude Include="gameError.h">
-      <Filter>Headers\Util</Filter>
-    </ClInclude>
-    <ClInclude Include="GameTimer.h">
-      <Filter>Headers\Util</Filter>
-    </ClInclude>
-    <ClInclude Include="Geometry.h">
-      <Filter>Headers\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="Interactable.h">
-      <Filter>Headers\GameObj</Filter>
-    </ClInclude>
-    <ClInclude Include="input.h">
-      <Filter>Headers\Util</Filter>
-    </ClInclude>
-    <ClInclude Include="Line.h">
-      <Filter>Headers\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="Origin.h">
-      <Filter>Headers\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="mathUtil.h">
-      <Filter>Headers\Util</Filter>
-    </ClInclude>
-    <ClInclude Include="Quad.h">
-      <Filter>Headers\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="Vertex.h">
-      <Filter>Headers\Util</Filter>
-    </ClInclude>
-    <ClInclude Include="Door.h">
-      <Filter>Headers\GameObj</Filter>
-    </ClInclude>
-    <ClInclude Include="SearchableActor.h">
-      <Filter>Headers\GameObj</Filter>
-    </ClInclude>
-    <ClInclude Include="sharedDefines.h">
-      <Filter>Shaders</Filter>
-    </ClInclude>
-    <ClInclude Include="Light.h">
-      <Filter>Shaders</Filter>
-    </ClInclude>
-    <ClInclude Include="Staircase.h">
-      <Filter>Headers\GameObj</Filter>
-    </ClInclude>
-    <ClInclude Include="Dog.h">
-      <Filter>Headers\GameObj</Filter>
+      <Filter>Header\Util</Filter>
     </ClInclude>
     <ClInclude Include="GameState.h">
-      <Filter>Headers\Util</Filter>
+      <Filter>Header\Util</Filter>
     </ClInclude>
-    <ClInclude Include="ReadableActor.h">
-      <Filter>Headers\GameObj</Filter>
+    <ClInclude Include="input.h">
+      <Filter>Header\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="constants.h">
+      <Filter>Header\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor.h">
+      <Filter>Header\Game Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Coin.h">
+      <Filter>Header\Game Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Cube.h">
+      <Filter>Header\Game Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Dog.h">
+      <Filter>Header\Game Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Door.h">
+      <Filter>Header\Game Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Flashlight.h">
+      <Filter>Header\Game Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Geometry.h">
+      <Filter>Header\Game Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Interactable.h">
+      <Filter>Header\Game Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>Header\Game Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Line.h">
+      <Filter>Header\Game Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Origin.h">
+      <Filter>Header\Game Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Quad.h">
+      <Filter>Header\Game Object</Filter>
     </ClInclude>
     <ClInclude Include="QuestItem.h">
-      <Filter>Headers\GameObj</Filter>
+      <Filter>Header\Game Object</Filter>
+    </ClInclude>
+    <ClInclude Include="ReadableActor.h">
+      <Filter>Header\Game Object</Filter>
+    </ClInclude>
+    <ClInclude Include="SearchableActor.h">
+      <Filter>Header\Game Object</Filter>
     </ClInclude>
     <ClInclude Include="Sky.h">
-      <Filter>Shaders</Filter>
-    </ClInclude>
-    <ClInclude Include="Pedestal.h">
-      <Filter>Headers\GameObj</Filter>
-    </ClInclude>
-    <ClInclude Include="GUI.h">
-      <Filter>Headers\Sprites</Filter>
+      <Filter>Header\Game Object</Filter>
     </ClInclude>
     <ClInclude Include="Sprite.h">
-      <Filter>Headers\Sprites</Filter>
+      <Filter>Header\Game Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Staircase.h">
+      <Filter>Header\Game Object</Filter>
+    </ClInclude>
+    <ClInclude Include="CanisMajor.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Controls.h">
+      <Filter>Header\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI.h">
+      <Filter>Header\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="mathUtil.h">
+      <Filter>Header\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Pedestal.h">
+      <Filter>Header\Game Object</Filter>
+    </ClInclude>
+    <ClInclude Include="GameTimer.h">
+      <Filter>Header\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="sharedDefines.h">
+      <Filter>Header\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Vertex.h">
+      <Filter>Header\Util</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <None Include="GUI.fx">
+      <Filter>FX Files</Filter>
+    </None>
     <None Include="lighthelper.fx">
-      <Filter>Shaders</Filter>
+      <Filter>FX Files</Filter>
     </None>
     <None Include="lighting.fx">
-      <Filter>Shaders</Filter>
+      <Filter>FX Files</Filter>
     </None>
     <None Include="sky.fx">
-      <Filter>Shaders</Filter>
+      <Filter>FX Files</Filter>
     </None>
     <None Include="sprite.fx">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="GUI.fx">
-      <Filter>Shaders</Filter>
+      <Filter>FX Files</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="Shaders">
-      <UniqueIdentifier>{ef570dd3-8f9f-4b69-87f2-7d9aa325d08f}</UniqueIdentifier>
+    <Filter Include="Header">
+      <UniqueIdentifier>{f93dc9c2-10ad-4d90-8867-9862ad441787}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Sources">
-      <UniqueIdentifier>{4b182499-42d3-49aa-a224-4f0ec80b861f}</UniqueIdentifier>
+    <Filter Include="Source">
+      <UniqueIdentifier>{e788dfc1-b4b0-41d5-beab-c2a5ca420a58}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Headers">
-      <UniqueIdentifier>{d5d9e561-9fab-406f-aa51-4e9b17de580b}</UniqueIdentifier>
+    <Filter Include="Levels">
+      <UniqueIdentifier>{1b52ba33-5ae0-4855-961f-61ad7fd669de}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Headers\Util">
-      <UniqueIdentifier>{1f7af15b-f893-4cb4-8f67-5db7115360da}</UniqueIdentifier>
+    <Filter Include="Header\Game Object">
+      <UniqueIdentifier>{75d513c8-8832-4474-a295-5313c98014ef}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Headers\Geometry">
-      <UniqueIdentifier>{4f22cb3a-6cfe-4abd-964a-0e5755bfd1e8}</UniqueIdentifier>
+    <Filter Include="Header\Util">
+      <UniqueIdentifier>{9f7a8076-4c9d-4206-a34b-a0c6a6ca543f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Headers\GameObj">
-      <UniqueIdentifier>{db30da0b-28b3-4618-8598-72bf5bfb0dea}</UniqueIdentifier>
+    <Filter Include="Source\Game Object">
+      <UniqueIdentifier>{9948a365-a7c7-4569-8576-6646ccdc4e73}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Sources\Geometry">
-      <UniqueIdentifier>{9fb0aa99-152d-4842-9801-6ec0ed072a39}</UniqueIdentifier>
+    <Filter Include="Source\Util">
+      <UniqueIdentifier>{1a992602-20e7-46e2-9a09-720218078ee8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Sources\GameObj">
-      <UniqueIdentifier>{1c941bd0-40fc-4a9f-bc09-08bc0a186b34}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Sources\Util">
-      <UniqueIdentifier>{fd362ca2-cece-4231-a724-807ce3ef66c3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Headers\Sprites">
-      <UniqueIdentifier>{b3eebd8e-4e72-4d10-91ed-fd55cde73232}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Sources\Sprites">
-      <UniqueIdentifier>{5e7dbfaf-83b0-493e-8ba5-39b36acdc883}</UniqueIdentifier>
+    <Filter Include="FX Files">
+      <UniqueIdentifier>{3758dca0-419a-4ac3-a039-a5a1da1c1731}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

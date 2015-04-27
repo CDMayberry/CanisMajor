@@ -125,7 +125,7 @@ void GS(point VS_OUT gIn[1],
 float4 PS(GS_OUT pIn) : SV_Target
 {
 	// Get materials from texture maps.
-	float3 uvw = float3(pIn.texC, pIn.primID%MAX_SPRITES);
+	float3 uvw = float3(pIn.texC, pIn.primID%4);
 	float4 diffuse = gDiffuseMapArray.Sample( gTriLinearSam, uvw );
  
 	// Discard pixel if texture alpha < 0.25.  Note that we do this

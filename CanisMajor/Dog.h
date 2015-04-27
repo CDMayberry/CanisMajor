@@ -27,6 +27,7 @@ public:
 	void setTargetWPStage(int s){TargetWPStage = s;}
 	Vector3 getDirection(){return direction;}
 private:
+	bool isGrowling;
 	void targetClosestWaypoint();
 	int TargetWaypoint;//waypoint the dog is traveling to. set to -1 if tracking player
 	int TargetWPStage;

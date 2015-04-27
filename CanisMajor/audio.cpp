@@ -207,10 +207,21 @@ void Audio::run()
 {
     if (xactEngine == NULL)
         return;  
-	if(data.inUse && data.played)
+	for(int i = 0; i < NUM_EMITTERS; i++)
 	{
-	XACT3DCalculate( xact3dInstance, &listener, &data._emitter, &dspSettings );
-	XACT3DApply( &dspSettings, data._cue);
+		if(datum[i].inUse && datum[i].played){
+
+						// the falloff curve:
+			// at range 0=>100%, MIN_SOUND_DIST=>100%, MAX_SOUND_DIST=>0%
+			X3DAUDIO_DISTANCE_CURVE_POINT soundFalloffPt[] = { 0.0f, 1.0f, MIN_SOUND_DIST, 1.0f, MAX_SOUND_DIST, 0.0f  };
+			X3DAUDIO_DISTANCE_CURVE       soundFalloff          = { &soundFalloffPt[0], 3 };
+			// set the falloff curve
+			datum[i]._emitter.pVolumeCurve =(X3DAUDIO_DISTANCE_CURVE*)&soundFalloff;
+			datum[i]._emitter.CurveDistanceScaler = 1.0; // this is a multiplier on all distances
+ 
+			XACT3DCalculate( xact3dInstance, &listener, &datum[i]._emitter, &dspSettings );
+			XACT3DApply( &dspSettings, datum[i]._cue);
+		}
 	}
 	xactEngine->DoWork();
 }
@@ -253,6 +264,15 @@ void Audio::stopCue(const char cue[])
         return;
     cueI = soundBank->GetCueIndex( cue );        // get cue index from sound bank
     soundBank->Stop( cueI, XACT_FLAG_SOUNDBANK_STOP_IMMEDIATE);
+}
+
+//use for 3d sounds
+void Audio::stopCue(AudioData* data)
+{
+	 if (soundBank == NULL)
+        return;
+	data->_cue->Stop(XACT_FLAG_SOUNDBANK_STOP_IMMEDIATE);
+	data->played=false;
 }
 
 //=============================================================================
@@ -312,11 +332,22 @@ void AudioData::update(Vector3 pos)
 
 AudioData* Audio::buildData(const char name[])
 {
-	data.inUse=true;
+	for(int i = 0 ; i < NUM_EMITTERS; i++)
+	{
+		if(!datum[i].inUse)
+		{
+			datum[i].inUse=true;
+			datum[i].update(Vector3(0,0,0));//set init vals get cue
+			datum[i]._name = const_cast<char*>(name);
+			return &datum[i];
+		}
+	}
+	return nullptr;
+}
 
-	data.update(Vector3(0,0,0));
-
-	data._name = const_cast<char*>(name);
-	
-	return &data;
+void Audio::updateCue(AudioData**data, const char name[])
+{
+	stopCue(*data);
+	(*data)->inUse = (*data)->played = false;
+	(*data) = buildData(name);
 }

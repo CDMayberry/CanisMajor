@@ -149,6 +149,7 @@ public:
 
 	GUI gui;
 	Sprite sprite;
+	Sprite trees;
 	
 	Light fLight;
 	Light ambient;
