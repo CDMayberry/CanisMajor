@@ -129,7 +129,6 @@ void CanisMajor::threadInit()
 	//	L".\\textures\\book.dds",
 	//};
 	//int billboards = 16;
-	
 	//sprite.init(md3dDevice, centers2, billboards, spriteNames);
 
 	std::wstring treeNames[SpriteNS::SPRITES] = 
@@ -141,14 +140,27 @@ void CanisMajor::threadInit()
 		L".\\textures\\tree3.dds",
 	};
 
-	D3DXVECTOR3 centers3[64]; //Number of billboards placed
-	for(int i = 0; i < 64; i++) {
-		Vector3 center(45+RandF(-50,50),-15,30+RandF(-50,50));
+	D3DXVECTOR3 centers3[256]; //Number of billboards placed
+	float r = 160;
+	float xOffset = 60;
+	float zOffset = 30;
+	for(int i = 0; i < 256; i++) { //Trees centered outside the area of the house
+		float rander = RandF(90,120);
+		Vector3 center(RandF(-50,50),-15,RandF(-50,50));
+		center.y = -15;
+		Vector3 dir;
+		Normalize(&dir, &center);
+		center.x = dir.x*rander;
+		center.z = dir.z*rander;
+		center.x += xOffset;
+		center.z += zOffset;
+	
 		centers3[i] = center;
 	}
 
 	//billboards = 32;
-	trees.init(md3dDevice, centers3, 64, treeNames);
+	//Was screwing up the lighting, I need to reset something correctly.
+	//trees.init(md3dDevice, centers3, 256, treeNames);
 
 	// Spotlight--position and direction changed every frame to animate.
 	fLight.init(2);  //Flashlight
@@ -204,7 +216,7 @@ void CanisMajor::threadInit()
 	loadingStatus++; //19
 	mBox.init(md3dDevice,".\\geometry\\cardboardBox.geo", L".\\textures\\cardboard.dds");
 	loadingStatus++; //20
-	mBook.init(md3dDevice,".\\geometry\\book.geo",L".\\textures\\paper.dds");
+	mBook.init(md3dDevice,".\\geometry\\book2.geo",L".\\textures\\book_tex.dds", true,L".\\textures\\book_spec.dds");
 	loadingStatus++; //21
 #ifndef DEBUG
 	mToilet.init(md3dDevice,".\\geometry\\toilet.geo");
@@ -366,8 +378,13 @@ void CanisMajor::menuUpdate(float dt, bool reset)
 			case 1://play
 				if(state.level==SPLASH)
 					menuLoad();
-				else
+				else {
+#ifdef DEBUG		//Use this for testing a specific level
 					loadFirstFloor();
+#else				//Use this to run the full game
+					loadAttic();
+#endif
+				}
 				break;
 			case 2://quit
 				PostQuitMessage(0);
@@ -707,7 +724,7 @@ void CanisMajor::levelsDraw()
 	mView = camera.getViewMatrix();
 	mProj = camera.getProjectionMatrix();
 	
-	trees.draw(camera.getPosition(), mView*mProj);
+	//trees.draw(camera.getPosition(), mView*mProj);
 
 	sky.draw(mView, mProj);
 
@@ -761,9 +778,6 @@ void CanisMajor::levelsDraw()
 	//RECT r = {mClientWidth/2,mClientHeight/2,mClientWidth/2,mClientHeight/2};
 	//utilFont->DrawText(0,L"\u25CF",-1,&r,DT_NOCLIP|DT_CENTER|DT_VCENTER,WHITE);
 	//#endif
-
-
-
 }
 
 void CanisMajor::buildFX()
@@ -1080,13 +1094,13 @@ SearchableActor* CanisMajor::spawnSearchable(Geometry* g, std::wstring name, Act
 	return nullptr;
 }
 
-ReadableActor* CanisMajor::spawnReadable(Geometry* g, std::wstring name, Actor* in, Vector3 pos, Vector3 rot, Vector3 scale,  wstring text)
+ReadableActor* CanisMajor::spawnReadable(Geometry* g, std::wstring name, Actor* in, Vector3 pos, Vector3 rot, Vector3 scale,  wstring text, float dur)
 {
 	for(int i = 0 ; i < CM::MAX_READABLE_ACTORS; i++)
 	{
 		if(!readableActors[i].isActive)
 		{
-			readableActors[i].create(pos,rot,scale,in);
+			readableActors[i].create(pos,rot,scale,in,dur);
 			readableActors[i].setGeometry(g);
 			readableActors[i].setText(text);
 			readableActors[i].name = name;

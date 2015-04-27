@@ -153,12 +153,12 @@ void Dog::update(float dt){
 		{
 			if(!game->waiting)
 			{
-				game->start = clock();
+				game->start = clock(); //Why is this using a system call???
 				game->waiting = true;
 			}
-			game->current = clock();
+			game->current = clock(); //No. No really. Why? We have float dt for a reason.
 
-			if(game->current - game->start > 10000)
+			if(game->current - game->start > 10000) //PLEASE FIX THIS. USE DT.
 			{
 				//game->playSound(DOGGROWL,position);
 				game->waiting = false;
@@ -171,7 +171,7 @@ void Dog::update(float dt){
 		
 		if(!isGrowling)
 		{
-			isGrowling=true;
+			isGrowling = true;
 			game->audio->playCue(audioData3D);
 		}
 		else

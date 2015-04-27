@@ -24,7 +24,7 @@ void Geometry::init(ID3D10Device* device, D3DXCOLOR color, D3D_PRIMITIVE_TOPOLOG
 	topology = top;
 }
 
-void Geometry::init(ID3D10Device* device, std::string objFile, LPCWSTR texFile, bool comp)
+void Geometry::init(ID3D10Device* device, std::string objFile, LPCWSTR texFile, bool comp, LPCWSTR specFile)
 {
 	md3dDevice = device;
 	initRasterState();
@@ -209,7 +209,7 @@ void Geometry::init(ID3D10Device* device, std::string objFile, LPCWSTR texFile, 
 	HR(D3DX10CreateShaderResourceViewFromFile(device, 
 		texFile, 0, 0, &mDiffuseMapRV, 0 ));
 	HR(D3DX10CreateShaderResourceViewFromFile(device, 
-		L".\\textures\\defaultspec.dds", 0, 0, &mSpecMapRV, 0 ));
+		specFile, 0, 0, &mSpecMapRV, 0 ));
 
 	calculateDefaultAABB(vertices);
 }
