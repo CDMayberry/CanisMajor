@@ -240,6 +240,7 @@ void CanisMajor::threadInit()
 	}
 
 	mCube.init(md3dDevice,".\\geometry\\cube.geo", L".\\textures\\metal.dds", true);
+	mFloor.init(md3dDevice,".\\geometry\\cube2.geo",L".\\textures\\woodfloor.dds",true);
 	dog.init(this,&mDog,1.0f,Vector3(1,2,2));
 	//dog.setScale(Vector3(0.1f,5.0f,5.0f));
 	dog.setNegalight(&negaLight);

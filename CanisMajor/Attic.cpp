@@ -36,7 +36,7 @@ void CanisMajor::loadAttic()
 		flashlight.setStateSwitch(&state,&GameState::tookFlashlight);
 	}
 
-	spawnScenery(&mCube,Vector3(0,-4,0),Vector3(0,0,0),Vector3(40,1,60));
+	spawnScenery(&mFloor,Vector3(0,-4,0),Vector3(0,0,0),Vector3(40,1,60));
 
 	//Left wall
 	for(int i = 0; i < 6; i++)
