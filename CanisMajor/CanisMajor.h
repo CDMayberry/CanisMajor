@@ -87,7 +87,7 @@ public:
 	void drawUtilText(wstring s=L"");//calling with s defined sets the string, calling without prints the string
 	void drawStoryText();
 	void updateStoryText(float dt);
-	void setStoryText(float durration,wstring s, D3DXCOLOR c = WHITE);
+	void setStoryText(float duration,wstring s, D3DXCOLOR c = WHITE);
 
 	void drawNoteText();
 	void updateNoteText(float dt);
@@ -186,7 +186,7 @@ public:
 	QuestItem* spawnQuestItem(Geometry* g, wstring name, Vector3 pos, Vector3 rot = Vector3(0,0,0), Vector3 scale = Vector3(1,1,1));
 	Door* spawnDoor(Vector3 pos, Vector3 rot=Vector3(0,0,0), Vector3 Scale=Vector3(1,1,1), QuestItem* k = nullptr, bool isOpen = false);
 	SearchableActor* spawnSearchable(Geometry* g, std::wstring name, Actor* in= nullptr, Vector3 pos = Vector3(0,0,0), Vector3 rot = Vector3(0,0,0), Vector3 scale = Vector3(1,1,1));
-	ReadableActor* spawnReadable(Geometry* g, std::wstring name, Actor* in= nullptr, Vector3 pos = Vector3(0,0,0), Vector3 rot = Vector3(0,0,0), Vector3 scale = Vector3(1,1,1), wstring text = L"The note is scratched and unreadable.");
+	ReadableActor* spawnReadable(Geometry* g, std::wstring name, Actor* in= nullptr, Vector3 pos = Vector3(0,0,0), Vector3 rot = Vector3(0,0,0), Vector3 scale = Vector3(1,1,1), wstring text = L"The note is scratched and unreadable.", float dur = 5.0f);
 	Light* spawnLight(Vector3 pos, int type = 0);
 	Light* spawnLight(Vector3 pos, Vector3 dir, int type = 0);
 	Staircase* spawnStaircase(std::wstring name, LLevel func, Vector3 pos, Vector3 rotation = Vector3(0,0,0), Vector3 scale = Vector3(1,1,1));
