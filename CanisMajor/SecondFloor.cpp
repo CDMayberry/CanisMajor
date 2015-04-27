@@ -1,5 +1,10 @@
 #include "CanisMajor.h"
 
+const wstring itemList = L"The book contains a list of items labeled \'Artifacts\':\nDiamond\nStaff\nAltar";
+const wstring theDog = L"August 19th:\n I'll have to put down that dog soon,\n it can barely walk, that dog has never\n completely recovered from it's trip to Egypt.\n The twins will be sad, they loved to talk to it.";
+const wstring arrowLoc =  L"Scrawled in child's writing:\nDolan loves it when we hide daddy's things!\n We even hid one in his dresser.";
+const wstring thieves =  L"August 20th:\nBloody hell, where have those children hidden my artifacts???";
+const wstring constellation = L"Canis Major can be seen rising just over the horizon";
 
 void CanisMajor::loadSecondFloor()
 {
@@ -54,7 +59,7 @@ void CanisMajor::loadSecondFloor()
 		spawnScenery(&mRail,Vector3(71.5+(i*2),-3,15),Vector3(0,PI/2,0),Vector3(2,2,1.6));
 
 	//Telescope. It should contain something for a puzzle
-	spawnReadable(&mTelescope,L"Telescope",nullptr,Vector3(85,-2.7,40),Vector3(0,-2*PI/3,0),Vector3(7,7,7), L"Canis Major can be seen rising just over the horizon");
+	spawnReadable(&mTelescope,L"Telescope",nullptr,Vector3(85,-2.7,40),Vector3(0,-2*PI/3,0),Vector3(7,7,7),constellation);
 
 	//Left outer wall
 	spawnScenery(&mWallpanel,Vector3(0,3,10),Vector3(0,0,0), Vector3(1,1.2,2));
@@ -140,6 +145,7 @@ void CanisMajor::loadSecondFloor()
 	spawnScenery(&mMasterbed,Vector3(49,-3,39),Vector3(0,1.5707963268,0), Vector3(5,4,5));
 	spawnScenery(&mTable,Vector3(42,-3,43),Vector3(0,0,0), Vector3(.8,1.5,.8));
 	spawnScenery(&mTable,Vector3(55.5,-3,43),Vector3(0,0,0), Vector3(.8,1.5,.8));
+	spawnReadable(&mBook, L"Book", nullptr,Vector3(55.5,-0.5,43),Vector3(PI/16,PI,0),Vector3(.5,.75,.5), theDog, 7.0f);
 	spawnSearchable(&mDresser,L"Dresser",a,Vector3(40,-3,11),Vector3(0,-PI/2,0), Vector3(2,2,2));
 	spawnSearchable(&mDresser,L"Dresser",nullptr,Vector3(50,-3,11),Vector3(0,-PI/2,0), Vector3(2,2,2));
 
@@ -155,7 +161,7 @@ void CanisMajor::loadSecondFloor()
 	//Table with stuff on it and chair
 	spawnSearchable(&mTable,L"Table",patKey,Vector3(5,-2.4,16),Vector3(0,PI/2,0),Vector3(1.5,1.5,1.5));
 	spawnScenery(&mChair,Vector3(4.7,-1.8,11),Vector3(1,-PI/2,0), CM::CHAIR_SCALE);
-	spawnReadable(&mBook, L"Book", nullptr,Vector3(5.0,.5,17.5),Vector3(0,PI/2,0),Vector3(.8,1,.8), L"August 20th:\nBloody hell, where have those children hidden my artifacts???");
+	spawnReadable(&mBook, L"Book", nullptr,Vector3(5.0,.5,17.5),Vector3(0,PI/2,0),Vector3(.8,1,.8),thieves);
 	spawnScenery(&mBookStack,Vector3(2.5,.5,16.8),Vector3(0,0,0),Vector3(1,1,1));
 	spawnScenery(&mBottle,Vector3(5,1,13.5),Vector3(0,0,0),Vector3(1,1,1));
 	spawnScenery(&mBottle,Vector3(2,.4,14.5),Vector3(0,0,PI/2),Vector3(1,1,1));
@@ -164,14 +170,13 @@ void CanisMajor::loadSecondFloor()
 	spawnSearchable(&mDesk,L"Desk",r3,Vector3(2,-3,47),Vector3(0,PI,0),Vector3(1,1,1));
 	spawnScenery(&mChair,Vector3(2.5,-2.6,46),Vector3(0,PI,.6), CM::CHAIR_SCALE);
 	spawnScenery(&mBookStack,Vector3(1,1,48.5),Vector3(0,0,0),Vector3(1,1,1));
-	spawnReadable(&mBook, L"Book", nullptr,Vector3(3.2,.65,45),Vector3(PI/8,PI/2,0),Vector3(.5,.75,.5), L"Scrawled in child's writing:\nDolan loves it when we hide daddy's things!\n We even hid one in his dresser.");
+	spawnReadable(&mBook, L"Book", nullptr,Vector3(3.2,.65,45),Vector3(PI/8,PI/2,0),Vector3(.5,.75,.5),arrowLoc);
 	spawnScenery(&mFixture,Vector3(1,5,51),Vector3(0,PI/2,0));
 	spawnLight(Vector3(1.3,5.3,51));
 	spawnScenery(&mTable,Vector3(6,-1.5,57),Vector3(0,0,0),Vector3(2,1,1.2));
 	spawnScenery(&mChair,Vector3(4,-3,53),Vector3(0,-PI/2,0), CM::CHAIR_SCALE);
 	spawnScenery(&mBookStack,Vector3(2,.7,55.5),Vector3(0,0,0),Vector3(1,1,1));
-	spawnReadable(&mBook, L"Book", nullptr,Vector3(2.5,1.5,56),Vector3(PI,PI/2,0),Vector3(.5,.75,.5));
-	spawnReadable(&mBook, L"Book", nullptr,Vector3(6,.3,55),Vector3(0,PI,0),Vector3(1.5,1.5,1.5));
+	spawnReadable(&mBook, L"Book", nullptr,Vector3(6,.3,55),Vector3(0,PI,0),Vector3(1.5,1.5,1.5), itemList);
 	spawnSearchable(&mBookcase,L"Bookcase",nullptr,Vector3(17,2.3,59),Vector3(0,0,0),CM::BOOKCASE_SCALE);
 	spawnSearchable(&mBookcase,L"Bookcase",nullptr,Vector3(19,2.3,43),Vector3(0,PI/2,0),CM::BOOKCASE_SCALE);
 

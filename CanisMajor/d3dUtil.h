@@ -2,7 +2,7 @@
 // d3dUtil.h by Frank Luna (C) 2008 All Rights Reserved.
 //=======================================================================================
 
-#define DEBUG
+//#define DEBUG
 
 #ifndef D3DUTIL_H
 #define D3DUTIL_H
@@ -89,6 +89,20 @@ D3DX10INLINE float RandF()
 D3DX10INLINE float RandF(float a, float b)
 {
 	return a + RandF()*(b-a);
+}
+
+// Returns random float in [a, b), by a min distance +r
+D3DX10INLINE float RandF(float a, float b, float r)
+{
+	r = abs(r);
+	float ret = a + RandF()*(b-a);
+	if(ret > -r && ret < r) {
+		if(ret < 0)
+			return -r;
+		else if(ret >= 0)
+			return r;
+	}
+	return ret;
 }
 
 // Returns random vector on the unit sphere.

@@ -15,13 +15,15 @@ void ReadableActor::interactWith(Camera* player)
 	else
 	{
 		game->setNoteText(duration, myText);
+		game->playSound(EMPTY, position);
 	}
 }
-void ReadableActor::create(Vector3 pos, Vector3 rot, Vector3 scale, Actor* item)
+void ReadableActor::create(Vector3 pos, Vector3 rot, Vector3 scale, Actor* item, float duration)
 {
 	Actor::create(pos);
 	setRotation(rot);
 	setScale(scale);
+	setDuration(duration);
 	concealedItem = item;
 	if(item!=nullptr)
 		item->isVisible = false;

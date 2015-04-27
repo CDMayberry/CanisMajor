@@ -129,7 +129,6 @@ void CanisMajor::threadInit()
 	//	L".\\textures\\book.dds",
 	//};
 	//int billboards = 16;
-	
 	//sprite.init(md3dDevice, centers2, billboards, spriteNames);
 
 	std::wstring treeNames[SpriteNS::SPRITES] = 
@@ -141,14 +140,27 @@ void CanisMajor::threadInit()
 		L".\\textures\\tree3.dds",
 	};
 
-	D3DXVECTOR3 centers3[64]; //Number of billboards placed
-	for(int i = 0; i < 64; i++) {
-		Vector3 center(45+RandF(-50,50),-15,30+RandF(-50,50));
+	D3DXVECTOR3 centers3[256]; //Number of billboards placed
+	float r = 160;
+	float xOffset = 60;
+	float zOffset = 30;
+	for(int i = 0; i < 256; i++) { //Trees centered outside the area of the house
+		float rander = RandF(90,120);
+		Vector3 center(RandF(-50,50),-15,RandF(-50,50));
+		center.y = -15;
+		Vector3 dir;
+		Normalize(&dir, &center);
+		center.x = dir.x*rander;
+		center.z = dir.z*rander;
+		center.x += xOffset;
+		center.z += zOffset;
+	
 		centers3[i] = center;
 	}
 
 	//billboards = 32;
-	trees.init(md3dDevice, centers3, 64, treeNames);
+	//Was screwing up the lighting, I need to reset something correctly.
+	//trees.init(md3dDevice, centers3, 256, treeNames);
 
 	// Spotlight--position and direction changed every frame to animate.
 	fLight.init(2);  //Flashlight
@@ -171,9 +183,9 @@ void CanisMajor::threadInit()
 	loadingStatus++; //3
 	mFrame.init(md3dDevice,".\\geometry\\pictureframe.geo");
 	loadingStatus++; //4
-	mBookcase.init(md3dDevice,".\\geometry\\bookcase.geo", L".\\textures\\medwood.dds");
+	mBookcase.init(md3dDevice,".\\geometry\\bookcase.geo", L".\\textures\\wood2.dds",true);
 	loadingStatus++; //5
-	mChair.init(md3dDevice,".\\geometry\\chair.geo", L".\\textures\\lightwood.dds");
+	mChair.init(md3dDevice,".\\geometry\\chair.geo", L".\\textures\\wood3.dds",true);
 	loadingStatus++; //6
 	mCradle.init(md3dDevice,".\\geometry\\cradle.geo", L".\\textures\\medwood.dds");
 	loadingStatus++; //7
@@ -184,7 +196,7 @@ void CanisMajor::threadInit()
 	mStaircase.init(md3dDevice,".\\geometry\\staircase.geo", L".\\textures\\lightwood.dds");
 	mStaircase.setCustomAABB(mStaircase.getAABBMin(),mStaircase.getAABBMax()+Vector3(0,10,0));
 	loadingStatus++; //10
-	mTable.init(md3dDevice,".\\geometry\\table.geo", L".\\textures\\lightwood.dds");
+	mTable.init(md3dDevice,".\\geometry\\table.geo", L".\\textures\\wood.dds",true);
 	loadingStatus++; //11
 	mBottle.init(md3dDevice,".\\geometry\\bottle.geo", L".\\textures\\bottlegreen.dds");
 	loadingStatus++; //12
@@ -202,9 +214,11 @@ void CanisMajor::threadInit()
 	loadingStatus++; //18
 	mDoor.init(md3dDevice,".\\geometry\\door.geo", L".\\textures\\gold.dds");
 	loadingStatus++; //19
-	mBox.init(md3dDevice,".\\geometry\\cardboardBox.geo", L".\\textures\\cardboard.dds");
+	mBox.init(md3dDevice,".\\geometry\\cardboardBox.geo", L".\\textures\\cardboard2.dds",true);
 	loadingStatus++; //20
-	mBook.init(md3dDevice,".\\geometry\\book.geo",L".\\textures\\paper.dds");
+	mBook.init(md3dDevice,".\\geometry\\book2.geo",L".\\textures\\book_tex.dds", true,L".\\textures\\book_spec.dds");
+	mBook2.init(md3dDevice,".\\geometry\\book3.geo",L".\\textures\\Book1.dds", true);
+	mBook3.init(md3dDevice,".\\geometry\\book4.geo",L".\\textures\\Book2.dds", true);
 	loadingStatus++; //21
 #ifndef DEBUG
 	mToilet.init(md3dDevice,".\\geometry\\toilet.geo");
@@ -226,6 +240,7 @@ void CanisMajor::threadInit()
 	}
 
 	mCube.init(md3dDevice,".\\geometry\\cube.geo", L".\\textures\\metal.dds", true);
+	mFloor.init(md3dDevice,".\\geometry\\cube2.geo",L".\\textures\\woodfloor.dds",true);
 	dog.init(this,&mDog,1.0f,Vector3(1,2,2));
 	//dog.setScale(Vector3(0.1f,5.0f,5.0f));
 	dog.setNegalight(&negaLight);
@@ -298,12 +313,16 @@ void CanisMajor::threadInit()
 	camera.create(Vector3(10,10,10),Vector3(1,0,0));
 	camera.setPerspective();
 
+	slidingBookcase.init(this,&mBookcase,1,CM::BOOKCASE_SCALE);
+
 	flashlight.toggle();
 
 #ifdef DEBUG
 	mRedCube.init(md3dDevice,".\\geometry\\cube.geo", L".\\textures\\metal.dds", true);
 	AABBHelper.init(this,&mRedCube,1);
 	AABBHelper.isActive = true;
+
+	camera.setFlashlight(&flashlight);
 #endif
 
 	camera.update(0);
@@ -313,7 +332,6 @@ void CanisMajor::threadInit()
 
 	loadingStatus++;
 	threadComplete = true;
-
 }
 
 void CanisMajor::onResize()
@@ -363,8 +381,13 @@ void CanisMajor::menuUpdate(float dt, bool reset)
 			case 1://play
 				if(state.level==SPLASH)
 					menuLoad();
-				else
+				else {
+#ifdef DEBUG		//Use this for testing a specific level
 					loadFirstFloor();
+#else				//Use this to run the full game
+					loadAttic();
+#endif
+				}
 				break;
 			case 2://quit
 				PostQuitMessage(0);
@@ -444,6 +467,8 @@ void CanisMajor::levelsUpdate(float dt)
 
 	for(int i = 0 ; i < CM::MAX_STAIRCASES; i++)
 		staircases[i].update(dt);
+
+	slidingBookcase.update(dt);
 
 	pedestal.update(dt);
 
@@ -533,6 +558,14 @@ void CanisMajor::collisions()
 		}
 	}
 
+	if(camera.isPicked(&slidingBookcase,dist)){
+		camera.setNearbyInteractable(&slidingBookcase,dist);
+	}
+	if(!slidingBookcase.getOpen() && camera.collided(&slidingBookcase))
+	{
+		camera.backUp();
+	}
+
 	for(int i = 0 ; i < CM::NUM_QUEST_ITEMS; i++)
 	{
 		if(camera.isPicked(&items[i],dist))
@@ -578,6 +611,8 @@ void CanisMajor::collisions()
 	isPlayer = true;
 	if(dog.isPicked(&camera,dist))
 		dog.setNearest(&camera,dist);
+
+
 
 }
 
@@ -692,7 +727,7 @@ void CanisMajor::levelsDraw()
 	mView = camera.getViewMatrix();
 	mProj = camera.getProjectionMatrix();
 	
-	trees.draw(camera.getPosition(), mView*mProj);
+	//trees.draw(camera.getPosition(), mView*mProj);
 
 	sky.draw(mView, mProj);
 
@@ -724,6 +759,8 @@ void CanisMajor::levelsDraw()
 	if(state.level==SECOND_FLOOR)
 		pedestal.draw(mfxWVPVar,mView,mProj,mTech);
 
+	slidingBookcase.draw(mfxWVPVar,mView,mProj,mTech);
+
 #ifdef DEBUG
 	AABBHelper.draw(mfxWVPVar,mView,mProj,mTech);
 #endif
@@ -744,9 +781,6 @@ void CanisMajor::levelsDraw()
 	//RECT r = {mClientWidth/2,mClientHeight/2,mClientWidth/2,mClientHeight/2};
 	//utilFont->DrawText(0,L"\u25CF",-1,&r,DT_NOCLIP|DT_CENTER|DT_VCENTER,WHITE);
 	//#endif
-
-
-
 }
 
 void CanisMajor::buildFX()
@@ -874,6 +908,7 @@ void CanisMajor::clearLevel()
 	dog.isActive = false;//disable dog
 	negaLight.pos = Vector3(200,200,200);
 	eyes.pos = Vector3(200,200,200);
+	slidingBookcase.isActive=false;
 }
 
 void CanisMajor::loadSplashScreen(bool status)
@@ -1062,13 +1097,13 @@ SearchableActor* CanisMajor::spawnSearchable(Geometry* g, std::wstring name, Act
 	return nullptr;
 }
 
-ReadableActor* CanisMajor::spawnReadable(Geometry* g, std::wstring name, Actor* in, Vector3 pos, Vector3 rot, Vector3 scale,  wstring text)
+ReadableActor* CanisMajor::spawnReadable(Geometry* g, std::wstring name, Actor* in, Vector3 pos, Vector3 rot, Vector3 scale,  wstring text, float dur)
 {
 	for(int i = 0 ; i < CM::MAX_READABLE_ACTORS; i++)
 	{
 		if(!readableActors[i].isActive)
 		{
-			readableActors[i].create(pos,rot,scale,in);
+			readableActors[i].create(pos,rot,scale,in,dur);
 			readableActors[i].setGeometry(g);
 			readableActors[i].setText(text);
 			readableActors[i].name = name;

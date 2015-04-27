@@ -115,6 +115,7 @@
     <ClCompile Include="SecondFloor.cpp" />
     <ClCompile Include="Sky.cpp" />
     <ClCompile Include="Attic.cpp" />
+    <ClCompile Include="SlidingBookcase.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Staircase.cpp" />
     <ClCompile Include="GUI.cpp" />
@@ -150,6 +151,7 @@
     <ClInclude Include="SearchableActor.h" />
     <ClInclude Include="sharedDefines.h" />
     <ClInclude Include="Sky.h" />
+    <ClInclude Include="SlidingBookcase.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Staircase.h" />
     <ClInclude Include="GUI.h" />
