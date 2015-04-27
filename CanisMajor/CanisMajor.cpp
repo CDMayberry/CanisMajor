@@ -185,7 +185,7 @@ void CanisMajor::threadInit()
 	loadingStatus++; //4
 	mBookcase.init(md3dDevice,".\\geometry\\bookcase.geo", L".\\textures\\wood2.dds",true);
 	loadingStatus++; //5
-	mChair.init(md3dDevice,".\\geometry\\chair.geo", L".\\textures\\lightwood.dds");
+	mChair.init(md3dDevice,".\\geometry\\chair.geo", L".\\textures\\wood.dds",true);
 	loadingStatus++; //6
 	mCradle.init(md3dDevice,".\\geometry\\cradle.geo", L".\\textures\\medwood.dds");
 	loadingStatus++; //7
