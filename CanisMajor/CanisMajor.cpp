@@ -196,7 +196,7 @@ void CanisMajor::threadInit()
 	mStaircase.init(md3dDevice,".\\geometry\\staircase.geo", L".\\textures\\lightwood.dds");
 	mStaircase.setCustomAABB(mStaircase.getAABBMin(),mStaircase.getAABBMax()+Vector3(0,10,0));
 	loadingStatus++; //10
-	mTable.init(md3dDevice,".\\geometry\\table.geo", L".\\textures\\lightwood.dds");
+	mTable.init(md3dDevice,".\\geometry\\table.geo", L".\\textures\\wood3.dds",true);
 	loadingStatus++; //11
 	mBottle.init(md3dDevice,".\\geometry\\bottle.geo", L".\\textures\\bottlegreen.dds");
 	loadingStatus++; //12
