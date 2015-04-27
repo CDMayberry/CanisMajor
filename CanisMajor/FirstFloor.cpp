@@ -109,5 +109,21 @@ void CanisMajor::loadFirstFloor()
 	spawnScenery(&mWallpanel,Vector3(103,17,45),Vector3(0,PI/2,0),Vector3(1,2.2,4.2));
 
 	//Stairwell
+	Staircase *sec = spawnStaircase(L"Upstairs",&CanisMajor::loadSecondFloor,Vector3(35,8,69),Vector3(0,PI/2,0),Vector3(2,2,1.2));
+	sec->setStateSwitch(&state,&GameState::firstFloorSairsUsed);
+	spawnScenery(&mWallpanel,Vector3(31.5,0,60),Vector3(0,0,0),CM::WALL_SCALE);
+	spawnScenery(&mWallpanel,Vector3(35,8.5,62),Vector3(0,0,PI/2),Vector3(1,2,1.5));
+	spawnScenery(&mWallpanel,Vector3(35,-4,62),Vector3(0,0,PI/2),Vector3(1,2,1.5));
 
+	//Putting crap in the level
+	//Baby room
+	spawnSearchable(&mCradle,L"Cradle",nullptr,Vector3(2.5,-3,3),Vector3(0,.4,0), Vector3(1,1,1));
+	spawnScenery(&mTable,Vector3(13,-1,4),Vector3(PI,0.2,0),Vector3(.5,.7,.4));
+	spawnScenery(&mChair,Vector3(14,-2,12),Vector3(PI/2,0.2,0),Vector3(1,1,1));
+
+	//Kid room
+	spawnSearchable(&mServantbed,L"Bed",nullptr,Vector3(5,-3,50),Vector3(0,0,0),Vector3(1,1,1.5));
+	spawnSearchable(&mServantbed,L"Bed",nullptr,Vector3(13,-3,50),Vector3(0,0,0),Vector3(1,1,1.5));
+	spawnSearchable(&mDresser,L"Dresser",nullptr,Vector3(3,-3,37),Vector3(0,-PI/2,0),Vector3(1.5,1.5,1));
+	spawnSearchable(&mDresser,L"Dresser",nullptr,Vector3(16,-3,37),Vector3(0,-PI/2,0),Vector3(1.5,1.5,1));
 }
