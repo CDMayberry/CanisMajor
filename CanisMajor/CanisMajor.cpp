@@ -185,7 +185,7 @@ void CanisMajor::threadInit()
 	loadingStatus++; //4
 	mBookcase.init(md3dDevice,".\\geometry\\bookcase.geo", L".\\textures\\wood2.dds",true);
 	loadingStatus++; //5
-	mChair.init(md3dDevice,".\\geometry\\chair.geo", L".\\textures\\wood.dds",true);
+	mChair.init(md3dDevice,".\\geometry\\chair.geo", L".\\textures\\wood3.dds",true);
 	loadingStatus++; //6
 	mCradle.init(md3dDevice,".\\geometry\\cradle.geo", L".\\textures\\medwood.dds");
 	loadingStatus++; //7
@@ -196,7 +196,7 @@ void CanisMajor::threadInit()
 	mStaircase.init(md3dDevice,".\\geometry\\staircase.geo", L".\\textures\\lightwood.dds");
 	mStaircase.setCustomAABB(mStaircase.getAABBMin(),mStaircase.getAABBMax()+Vector3(0,10,0));
 	loadingStatus++; //10
-	mTable.init(md3dDevice,".\\geometry\\table.geo", L".\\textures\\wood3.dds",true);
+	mTable.init(md3dDevice,".\\geometry\\table.geo", L".\\textures\\wood.dds",true);
 	loadingStatus++; //11
 	mBottle.init(md3dDevice,".\\geometry\\bottle.geo", L".\\textures\\bottlegreen.dds");
 	loadingStatus++; //12
