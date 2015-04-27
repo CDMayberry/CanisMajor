@@ -26,6 +26,7 @@
 #include "Sky.h"
 #include "GUI.h"
 #include "Sprite.h"
+#include "SlidingBookcase.h"
 
 using std::wstring;
 
@@ -107,7 +108,7 @@ public:
 
 	Geometry mTelescope, mDresser, mFlashlight, mFrame, mBookcase, mChair, mCradle, mMasterbed, 
 			mServantbed, mStaircase, mTable, mBottle, mLock, mPictureframe, mRail, mWallpanel,
-			mCage, mFixture, mDoor, mCube, mRoofHole,mKey, mBox, mWindowPanel, mBook,mBookStack, mDesk,
+			mCage, mFixture, mDoor, mCube, mRoofHole,mKey, mBox, mWindowPanel, mBook, mBook2, mBook3, mBookStack, mDesk,
 			mToilet, mSink, mTub, mArrow, mRing, mDog, mPedastal;
 
 
@@ -127,6 +128,8 @@ public:
 	Dog dog;
 
 	Pedestal pedestal;
+
+	SlidingBookcase slidingBookcase;
 
 	void playSound(const char* cue, Vector3 pos);
 

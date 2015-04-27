@@ -5,7 +5,8 @@
 
 Geometry.init now has 4 fields, only the first two of which are required. Here is the new init:
 
-    init(ID3D10Device* device, std::string objFile, LPCWSTR texFile = L".\\textures\\grey.dds", bool comp = false);
+    init(ID3D10Device* device, std::string objFile, LPCWSTR texFile = L".\\textures\\grey.dds", 
+    bool comp = false, LPCWSTR specFile = L".\\textures\\defaultspec.dds");
  
 the first two are the same. Like before, you pass it the device and the filename of the object, nothing changed here.
 
@@ -21,10 +22,31 @@ The issue is that if no textures are exported then the faces are exported as 'f 
 which will screw up any untextured models. By setting it to false it compensates for the // and 
 adds false texture coordinates instead. Thus an incomplete model would look like this:
 
-    mBox.init(md3dDevice,".\\geometry\\cardboardBox.geo", L".\\textures\\cardboard.dds");
+    mBox.init(md3dDevice,L".\\geometry\\cardboardBox.geo", L".\\textures\\cardboard.dds");
 
 Now, if your model is complete, you have a texture that correctly wraps the model and 
 you exported the texture coordinates with the model, then you simply pass the full 
 texture and 'true' to comp, like this:
 
-    mCube.init(md3dDevice,".\\geometry\\cube.geo", L".\\textures\\metal.dds", true);
+    mCube.init(md3dDevice,L".\\geometry\\cube.geo", L".\\textures\\metal.dds", true);
+    
+If you have a specular map for the model, you can include the file location after the bool.
+Leaving this empty will default to a blank specular map. Example:
+
+    mBook.init(md3dDevice,L".\\geometry\\book2.geo",L".\\textures\\book_tex.dds", true,
+                          L".\\textures\\book_spec.dds");
+    
+####WHAT TO DO .init FAILS ON LOADING A MODEL
+
+1. Check the model
+ * Is the string using the right name?
+ * Is the file in the correct folder?
+ * Did you export the model using only triangulate faces, normals, and UV coordinates?
+
+2. Check texture
+ * Did you unpack the model from the .blend?
+ * Did make sure to name change the extension to .dds?
+
+3. Complete model bool
+ * If your blender model was exported with textures, make sure to set this value to true.
+
