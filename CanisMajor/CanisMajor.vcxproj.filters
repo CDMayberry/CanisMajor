@@ -88,6 +88,9 @@
     <ClCompile Include="GUI.cpp">
       <Filter>Source\Util</Filter>
     </ClCompile>
+    <ClCompile Include="SlidingBookcase.cpp">
+      <Filter>Source\Game Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -191,6 +194,9 @@
     </ClInclude>
     <ClInclude Include="Vertex.h">
       <Filter>Header\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="SlidingBookcase.h">
+      <Filter>Header\Game Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

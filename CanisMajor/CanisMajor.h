@@ -26,6 +26,7 @@
 #include "Sky.h"
 #include "GUI.h"
 #include "Sprite.h"
+#include "SlidingBookcase.h"
 
 using std::wstring;
 
@@ -127,6 +128,8 @@ public:
 	Dog dog;
 
 	Pedestal pedestal;
+
+	SlidingBookcase slidingBookcase;
 
 	void playSound(const char* cue, Vector3 pos);
 

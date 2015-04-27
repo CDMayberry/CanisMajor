@@ -84,7 +84,9 @@ void CanisMajor::loadFirstFloor()
 	spawnScenery(&mWallpanel,Vector3(75,0,17.5),Vector3(0,0,0),Vector3(1,1.6,.5));
 	spawnScenery(&mWallpanel,Vector3(82.5,0,20),Vector3(0,PI/2,0),Vector3(1,1.6,1.5));
 	spawnScenery(&mWallpanel,Vector3(90,0,32.5),Vector3(0,0,0),Vector3(1,1.6,2.5));
-	spawnDoor(Vector3(90,-4.2,15.1),Vector3(0,PI,0),Vector3(2,4,2.5),nullptr);
+	//spawnDoor(Vector3(90,-4.2,15.1),Vector3(0,PI,0),Vector3(2,4,2.5),nullptr);
+	QuestItem * sbK = spawnQuestItem(&mBook,L"Book",Vector3(95,-3,20));
+	slidingBookcase.create(Vector3(91,1.2,17.4),Vector3(0,-PI/2,0),CM::BOOKCASE_SCALE+Vector3(.5,.25,0),sbK);
 
 	//North interior walls
 	spawnScenery(&mWallpanel,Vector3(87.5,0,45),Vector3(0,PI/2,0),Vector3(1,1.6,2));
