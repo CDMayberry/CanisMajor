@@ -217,6 +217,8 @@ void CanisMajor::threadInit()
 	mBox.init(md3dDevice,".\\geometry\\cardboardBox.geo", L".\\textures\\cardboard.dds");
 	loadingStatus++; //20
 	mBook.init(md3dDevice,".\\geometry\\book2.geo",L".\\textures\\book_tex.dds", true,L".\\textures\\book_spec.dds");
+	mBook2.init(md3dDevice,".\\geometry\\book3.geo",L".\\textures\\Book1.dds", true);
+	mBook3.init(md3dDevice,".\\geometry\\book4.geo",L".\\textures\\Book2.dds", true);
 	loadingStatus++; //21
 #ifndef DEBUG
 	mToilet.init(md3dDevice,".\\geometry\\toilet.geo");
