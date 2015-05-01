@@ -140,23 +140,23 @@ void CanisMajor::threadInit()
 		L".\\textures\\tree3.dds",
 	};
 
-	D3DXVECTOR3 centers3[256]; //Number of billboards placed
-	float r = 160;
-	float xOffset = 60;
-	float zOffset = 30;
-	for(int i = 0; i < 256; i++) { //Trees centered outside the area of the house
-		float rander = RandF(90,120);
-		Vector3 center(RandF(-50,50),-15,RandF(-50,50));
-		center.y = -15;
-		Vector3 dir;
-		Normalize(&dir, &center);
-		center.x = dir.x*rander;
-		center.z = dir.z*rander;
-		center.x += xOffset;
-		center.z += zOffset;
-	
-		centers3[i] = center;
-	}
+	//D3DXVECTOR3 centers3[256]; //Number of billboards placed
+	//float r = 160;
+	//float xOffset = 60;
+	//float zOffset = 30;
+	//for(int i = 0; i < 256; i++) { //Trees centered outside the area of the house
+	//	float rander = RandF(90,120);
+	//	Vector3 center(RandF(-50,50),-15,RandF(-50,50));
+	//	center.y = -15;
+	//	Vector3 dir;
+	//	Normalize(&dir, &center);
+	//	center.x = dir.x*rander;
+	//	center.z = dir.z*rander;
+	//	center.x += xOffset;
+	//	center.z += zOffset;
+	//
+	//	centers3[i] = center;
+	//}
 
 	//billboards = 32;
 	//Was screwing up the lighting, I need to reset something correctly.
@@ -430,19 +430,6 @@ void CanisMajor::menuUpdate(float dt, bool reset)
 
 void CanisMajor::levelsUpdate(float dt)
 {	
-	//static AudioData* d = audio->buildData(CLICK);
-	//static float count = 0;
-	//count+=dt;
-	//if(state.level==FIRST_FLOOR && count > 2)
-	//{
-	//	audio->playCue(d);
-	//	count=0;
-	//}
-	//else
-	//{
-	//	d->update(Vector3(0,0,0));
-	//}
-
 	gui.sprite = -1;
 	//if(state.secondFloorSairsUsed)
 		//return loadSplashScreen(true);
@@ -737,6 +724,9 @@ void CanisMajor::levelsDraw()
 	mView = camera.getViewMatrix();
 	mProj = camera.getProjectionMatrix();
 	
+	for(int i = 0; i < CM::NUM_SPRITES; i++)
+		sprites[i].draw(camera.getPosition(),mView*mProj);
+
 	//trees.draw(camera.getPosition(), mView*mProj);
 
 	sky.draw(mView, mProj);
@@ -878,6 +868,8 @@ void CanisMajor::buildVertexLayouts()
 
 void CanisMajor::clearLevel()
 {
+	for(int i=0;i<CM::NUM_SPRITES;i++)
+		sprites[i].isInit=false;
 	for(int i = 0 ; i < CM::MAX_SCENERY; i++)
 	{
 		scenery[i].isActive=false;
@@ -1160,6 +1152,30 @@ Staircase* CanisMajor::spawnStaircase(std::wstring name, LLevel func, Vector3 po
 	}
 	return nullptr;
 }
+
+Sprite* CanisMajor::spawnSprites(const D3DXVECTOR3 centers[], UINT numSprites, std::wstring filenames[], UINT numFiles)
+{
+
+	for(int i = 0 ; i < CM::NUM_SPRITES; i++)
+	{
+		if(!sprites[i].isInit)
+		{
+			sprites[i].init(md3dDevice,centers,numSprites,filenames,numFiles);
+			return &sprites[i];
+		}
+	}
+	return nullptr;
+}
+
+Sprite* CanisMajor::spawnSprite(const D3DXVECTOR3 center, std::wstring filename)
+{
+	Vector3 centers[1];
+	centers[0] = center;
+	wstring texts[1];
+	texts[0]=filename;
+	return spawnSprites(centers,1,texts,1);
+}
+
 
 #ifdef DEBUG
 void CanisMajor::updateDebugAABB(Actor* a)

@@ -51,6 +51,7 @@ namespace CM{
 	const Vector3 BOX_SCALE = Vector3(2,2,2);
 	const Vector3 CABINET_DOOR = Vector3(1,1.45,1.35);
 	const Vector3 CABINET_DOOR2 = Vector3(1,1.4,1.5);
+	const int NUM_SPRITES = 1000;
 };
 
 
@@ -195,8 +196,9 @@ public:
 	Light* spawnLight(Vector3 pos, int type = 0);
 	Light* spawnLight(Vector3 pos, Vector3 dir, int type = 0);
 	Staircase* spawnStaircase(std::wstring name, LLevel func, Vector3 pos, Vector3 rotation = Vector3(0,0,0), Vector3 scale = Vector3(1,1,1));
-
-
+	Sprite* spawnSprites(const D3DXVECTOR3 centers[], UINT numSprites, std::wstring filenames[], UINT numFiles);
+	Sprite* spawnSprite(const D3DXVECTOR3 center, std::wstring filename);
+	Sprite sprites[CM::NUM_SPRITES];
 
 #ifdef DEBUG
 	void updateDebugAABB(Actor* a);

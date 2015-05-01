@@ -23,9 +23,11 @@ public:
 	Sprite();
 	~Sprite();
 
-	void init(ID3D10Device* device, const D3DXVECTOR3 centers[], UINT numSprites, std::wstring filenames[]);
+	void init(ID3D10Device* device, const D3DXVECTOR3 centers[], UINT numSprites, std::wstring filenames[], UINT numFiles);
 	void draw(const D3DXVECTOR3& eyePosW, const D3DXMATRIX& viewProj); //Note: this draws images based on position 
-	int sprite;
+
+	bool isInit;
+
 private:
 	void buildVB(const D3DXVECTOR3 centers[]);
 	void buildFX();
@@ -35,6 +37,7 @@ private:
 private:
 
 	UINT mNumSprites;
+	UINT mNumFiles;
 
 	ID3D10Device* md3dDevice;
 	ID3D10Buffer* mVB;

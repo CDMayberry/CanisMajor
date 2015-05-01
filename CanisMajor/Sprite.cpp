@@ -4,7 +4,7 @@
 Sprite::Sprite()
 {
 	ZeroMemory(this, sizeof(Sprite));
-	sprite = -1;
+	isInit=false;
 }
 
 Sprite::~Sprite()
@@ -15,21 +15,23 @@ Sprite::~Sprite()
 	ReleaseCOM(mVertexLayout);
 }
 
-void Sprite::init(ID3D10Device* device, const D3DXVECTOR3 centers[], UINT numSprites, std::wstring filenames[])
+void Sprite::init(ID3D10Device* device, const D3DXVECTOR3 centers[], UINT numSprites, std::wstring filenames[],UINT numFiles)
 {
 	md3dDevice = device;
 
 	//changing this does not change the buildshaderresource function.
 	mNumSprites = numSprites;
-
+	mNumFiles = numFiles;
 	buildShaderResourceView(filenames);
 	buildVB(centers);
 	buildFX();
 	buildVertexLayout();
+	isInit=true;
 }
 
 void Sprite::draw(const D3DXVECTOR3& eyePosW, const D3DXMATRIX& viewProj)
 {
+	if(!isInit) return;
 	mfxEyePosVar->SetRawValue((void*)&eyePosW, 0, sizeof(D3DXVECTOR3));
 	//mfxLightVar->SetRawValue((void*)&L, 0, sizeof(Light));
 	mfxViewProjVar->SetMatrix((float*)&viewProj);
@@ -135,9 +137,9 @@ void Sprite::buildShaderResourceView(std::wstring filenames[])
 	// CPU can read the resource.
 	//
 
-	const int files = SpriteNS::SPRITES;
+	const int files = mNumFiles;//SpriteNS::SPRITES;
 
-	ID3D10Texture2D* srcTex[files];
+	ID3D10Texture2D** srcTex = new ID3D10Texture2D*[files];
 	for(UINT i = 0; i < files; ++i)
 	{
 		D3DX10_IMAGE_LOAD_INFO loadInfo;
@@ -227,4 +229,6 @@ void Sprite::buildShaderResourceView(std::wstring filenames[])
 
 	for(UINT i = 0; i < files; ++i)
 		ReleaseCOM(srcTex[i]);
+
+	delete [] srcTex;
 }
