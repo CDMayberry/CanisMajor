@@ -26,7 +26,9 @@ void CanisMajor::loadFirstFloor()
 	spawnScenery(&mWallpanel,Vector3(42,0,55),Vector3(0,PI/2,0),Vector3(1,1.6,.4));
 	spawnScenery(&mWallpanel,Vector3(40,0,62.5),Vector3(0,0,0),Vector3(1,1.6,1.5));
 	spawnScenery(&mWallpanel,Vector3(46.5,0,70),Vector3(0,PI/2,0),Vector3(1,1.6,1.25));
-	spawnScenery(&mWindowPanel,Vector3(57.5,2,70),Vector3(0,PI/2,0), CM::WALL_SCALE2);
+	spawnScenery(&mFixture,Vector3(48,4,69),Vector3(0,PI,0));
+	spawnScenery(&mFixture,Vector3(66,4,69),Vector3(0,PI,0));
+	spawnScenery(&mWallpanel,Vector3(57.5,2,70),Vector3(0,PI/2,0), CM::WALL_SCALE2);
 	spawnScenery(&mWallpanel,Vector3(68.5,0,70),Vector3(0,PI/2,0),Vector3(1,1.6,1.25));
 	spawnScenery(&mWallpanel,Vector3(75,0,62.5),Vector3(0,0,0),Vector3(1,1.6,1.5));
 	spawnScenery(&mWallpanel,Vector3(57.5,0,55),Vector3(0,PI/2,0),Vector3(1,1.6,1.7));
@@ -43,6 +45,9 @@ void CanisMajor::loadFirstFloor()
 	{
 		spawnScenery(&mWindowPanel,Vector3(120,2,35-(i*10)),Vector3(0,0,0), CM::WALL_SCALE2);
 	}
+	spawnScenery(&mFixture,Vector3(119.2,4,30),Vector3(0,-PI/2,0));
+	spawnScenery(&mFixture,Vector3(119.2,4,20),Vector3(0,-PI/2,0));
+	spawnScenery(&mFixture,Vector3(119.2,4,10),Vector3(0,-PI/2,0));
 
 	//South wall
 	spawnScenery(&mWallpanel,Vector3(91,0,0),Vector3(0,PI/2,0),Vector3(1,1.6,5.8));
@@ -103,6 +108,7 @@ void CanisMajor::loadFirstFloor()
 	spawnScenery(&mWallpanel,Vector3(37,14.6,22.5),Vector3(0,0,-1),Vector3(1,2.4,4.5));
 	spawnScenery(&mWallpanel,Vector3(47,17,0),Vector3(0,PI/2,0),Vector3(1,2,3.9));
 	spawnScenery(&mWallpanel,Vector3(47,17.7,45),Vector3(0,PI/2,0),Vector3(1,2,3.9));
+	spawnScenery(&mFixture,Vector3(47.5,8,1),Vector3(0,0,0));
 
 	//Dining Hall Ceiling
 	spawnScenery(&mWallpanel,Vector3(110,13.8,22.5),Vector3(0,0,1),Vector3(1,2.35,4.5));
@@ -122,6 +128,7 @@ void CanisMajor::loadFirstFloor()
 	spawnSearchable(&mCradle,L"Cradle",nullptr,Vector3(2.5,-3,3),Vector3(0,.4,0), Vector3(1,1,1));
 	spawnScenery(&mTable,Vector3(13,-1,4),Vector3(PI,0.2,0),Vector3(.5,.7,.4));
 	spawnScenery(&mChair,Vector3(14,-2,12),Vector3(PI/2,0.2,0),Vector3(1,1,1));
+	spawnScenery(&mFixture,Vector3(10,4,1),Vector3(0,0,0));
 
 	//Kid room
 	spawnSearchable(&mServantbed,L"Bed",nullptr,Vector3(5,-3,50),Vector3(0,0,0),Vector3(1,1,1.5));
@@ -178,5 +185,5 @@ void CanisMajor::loadFirstFloor()
 	h->setGeometry(&mCabDoor);
 	Door* i = spawnDoor(Vector3(81,-1.55,12),Vector3(PI,-3*PI/2,0),CM::CABINET_DOOR,nullptr);
 	i->setGeometry(&mCabDoor);
-
+	spawnScenery(&mFixture,Vector3(8,4,54),Vector3(0,PI,0));
 }
