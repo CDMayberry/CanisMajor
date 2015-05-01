@@ -28,6 +28,7 @@ struct GameState
 		tookFlashlight = false;
 		secondFloorSairsUsed=false;
 		secondFloorMainStairDoorUnlocked=false;
+		firstFloorSairsUsed = false;
 	}
 
 	Level level;
@@ -40,4 +41,5 @@ struct GameState
 	bool gameStarted;
 	bool tookFlashlight;
 	bool secondFloorSairsUsed;
+	bool firstFloorSairsUsed;
 };

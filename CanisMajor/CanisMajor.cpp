@@ -183,9 +183,9 @@ void CanisMajor::threadInit()
 	loadingStatus++; //3
 	mFrame.init(md3dDevice,".\\geometry\\pictureframe.geo");
 	loadingStatus++; //4
-	mBookcase.init(md3dDevice,".\\geometry\\bookcase.geo", L".\\textures\\medwood.dds");
+	mBookcase.init(md3dDevice,".\\geometry\\bookcase.geo", L".\\textures\\wood2.dds",true);
 	loadingStatus++; //5
-	mChair.init(md3dDevice,".\\geometry\\chair.geo", L".\\textures\\lightwood.dds");
+	mChair.init(md3dDevice,".\\geometry\\chair.geo", L".\\textures\\wood3.dds",true);
 	loadingStatus++; //6
 	mCradle.init(md3dDevice,".\\geometry\\cradle.geo", L".\\textures\\medwood.dds");
 	loadingStatus++; //7
@@ -196,7 +196,7 @@ void CanisMajor::threadInit()
 	mStaircase.init(md3dDevice,".\\geometry\\staircase.geo", L".\\textures\\lightwood.dds");
 	mStaircase.setCustomAABB(mStaircase.getAABBMin(),mStaircase.getAABBMax()+Vector3(0,10,0));
 	loadingStatus++; //10
-	mTable.init(md3dDevice,".\\geometry\\table.geo", L".\\textures\\lightwood.dds");
+	mTable.init(md3dDevice,".\\geometry\\table.geo", L".\\textures\\wood.dds",true);
 	loadingStatus++; //11
 	mBottle.init(md3dDevice,".\\geometry\\bottle.geo", L".\\textures\\bottlegreen.dds");
 	loadingStatus++; //12
@@ -214,7 +214,7 @@ void CanisMajor::threadInit()
 	loadingStatus++; //18
 	mDoor.init(md3dDevice,".\\geometry\\door.geo", L".\\textures\\gold.dds");
 	loadingStatus++; //19
-	mBox.init(md3dDevice,".\\geometry\\cardboardBox.geo", L".\\textures\\cardboard.dds");
+	mBox.init(md3dDevice,".\\geometry\\cardboardBox.geo", L".\\textures\\cardboard2.dds",true);
 	loadingStatus++; //20
 	mBook.init(md3dDevice,".\\geometry\\book2.geo",L".\\textures\\book_tex.dds", true,L".\\textures\\book_spec.dds");
 	mBook2.init(md3dDevice,".\\geometry\\book3.geo",L".\\textures\\Book1.dds", true);
@@ -240,6 +240,7 @@ void CanisMajor::threadInit()
 	}
 
 	mCube.init(md3dDevice,".\\geometry\\cube.geo", L".\\textures\\metal.dds", true);
+	mFloor.init(md3dDevice,".\\geometry\\cube2.geo",L".\\textures\\woodfloor.dds",true);
 	dog.init(this,&mDog,1.0f,Vector3(1,2,2));
 	//dog.setScale(Vector3(0.1f,5.0f,5.0f));
 	dog.setNegalight(&negaLight);
@@ -273,6 +274,16 @@ void CanisMajor::threadInit()
 	mRing.init(md3dDevice,".\\geometry\\ring.geo", L".\\textures\\gold.dds");
 	loadingStatus++;
 	mPedastal.init(md3dDevice,".\\geometry\\pedastal.geo");
+	loadingStatus++;
+	mStove.init(md3dDevice,".\\geometry\\wood_stove.geo",L".\\textures\\metal.dds");
+	loadingStatus++;
+	mCounter.init(md3dDevice,".\\geometry\\counter.geo");
+	loadingStatus++;
+	mSinkCounter.init(md3dDevice,".\\geometry\\counter_sink.geo");
+	loadingStatus++;
+	mCabinet.init(md3dDevice,".\\geometry\\cabinet.geo",L".\\textures\\wood2.dds");
+	loadingStatus++;
+	mCabDoor.init(md3dDevice,".\\geometry\\CabDoor.geo",L".\\textures\\wood3.dds");
 	loadingStatus++;
 	pedestal.init(this,&mPedastal);
 	pedestal.collisionType = AABBox;
@@ -460,7 +471,7 @@ void CanisMajor::levelsUpdate(float dt)
 
 	//for initial sound effect with howling door
 	if(!howl && doors[0].getOpen()) {
-		audio->playCue(HOWL);
+		audio->playCue(BIRM);
 		howl = true;
 	}
 
