@@ -94,7 +94,7 @@ void CanisMajor::loadFirstFloor()
 
 	//Ceiling
 	spawnScenery(&mWallpanel,Vector3(15,8,25),Vector3(0,0,PI/2),Vector3(1,3,6));
-	spawnScenery(&mWallpanel,Vector3(70,8,50),Vector3(0,0,PI/2),Vector3(1,9.8,1));
+	spawnScenery(&mWallpanel,Vector3(70,8,50),Vector3(0,0,PI/2),Vector3(1,10,1));
 	spawnScenery(&mWallpanel,Vector3(57.5,8,62.5),Vector3(0,0,PI/2),Vector3(1,3.5,1.5));
 	spawnScenery(&mWallpanel,Vector3(77.5,8,23),Vector3(0,0,PI/2),Vector3(1,2.5,5));
 
@@ -102,7 +102,7 @@ void CanisMajor::loadFirstFloor()
 	spawnScenery(&mWallpanel,Vector3(57,14.6,22.5),Vector3(0,0,1),Vector3(1,2.4,4.5));
 	spawnScenery(&mWallpanel,Vector3(37,14.6,22.5),Vector3(0,0,-1),Vector3(1,2.4,4.5));
 	spawnScenery(&mWallpanel,Vector3(47,17,0),Vector3(0,PI/2,0),Vector3(1,2,3.9));
-	spawnScenery(&mWallpanel,Vector3(47,17,45),Vector3(0,PI/2,0),Vector3(1,2,3.9));
+	spawnScenery(&mWallpanel,Vector3(47,17.7,45),Vector3(0,PI/2,0),Vector3(1,2,3.9));
 
 	//Dining Hall Ceiling
 	spawnScenery(&mWallpanel,Vector3(110,13.8,22.5),Vector3(0,0,1),Vector3(1,2.35,4.5));
@@ -128,4 +128,55 @@ void CanisMajor::loadFirstFloor()
 	spawnSearchable(&mServantbed,L"Bed",nullptr,Vector3(13,-3,50),Vector3(0,0,0),Vector3(1,1,1.5));
 	spawnSearchable(&mDresser,L"Dresser",nullptr,Vector3(3,-3,37),Vector3(0,-PI/2,0),Vector3(1.5,1.5,1));
 	spawnSearchable(&mDresser,L"Dresser",nullptr,Vector3(16,-3,37),Vector3(0,-PI/2,0),Vector3(1.5,1.5,1));
+
+	//Bathroom
+
+	//Kitchen
+	spawnScenery(&mStove,Vector3(85,-3.5,1.2),Vector3(0,0,0),Vector3(1.7,2,1.6));
+
+	spawnScenery(&mSinkCounter,Vector3(77,-0.9,1.5),Vector3(0,-PI/2,0),Vector3(2,2.05,2));
+	Door* j = spawnDoor(Vector3(74.7,-7,3.6),Vector3(PI,-PI/2,0),CM::CABINET_DOOR2,nullptr);
+	j->setGeometry(&mCabDoor);
+	Door* l = spawnDoor(Vector3(77.7,-7,3.6),Vector3(PI,-PI/2,0),CM::CABINET_DOOR2,nullptr);
+	l->setGeometry(&mCabDoor);
+
+	spawnScenery(&mCounter,Vector3(69,-0.9,1.5),Vector3(0,-PI/2,0),Vector3(2,2.05,2));
+	Door* m = spawnDoor(Vector3(69.5,-7,3.6),Vector3(PI,-PI/2,0),CM::CABINET_DOOR2,nullptr);
+	m->setGeometry(&mCabDoor);
+	Door* n = spawnDoor(Vector3(66.3,-7,3.6),Vector3(PI,-PI/2,0),CM::CABINET_DOOR2,nullptr);
+	n->setGeometry(&mCabDoor);
+	
+	//South cabinets
+	for(int i = 75; i>66;i-=2)
+		spawnScenery(&mCabinet,Vector3(i,4.5,1),Vector3(0,-PI/2,0),Vector3(1,1,1));
+	Door* a = spawnDoor(Vector3(74,-1.55,2),Vector3(PI,-PI/2,0),CM::CABINET_DOOR,nullptr);
+	a->setGeometry(&mCabDoor);
+	Door* b = spawnDoor(Vector3(72,-1.55,2),Vector3(PI,-PI/2,0),CM::CABINET_DOOR,nullptr);
+	b->setGeometry(&mCabDoor);
+	Door* c = spawnDoor(Vector3(70,-1.55,2),Vector3(PI,-PI/2,0),CM::CABINET_DOOR,nullptr);
+	c->setGeometry(&mCabDoor);
+	Door* d = spawnDoor(Vector3(68,-1.55,2),Vector3(PI,-PI/2,0),CM::CABINET_DOOR,nullptr);
+	d->setGeometry(&mCabDoor);
+	Door* e = spawnDoor(Vector3(66,-1.55,2),Vector3(PI,-PI/2,0),CM::CABINET_DOOR,nullptr);
+	e->setGeometry(&mCabDoor);
+
+	spawnScenery(&mCounter,Vector3(83,-0.9,12.5),Vector3(0,PI/2,0),Vector3(2,2.05,2));
+	Door* o = spawnDoor(Vector3(82.55,-7,10.5),Vector3(PI,-3*PI/2,0),CM::CABINET_DOOR2,nullptr);
+	o->setGeometry(&mCabDoor);
+	Door* p = spawnDoor(Vector3(85.7,-7,10.5),Vector3(PI,-3*PI/2,0),CM::CABINET_DOOR2,nullptr);
+	p->setGeometry(&mCabDoor);
+
+	//North cabinets
+	for(int i = 86; i>79;i-=2)
+		spawnScenery(&mCabinet,Vector3(i,4.5,13),Vector3(0,PI/2,0),Vector3(1,1,1));
+
+	Door* f = spawnDoor(Vector3(87,-1.55,12),Vector3(PI,-3*PI/2,0),CM::CABINET_DOOR,nullptr);
+	f->setGeometry(&mCabDoor);
+	Door* g = spawnDoor(Vector3(85,-1.55,12),Vector3(PI,-3*PI/2,0),CM::CABINET_DOOR,nullptr);
+	g->setGeometry(&mCabDoor);
+	Door* h = spawnDoor(Vector3(83,-1.55,12),Vector3(PI,-3*PI/2,0),CM::CABINET_DOOR,nullptr);
+	h->setGeometry(&mCabDoor);
+	Door* i = spawnDoor(Vector3(81,-1.55,12),Vector3(PI,-3*PI/2,0),CM::CABINET_DOOR,nullptr);
+	i->setGeometry(&mCabDoor);
+
 }

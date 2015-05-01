@@ -275,6 +275,16 @@ void CanisMajor::threadInit()
 	loadingStatus++;
 	mPedastal.init(md3dDevice,".\\geometry\\pedastal.geo");
 	loadingStatus++;
+	mStove.init(md3dDevice,".\\geometry\\wood_stove.geo",L".\\textures\\metal.dds");
+	loadingStatus++;
+	mCounter.init(md3dDevice,".\\geometry\\counter.geo");
+	loadingStatus++;
+	mSinkCounter.init(md3dDevice,".\\geometry\\counter_sink.geo");
+	loadingStatus++;
+	mCabinet.init(md3dDevice,".\\geometry\\cabinet.geo",L".\\textures\\wood2.dds");
+	loadingStatus++;
+	mCabDoor.init(md3dDevice,".\\geometry\\CabDoor.geo",L".\\textures\\wood3.dds");
+	loadingStatus++;
 	pedestal.init(this,&mPedastal);
 	pedestal.collisionType = AABBox;
 
@@ -461,7 +471,7 @@ void CanisMajor::levelsUpdate(float dt)
 
 	//for initial sound effect with howling door
 	if(!howl && doors[0].getOpen()) {
-		audio->playCue(HOWL);
+		audio->playCue(BIRM);
 		howl = true;
 	}
 

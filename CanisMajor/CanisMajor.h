@@ -49,6 +49,8 @@ namespace CM{
 	const int MAX_READABLE_ACTORS = 100;
 	const Vector3 CHAIR_SCALE = Vector3(2,2,1.7);
 	const Vector3 BOX_SCALE = Vector3(2,2,2);
+	const Vector3 CABINET_DOOR = Vector3(1,1.45,1.35);
+	const Vector3 CABINET_DOOR2 = Vector3(1,1.4,1.5);
 };
 
 
@@ -109,7 +111,7 @@ public:
 	Geometry mTelescope, mDresser, mFlashlight, mFrame, mBookcase, mChair, mCradle, mMasterbed, 
 			mServantbed, mStaircase, mTable, mBottle, mLock, mPictureframe, mRail, mWallpanel,
 			mCage, mFixture, mDoor, mCube, mRoofHole,mKey, mBox, mWindowPanel, mBook, mBook2, mBook3, mBookStack, mDesk,
-			mToilet, mSink, mTub, mArrow, mRing, mDog, mPedastal, mFloor;
+			mToilet, mSink, mTub, mArrow, mRing, mDog, mPedastal, mFloor,mStove, mCounter, mSinkCounter, mCabinet, mCabDoor;
 
 
 	Origin origin;
