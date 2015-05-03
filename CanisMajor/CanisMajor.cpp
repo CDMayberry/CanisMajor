@@ -579,6 +579,11 @@ void CanisMajor::collisions()
 
 	for(int i = 0 ; i < CM::MAX_SCENERY;i++)
 	{
+
+		if(camera.isPicked(&scenery[i],dist)){
+			camera.setNearbyInteractable(nullptr,dist);
+		}
+
 		if(camera.collided(&scenery[i]))
 		{
 			camera.backUp();

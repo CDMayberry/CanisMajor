@@ -272,13 +272,16 @@ void Camera::setNearbyInteractable(Interactable* i, float dist)
 	if(distToInteractable > dist)
 	{
 		distToInteractable = dist;
-
 		if(nearbyItem!=nullptr)
 			nearbyItem->targeted = false;
 
 		nearbyItem = i;
-		nearbyItem->targeted = true;
-		game->gui.sprite = i->sprite;
+		if(i!=nullptr)
+		{
+			nearbyItem->targeted = true;
+			game->gui.sprite = i->sprite;
+		}
+		else game->gui.sprite = -1;
 	}
 }
 void Camera::resetNearbyInteractable()
