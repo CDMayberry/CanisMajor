@@ -8,6 +8,11 @@ void CanisMajor::loadFirstFloor()
 	camera.setPosition(Vector3(35,0,55));
 	QuestItem *k=nullptr;
 	k=spawnQuestItem(&mKey,L"Obscure Key",Vector3(15,2,-5),Vector3(0,0,0),Vector3(4,4,4));
+
+	dog.isActive = true;
+	dog.setPosition(Vector3(47,0,14));
+	dog.setTargetWPStage(1);
+
 	//floor
 	spawnScenery(&mCube,Vector3(60,-4,27.5),Vector3(0,0,0),Vector3(60,1,27.5));
 	spawnScenery(&mCube,Vector3(57.5,-4,62.5),Vector3(0,0,0),Vector3(17.5,1,7.5));
