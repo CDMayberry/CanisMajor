@@ -52,6 +52,7 @@ namespace CM{
 	const Vector3 CABINET_DOOR = Vector3(1,1.45,1.35);
 	const Vector3 CABINET_DOOR2 = Vector3(1,1.4,1.5);
 	const int NUM_SPRITES = 1000;
+	const int NUM_BOLTS = 100;
 };
 
 
@@ -112,7 +113,7 @@ public:
 	Geometry mTelescope, mDresser, mFlashlight, mFrame, mBookcase, mChair, mCradle, mMasterbed, 
 			mServantbed, mStaircase, mTable, mBottle, mLock, mPictureframe, mRail, mWallpanel,
 			mCage, mFixture, mDoor, mCube, mRoofHole,mKey, mBox, mWindowPanel, mBook, mBook2, mBook3, mBookStack, mDesk,
-			mToilet, mSink, mTub, mArrow, mRing, mDog, mPedastal, mFloor,mStove, mCounter, mSinkCounter, mCabinet, mCabDoor;
+			mToilet, mSink, mTub, mArrow, mRing, mDog, mPedastal, mFloor,mStove, mCounter, mSinkCounter, mCabinet, mCabDoor,mStaff,mSphere;
 
 
 	Origin origin;
@@ -128,6 +129,7 @@ public:
 
 
 	Flashlight flashlight;
+	Staff staff;
 	Dog dog;
 
 	Pedestal pedestal;
@@ -199,6 +201,8 @@ public:
 	Sprite* spawnSprites(const D3DXVECTOR3 centers[], UINT numSprites, std::wstring filenames[], UINT numFiles);
 	Sprite* spawnSprite(const D3DXVECTOR3 center, std::wstring filename);
 	Sprite sprites[CM::NUM_SPRITES];
+	Actor bolts[CM::NUM_BOLTS];
+	Actor* spawnBolt(Vector3 pos, Vector3 vel);
 
 #ifdef DEBUG
 	void updateDebugAABB(Actor* a);

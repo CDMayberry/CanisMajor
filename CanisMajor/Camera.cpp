@@ -19,6 +19,7 @@ Camera::Camera()
 	shakeTimer = 0;
 	flashlight=nullptr;
 	nearbyItem = nullptr;
+	staff = nullptr;
 }
 
 Camera::~Camera()
@@ -200,8 +201,16 @@ void Camera::update(float dt)
 
 	if(flashlight!=nullptr)
 	{
-		flashlight->setPosition(position-(flashHeight*0.3*up)+(0.2*forward)-(0.3*right));
+		flashlight->setPosition(getPosition()-(flashHeight*0.3*up)+(0.2*forward)-(0.3*right));
 		flashlight->setDirection(direction);
+	}
+
+	if(staff!=nullptr){
+		staff->setPosition(getPosition()-(flashHeight*up)+0.4*right);
+		staff->setDirection(direction);
+
+		if(GetAsyncKeyState(controls.fire))
+			staff->fireBolt();
 	}
 	
 	nearbyItem=nullptr;

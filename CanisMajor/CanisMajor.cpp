@@ -38,6 +38,7 @@ CanisMajor::CanisMajor(HINSTANCE hInstance)
 	controls.crouch = VK_CONTROL;
 	controls.run = VK_SHIFT;
 	controls.recharge = 'R';
+	controls.fire = VK_RBUTTON;
 
 	//Camera Object
 	camera.init(this,&mCube,controls);
@@ -289,6 +290,11 @@ void CanisMajor::threadInit()
 	pedestal.init(this,&mPedastal);
 	pedestal.collisionType = AABBox;
 
+	mStaff.init(md3dDevice,".\\geometry\\staff.geo",L".\\textures\\gold.dds");
+	staff.init(this,&mStaff);
+	loadingStatus++;
+	mSphere.init(md3dDevice,".\\geometry\\sphere.geo",L".\\textures\\white.bmp");
+	loadingStatus++;
 	for(int i = 0 ; i < CM::NUM_QUEST_ITEMS; i++)
 	{
 		items[i].init(this,&mCube,1);
@@ -319,6 +325,12 @@ void CanisMajor::threadInit()
 	{
 		staircases[i].init(this,&mStaircase,10);
 		staircases[i].collisionType=AABBox;
+	}
+	loadingStatus++;
+	for(int i = 0; i < CM::NUM_BOLTS; i++){
+		bolts[i].init(this,&mSphere);
+		bolts[i].collisionType=SPHERE;
+		bolts[i].setScale(Vector3(.5,.5,.5));
 	}
 	loadingStatus++;
 	camera.create(Vector3(10,10,10),Vector3(1,0,0));
@@ -474,7 +486,13 @@ void CanisMajor::levelsUpdate(float dt)
 
 	flashlight.update(dt);
 
+	staff.update(dt);
+
 	dog.update(dt);
+
+	for(int i = 0 ; i < CM::NUM_BOLTS; i++)
+		if(bolts[i].isActive)
+			bolts[i].update(dt);
 
 	updateStoryText(dt);
 	updateNoteText(dt);
@@ -578,6 +596,11 @@ void CanisMajor::collisions()
 		camera.setNearbyInteractable(&flashlight,dist);
 	}
 
+	if(!camera.hasStaff()&&camera.isPicked(&staff,dist))
+	{
+		camera.setNearbyInteractable(&staff,dist);
+	}
+
 	for(int i = 0 ; i < CM::MAX_SCENERY;i++)
 	{
 
@@ -616,7 +639,31 @@ void CanisMajor::collisions()
 		dog.setNearest(&camera,dist);
 
 
-
+	//BOLTS
+	for(int i = 0; i<CM::NUM_BOLTS;i++)
+	{
+		if(bolts[i].isActive)
+		{
+			for(int j = 0; j<CM::MAX_SCENERY;j++)
+			{
+				if(bolts[i].collided(&scenery[j]))
+				{
+					bolts[i].isActive = false;
+					break;
+				}
+			}
+		}
+		if(bolts[i].isActive){
+			for(int j = 0 ; j < CM::MAX_DOORS; j++)
+			{
+				if(!doors[j].getOpen() && bolts[i].collided(&doors[j]))
+				{
+					bolts[i].isActive = false;
+					break;
+				}
+			}
+		}
+	}
 }
 
 void CanisMajor::drawScene()
@@ -761,7 +808,10 @@ void CanisMajor::levelsDraw()
 	}
 	for(int i = 0 ; i < CM::MAX_STAIRCASES; i++)
 		staircases[i].draw(mfxWVPVar,mView,mProj,mTech);
+	for(int i = 0 ; i < CM::NUM_BOLTS; i++)
+		bolts[i].draw(mfxWVPVar,mView,mProj,mTech);
 	flashlight.draw(mfxWVPVar,mView,mProj,mTech);
+	staff.draw(mfxWVPVar,mView,mProj,mTech);
 	if(state.level==SECOND_FLOOR)
 		pedestal.draw(mfxWVPVar,mView,mProj,mTech);
 
@@ -905,6 +955,10 @@ void CanisMajor::clearLevel()
 		staircases[i].isActive=false;
 		staircases[i].reset();
 	}
+	for(int i = 0 ; i < CM::NUM_BOLTS; i++)
+	{
+		bolts[i].isActive=false;
+	}
 	for(int i = 0; i < MAX_LIGHTS; i++) {
 		rLights[i].init();
 		lightType[i] = 0;
@@ -913,6 +967,7 @@ void CanisMajor::clearLevel()
 	pedestal.isActive = false;
 	pedestal.reset();
 	flashlight.isActive = false;
+	staff.isActive=false;
 	dog.isActive = false;//disable dog
 	negaLight.pos = Vector3(200,200,200);
 	eyes.pos = Vector3(200,200,200);
@@ -1154,6 +1209,20 @@ Staircase* CanisMajor::spawnStaircase(std::wstring name, LLevel func, Vector3 po
 			staircases[i].create(pos,rotation,scale);
 			staircases[i].setLLevel(func,name);
 			return &staircases[i];
+		}
+	}
+	return nullptr;
+}
+
+Actor* CanisMajor::spawnBolt(Vector3 pos, Vector3 vel)
+{
+	for(int i = 0 ; i < CM::NUM_BOLTS; i++)
+	{
+		if(!bolts[i].isActive)
+		{
+			bolts[i].create(pos);
+			bolts[i].setVelocity(vel);
+			return &bolts[i];
 		}
 	}
 	return nullptr;

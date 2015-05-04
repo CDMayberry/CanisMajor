@@ -53,4 +53,5 @@ const char EMPTY[] = "empty"; //Caelan
 const char LOW_GROWL[] = "lowGrowl";//Justin
 const char BARKING[] = "dogBarking"; //Justin
 const char BIRM[] = "birimingham";//Zared
+const char MAGIC_MISSILE[] = "magicMissile";//Justin
 #endif
