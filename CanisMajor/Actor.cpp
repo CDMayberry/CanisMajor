@@ -123,7 +123,7 @@ bool Actor::collided(Actor *gameObject)
 		{
 			Vector3 min = gameObject->getGeometry()->getAABBMin(), max=gameObject->getGeometry()->getAABBMax();
 			
-			transformAABB(min,max);
+			gameObject->transformAABB(min,max);
 
 			//if the point is closet than the radius
 			return radius*radius >= SquaredDistPointAABB(getPosition(),min,max);

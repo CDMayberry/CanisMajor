@@ -116,9 +116,7 @@ void CanisMajor::loadFirstFloor()
 	spawnScenery(&mWallpanel,Vector3(103,17,0),Vector3(0,PI/2,0),Vector3(1,2.2,4.2));
 	spawnScenery(&mWallpanel,Vector3(103,17,45),Vector3(0,PI/2,0),Vector3(1,2.2,4.2));
 
-	Vector3 locs[] = {Vector3(105,12.5,18), Vector3(105,12.5,28), Vector3(105,12.5,8)};
-	wstring str[] = {L".\\textures\\chandelier.png"};
-	spawnSprites(locs,3,str,1);
+	spawnSprite(Vector3(105,12.5,28),L".\\textures\\chandelier.png");
 
 	//Stairwell
 	Staircase *sec = spawnStaircase(L"Upstairs",&CanisMajor::loadSecondFloor,Vector3(35,8,69),Vector3(0,PI/2,0),Vector3(2,2,1.2));
@@ -191,5 +189,6 @@ void CanisMajor::loadFirstFloor()
 	i->setGeometry(&mCabDoor);
 	spawnScenery(&mFixture,Vector3(8,4,54),Vector3(0,PI,0));
 
+	staff.create(Vector3(77,0,17));
 	
 }

@@ -5,6 +5,13 @@ class Camera;
 namespace interactableNS
 {
 	const float INTERACTION_RADIUS_SQ = 36;
+	const int HAND_SPRITE = 0;
+	const int BOOK_SPRITE = 1;
+	const int MAGNIFY_SPRITE = 2;
+	const int DOOR_SPRITE = 3;
+	const int ARROW_SPRITE = 4;
+	const int DOWN_SPRITE = 5;
+
 };
 
 class Interactable

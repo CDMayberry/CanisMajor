@@ -13,6 +13,7 @@
 #include "Flashlight.h"
 #include "Interactable.h"
 #include "QuestItem.h"
+#include "Staff.h"
 
 namespace CameraNS
 {
@@ -52,6 +53,7 @@ public:
 	virtual bool collided(Actor *gameObject);
 
 	bool hasFlashlight(){return flashlight!=nullptr;};
+	bool hasStaff(){return staff!=nullptr;}
 
 	bool isPicked(Actor* o, float &distance);
 	void setNearbyInteractable(Interactable* i, float dist);
@@ -71,7 +73,7 @@ public:
 	void setFoV(float fov){FoV = fov;}
 	void setPerspective();
 	void setFlashlight(Flashlight* f) {flashlight = f;}
-
+	void setStaff(Staff* f) {staff = f;}
 	void addItem(QuestItem* k);
 	bool checkItem(QuestItem* k);
 	void removeItem(QuestItem* k);
@@ -94,6 +96,8 @@ private:
 	Vector3 right;
 	float bobTimer, walkTimer, shakeTimer;
 	Flashlight* flashlight;
+	Staff* staff;
+
 	float camHeight;
 	float flashHeight;
 	Interactable* nearbyItem;
