@@ -6,7 +6,7 @@
 namespace staffNS{
 	const float BOLT_COOLDOWN = .5;
 	const float BOLT_SPEED = 40;
-	const Vector3 FIRE_OFFSET(0,2,0);
+	const Vector3 FIRE_OFFSET(0,1,0);
 };
 
 class Staff: public virtual Actor, public virtual Interactable{

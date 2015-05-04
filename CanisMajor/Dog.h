@@ -3,6 +3,7 @@
 
 #include "Actor.h"
 #include "Light.h"
+#include "QuestItem.h"
 
 namespace dogNS{
 	const float WALK_SPEED = 7.0;
@@ -26,7 +27,10 @@ public:
 	void setNearest(Actor* isPlayer, float distance);
 	void setTargetWPStage(int s){TargetWPStage = s;}
 	Vector3 getDirection(){return direction;}
+	void giveItem(QuestItem* q){heldItem=q;}
+	void onDeath();
 private:
+	QuestItem* heldItem;
 	bool isGrowling;
 	void targetClosestWaypoint();
 	int TargetWaypoint;//waypoint the dog is traveling to. set to -1 if tracking player

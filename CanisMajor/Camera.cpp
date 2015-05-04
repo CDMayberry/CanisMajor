@@ -206,7 +206,7 @@ void Camera::update(float dt)
 	}
 
 	if(staff!=nullptr){
-		staff->setPosition(getPosition()-(flashHeight*up)+0.4*right);
+		staff->setPosition(getPosition()-(up)+0.4*right);
 		staff->setDirection(direction);
 
 		if(GetAsyncKeyState(controls.fire))

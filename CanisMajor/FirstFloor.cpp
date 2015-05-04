@@ -12,6 +12,7 @@ void CanisMajor::loadFirstFloor()
 	dog.isActive = true;
 	dog.setPosition(Vector3(47,0,14));
 	dog.setTargetWPStage(1);
+	dog.giveItem(k);
 
 	//floor
 	spawnScenery(&mCube,Vector3(60,-4,27.5),Vector3(0,0,0),Vector3(60,1,27.5));

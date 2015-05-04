@@ -231,3 +231,12 @@ void Dog::resetNearest()
 	playerNearby=nullptr;
 	distToNearestObj=dogNS::AGRO_DIST;
 }
+
+void Dog::onDeath(){
+	isActive=false;
+	negalight->pos = rEyes->pos = Vector3(1000,1000,1000);
+	
+	if(heldItem!=nullptr){
+		heldItem->setPosition(getPosition());
+	}
+}
