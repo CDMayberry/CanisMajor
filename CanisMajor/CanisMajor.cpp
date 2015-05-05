@@ -40,6 +40,8 @@ CanisMajor::CanisMajor(HINSTANCE hInstance)
 	controls.recharge = 'R';
 	controls.fire = VK_RBUTTON;
 
+	birminghamMode=false;
+
 	//Camera Object
 	camera.init(this,&mCube,controls);
 
@@ -395,6 +397,11 @@ void CanisMajor::menuUpdate(float dt, bool reset)
 		isKeyDown = true;
 	}
 
+	if(GetAsyncKeyState('D')&&GetAsyncKeyState('R')&&GetAsyncKeyState('B')){
+		birminghamMode=true;
+		menuText[1]=L"BIRMINGHAM MODE";
+	}
+
 	if(GetAsyncKeyState(VK_RETURN)||GetAsyncKeyState(' '))
 	{ 
 		if(!isKeyDown)
@@ -405,6 +412,7 @@ void CanisMajor::menuUpdate(float dt, bool reset)
 				if(state.level==SPLASH)
 					menuLoad();
 				else {
+					audio->playCue(BG);
 #ifdef _DEBUG		//Use this for testing a specific level
 					loadFirstFloor();
 #else				//Use this to run the full game
@@ -501,7 +509,7 @@ void CanisMajor::levelsUpdate(float dt)
 
 	static float victoryTimer = 0;
 	const float VICTORY_TIME = 3;
-	if(camera.getPosition().z<0)
+	if(state.level==FIRST_FLOOR && camera.getPosition().z<0)
 	{
 		victoryTimer+=dt;
 		gui.sprite=6;//large white
@@ -618,9 +626,9 @@ void CanisMajor::collisions()
 	for(int i = 0 ; i < CM::MAX_SCENERY;i++)
 	{
 
-		if(camera.isPicked(&scenery[i],dist)){
+	/*	if(camera.isPicked(&scenery[i],dist)){
 			camera.setNearbyInteractable(nullptr,dist);
-		}
+		}*/
 
 		if(camera.collided(&scenery[i]))
 		{
@@ -950,6 +958,7 @@ void CanisMajor::buildVertexLayouts()
 
 void CanisMajor::clearLevel()
 {
+	camera.clearInventory();
 	for(int i=0;i<CM::NUM_SPRITES;i++)
 		sprites[i].isInit=false;
 	for(int i = 0 ; i < CM::MAX_SCENERY; i++)
@@ -1022,6 +1031,8 @@ void CanisMajor::menuLoad()
 	clearLevel();
 	menuUpdate(0,true);
 
+	birminghamMode = false;
+
 	menuText[0] = L"CANIS MAJOR";
 	menuText[1] = L"PLAY";
 	menuText[2] = L"QUIT";
@@ -1037,7 +1048,8 @@ void CanisMajor::loadBasement()
 
 void CanisMajor::onPlayerDeath()
 {
-	loadSplashScreen(false);
+	if(!birminghamMode)
+		loadSplashScreen(false);
 }
 
 //calling with s defined sets, calling without clears

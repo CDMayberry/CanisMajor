@@ -54,6 +54,7 @@ const char LOW_GROWL[] = "lowGrowl";//Justin
 const char BARKING[] = "dogBarking"; //Justin
 const char BIRM[] = "birimingham";//Zared
 const char MAGIC_MISSILE[] = "magicMissile";//Justin
-const char GIGGLE1[] = "giggle1";
-const char CRYING[] = "crying";
+const char GIGGLE1[] = "giggle1"; //Caelan
+const char GIGGLE2[] = "giggle2"; //Caelan
+const char CRYING[] = "crying"; //Caelan
 #endif

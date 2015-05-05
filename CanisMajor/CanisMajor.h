@@ -39,12 +39,12 @@ namespace CM{
 	const int MAX_SCENERY = 1000;
 	const Vector3 WALL_SCALE = Vector3(1,1.6,1);
 	const Vector3 WALL_SCALE2 = Vector3(1,1.2,1);
-	const float ROOF_SCALE = 3.8;
+	const float ROOF_SCALE = 3.8f;
 	const Vector3 BOOKCASE_SCALE = Vector3(2.5, 5, 2);
 	const int NUM_QUEST_ITEMS=100;
 	const int MAX_DOORS=100;
 	const int MAX_STAIRCASES = 10;
-	const float INTERACTION_RADIUS_SQ=36;
+	const float INTERACTION_RADIUS_SQ=36.0f;
 	const int MAX_SEARCHABLE_ACTORS = 1000;
 	const int MAX_READABLE_ACTORS = 100;
 	const Vector3 CHAIR_SCALE = Vector3(2,2,1.7);
@@ -141,6 +141,8 @@ public:
 	//EVERTHING PUBLIC BELOW THIS IS FOR TESTING
 	Vector3 pos;
 
+	bool birminghamMode;
+
 #ifdef _DEBUG
 	Geometry mRedCube;
 	Actor AABBHelper;
@@ -183,6 +185,7 @@ public:
 	ID3D10EffectScalarVariable* mfxActiveLights;
 	ID3D10EffectScalarVariable* mfxLightType[MAX_LIGHTS];
 
+	
 
 	Actor* scenery;
 	SearchableActor* searchableActors;

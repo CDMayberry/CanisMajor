@@ -18,22 +18,22 @@
 namespace CameraNS
 {
 	const float INTERACTION_RADIUS_SQ = 64;
-	const float NEAR_CLIPPING_DIST = 0.1;
+	const float NEAR_CLIPPING_DIST = 0.1f;
 	const float FAR_CLIPPING_DIST = 100;//originally 1000
 	const float SPEED = 10;
 	const float RUN_SPEED = 30;
 	const float CROUCH_SPEED = 5;
-	const float MOUSE_MOVE_RATE = 0.001;
-	const float DEFAULT_BOB_AMPLITUDE = 0.3;
-	const float RUN_BOB_AMPLITUDE = 0.6;
-	const float CROUCH_BOB_AMPLITUDE = 0.3;
+	const float MOUSE_MOVE_RATE = 0.001f;
+	const float DEFAULT_BOB_AMPLITUDE = 0.3f;
+	const float RUN_BOB_AMPLITUDE = 0.6f;
+	const float CROUCH_BOB_AMPLITUDE = 0.3f;
 	const float DEFAULT_HEIGHT = 3;
 	const float CROUCH_HEIGHT = 1;
 	const float BOB_FREQUENCY = 6;//bobs per 2PI
 	const float SQUAT_SPEED = 10;
 	const float COLISION_RADIUS = 3;
-	const float RUN_TIME = .598;
-	const float WALK_TIME = .340;
+	const float RUN_TIME = .598f;
+	const float WALK_TIME = .340f;
 	const float SHAKE_SPEED = 8;
 };
 
