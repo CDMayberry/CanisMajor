@@ -27,6 +27,7 @@ Camera::~Camera()
 	delete [] items;
 }
 void Camera::reset(){flashlight=nullptr;for(int i = 0 ; i < CM::NUM_QUEST_ITEMS; i++){items[i]=nullptr;} staff=nullptr;}
+void Camera::clearInventory(){for(int i = 0 ; i < CM::NUM_QUEST_ITEMS; i++){items[i]=nullptr;}};
 
 void Camera::init(CanisMajor* game,Geometry* geo, Controls c)
 {

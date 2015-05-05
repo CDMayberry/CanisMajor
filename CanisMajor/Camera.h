@@ -19,7 +19,7 @@ namespace CameraNS
 {
 	const float INTERACTION_RADIUS_SQ = 64;
 	const float NEAR_CLIPPING_DIST = 0.1;
-	const float FAR_CLIPPING_DIST = 100;//originally 1000
+	const float FAR_CLIPPING_DIST = 150;//originally 1000
 	const float SPEED = 10;
 	const float RUN_SPEED = 30;
 	const float CROUCH_SPEED = 5;
@@ -49,6 +49,8 @@ public:
 	void init(CanisMajor* game,Geometry* geo, Controls c);
 	void create(Vector3 pos, Vector3 dir);
 	void update(float dt);
+
+	void clearInventory();
 
 	virtual bool collided(Actor *gameObject);
 
