@@ -97,8 +97,10 @@ void Dog::update(float dt){
 
 		if (D3DXVec2Length(&vectortoplayer) <= 4){
 			#ifndef _DEBUG
+			if(!game->birminghamMode){
 				game->playSound(BITE,position);
 				game->onPlayerDeath();//the dog caught the player, died
+			}
 			#endif
 		}
 		else if (playerNearby == &game->camera && following == false){

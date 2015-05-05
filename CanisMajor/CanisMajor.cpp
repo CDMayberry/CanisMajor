@@ -509,7 +509,7 @@ void CanisMajor::levelsUpdate(float dt)
 
 	static float victoryTimer = 0;
 	const float VICTORY_TIME = 3;
-	if(camera.getPosition().z<0)
+	if(state.level==FIRST_FLOOR && camera.getPosition().z<0)
 	{
 		victoryTimer+=dt;
 		gui.sprite=6;//large white
@@ -626,9 +626,9 @@ void CanisMajor::collisions()
 	for(int i = 0 ; i < CM::MAX_SCENERY;i++)
 	{
 
-		if(camera.isPicked(&scenery[i],dist)){
+	/*	if(camera.isPicked(&scenery[i],dist)){
 			camera.setNearbyInteractable(nullptr,dist);
-		}
+		}*/
 
 		if(camera.collided(&scenery[i]))
 		{
@@ -958,6 +958,7 @@ void CanisMajor::buildVertexLayouts()
 
 void CanisMajor::clearLevel()
 {
+	camera.clearInventory();
 	for(int i=0;i<CM::NUM_SPRITES;i++)
 		sprites[i].isInit=false;
 	for(int i = 0 ; i < CM::MAX_SCENERY; i++)
