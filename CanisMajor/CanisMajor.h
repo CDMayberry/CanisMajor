@@ -53,6 +53,7 @@ namespace CM{
 	const Vector3 CABINET_DOOR2 = Vector3(1,1.4,1.5);
 	const int NUM_SPRITES = 1000;
 	const int NUM_BOLTS = 100;
+	const Vector3 WINE_GLASS = Vector3(.25,.25,.25);	
 };
 
 
@@ -113,7 +114,8 @@ public:
 	Geometry mTelescope, mDresser, mFlashlight, mFrame, mBookcase, mChair, mCradle, mMasterbed, 
 			mServantbed, mStaircase, mTable, mBottle, mLock, mPictureframe, mRail, mWallpanel,
 			mCage, mFixture, mDoor, mCube, mRoofHole,mKey, mBox, mWindowPanel, mBook, mBook2, mBook3, mBookStack, mDesk,
-			mToilet, mSink, mTub, mArrow, mRing, mDog, mPedastal, mFloor,mStove, mCounter, mSinkCounter, mCabinet, mCabDoor,mStaff,mSphere;
+			mToilet, mSink, mTub, mArrow, mRing, mDog, mPedastal, mFloor,mStove, mCounter, mSinkCounter, 
+			mCabinet, mCabDoor,mStaff,mSphere,mWineGlass,mTeaCup,mTeaSaucer;
 
 
 	Origin origin;
@@ -143,7 +145,7 @@ public:
 
 	bool birminghamMode;
 
-#ifdef _DEBUG
+#if defined(_DEBUG) || defined(DEBUG)
 	Geometry mRedCube;
 	Actor AABBHelper;
 #endif
@@ -207,7 +209,7 @@ public:
 	Actor bolts[CM::NUM_BOLTS];
 	Actor* spawnBolt(Vector3 pos, Vector3 vel);
 
-#ifdef _DEBUG
+#if defined(_DEBUG) || defined(DEBUG)
 	void updateDebugAABB(Actor* a);
 #endif
 
