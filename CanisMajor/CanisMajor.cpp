@@ -40,6 +40,8 @@ CanisMajor::CanisMajor(HINSTANCE hInstance)
 	controls.recharge = 'R';
 	controls.fire = VK_RBUTTON;
 
+	birminghamMode=false;
+
 	//Camera Object
 	camera.init(this,&mCube,controls);
 
@@ -207,13 +209,13 @@ void CanisMajor::threadInit()
 	loadingStatus++; //14
 	mRail.init(md3dDevice,".\\geometry\\rail.geo");
 	loadingStatus++; //15
-	mWallpanel.init(md3dDevice,".\\geometry\\wallpanel.geo", L".\\textures\\greywood.dds");
+	mWallpanel.init(md3dDevice,".\\geometry\\wallpanel.geo", L".\\textures\\pine3.dds",true);
 	loadingStatus++; //16
 	mCage.init(md3dDevice,".\\geometry\\cage.geo");
 	loadingStatus++; //17
 	mFixture.init(md3dDevice,".\\geometry\\fixture.geo", L".\\textures\\cardboard.dds");
 	loadingStatus++; //18
-	mDoor.init(md3dDevice,".\\geometry\\door.geo", L".\\textures\\gold.dds");
+	mDoor.init(md3dDevice,".\\geometry\\door.geo", L".\\textures\\pine1.dds",true);
 	loadingStatus++; //19
 	mBox.init(md3dDevice,".\\geometry\\cardboardBox.geo", L".\\textures\\cardboard2.dds",true);
 	loadingStatus++; //20
@@ -221,13 +223,13 @@ void CanisMajor::threadInit()
 	mBook2.init(md3dDevice,".\\geometry\\book3.geo",L".\\textures\\Book1.dds", true);
 	mBook3.init(md3dDevice,".\\geometry\\book4.geo",L".\\textures\\Book2.dds", true);
 	loadingStatus++; //21
-#ifndef _DEBUG
+#if !defined(_DEBUG) || !defined(DEBUG)
 	mToilet.init(md3dDevice,".\\geometry\\toilet.geo");
 #else
 	mToilet.init(md3dDevice,".\\geometry\\cardboardBox.geo", L".\\textures\\paper.dds");
 #endif
 	loadingStatus++; //22
-#ifndef _DEBUG
+#if  !defined(_DEBUG) || !defined(DEBUG)
 	mDog.init(md3dDevice,".\\geometry\\dog.geo");
 #else
 	mDog.init(md3dDevice,".\\geometry\\cardboardBox.geo", L".\\textures\\paper.dds");
@@ -253,19 +255,19 @@ void CanisMajor::threadInit()
 	loadingStatus++; //25
 	mKey.init(md3dDevice,".\\geometry\\key2.geo", L".\\textures\\key1D.dds", true);
 	loadingStatus++; //26
-	mWindowPanel.init(md3dDevice,".\\geometry\\windowpanel.geo", L".\\textures\\greywood.dds");
+	mWindowPanel.init(md3dDevice,".\\geometry\\windowpanel.geo", L".\\textures\\pine4.dds",true);
 	loadingStatus++; //27
 	mBookStack.init(md3dDevice,".\\geometry\\bookStack.geo");
 	loadingStatus++; //28
 	mDesk.init(md3dDevice,".\\geometry\\desk.geo");
 	loadingStatus++; //29
-#ifndef _DEBUG
+#if !defined(_DEBUG) || !defined(DEBUG)
 	mSink.init(md3dDevice,".\\geometry\\sink.geo");
 #else
 	mSink.init(md3dDevice,".\\geometry\\cardboardBox.geo", L".\\textures\\paper.dds");
 #endif
 	loadingStatus++; //30
-#ifndef _DEBUG
+#if !defined(_DEBUG) || !defined(DEBUG)
 	mTub.init(md3dDevice,".\\geometry\\tub.geo");
 #else
 	mTub.init(md3dDevice,".\\geometry\\cardboardBox.geo", L".\\textures\\paper.dds");
@@ -346,7 +348,7 @@ void CanisMajor::threadInit()
 
 	flashlight.toggle();
 
-#ifdef _DEBUG
+#if defined(_DEBUG) || defined(DEBUG)
 	mRedCube.init(md3dDevice,".\\geometry\\cube.geo", L".\\textures\\metal.dds", true);
 	AABBHelper.init(this,&mRedCube,1);
 	AABBHelper.isActive = true;
@@ -401,6 +403,11 @@ void CanisMajor::menuUpdate(float dt, bool reset)
 		isKeyDown = true;
 	}
 
+	if(GetAsyncKeyState('D')&&GetAsyncKeyState('R')&&GetAsyncKeyState('B')){
+		birminghamMode=true;
+		menuText[1]=L"BIRMINGHAM MODE";
+	}
+
 	if(GetAsyncKeyState(VK_RETURN)||GetAsyncKeyState(' '))
 	{ 
 		if(!isKeyDown)
@@ -411,7 +418,8 @@ void CanisMajor::menuUpdate(float dt, bool reset)
 				if(state.level==SPLASH)
 					menuLoad();
 				else {
-#ifdef _DEBUG		//Use this for testing a specific level
+					audio->playCue(BG);
+#if defined(_DEBUG) || defined(DEBUG)		//Use this for testing a specific level
 					loadFirstFloor();
 #else				//Use this to run the full game
 					loadFirstFloor();
@@ -507,7 +515,7 @@ void CanisMajor::levelsUpdate(float dt)
 
 	static float victoryTimer = 0;
 	const float VICTORY_TIME = 3;
-	if(camera.getPosition().z<0)
+	if(state.level==FIRST_FLOOR && camera.getPosition().z<0)
 	{
 		victoryTimer+=dt;
 		gui.sprite=6;//large white
@@ -525,7 +533,7 @@ void CanisMajor::levelsUpdate(float dt)
 	}
 
 	//displays the player's current location. Use for mapping/debugging
-	#ifdef _DEBUG
+	#if defined(_DEBUG) || defined(DEBUG)
 		wstring xzpos = std::to_wstring((int)camera.getPosition().x) + L", "+ std::to_wstring((int)camera.getPosition().z);
 		drawUtilText(xzpos);
 	#endif
@@ -624,9 +632,9 @@ void CanisMajor::collisions()
 	for(int i = 0 ; i < CM::MAX_SCENERY;i++)
 	{
 
-		if(camera.isPicked(&scenery[i],dist)){
+	/*	if(camera.isPicked(&scenery[i],dist)){
 			camera.setNearbyInteractable(nullptr,dist);
-		}
+		}*/
 
 		if(camera.collided(&scenery[i]))
 		{
@@ -849,7 +857,7 @@ void CanisMajor::levelsDraw()
 
 	slidingBookcase.draw(mfxWVPVar,mView,mProj,mTech);
 
-#ifdef _DEBUG
+#if defined(_DEBUG) || defined(DEBUG)
 	AABBHelper.draw(mfxWVPVar,mView,mProj,mTech);
 #endif
 
@@ -865,7 +873,7 @@ void CanisMajor::levelsDraw()
 	}
 
 	
-	//#ifdef_DEBUG
+	//#ifdef_DEBUG || DEBUG
 	//RECT r = {mClientWidth/2,mClientHeight/2,mClientWidth/2,mClientHeight/2};
 	//utilFont->DrawText(0,L"\u25CF",-1,&r,DT_NOCLIP|DT_CENTER|DT_VCENTER,WHITE);
 	//#endif
@@ -956,6 +964,7 @@ void CanisMajor::buildVertexLayouts()
 
 void CanisMajor::clearLevel()
 {
+	camera.clearInventory();
 	for(int i=0;i<CM::NUM_SPRITES;i++)
 		sprites[i].isInit=false;
 	for(int i = 0 ; i < CM::MAX_SCENERY; i++)
@@ -1028,6 +1037,8 @@ void CanisMajor::menuLoad()
 	clearLevel();
 	menuUpdate(0,true);
 
+	birminghamMode = false;
+
 	menuText[0] = L"CANIS MAJOR";
 	menuText[1] = L"PLAY";
 	menuText[2] = L"QUIT";
@@ -1043,7 +1054,8 @@ void CanisMajor::loadBasement()
 
 void CanisMajor::onPlayerDeath()
 {
-	loadSplashScreen(false);
+	if(!birminghamMode)
+		loadSplashScreen(false);
 }
 
 //calling with s defined sets, calling without clears
@@ -1286,7 +1298,7 @@ Sprite* CanisMajor::spawnSprite(const D3DXVECTOR3 center, std::wstring filename)
 }
 
 
-#ifdef _DEBUG
+#if defined(_DEBUG) || defined(DEBUG)
 void CanisMajor::updateDebugAABB(Actor* a)
 {
 	Vector3 min = a->getGeometry()->getAABBMin(), max=a->getGeometry()->getAABBMax();
