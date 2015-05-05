@@ -251,7 +251,7 @@ void CanisMajor::threadInit()
 	dog.LoadWaypoints(".\\lvl2.txt",3,2);
 	dog.LoadWaypoints(".\\lvl1.txt",3,1);
 	loadingStatus++; //24
-	mRoofHole.init(md3dDevice,".\\geometry\\newRoofHole.geo", L".\\textures\\greywood.dds");
+	mRoofHole.init(md3dDevice,".\\geometry\\newRoofHole.geo", L".\\textures\\pine3.dds",true);
 	loadingStatus++; //25
 	mKey.init(md3dDevice,".\\geometry\\key2.geo", L".\\textures\\key1D.dds", true);
 	loadingStatus++; //26
