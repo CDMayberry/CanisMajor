@@ -189,20 +189,20 @@
     <ClInclude Include="GameTimer.h">
       <Filter>Header\Util</Filter>
     </ClInclude>
-    <ClInclude Include="sharedDefines.h">
-      <Filter>Header\Util</Filter>
-    </ClInclude>
     <ClInclude Include="Vertex.h">
       <Filter>Header\Util</Filter>
     </ClInclude>
     <ClInclude Include="SlidingBookcase.h">
       <Filter>Header\Game Object</Filter>
     </ClInclude>
+    <ClInclude Include="Staff.h">
+      <Filter>Header</Filter>
+    </ClInclude>
     <ClInclude Include="Light.h">
       <Filter>FX Files</Filter>
     </ClInclude>
-    <ClInclude Include="Staff.h">
-      <Filter>Header\Game Object</Filter>
+    <ClInclude Include="sharedDefines.h">
+      <Filter>FX Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

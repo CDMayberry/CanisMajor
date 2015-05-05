@@ -412,6 +412,7 @@ void CanisMajor::menuUpdate(float dt, bool reset)
 				if(state.level==SPLASH)
 					menuLoad();
 				else {
+					audio->playCue(BG);
 #ifdef _DEBUG		//Use this for testing a specific level
 					loadFirstFloor();
 #else				//Use this to run the full game
