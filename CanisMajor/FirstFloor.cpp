@@ -165,6 +165,9 @@ void CanisMajor::loadFirstFloor()
 	spawnReadable(&mBook,L"Child's Notes",nullptr,Vector3(16,2.2,37),Vector3(0,0,0),Vector3(.75,.75,.75), dolan, 7.0f, GIGGLE2, true);
 
 	//Bathroom
+	spawnScenery(&mTub,Vector3(3,-1.2,25),Vector3(0,PI/2,0),Vector3(1.5,2,1.5));
+	spawnSearchable(&mSink, L"Sink",nullptr,Vector3(18,-2.75,21),Vector3(0,PI,0),Vector3(1.5,1.7,1.5));
+	spawnScenery(&mToilet, Vector3(18,-2.75,27),Vector3(0,-PI/2,0),Vector3(1.5,1.5,1.5));
 
 	//Kitchen
 	spawnScenery(&mStove,Vector3(85,-3.5,1.2),Vector3(0,0,0),Vector3(1.7,2,1.6));
@@ -289,7 +292,10 @@ void CanisMajor::loadFirstFloor()
 	spawnScenery(&mChair,Vector3(106,2.85,27),Vector3(0,-PI/2,-2.2),CM::CHAIR_SCALE);
 	spawnScenery(&mWineGlass,Vector3(104,.8,20),Vector3(0,0,0),CM::WINE_GLASS);
 	spawnScenery(&mWineGlass,Vector3(106,.8,16),Vector3(0,0,0),CM::WINE_GLASS);
-	spawnScenery(&mWineGlass,Vector3(102,.6,30),Vector3(PI/2,0,0),CM::WINE_GLASS);
-	spawnScenery(&mTeaSaucer,Vector3(108,1,33),Vector3(0,0,0),Vector3(.1,.1,.1));
-	spawnScenery(&mTeaCup,Vector3(105,1,33),Vector3(0,0,0),Vector3(.1,.1,.1));
+	spawnScenery(&mWineGlass,Vector3(102,.8,30),Vector3(PI/2,0,0),CM::WINE_GLASS);
+	spawnScenery(&mTeaSaucer,Vector3(108,.6,33),Vector3(0,0,0),Vector3(.1,.1,.1));
+	spawnScenery(&mTeaCup,Vector3(105,.6,23),Vector3(0,0,0),Vector3(.1,.1,.1));
+	spawnScenery(&mTeaSaucer,Vector3(108.5,.6,12.5),Vector3(0,0,0),Vector3(.1,.1,.1));
+	spawnScenery(&mTeaCup,Vector3(102,1,13),Vector3(PI,0,0),Vector3(.1,.1,.1));
+	spawnReadable(&mBook3, L"Book", nullptr,Vector3(101,.8,23),Vector3(0,PI,0),Vector3(1.5,1.5,1.5));
 }
