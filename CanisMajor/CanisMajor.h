@@ -143,7 +143,7 @@ public:
 
 	bool birminghamMode;
 
-#ifdef _DEBUG
+#if defined(_DEBUG) || defined(DEBUG)
 	Geometry mRedCube;
 	Actor AABBHelper;
 #endif
@@ -207,7 +207,7 @@ public:
 	Actor bolts[CM::NUM_BOLTS];
 	Actor* spawnBolt(Vector3 pos, Vector3 vel);
 
-#ifdef _DEBUG
+#if defined(_DEBUG) || defined(DEBUG)
 	void updateDebugAABB(Actor* a);
 #endif
 

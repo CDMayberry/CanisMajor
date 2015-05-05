@@ -19,7 +19,7 @@ struct Light
 
 		if(settings == 1) {		//Ambient light, world light
 			dir      = D3DXVECTOR3(0.57735f, -0.57735f, 0.57735f);
-#ifdef _DEBUG
+#if defined(_DEBUG) || defined(DEBUG)
 			ambient  = D3DXCOLOR(0.1f, 0.2f, 0.4f, 1.0f);
 #else
 			ambient  = D3DXCOLOR(0.0078125f, 0.015625f, 0.03125f, 1.0f);
@@ -43,7 +43,8 @@ struct Light
 		}
 
 		else if(settings == 3) { //Negalight, for the dog or spooky places
-#ifdef _DEBUG
+#if defined(_DEBUG) || defined(DEBUG)
+
 			ambient  = D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f);
 			diffuse  = D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f);
 			specular = D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f);
@@ -90,14 +91,14 @@ struct Light
 		else { //Pointlight, mostly our room lights
 			ambient  = D3DXCOLOR(0.45490196078f, 0.29803921568f, 0.12549019607f, 1.0f);
 			diffuse  = D3DXCOLOR(.1f, .1f ,.1f, 1.0f);
-#ifdef _DEBUG
+#if defined(_DEBUG) || defined(DEBUG)
 			specular = D3DXCOLOR(.1f, .1f, .1f, 1.0f);
 #else
 			specular = D3DXCOLOR(.00001f, .00001f, .00001f, 1.0f);
 #endif
 			att.x    = 0.3f;	//Flat increase/decrease
 			att.y    = .1f;		//Linear increase/decrease
-#ifdef _DEBUG
+#if defined(_DEBUG) || defined(DEBUG)
 			att.z    = 0.00f; //Exponential increase/decrease
 #else
 			att.z    = 0.05f; //Exponential increase/decrease
