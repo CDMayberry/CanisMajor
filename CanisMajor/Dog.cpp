@@ -93,7 +93,7 @@ void Dog::update(float dt){
 
 
 		if (D3DXVec2Length(&vectortoplayer) <= 4){
-			#ifndef DEBUG
+			#ifndef _DEBUG
 				game->playSound(BITE,position);
 				game->onPlayerDeath();//the dog caught the player, died
 			#endif

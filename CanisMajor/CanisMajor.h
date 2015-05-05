@@ -141,7 +141,7 @@ public:
 	//EVERTHING PUBLIC BELOW THIS IS FOR TESTING
 	Vector3 pos;
 
-#ifdef DEBUG
+#ifdef _DEBUG
 	Geometry mRedCube;
 	Actor AABBHelper;
 #endif
@@ -204,7 +204,7 @@ public:
 	Actor bolts[CM::NUM_BOLTS];
 	Actor* spawnBolt(Vector3 pos, Vector3 vel);
 
-#ifdef DEBUG
+#ifdef _DEBUG
 	void updateDebugAABB(Actor* a);
 #endif
 
