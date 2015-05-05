@@ -193,8 +193,8 @@ public:
 	Actor* spawnScenery(Geometry* g, Vector3 pos = Vector3(0,0,0), Vector3 rot = Vector3(0,0,0), Vector3 scale = Vector3(1,1,1));
 	QuestItem* spawnQuestItem(Geometry* g, wstring name, Vector3 pos, Vector3 rot = Vector3(0,0,0), Vector3 scale = Vector3(1,1,1));
 	Door* spawnDoor(Vector3 pos, Vector3 rot=Vector3(0,0,0), Vector3 Scale=Vector3(1,1,1), QuestItem* k = nullptr, bool isOpen = false);
-	SearchableActor* spawnSearchable(Geometry* g, std::wstring name, Actor* in= nullptr, Vector3 pos = Vector3(0,0,0), Vector3 rot = Vector3(0,0,0), Vector3 scale = Vector3(1,1,1));
-	ReadableActor* spawnReadable(Geometry* g, std::wstring name, Actor* in= nullptr, Vector3 pos = Vector3(0,0,0), Vector3 rot = Vector3(0,0,0), Vector3 scale = Vector3(1,1,1), wstring text = L"The note is scratched and unreadable.", float dur = 5.0f);
+	SearchableActor* spawnSearchable(Geometry* g, std::wstring name, Actor* in= nullptr, Vector3 pos = Vector3(0,0,0), Vector3 rot = Vector3(0,0,0), Vector3 scale = Vector3(1,1,1), const char* cue = "", bool playOnce = false);
+	ReadableActor* spawnReadable(Geometry* g, std::wstring name, Actor* in= nullptr, Vector3 pos = Vector3(0,0,0), Vector3 rot = Vector3(0,0,0), Vector3 scale = Vector3(1,1,1), wstring text = L"The note is scratched and unreadable.", float dur = 5.0f, const char* cue = "", bool playOnce = false);
 	Light* spawnLight(Vector3 pos, int type = 0);
 	Light* spawnLight(Vector3 pos, Vector3 dir, int type = 0);
 	Staircase* spawnStaircase(std::wstring name, LLevel func, Vector3 pos, Vector3 rotation = Vector3(0,0,0), Vector3 scale = Vector3(1,1,1));

@@ -133,7 +133,7 @@ void CanisMajor::loadFirstFloor()
 
 	//Putting crap in the level
 	//Baby room
-	spawnSearchable(&mCradle,L"Cradle",nullptr,Vector3(2.5,-3,3),Vector3(0,.4,0), Vector3(1,1,1));
+	spawnSearchable(&mCradle,L"Cradle",nullptr,Vector3(2.5,-3,3),Vector3(0,.4,0), Vector3(1,1,1), CRYING, true);
 	spawnScenery(&mTable,Vector3(13,-1,4),Vector3(PI,0.2,0),Vector3(.5,.7,.4));
 	spawnScenery(&mChair,Vector3(14,-2,12),Vector3(PI/2,0.2,0),Vector3(1,1,1));
 	spawnScenery(&mFixture,Vector3(10,4,1),Vector3(0,0,0));

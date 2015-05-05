@@ -17,6 +17,11 @@ void ReadableActor::interactWith(Camera* player)
 		game->setNoteText(duration, myText);
 		game->playSound(EMPTY, position);
 	}
+	if(playOnce) {
+		playOnce = false;
+		//game->setNoteText(duration, myText);
+		game->playSound(cue,position);
+	}
 }
 void ReadableActor::create(Vector3 pos, Vector3 rot, Vector3 scale, Actor* item, float duration)
 {

@@ -18,6 +18,11 @@ void SearchableActor::interactWith(Camera* player)
 		game->playSound(EMPTY, position);
 		game->setStoryText(2,L"The " + name + L" is empty.");
 	}
+	if(playOnce) {
+		playOnce = false;
+		game->playSound(cue,position);
+		//game->setStoryText(2,L"The " + name + L" is empty.");
+	}
 }
 void SearchableActor::create(Vector3 pos, Vector3 rot, Vector3 scale, Actor* item)
 {
