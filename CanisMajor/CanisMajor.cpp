@@ -253,7 +253,7 @@ void CanisMajor::threadInit()
 	loadingStatus++; //25
 	mKey.init(md3dDevice,".\\geometry\\key2.geo", L".\\textures\\key1D.dds", true);
 	loadingStatus++; //26
-	mWindowPanel.init(md3dDevice,".\\geometry\\windowpanel.geo", L".\\textures\\greywood.dds");
+	mWindowPanel.init(md3dDevice,".\\geometry\\windowpanel.geo", L".\\textures\\pine4.dds",true);
 	loadingStatus++; //27
 	mBookStack.init(md3dDevice,".\\geometry\\bookStack.geo");
 	loadingStatus++; //28
