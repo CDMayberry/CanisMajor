@@ -347,7 +347,8 @@ AudioData* Audio::buildData(const char name[])
 
 void Audio::updateCue(AudioData**data, const char name[])
 {
-	stopCue(*data);
+	if((*data)->played)
+		stopCue(*data);
 	(*data)->inUse = (*data)->played = false;
 	(*data) = buildData(name);
 }

@@ -40,6 +40,8 @@ CanisMajor::CanisMajor(HINSTANCE hInstance)
 	controls.recharge = 'R';
 	controls.fire = VK_RBUTTON;
 
+	birminghamMode=false;
+
 	//Camera Object
 	camera.init(this,&mCube,controls);
 
@@ -207,13 +209,13 @@ void CanisMajor::threadInit()
 	loadingStatus++; //14
 	mRail.init(md3dDevice,".\\geometry\\rail.geo");
 	loadingStatus++; //15
-	mWallpanel.init(md3dDevice,".\\geometry\\wallpanel.geo", L".\\textures\\greywood.dds");
+	mWallpanel.init(md3dDevice,".\\geometry\\wallpanel.geo", L".\\textures\\pine3.dds",true);
 	loadingStatus++; //16
 	mCage.init(md3dDevice,".\\geometry\\cage.geo");
 	loadingStatus++; //17
 	mFixture.init(md3dDevice,".\\geometry\\fixture.geo", L".\\textures\\cardboard.dds");
 	loadingStatus++; //18
-	mDoor.init(md3dDevice,".\\geometry\\door.geo", L".\\textures\\gold.dds");
+	mDoor.init(md3dDevice,".\\geometry\\door.geo", L".\\textures\\pine1.dds",true);
 	loadingStatus++; //19
 	mBox.init(md3dDevice,".\\geometry\\cardboardBox.geo", L".\\textures\\cardboard2.dds",true);
 	loadingStatus++; //20
@@ -393,6 +395,11 @@ void CanisMajor::menuUpdate(float dt, bool reset)
 	{
 		menuChoice = 1;
 		isKeyDown = true;
+	}
+
+	if(GetAsyncKeyState('D')&&GetAsyncKeyState('R')&&GetAsyncKeyState('B')){
+		birminghamMode=true;
+		menuText[1]=L"BIRMINGHAM MODE";
 	}
 
 	if(GetAsyncKeyState(VK_RETURN)||GetAsyncKeyState(' '))
@@ -1023,6 +1030,8 @@ void CanisMajor::menuLoad()
 	clearLevel();
 	menuUpdate(0,true);
 
+	birminghamMode = false;
+
 	menuText[0] = L"CANIS MAJOR";
 	menuText[1] = L"PLAY";
 	menuText[2] = L"QUIT";
@@ -1038,7 +1047,8 @@ void CanisMajor::loadBasement()
 
 void CanisMajor::onPlayerDeath()
 {
-	loadSplashScreen(false);
+	if(!birminghamMode)
+		loadSplashScreen(false);
 }
 
 //calling with s defined sets, calling without clears
