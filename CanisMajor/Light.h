@@ -58,7 +58,7 @@ struct Light
 			specular = D3DXCOLOR(-.7f, -.7f, -.7f, 1.0f);
 			att.x    = 0.0f;
 			att.y    = .1f;
-			att.z    = 0.01f;
+			att.z    = 0.02f;
 			range    = 5.0f;
 			return 0;
 #endif
@@ -80,9 +80,9 @@ struct Light
 			ambient  = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);
 			diffuse  = D3DXCOLOR(1.f, 0.0f, 0.0f, 1.0f);
 			specular = D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f);
-			att.x    = 0.0f;	//Flat increase/decrease
-			att.y    = 0.0f;		//Linear increase/decrease
-			att.z    = 0.0001f;	//Exponential increase/decrease
+			att.x    = 0.0f;			//Flat increase/decrease
+			att.y    = 0.0f;			//Linear increase/decrease
+			att.z    = 0.0001f;			//Exponential increase/decrease
 			range    = 0.95f;	
 			return 0;
 		}

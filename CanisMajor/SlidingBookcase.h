@@ -3,7 +3,7 @@
 
 namespace slidingBookcaseNS{
 	const Vector3 SLIDING_DISP(0,0,5);
-	const float EPS = 0.4;
+	const float EPS = 0.4f;
 };
 
 class SlidingBookcase: public virtual Door{
