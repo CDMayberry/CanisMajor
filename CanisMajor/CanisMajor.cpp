@@ -40,6 +40,8 @@ CanisMajor::CanisMajor(HINSTANCE hInstance)
 	controls.recharge = 'R';
 	controls.fire = VK_RBUTTON;
 
+	birminghamMode=false;
+
 	//Camera Object
 	camera.init(this,&mCube,controls);
 
@@ -393,6 +395,11 @@ void CanisMajor::menuUpdate(float dt, bool reset)
 	{
 		menuChoice = 1;
 		isKeyDown = true;
+	}
+
+	if(GetAsyncKeyState('D')&&GetAsyncKeyState('R')&&GetAsyncKeyState('B')){
+		birminghamMode=true;
+		menuText[1]=L"BIRMINGHAM MODE";
 	}
 
 	if(GetAsyncKeyState(VK_RETURN)||GetAsyncKeyState(' '))
@@ -1022,6 +1029,8 @@ void CanisMajor::menuLoad()
 	clearLevel();
 	menuUpdate(0,true);
 
+	birminghamMode = false;
+
 	menuText[0] = L"CANIS MAJOR";
 	menuText[1] = L"PLAY";
 	menuText[2] = L"QUIT";
@@ -1037,7 +1046,8 @@ void CanisMajor::loadBasement()
 
 void CanisMajor::onPlayerDeath()
 {
-	loadSplashScreen(false);
+	if(!birminghamMode)
+		loadSplashScreen(false);
 }
 
 //calling with s defined sets, calling without clears

@@ -90,6 +90,9 @@ void Dog::update(float dt){
 		else
 			setRotation(Vector3(0,-facerot,0));
 
+		if(game->birminghamMode)
+			playerNearby = nullptr;
+
 
 
 		if (D3DXVec2Length(&vectortoplayer) <= 4){
@@ -103,14 +106,14 @@ void Dog::update(float dt){
 			game->audio->updateCue(&audioData3D,BARKING);
 			game->audio->playCue(audioData3D);
 		}
-		else if (playerNearby != &game->camera && following ==true){
+		else if ((playerNearby != &game->camera && following ==true)){
 			following = false;
 			targetClosestWaypoint();//reset waypoint if need be
 			game->audio->updateCue(&audioData3D,LOW_GROWL);
 			game->audio->playCue(audioData3D);
 		}
 
-		if (following){//begin chase and start running!
+		if (following && !game->birminghamMode){//begin chase and start running!
 			velocity.x = vectortoplayer.x;
 			velocity.y = 0;
 			velocity.z = vectortoplayer.y;
@@ -172,6 +175,7 @@ void Dog::update(float dt){
 		if(!isGrowling)
 		{
 			isGrowling = true;
+			game->audio->updateCue(&audioData3D,LOW_GROWL);
 			game->audio->playCue(audioData3D);
 		}
 		else

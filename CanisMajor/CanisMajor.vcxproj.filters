@@ -198,11 +198,11 @@
     <ClInclude Include="SlidingBookcase.h">
       <Filter>Header\Game Object</Filter>
     </ClInclude>
-    <ClInclude Include="Staff.h">
-      <Filter>Header</Filter>
-    </ClInclude>
     <ClInclude Include="Light.h">
       <Filter>FX Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Staff.h">
+      <Filter>Header\Game Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

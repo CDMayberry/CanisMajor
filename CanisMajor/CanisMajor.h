@@ -141,6 +141,8 @@ public:
 	//EVERTHING PUBLIC BELOW THIS IS FOR TESTING
 	Vector3 pos;
 
+	bool birminghamMode;
+
 #ifdef _DEBUG
 	Geometry mRedCube;
 	Actor AABBHelper;
@@ -183,6 +185,7 @@ public:
 	ID3D10EffectScalarVariable* mfxActiveLights;
 	ID3D10EffectScalarVariable* mfxLightType[MAX_LIGHTS];
 
+	
 
 	Actor* scenery;
 	SearchableActor* searchableActors;
