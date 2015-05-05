@@ -49,7 +49,7 @@ public:
 	void init(CanisMajor* game,Geometry* geo, Controls c);
 	void create(Vector3 pos, Vector3 dir);
 	void update(float dt);
-
+	void clearInventory();
 	virtual bool collided(Actor *gameObject);
 
 	bool hasFlashlight(){return flashlight!=nullptr;};
