@@ -144,9 +144,6 @@
     <ClInclude Include="Interactable.h">
       <Filter>Header\Game Object</Filter>
     </ClInclude>
-    <ClInclude Include="Light.h">
-      <Filter>Header\Game Object</Filter>
-    </ClInclude>
     <ClInclude Include="Line.h">
       <Filter>Header\Game Object</Filter>
     </ClInclude>
@@ -203,6 +200,9 @@
     </ClInclude>
     <ClInclude Include="Staff.h">
       <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>FX Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

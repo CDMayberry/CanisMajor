@@ -3,6 +3,6 @@
 #define MAX_LIGHTS 4
 
 //Max sprites, MUST BE EVEN.
-#define MAX_GUI 6
+#define MAX_GUI 7
 #define MAX_SPRITES 4
 #define MAX_TREES 4

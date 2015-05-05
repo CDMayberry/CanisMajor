@@ -17,15 +17,17 @@ namespace interactableNS
 class Interactable
 {
 public:
-	Interactable(){state=nullptr;stateSwitch=nullptr; sprite = -1;}
+	Interactable(){state=nullptr;stateSwitch=nullptr; sprite = -1; playOnce = false;}
 	std::wstring name;
 	virtual void interactWith(Camera* player){if(stateSwitch!=nullptr)state->*stateSwitch=true;};
 	virtual std::wstring getUtilText(){return L"Press LMB to search the " + name;}
-	bool targeted;
+	bool targeted, playOnce;
 	int sprite;
+	void setCue(const char* set, bool play) {cue = set; playOnce = play;}
 	void setStateSwitch(GameState* s,bool GameState::*sw){state = s;stateSwitch=sw;}
-	virtual void reset(){state=nullptr; stateSwitch=nullptr;targeted=false;}
+	virtual void reset(){state=nullptr; stateSwitch=nullptr;targeted=false; playOnce = false;}
 protected:
 	GameState* state;
+	const char* cue;
 	bool GameState::*stateSwitch;
 };

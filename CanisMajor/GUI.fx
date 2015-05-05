@@ -20,6 +20,7 @@ cbuffer cbPerFrame
 Texture2DArray gDiffuseMapArray;
 Texture2D gDiffuseMap;
 int sprite;
+float alpha;
  
 SamplerState gTriLinearSam
 {
@@ -73,6 +74,11 @@ void GS(point VS_OUT gIn[1],
 	float halfWidth  = 0.5f*gIn[0].sizeW.x;
 	float halfHeight = 0.5f*gIn[0].sizeW.y;
 	
+	if(sprite==6){
+		halfWidth*=40;
+		halfHeight*=20;
+	}
+
 	float4 v[4];
 	v[0] = float4(-halfWidth, -halfHeight, 0.0f, 1.0f);
 	v[1] = float4(+halfWidth, -halfHeight, 0.0f, 1.0f);
@@ -128,10 +134,12 @@ float4 PS(GS_OUT pIn) : SV_Target
 	float3 uvw = float3(pIn.texC, sprite);
 	float4 diffuse = gDiffuseMapArray.Sample( gTriLinearSam, uvw );
  
+	diffuse.a*=alpha;
+
 	// Discard pixel if texture alpha < 0.25.  Note that we do this
 	// test as soon as possible so that we can potentially exit the shader 
 	// early, thereby skipping the rest of the shader code.
-	if(sprite == 5) {
+	if(sprite == 5 || sprite==6) {
 		clip(diffuse.a);
 	}
 	else {
@@ -139,6 +147,7 @@ float4 PS(GS_OUT pIn) : SV_Target
 	}
 	// Don't light tree billboards, just use texture color.
     
+
     return diffuse;
 }
  
