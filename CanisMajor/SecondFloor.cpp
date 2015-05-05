@@ -185,4 +185,36 @@ void CanisMajor::loadSecondFloor()
 	spawnSearchable(&mSink, L"Sink",r2,Vector3(25,-2.75,32.5),Vector3(0,PI/2,0),Vector3(1.5,1.7,1.5));
 	spawnSearchable(&mTub,L"Bath Tub",nullptr,Vector3(33.5,-1.2,40),Vector3(0,PI/2,0), Vector3(1.5,2,1.5));
 
+
+	std::wstring treeNames[SpriteNS::SPRITES] = 
+	{ //Put all file names in here.
+		/* L".\\textures\\.dds", */
+		L".\\textures\\tree0.dds",
+		L".\\textures\\tree1.dds",
+		L".\\textures\\tree2.dds",
+		L".\\textures\\tree3.dds",
+	};
+
+	D3DXVECTOR3 centers3[256]; //Number of billboards placed
+	float r = 160;
+	float xOffset = 60;
+	float zOffset = 30;
+	for(int i = 0; i < 256; i++) { //Trees centered outside the area of the house
+		float rander = RandF(90,120);
+		Vector3 center(RandF(-50,50),-20,RandF(-50,50));
+		Vector3 dir;
+		Normalize(&dir, &center);
+		center.x = dir.x*rander;
+		center.z = dir.z*rander;
+		center.x += xOffset;
+		center.z += zOffset;
+	
+		centers3[i] = center;
+	}
+
+	//Was screwing up the lighting, I need to reset something correctly.
+	trees.init(md3dDevice, centers3, 256, treeNames,4);
+
+	//Ground for the trees
+	spawnScenery(&mCube,Vector3(0,-27,25),Vector3(0,0,0),Vector3(160,1,160));
 }

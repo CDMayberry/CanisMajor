@@ -141,27 +141,26 @@ void CanisMajor::threadInit()
 		L".\\textures\\tree3.dds",
 	};
 
-	//D3DXVECTOR3 centers3[256]; //Number of billboards placed
-	//float r = 160;
-	//float xOffset = 60;
-	//float zOffset = 30;
-	//for(int i = 0; i < 256; i++) { //Trees centered outside the area of the house
-	//	float rander = RandF(90,120);
-	//	Vector3 center(RandF(-50,50),-15,RandF(-50,50));
-	//	center.y = -15;
-	//	Vector3 dir;
-	//	Normalize(&dir, &center);
-	//	center.x = dir.x*rander;
-	//	center.z = dir.z*rander;
-	//	center.x += xOffset;
-	//	center.z += zOffset;
-	//
-	//	centers3[i] = center;
-	//}
+	D3DXVECTOR3 centers3[256]; //Number of billboards placed
+	float r = 160;
+	float xOffset = 60;
+	float zOffset = 30;
+	for(int i = 0; i < 256; i++) { //Trees centered outside the area of the house
+		float rander = RandF(90,120);
+		Vector3 center(RandF(-50,50),-15,RandF(-50,50));
+		center.y = -15;
+		Vector3 dir;
+		Normalize(&dir, &center);
+		center.x = dir.x*rander;
+		center.z = dir.z*rander;
+		center.x += xOffset;
+		center.z += zOffset;
+	
+		centers3[i] = center;
+	}
 
-	//billboards = 32;
 	//Was screwing up the lighting, I need to reset something correctly.
-	//trees.init(md3dDevice, centers3, 256, treeNames);
+	trees.init(md3dDevice, centers3, 256, treeNames,4);
 
 	// Spotlight--position and direction changed every frame to animate.
 	fLight.init(2);  //Flashlight
@@ -221,13 +220,13 @@ void CanisMajor::threadInit()
 	mBook2.init(md3dDevice,".\\geometry\\book3.geo",L".\\textures\\Book1.dds", true);
 	mBook3.init(md3dDevice,".\\geometry\\book4.geo",L".\\textures\\Book2.dds", true);
 	loadingStatus++; //21
-#ifndef DEBUG
+#ifndef _DEBUG
 	mToilet.init(md3dDevice,".\\geometry\\toilet.geo");
 #else
 	mToilet.init(md3dDevice,".\\geometry\\cardboardBox.geo", L".\\textures\\paper.dds");
 #endif
 	loadingStatus++; //22
-#ifndef DEBUG
+#ifndef _DEBUG
 	mDog.init(md3dDevice,".\\geometry\\dog.geo");
 #else
 	mDog.init(md3dDevice,".\\geometry\\cardboardBox.geo", L".\\textures\\paper.dds");
@@ -259,13 +258,13 @@ void CanisMajor::threadInit()
 	loadingStatus++; //28
 	mDesk.init(md3dDevice,".\\geometry\\desk.geo");
 	loadingStatus++; //29
-#ifndef DEBUG
+#ifndef _DEBUG
 	mSink.init(md3dDevice,".\\geometry\\sink.geo");
 #else
 	mSink.init(md3dDevice,".\\geometry\\cardboardBox.geo", L".\\textures\\paper.dds");
 #endif
 	loadingStatus++; //30
-#ifndef DEBUG
+#ifndef _DEBUG
 	mTub.init(md3dDevice,".\\geometry\\tub.geo");
 #else
 	mTub.init(md3dDevice,".\\geometry\\cardboardBox.geo", L".\\textures\\paper.dds");
@@ -340,7 +339,7 @@ void CanisMajor::threadInit()
 
 	flashlight.toggle();
 
-#ifdef DEBUG
+#ifdef _DEBUG
 	mRedCube.init(md3dDevice,".\\geometry\\cube.geo", L".\\textures\\metal.dds", true);
 	AABBHelper.init(this,&mRedCube,1);
 	AABBHelper.isActive = true;
@@ -405,7 +404,7 @@ void CanisMajor::menuUpdate(float dt, bool reset)
 				if(state.level==SPLASH)
 					menuLoad();
 				else {
-#ifdef DEBUG		//Use this for testing a specific level
+#ifdef _DEBUG		//Use this for testing a specific level
 					loadFirstFloor();
 #else				//Use this to run the full game
 					loadAttic();
@@ -505,7 +504,7 @@ void CanisMajor::levelsUpdate(float dt)
 	}
 
 	//displays the player's current location. Use for mapping/debugging
-	#ifdef DEBUG
+	#ifdef _DEBUG
 		wstring xzpos = std::to_wstring((int)camera.getPosition().x) + L", "+ std::to_wstring((int)camera.getPosition().z);
 		drawUtilText(xzpos);
 	#endif
@@ -786,7 +785,13 @@ void CanisMajor::levelsDraw()
 	for(int i = 0; i < CM::NUM_SPRITES; i++)
 		sprites[i].draw(camera.getPosition(),mView*mProj);
 
-	//trees.draw(camera.getPosition(), mView*mProj);
+	trees.draw(camera.getPosition(), mView*mProj);
+
+	//Billboards screw with these settings, gotta reset them.
+	md3dDevice->OMSetDepthStencilState(0, 0);
+	float blendFactors[] = {0.0f, 0.0f, 0.0f, 0.0f};
+	md3dDevice->OMSetBlendState(0, blendFactors, 0xffffffff);
+	md3dDevice->IASetInputLayout(mVertexLayout);
 
 	sky.draw(mView, mProj);
 
@@ -823,7 +828,7 @@ void CanisMajor::levelsDraw()
 
 	slidingBookcase.draw(mfxWVPVar,mView,mProj,mTech);
 
-#ifdef DEBUG
+#ifdef _DEBUG
 	AABBHelper.draw(mfxWVPVar,mView,mProj,mTech);
 #endif
 
@@ -839,7 +844,7 @@ void CanisMajor::levelsDraw()
 	}
 
 	
-	//#ifdef DEBUG
+	//#ifdef_DEBUG
 	//RECT r = {mClientWidth/2,mClientHeight/2,mClientWidth/2,mClientHeight/2};
 	//utilFont->DrawText(0,L"\u25CF",-1,&r,DT_NOCLIP|DT_CENTER|DT_VCENTER,WHITE);
 	//#endif
@@ -1258,7 +1263,7 @@ Sprite* CanisMajor::spawnSprite(const D3DXVECTOR3 center, std::wstring filename)
 }
 
 
-#ifdef DEBUG
+#ifdef _DEBUG
 void CanisMajor::updateDebugAABB(Actor* a)
 {
 	Vector3 min = a->getGeometry()->getAABBMin(), max=a->getGeometry()->getAABBMax();
