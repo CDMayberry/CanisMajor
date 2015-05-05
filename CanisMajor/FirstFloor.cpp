@@ -8,6 +8,11 @@ void CanisMajor::loadFirstFloor()
 	camera.setPosition(Vector3(35,0,55));
 	QuestItem *k=nullptr;
 	k=spawnQuestItem(&mKey,L"Obscure Key",Vector3(15,2,-5),Vector3(0,0,0),Vector3(4,4,4));
+	QuestItem* kidsRoomKey = spawnQuestItem(&mKey,L"Children's Key",Vector3(73,1.5,2.5),Vector3(0,PI/2,0),Vector3(2,2,2));
+	kidsRoomKey->collisionType=AABBox;
+
+	QuestItem* servantDoorKey = spawnQuestItem(&mKey,L"Servant's Key",Vector3(2.5,2,3),Vector3(0,PI/2,0),Vector3(3,3,3));
+	servantDoorKey->collisionType=AABBox;
 
 	dog.isActive = true;
 	dog.setPosition(Vector3(47,0,14));
@@ -25,8 +30,6 @@ void CanisMajor::loadFirstFloor()
 	spawnScenery(&mWindowPanel,Vector3(0,2,45),Vector3(0,0,0), CM::WALL_SCALE2);
 	spawnScenery(&mWallpanel,Vector3(0,0,52.5),Vector3(0,0,0),Vector3(1,1.6,.5));
 	
-
-
 	//North wall and servant quarters
 	spawnScenery(&mWallpanel,Vector3(16,0,55),Vector3(0,PI/2,0),Vector3(1,1.6,3.2));
 	spawnScenery(&mWallpanel,Vector3(42,0,55),Vector3(0,PI/2,0),Vector3(1,1.6,.4));
@@ -42,8 +45,8 @@ void CanisMajor::loadFirstFloor()
 	spawnScenery(&mWallpanel,Vector3(82.5,0,55),Vector3(0,PI/2,0),Vector3(1,1.6,1.5));
 	spawnScenery(&mWindowPanel,Vector3(95,2,55),Vector3(0,PI/2,0), CM::WALL_SCALE2);
 	spawnScenery(&mWallpanel,Vector3(110,0,55),Vector3(0,PI/2,0),Vector3(1,1.6,2));
-	spawnDoor(Vector3(44,-4.2,55),Vector3(0,-PI/2,0),Vector3(2,4,2.5),nullptr);
-	spawnDoor(Vector3(66,-4.2,55),Vector3(0,-PI/2,0),Vector3(2,4,2.5),nullptr);
+	spawnDoor(Vector3(66,-4.2,55),Vector3(0,-PI/2,0),Vector3(2,4,2.5),servantDoorKey);
+	spawnScenery(&mDoor,Vector3(44,6-4.2,55),Vector3(0,-PI/2,0),Vector3(2,4,2.5));
 
 	//East Wall
 	spawnScenery(&mWallpanel,Vector3(120,0,47.5),Vector3(0,0,0), Vector3(1,1.6,1.5));
@@ -62,6 +65,9 @@ void CanisMajor::loadFirstFloor()
 	spawnScenery(&mWallpanel,Vector3(16.5,0,0),Vector3(0,PI/2,0),Vector3(1,1.6,3.3));
 	spawnDoor(Vector3(53,-4.2,0),Vector3(0,PI/2,0),Vector3(2,4,5),k);
 
+	//spawn exit
+	spawnScenery(&mCube,Vector3(47.5,-4,-10),Vector3(0,0,0),Vector3(6,1,10));
+
 	//Parlor walls
 	spawnScenery(&mWallpanel,Vector3(30,0,5),Vector3(0,0,0),CM::WALL_SCALE);
 	spawnScenery(&mWallpanel,Vector3(30,0,32.5),Vector3(0,0,0),Vector3(1,1.6,2.5));
@@ -75,7 +81,7 @@ void CanisMajor::loadFirstFloor()
 	spawnScenery(&mWallpanel,Vector3(20,0,12.5),Vector3(0,0,0),Vector3(1,1.6,.5));
 	spawnScenery(&mWallpanel,Vector3(16.25,0,15),Vector3(0,PI/2,0),Vector3(1,1.6,.75));
 	spawnScenery(&mWallpanel,Vector3(3.75,0,15),Vector3(0,PI/2,0),Vector3(1,1.6,.75));
-	spawnDoor(Vector3(20,-4.2,5),Vector3(0,PI,0),Vector3(2,4,2.5),nullptr);
+	spawnDoor(Vector3(20,-4.2,5),Vector3(0,PI,0),Vector3(2,4,2.5),kidsRoomKey);
 
 	//East bathroom wall
 	spawnScenery(&mWallpanel,Vector3(20,0,28.75),Vector3(0,0,0),Vector3(1,1.6,2.75));
@@ -86,7 +92,7 @@ void CanisMajor::loadFirstFloor()
 	spawnScenery(&mWallpanel,Vector3(20,0,51.25),Vector3(0,0,0),Vector3(1,1.6,.75));
 	spawnScenery(&mWallpanel,Vector3(16.25,0,35),Vector3(0,PI/2,0),Vector3(1,1.6,.75));
 	spawnScenery(&mWallpanel,Vector3(3.75,0,35),Vector3(0,PI/2,0),Vector3(1,1.6,.75));
-	spawnDoor(Vector3(20,-4.2,42.5),Vector3(0,PI,0),Vector3(2,4,2.5),nullptr);
+	spawnDoor(Vector3(20,-4.2,42.5),Vector3(0,PI,0),Vector3(2,4,2.5),kidsRoomKey);
 
 	//Kitchen and closet walls
 	spawnScenery(&mWallpanel,Vector3(90,0,14),Vector3(0,0,0),Vector3(1,1.6,.25));
@@ -96,8 +102,8 @@ void CanisMajor::loadFirstFloor()
 	spawnScenery(&mWallpanel,Vector3(82.5,0,20),Vector3(0,PI/2,0),Vector3(1,1.6,1.5));
 	spawnScenery(&mWallpanel,Vector3(90,0,32.5),Vector3(0,0,0),Vector3(1,1.6,2.5));
 	//spawnDoor(Vector3(90,-4.2,15.1),Vector3(0,PI,0),Vector3(2,4,2.5),nullptr);
-	QuestItem * sbK = spawnQuestItem(&mBook,L"Book",Vector3(95,-3,20));
-	slidingBookcase.create(Vector3(91,1.2,17.4),Vector3(0,-PI/2,0),CM::BOOKCASE_SCALE+Vector3(.5,.25,0),sbK);
+	QuestItem * sbK = spawnQuestItem(&mBook,L"Book",Vector3(42,2.8,67));
+	slidingBookcase.create(Vector3(90.4,1.5,17.6),Vector3(0,-PI/2,0),CM::BOOKCASE_SCALE+Vector3(.8,.4,0),sbK);
 
 	//North interior walls
 	spawnScenery(&mWallpanel,Vector3(87.5,0,45),Vector3(0,PI/2,0),Vector3(1,1.6,2));
@@ -122,7 +128,7 @@ void CanisMajor::loadFirstFloor()
 	spawnScenery(&mWallpanel,Vector3(103,17,0),Vector3(0,PI/2,0),Vector3(1,2.2,4.2));
 	spawnScenery(&mWallpanel,Vector3(103,17,45),Vector3(0,PI/2,0),Vector3(1,2.2,4.2));
 
-	spawnSprite(Vector3(105,12.5,28),L".\\textures\\chandelier.png");
+	//spawnSprite(Vector3(105,12.5,28),L".\\textures\\chandelier.png");
 
 	//Stairwell
 	Staircase *sec = spawnStaircase(L"Upstairs",&CanisMajor::loadSecondFloor,Vector3(35,8,69),Vector3(0,PI/2,0),Vector3(2,2,1.2));
@@ -132,8 +138,11 @@ void CanisMajor::loadFirstFloor()
 	spawnScenery(&mWallpanel,Vector3(35,-4,62),Vector3(0,0,PI/2),Vector3(1,2,1.5));
 
 	//Putting crap in the level
+
+	
+
 	//Baby room
-	spawnSearchable(&mCradle,L"Cradle",nullptr,Vector3(2.5,-3,3),Vector3(0,.4,0), Vector3(1,1,1), CRYING, true);
+	spawnSearchable(&mCradle,L"Cradle",servantDoorKey,Vector3(2.5,-3,3),Vector3(0,.4,0), Vector3(1,1,1), CRYING, true);
 	spawnScenery(&mTable,Vector3(13,-1,4),Vector3(PI,0.2,0),Vector3(.5,.7,.4));
 	spawnScenery(&mChair,Vector3(14,-2,12),Vector3(PI/2,0.2,0),Vector3(1,1,1));
 	spawnScenery(&mFixture,Vector3(10,4,1),Vector3(0,0,0));
@@ -174,6 +183,7 @@ void CanisMajor::loadFirstFloor()
 	d->setGeometry(&mCabDoor);
 	Door* e = spawnDoor(Vector3(66,-1.55,2),Vector3(PI,-PI/2,0),CM::CABINET_DOOR,nullptr);
 	e->setGeometry(&mCabDoor);
+	
 
 	spawnScenery(&mCounter,Vector3(83,-0.9,12.5),Vector3(0,PI/2,0),Vector3(2,2.05,2));
 	Door* o = spawnDoor(Vector3(82.55,-7,10.5),Vector3(PI,-3*PI/2,0),CM::CABINET_DOOR2,nullptr);
@@ -230,4 +240,22 @@ void CanisMajor::loadFirstFloor()
 	//Ground for the trees
 	spawnScenery(&mCube,Vector3(0,-7,25),Vector3(0,0,0),Vector3(160,1,160));
 	
+
+	//servant quarters
+	spawnSearchable(&mServantbed,L"Servant Bed",nullptr,Vector3(52,-3,59),Vector3(0,0,0),Vector3(1,1,1.5));
+	spawnSearchable(&mServantbed,L"Servant Bed",nullptr,Vector3(61,-3,59),Vector3(0,0,0),Vector3(1,1,1.5));
+
+	spawnSearchable(&mTable,L"Table",nullptr,Vector3(72,-2.5,67),Vector3(0,0,0),Vector3(0.75,0.75,0.75));
+	spawnSearchable(&mDresser,L"Dresser",sbK,Vector3(42,-2.5,67),Vector3(0,0,0),Vector3(1,1.5,1));
+
+	spawnSearchable(&mBookcase,L"Bookcase",nullptr,Vector3(61,2,69.5),Vector3(0,0,0),CM::BOOKCASE_SCALE);
+	spawnScenery(&mBookcase,Vector3(46,2,58.6),Vector3(-PI/5,0,0),CM::BOOKCASE_SCALE);
+
+	spawnScenery(&mBook,Vector3(46,-2,57),Vector3(0,0,0));
+	spawnScenery(&mBook2,Vector3(46,-2.5,56.5),Vector3(0,PI/3,0));
+	spawnScenery(&mBook3,Vector3(47,-2.5,58),Vector3(0,PI/4,0));
+	spawnScenery(&mBook,Vector3(45,-2.5,59),Vector3(0,-PI/5,0));
+	spawnScenery(&mBook2,Vector3(48,-2.5,57),Vector3(0,PI/6,0));
+	spawnScenery(&mBook3,Vector3(44,-2.5,58),Vector3(0,PI/5,0));
+	spawnScenery(&mBook,Vector3(43,-2.5,57),Vector3(0,-PI/3,0));
 }

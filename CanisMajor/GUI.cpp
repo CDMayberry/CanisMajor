@@ -26,6 +26,8 @@ void GUI::init(ID3D10Device* device, const D3DXVECTOR3 centers[], UINT numSprite
 	buildVB(centers);
 	buildFX();
 	buildVertexLayout();
+
+	alpha = 1;
 }
 
 //Pass in project matrix only to draw specific items to the screen
@@ -36,6 +38,7 @@ void GUI::draw(const D3DXMATRIX& proj)
 	mfxViewProjVar->SetMatrix((float*)&proj);
 	mfxTreeMapArrayVar->SetResource(mTreeMapArrayRV);
 	mfxSprite->SetInt(sprite);
+	mfxAlpha->SetFloat(alpha);
 
 	md3dDevice->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_POINTLIST);
 	md3dDevice->IASetInputLayout(mVertexLayout);
@@ -53,6 +56,7 @@ void GUI::draw(const D3DXMATRIX& proj)
 		md3dDevice->IASetVertexBuffers(0, 1, &mVB, &stride, &offset);
 		md3dDevice->Draw(mNumSprites, 0);
 	}
+	alpha = 1;
 }
 
 
@@ -109,6 +113,7 @@ void GUI::buildFX()
 	mfxTreeMapArrayVar = mFX->GetVariableByName("gDiffuseMapArray")->AsShaderResource();
 	mfxSpriteMapVar = mFX->GetVariableByName("gDiffuseMap")->AsShaderResource();
 	mfxSprite = mFX->GetVariableByName("sprite")->AsScalar();
+	mfxAlpha  = mFX->GetVariableByName("alpha")->AsScalar();
 }
 
 void GUI::buildVertexLayout()
