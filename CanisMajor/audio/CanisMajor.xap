@@ -16,8 +16,8 @@ Global Settings
     Header File = C:\Users\mayberrycd1\Documents\CanisMajor\CanisMajor\audio\CanisMajor.h;
     Exclude Category Names = 0;
     Exclude Variable Names = 0;
-    Last Modified Low = 3115198620;
-    Last Modified High = 30443019;
+    Last Modified Low = 560397840;
+    Last Modified High = 30443030;
 
     Category
     {
@@ -227,10 +227,10 @@ Wave Bank
     Compression Preset Name = <none>;
     Xbox Bank Last Modified Low = 0;
     Xbox Bank Last Modified High = 0;
-    PC Bank Last Modified Low = 3115288626;
-    PC Bank Last Modified High = 30443019;
-    Bank Last Revised Low = 3061175531;
-    Bank Last Revised High = 30443019;
+    PC Bank Last Modified Low = 560427842;
+    PC Bank Last Modified High = 30443030;
+    Bank Last Revised Low = 511605049;
+    Bank Last Revised High = 30443030;
 
     Wave
     {
@@ -811,22 +811,22 @@ Wave Bank
     {
         Name = magicMissile;
         File = magicMissile.wav;
-        Build Settings Last Modified Low = 3022723331;
-        Build Settings Last Modified High = 30443019;
+        Build Settings Last Modified Low = 499164338;
+        Build Settings Last Modified High = 30443030;
 
         Cache
         {
             Format Tag = 0;
-            Channels = 2;
+            Channels = 1;
             Sampling Rate = 44100;
             Bits Per Sample = 1;
             Play Region Offset = 44;
-            Play Region Length = 160516;
+            Play Region Length = 80258;
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 2773629084;
-            Last Modified High = 30443019;
+            Last Modified Low = 92521079;
+            Last Modified High = 30443030;
         }
     }
 }
@@ -838,8 +838,8 @@ Sound Bank
     Windows File = Win\CMsoundbank.xsb;
     Xbox Bank Path Edited = 0;
     Windows Bank Path Edited = 0;
-    Bank Last Modified Low = 3118648818;
-    Bank Last Modified High = 30443019;
+    Bank Last Modified Low = 563598023;
+    Bank Last Modified High = 30443030;
     Header Last Modified High = 0;
     Header Last Modified Low = 0;
 

@@ -110,6 +110,7 @@ void CanisMajor::threadInit()
 		L".\\textures\\sDoor.dds",
 		L".\\textures\\arrow.dds",
 		L".\\textures\\arrowDown.dds",
+		L".\\textures\\largeWhite.png"
 	};
 
 	gui.init(md3dDevice, centers, MAX_GUI, guiNames);
@@ -498,6 +499,20 @@ void CanisMajor::levelsUpdate(float dt)
 	updateNoteText(dt);
 
 	collisions();
+
+	static float victoryTimer = 0;
+	const float VICTORY_TIME = 3;
+	if(camera.getPosition().z<0)
+	{
+		victoryTimer+=dt;
+		gui.sprite=6;//large white
+		gui.alpha = victoryTimer/VICTORY_TIME/4;
+	}
+	else
+		victoryTimer=0;
+
+	if(victoryTimer > VICTORY_TIME)
+		loadSplashScreen(true);
 
 	if(camera.getNearbyItem()!=nullptr)
 	{

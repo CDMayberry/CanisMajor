@@ -15,7 +15,7 @@ void Door::interactWith(Camera* player)
 		{
 			if(player->checkItem(key))
 			{
-				player->removeItem(key);
+				//player->removeItem(key);
 				isOpen = true;
 				Interactable::interactWith(player);//set save to true if needed
 				key = nullptr;//unlock

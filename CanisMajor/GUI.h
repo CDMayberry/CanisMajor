@@ -26,6 +26,7 @@ public:
 	void init(ID3D10Device* device, const D3DXVECTOR3 centers[], UINT numSprites, std::wstring filenames[]);
 	void draw(const D3DXMATRIX& proj); //Note: this draws images directly to the screen
 	int sprite;
+	float alpha;
 private:
 	void buildVB(const D3DXVECTOR3 centers[]);
 	void buildFX();
@@ -48,6 +49,7 @@ private:
 	ID3D10EffectVariable* mfxEyePosVar;
 	ID3D10EffectVariable* mfxLightVar;
 	ID3D10EffectScalarVariable* mfxSprite;
+	ID3D10EffectScalarVariable* mfxAlpha;
 	ID3D10EffectShaderResourceVariable* mfxTreeMapArrayVar;
 	ID3D10EffectShaderResourceVariable* mfxSpriteMapVar;
 
