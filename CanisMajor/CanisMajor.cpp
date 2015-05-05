@@ -295,6 +295,12 @@ void CanisMajor::threadInit()
 	loadingStatus++;
 	mSphere.init(md3dDevice,".\\geometry\\sphere.geo",L".\\textures\\white.bmp");
 	loadingStatus++;
+	mWineGlass.init(md3dDevice,".\\geometry\\wineGlass.geo");//Wine glass model made by Cold999 of blendswap.com
+	loadingStatus++;
+	mTeaCup.init(md3dDevice,".\\geometry\\teaCup.geo");//Teacup, spoon and suacer models made by oenvoyage of blendswap.com
+	loadingStatus++;
+	mTeaSaucer.init(md3dDevice,".\\geometry\\teaSaucer.geo");//Teacup, spoon and suacer models made by oenvoyage of blendswap.com
+	loadingStatus++;
 	for(int i = 0 ; i < CM::NUM_QUEST_ITEMS; i++)
 	{
 		items[i].init(this,&mCube,1);
@@ -408,7 +414,7 @@ void CanisMajor::menuUpdate(float dt, bool reset)
 #ifdef _DEBUG		//Use this for testing a specific level
 					loadFirstFloor();
 #else				//Use this to run the full game
-					loadAttic();
+					loadFirstFloor();
 #endif
 				}
 				break;

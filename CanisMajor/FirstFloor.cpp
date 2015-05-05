@@ -8,7 +8,7 @@ void CanisMajor::loadFirstFloor()
 	camera.setPosition(Vector3(35,0,55));
 	QuestItem *k=nullptr;
 	k=spawnQuestItem(&mKey,L"Obscure Key",Vector3(15,2,-5),Vector3(0,0,0),Vector3(4,4,4));
-	QuestItem* kidsRoomKey = spawnQuestItem(&mKey,L"Children's Key",Vector3(73,1.5,2.5),Vector3(0,PI/2,0),Vector3(2,2,2));
+	QuestItem* kidsRoomKey = spawnQuestItem(&mKey,L"Children's Key",Vector3(73,3.2,2.3),Vector3(0,PI/2,0),Vector3(2,2,2));
 	kidsRoomKey->collisionType=AABBox;
 
 	QuestItem* servantDoorKey = spawnQuestItem(&mKey,L"Servant's Key",Vector3(2.5,2,3),Vector3(0,PI/2,0),Vector3(3,3,3));
@@ -172,16 +172,16 @@ void CanisMajor::loadFirstFloor()
 	
 	//South cabinets
 	for(int i = 75; i>66;i-=2)
-		spawnScenery(&mCabinet,Vector3(i,4.5,1),Vector3(0,-PI/2,0),Vector3(1,1,1));
-	Door* a = spawnDoor(Vector3(74,-1.55,2),Vector3(PI,-PI/2,0),CM::CABINET_DOOR,nullptr);
+		spawnScenery(&mCabinet,Vector3(i,4.5,1.5),Vector3(0,-PI/2,0),Vector3(1,1,1));
+	Door* a = spawnDoor(Vector3(74,-1.55,2.5),Vector3(PI,-PI/2,0),CM::CABINET_DOOR,nullptr);
 	a->setGeometry(&mCabDoor);
-	Door* b = spawnDoor(Vector3(72,-1.55,2),Vector3(PI,-PI/2,0),CM::CABINET_DOOR,nullptr);
+	Door* b = spawnDoor(Vector3(72,-1.55,2.5),Vector3(PI,-PI/2,0),CM::CABINET_DOOR,nullptr);
 	b->setGeometry(&mCabDoor);
-	Door* c = spawnDoor(Vector3(70,-1.55,2),Vector3(PI,-PI/2,0),CM::CABINET_DOOR,nullptr);
+	Door* c = spawnDoor(Vector3(70,-1.55,2.5),Vector3(PI,-PI/2,0),CM::CABINET_DOOR,nullptr);
 	c->setGeometry(&mCabDoor);
-	Door* d = spawnDoor(Vector3(68,-1.55,2),Vector3(PI,-PI/2,0),CM::CABINET_DOOR,nullptr);
+	Door* d = spawnDoor(Vector3(68,-1.55,2.5),Vector3(PI,-PI/2,0),CM::CABINET_DOOR,nullptr);
 	d->setGeometry(&mCabDoor);
-	Door* e = spawnDoor(Vector3(66,-1.55,2),Vector3(PI,-PI/2,0),CM::CABINET_DOOR,nullptr);
+	Door* e = spawnDoor(Vector3(66,-1.55,2.5),Vector3(PI,-PI/2,0),CM::CABINET_DOOR,nullptr);
 	e->setGeometry(&mCabDoor);
 	
 
@@ -193,16 +193,17 @@ void CanisMajor::loadFirstFloor()
 
 	//North cabinets
 	for(int i = 86; i>79;i-=2)
-		spawnScenery(&mCabinet,Vector3(i,4.5,13),Vector3(0,PI/2,0),Vector3(1,1,1));
+		spawnScenery(&mCabinet,Vector3(i,4.5,13.8),Vector3(0,PI/2,0),Vector3(1,1,1));
 
-	Door* f = spawnDoor(Vector3(87,-1.55,12),Vector3(PI,-3*PI/2,0),CM::CABINET_DOOR,nullptr);
+	Door* f = spawnDoor(Vector3(87,-1.55,12.8),Vector3(PI,-3*PI/2,0),CM::CABINET_DOOR,nullptr);
 	f->setGeometry(&mCabDoor);
-	Door* g = spawnDoor(Vector3(85,-1.55,12),Vector3(PI,-3*PI/2,0),CM::CABINET_DOOR,nullptr);
+	Door* g = spawnDoor(Vector3(85,-1.55,12.8),Vector3(PI,-3*PI/2,0),CM::CABINET_DOOR,nullptr);
 	g->setGeometry(&mCabDoor);
-	Door* h = spawnDoor(Vector3(83,-1.55,12),Vector3(PI,-3*PI/2,0),CM::CABINET_DOOR,nullptr);
+	Door* h = spawnDoor(Vector3(83,-1.55,12.8),Vector3(PI,-3*PI/2,0),CM::CABINET_DOOR,nullptr);
 	h->setGeometry(&mCabDoor);
-	Door* i = spawnDoor(Vector3(81,-1.55,12),Vector3(PI,-3*PI/2,0),CM::CABINET_DOOR,nullptr);
+	Door* i = spawnDoor(Vector3(81,-1.55,12.8),Vector3(PI,-3*PI/2,0),CM::CABINET_DOOR,nullptr);
 	i->setGeometry(&mCabDoor);
+
 	spawnScenery(&mFixture,Vector3(8,4,54),Vector3(0,PI,0));
 
 	staff.create(Vector3(77,0,17));
@@ -238,7 +239,7 @@ void CanisMajor::loadFirstFloor()
 	trees.init(md3dDevice, centers3, 256, treeNames,4);
 
 	//Ground for the trees
-	spawnScenery(&mCube,Vector3(0,-7,25),Vector3(0,0,0),Vector3(160,1,160));
+	spawnScenery(&mCube,Vector3(0,-7,25),Vector3(0,0,0),Vector3(300,1,300));
 	
 
 	//servant quarters
@@ -258,4 +259,24 @@ void CanisMajor::loadFirstFloor()
 	spawnScenery(&mBook2,Vector3(48,-2.5,57),Vector3(0,PI/6,0));
 	spawnScenery(&mBook3,Vector3(44,-2.5,58),Vector3(0,PI/5,0));
 	spawnScenery(&mBook,Vector3(43,-2.5,57),Vector3(0,-PI/3,0));
+
+	//Dining room
+	spawnScenery(&mTable,Vector3(105,-1.5,25),Vector3(0,0,0),Vector3(2,1.2,4));
+	spawnScenery(&mChair,Vector3(99.5,-1.8,14),Vector3(PI/2,0.4,0),CM::CHAIR_SCALE);
+	spawnScenery(&mChair,Vector3(99,-3,20),Vector3(0,.3,0),CM::CHAIR_SCALE);
+	spawnScenery(&mChair,Vector3(100,3,25),Vector3(0,PI,PI),CM::CHAIR_SCALE);
+	spawnScenery(&mChair,Vector3(100,-2,28),Vector3(0,0,PI/2),CM::CHAIR_SCALE);
+	spawnScenery(&mChair,Vector3(98,-0.5,32),Vector3(0,-PI/2,-2.2),CM::CHAIR_SCALE);
+	spawnScenery(&mChair,Vector3(91,-0.5,32),Vector3(0,0,-2.2),CM::CHAIR_SCALE);
+	spawnScenery(&mChair,Vector3(95,-3,34),Vector3(0,PI/2+.3,0),CM::CHAIR_SCALE);
+	spawnScenery(&mChair,Vector3(110,-0.5,20),Vector3(0,-PI/2,-2.2),CM::CHAIR_SCALE);
+	spawnScenery(&mChair,Vector3(109,3,17),Vector3(0,0,PI),CM::CHAIR_SCALE);
+	spawnScenery(&mChair,Vector3(109,-3,31),Vector3(0,PI-.3,0),CM::CHAIR_SCALE);
+	spawnScenery(&mChair,Vector3(109,-1.8,13),Vector3(PI/2,PI+.4,0),CM::CHAIR_SCALE);
+	spawnScenery(&mChair,Vector3(106,2.85,27),Vector3(0,-PI/2,-2.2),CM::CHAIR_SCALE);
+	spawnScenery(&mWineGlass,Vector3(104,.8,20),Vector3(0,0,0),CM::WINE_GLASS);
+	spawnScenery(&mWineGlass,Vector3(106,.8,16),Vector3(0,0,0),CM::WINE_GLASS);
+	spawnScenery(&mWineGlass,Vector3(102,.6,30),Vector3(PI/2,0,0),CM::WINE_GLASS);
+	spawnScenery(&mTeaSaucer,Vector3(108,1,33),Vector3(0,0,0),Vector3(.1,.1,.1));
+	spawnScenery(&mTeaCup,Vector3(105,1,33),Vector3(0,0,0),Vector3(.1,.1,.1));
 }
