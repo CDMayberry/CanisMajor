@@ -115,7 +115,7 @@ public:
 			mServantbed, mStaircase, mTable, mBottle, mLock, mPictureframe, mRail, mWallpanel,
 			mCage, mFixture, mDoor, mCube, mRoofHole,mKey, mBox, mWindowPanel, mBook, mBook2, mBook3, mBookStack, mDesk,
 			mToilet, mSink, mTub, mArrow, mRing, mDog, mPedastal, mFloor,mStove, mCounter, mSinkCounter, 
-			mCabinet, mCabDoor,mStaff,mSphere,mWineGlass,mTeaCup,mTeaSaucer;
+			mCabinet, mCabDoor,mStaff,mSphere,mWineGlass,mTeaCup,mTeaSaucer,mSofa,mFireplace;
 
 
 	Origin origin;

@@ -93,6 +93,11 @@ void Dog::update(float dt){
 		if(game->birminghamMode)
 			playerNearby = nullptr;
 
+		#if defined(DEBUG) || defined(DEBUG)
+		playerNearby = nullptr;
+
+#endif
+
 
 
 		if (D3DXVec2Length(&vectortoplayer) <= 4){
