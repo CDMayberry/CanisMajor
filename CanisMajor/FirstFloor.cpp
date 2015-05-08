@@ -112,7 +112,7 @@ void CanisMajor::loadFirstFloor()
 	spawnScenery(&mWallpanel,Vector3(90,0,14),Vector3(0,0,0),Vector3(1,1.6,.25));
 	spawnScenery(&mWallpanel,Vector3(90,0,1.25),Vector3(0,0,0),Vector3(1,1.6,.25));
 	spawnScenery(&mWallpanel,Vector3(82.5,0,15),Vector3(0,PI/2,0),Vector3(1,1.6,1.5));
-	spawnScenery(&mWallpanel,Vector3(75,0,17.5),Vector3(0,0,0),Vector3(1,1.6,.5));
+	spawnScenery(&mWallpanel,Vector3(75,0,17.5),Vector3(0,0,0),Vector3(1,1.6,.6));
 	spawnScenery(&mWallpanel,Vector3(82.5,0,20),Vector3(0,PI/2,0),Vector3(1,1.6,1.5));
 	spawnScenery(&mWallpanel,Vector3(90,0,32.5),Vector3(0,0,0),Vector3(1,1.6,2.5));
 	//spawnDoor(Vector3(90,-4.2,15.1),Vector3(0,PI,0),Vector3(2,4,2.5),nullptr);
@@ -306,4 +306,17 @@ void CanisMajor::loadFirstFloor()
 	spawnScenery(&mTeaSaucer,Vector3(108.5,.6,12.5),Vector3(0,0,0),Vector3(.1,.1,.1));
 	spawnScenery(&mTeaCup,Vector3(102,1,13),Vector3(PI,0,0),Vector3(.1,.1,.1));
 	spawnReadable(&mBook3, L"Book", nullptr,Vector3(101,.8,23),Vector3(0,PI,0),Vector3(1.5,1.5,1.5),forgotten);
+
+	//Livingroom Decor
+	spawnSearchable(&mSofa,L"Sofa",nullptr,Vector3(85,0,40),Vector3(0,-2,0),Vector3(4,4,4));
+	spawnSearchable(&mSofa,L"Sofa",nullptr,Vector3(85,0,25),Vector3(0,-1,0),Vector3(4,4,4));
+	spawnSearchable(&mFireplace,L"Fireplace",nullptr,Vector3(65.8,-3,35),Vector3(0,PI/2,0),Vector3(1,1,1));
+	spawnReadable(&mPictureframe,L"Picture",nullptr,Vector3(65.5,3,24),Vector3(0,0,PI/2),Vector3(1,1,1));
+	spawnReadable(&mPictureframe,L"Picture",nullptr,Vector3(89.3,3,32),Vector3(0,PI,PI/2),Vector3(1,1,1));
+
+	//Parlor Decor
+	spawnReadable(&mPictureframe,L"Picture",nullptr,Vector3(64.5,3,24),Vector3(0,PI,PI/2),Vector3(1,1,1));
+	spawnReadable(&mPictureframe,L"Picture",nullptr,Vector3(64.5,3,38),Vector3(0,PI,PI/2),Vector3(1,1,1));
+	spawnReadable(&mPictureframe,L"Picture",nullptr,Vector3(30.3,3,24),Vector3(0,PI,PI/2),Vector3(1,1,1));
+	spawnReadable(&mPictureframe,L"Picture",nullptr,Vector3(30.3,3,38),Vector3(0,PI,PI/2),Vector3(1,1,1));
 }

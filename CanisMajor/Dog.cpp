@@ -93,6 +93,11 @@ void Dog::update(float dt){
 		if(game->birminghamMode)
 			playerNearby = nullptr;
 
+		#if defined(DEBUG) || defined(DEBUG)
+		playerNearby = nullptr;
+
+#endif
+
 
 
 		if (D3DXVec2Length(&vectortoplayer) <= 4){
@@ -101,9 +106,9 @@ void Dog::update(float dt){
 				game->playSound(BITE,position);
 				game->onPlayerDeath();//the dog caught the player, died
 			}
-				}
+				
 			#endif
-	
+		}
 		else if (playerNearby == &game->camera && following == false){
 			following = true;
 			game->audio->updateCue(&audioData3D,BARKING);

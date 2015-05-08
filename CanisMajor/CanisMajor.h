@@ -34,7 +34,6 @@ namespace CM{
 	const int NUM_MENU_ITEMS = 6;//title, play, quit, "", instructions 1/2
 	const int NUM_SPLASH_MENU_ITEMS = 3;//title, continue, quit
 	const float TEXT_FADEOUT_TIME = 3;
-	const int MAX_WALLS = 750;
 	const int MAX_ROOF = 75;
 	const int MAX_SCENERY = 1000;
 	const Vector3 WALL_SCALE = Vector3(1,1.6,1);
@@ -54,6 +53,7 @@ namespace CM{
 	const int NUM_SPRITES = 1000;
 	const int NUM_BOLTS = 100;
 	const Vector3 WINE_GLASS = Vector3(.25,.25,.25);	
+	const int NUM_WALLS = 100;
 };
 
 
@@ -115,7 +115,7 @@ public:
 			mServantbed, mStaircase, mTable, mBottle, mLock, mPictureframe, mRail, mWallpanel,
 			mCage, mFixture, mDoor, mCube, mRoofHole,mKey, mBox, mWindowPanel, mBook, mBook2, mBook3, mBookStack, mDesk,
 			mToilet, mSink, mTub, mArrow, mRing, mDog, mPedastal, mFloor,mStove, mCounter, mSinkCounter, 
-			mCabinet, mCabDoor,mStaff,mSphere,mWineGlass,mTeaCup,mTeaSaucer;
+			mCabinet, mCabDoor,mStaff,mSphere,mWineGlass,mTeaCup,mTeaSaucer,mSofa,mFireplace;
 
 
 	Origin origin;
@@ -171,6 +171,7 @@ public:
 	Light eyes;
 	int activeLights;
 	int lightType[MAX_LIGHTS];
+	
 
 	ID3D10EffectMatrixVariable* mfxWVPVar;
 	ID3D10EffectMatrixVariable* mfxWorldVar;
@@ -188,7 +189,7 @@ public:
 	ID3D10EffectScalarVariable* mfxLightType[MAX_LIGHTS];
 
 	
-
+	Actor* walls[CM::NUM_WALLS];
 	Actor* scenery;
 	SearchableActor* searchableActors;
 	ReadableActor* readableActors;

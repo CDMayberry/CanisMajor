@@ -17,7 +17,7 @@
 
 namespace CameraNS
 {
-	const float INTERACTION_RADIUS_SQ = 64;
+	const float INTERACTION_RADIUS_SQ = 81;
 	const float NEAR_CLIPPING_DIST = 0.1f;
 	const float FAR_CLIPPING_DIST = 100;//originally 1000
 	const float SPEED = 10;

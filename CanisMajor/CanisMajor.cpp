@@ -158,7 +158,7 @@ void CanisMajor::threadInit()
 		center.z = dir.z*rander;
 		center.x += xOffset;
 		center.z += zOffset;
-	
+
 		centers3[i] = center;
 	}
 
@@ -205,7 +205,7 @@ void CanisMajor::threadInit()
 	loadingStatus++; //12
 	mLock.init(md3dDevice,".\\geometry\\lock.geo");
 	loadingStatus++; //13
-	mPictureframe.init(md3dDevice,".\\geometry\\pictureframe.geo");
+	mPictureframe.init(md3dDevice,".\\geometry\\pictureframe.geo",L".\\textures\\picture1.dds");
 	loadingStatus++; //14
 	mRail.init(md3dDevice,".\\geometry\\rail.geo");
 	loadingStatus++; //15
@@ -281,9 +281,9 @@ void CanisMajor::threadInit()
 	loadingStatus++;
 	mStove.init(md3dDevice,".\\geometry\\wood_stove.geo",L".\\textures\\metal.dds");
 	loadingStatus++;
-	mCounter.init(md3dDevice,".\\geometry\\counter.geo");
+	mCounter.init(md3dDevice,".\\geometry\\counter.geo",L".\\textures\\granite.dds");
 	loadingStatus++;
-	mSinkCounter.init(md3dDevice,".\\geometry\\counter_sink.geo");
+	mSinkCounter.init(md3dDevice,".\\geometry\\counter_sink.geo",L".\\textures\\granite.dds");
 	loadingStatus++;
 	mCabinet.init(md3dDevice,".\\geometry\\cabinet.geo",L".\\textures\\wood2.dds");
 	loadingStatus++;
@@ -294,19 +294,22 @@ void CanisMajor::threadInit()
 
 	mStaff.init(md3dDevice,".\\geometry\\staff.geo",L".\\textures\\gold.dds");
 	staff.init(this,&mStaff);
+	mSofa.init(md3dDevice,".\\geometry\\sofa.geo", L".\\textures\\paper.dds");
 	loadingStatus++;
 	mSphere.init(md3dDevice,".\\geometry\\sphere.geo",L".\\textures\\white.bmp");
 	loadingStatus++;
 	mWineGlass.init(md3dDevice,".\\geometry\\wineGlass.geo");//Wine glass model made by Cold999 of blendswap.com
 	loadingStatus++;
+	mFireplace.init(md3dDevice,".\\geometry\\fireplace.geo",L".\\textures\\metal.dds");
+	loadingStatus++;
 	mTeaCup.init(md3dDevice,".\\geometry\\teaCup.geo");//Teacup, spoon and suacer models made by oenvoyage of blendswap.com
 	loadingStatus++;
-	#if !defined(DEBUG) || !defined(DEBUG)
+#if !defined(DEBUG) || !defined(DEBUG)
 	mTeaSaucer.init(md3dDevice,".\\geometry\\teaSaucer.geo");//Teacup, spoon and suacer models made by oenvoyage of blendswap.com
 #else
 	mTeaSaucer.init(md3dDevice,".\\geometry\\cardboardBox.geo", L".\\textures\\paper.dds");
 #endif
-	
+
 	loadingStatus++;
 	for(int i = 0 ; i < CM::NUM_QUEST_ITEMS; i++)
 	{
@@ -362,6 +365,11 @@ void CanisMajor::threadInit()
 #endif
 
 	camera.update(0);
+
+	for(int i = 0 ; i < CM::NUM_WALLS; i++)
+	{
+		walls[i]=nullptr;
+	}
 
 	//buildFX();
 	buildVertexLayouts();
@@ -442,7 +450,7 @@ void CanisMajor::menuUpdate(float dt, bool reset)
 				if(state.level==SPLASH)
 					menuLoad();
 				else 
-				PostQuitMessage(0);
+					PostQuitMessage(0);
 				break;
 			}
 		}
@@ -474,7 +482,7 @@ void CanisMajor::levelsUpdate(float dt)
 {	
 	gui.sprite = -1;
 	//if(state.secondFloorSairsUsed)
-		//return loadSplashScreen(true);
+	//return loadSplashScreen(true);
 
 	for(int i = 0 ; i < CM::MAX_SCENERY; i++)
 	{
@@ -548,10 +556,10 @@ void CanisMajor::levelsUpdate(float dt)
 	}
 
 	//displays the player's current location. Use for mapping/debugging
-	#if defined(DEBUG) || defined(DEBUG)
-		wstring xzpos = std::to_wstring((int)camera.getPosition().x) + L", "+ std::to_wstring((int)camera.getPosition().z);
-		drawUtilText(xzpos);
-	#endif
+#if defined(DEBUG) || defined(DEBUG)
+	wstring xzpos = std::to_wstring((int)camera.getPosition().x) + L", "+ std::to_wstring((int)camera.getPosition().z);
+	drawUtilText(xzpos);
+#endif
 }
 
 //COLLISIONS GIVE LOADS OF FALSE POSITIVES
@@ -560,6 +568,15 @@ void CanisMajor::collisions()
 	camera.resetNearbyInteractable();
 	dog.resetNearest();
 	float dist;
+
+	for(int i = 0; i<CM::NUM_WALLS;i++)
+	{
+		if(walls[i]!=nullptr){
+			if(camera.isPicked(walls[i],dist)){
+				camera.setNearbyInteractable(nullptr,dist);
+			}
+		}
+	}
 
 	for(int i = 0; i< CM::MAX_SEARCHABLE_ACTORS; i++)
 	{
@@ -647,8 +664,8 @@ void CanisMajor::collisions()
 	for(int i = 0 ; i < CM::MAX_SCENERY;i++)
 	{
 
-	/*	if(camera.isPicked(&scenery[i],dist)){
-			camera.setNearbyInteractable(nullptr,dist);
+		/*	if(camera.isPicked(&scenery[i],dist)){
+		camera.setNearbyInteractable(nullptr,dist);
 		}*/
 
 		if(camera.collided(&scenery[i]))
@@ -825,7 +842,7 @@ void CanisMajor::levelsDraw()
 	//Get Camera viewMatrix
 	mView = camera.getViewMatrix();
 	mProj = camera.getProjectionMatrix();
-	
+
 	for(int i = 0; i < CM::NUM_SPRITES; i++)
 		sprites[i].draw(camera.getPosition(),mView*mProj);
 
@@ -887,7 +904,7 @@ void CanisMajor::levelsDraw()
 		utilFont->DrawText(0,L"\u25CF",-1,&r,DT_NOCLIP|DT_CENTER|DT_VCENTER,WHITE);
 	}
 
-	
+
 	//#ifdefDEBUG || DEBUG
 	//RECT r = {mClientWidth/2,mClientHeight/2,mClientWidth/2,mClientHeight/2};
 	//utilFont->DrawText(0,L"\u25CF",-1,&r,DT_NOCLIP|DT_CENTER|DT_VCENTER,WHITE);
@@ -1028,6 +1045,10 @@ void CanisMajor::clearLevel()
 	negaLight.pos = Vector3(200,200,200);
 	eyes.pos = Vector3(200,200,200);
 	slidingBookcase.isActive=false;
+	for(int i = 0 ; i < CM::NUM_WALLS; i++)
+	{
+		walls[i]=nullptr;
+	}
 }
 
 void CanisMajor::loadSplashScreen(bool status)
@@ -1157,6 +1178,8 @@ void CanisMajor::setNoteText(float duration,wstring s, D3DXCOLOR c)
 
 Actor* CanisMajor::spawnScenery(Geometry* g, Vector3 pos, Vector3 rot, Vector3 scale)
 {
+	
+	Actor* ret = nullptr;
 	for(int i = 0 ; i < CM::MAX_SCENERY; i++)
 	{
 		if(!scenery[i].isActive)
@@ -1166,10 +1189,22 @@ Actor* CanisMajor::spawnScenery(Geometry* g, Vector3 pos, Vector3 rot, Vector3 s
 			scenery[i].setPosition(pos);
 			scenery[i].setRotation(rot);
 			scenery[i].setScale(scale);
-			return &scenery[i];
+			ret = &scenery[i];
+			break;
 		}
 	}
-	return nullptr;
+
+	if(g==&mWallpanel || g==&mWindowPanel){
+		for(int i = 0 ; i < CM::NUM_WALLS; i++)
+		{
+			if(walls[i]==nullptr)
+			{
+				walls[i]=ret;
+				break;
+			}
+		}
+	}
+	return ret;
 }
 
 QuestItem* CanisMajor::spawnQuestItem(Geometry* g, wstring name, Vector3 pos, Vector3 rot, Vector3 scale)
