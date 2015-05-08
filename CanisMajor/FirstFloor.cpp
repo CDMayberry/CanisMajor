@@ -178,6 +178,7 @@ void CanisMajor::loadFirstFloor()
 
 	//Kitchen
 	spawnScenery(&mStove,Vector3(85,-3.5,1.2),Vector3(0,0,0),Vector3(1.7,2,1.6));
+	spawnLight(Vector3(85,-1.5,2),6);
 
 	spawnScenery(&mSinkCounter,Vector3(77,-0.9,1.5),Vector3(0,-PI/2,0),Vector3(2,2.05,2));
 	Door* j = spawnDoor(Vector3(74.7,-7,3.6),Vector3(PI,-PI/2,0),CM::CABINET_DOOR2,nullptr);

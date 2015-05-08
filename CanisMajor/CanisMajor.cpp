@@ -432,9 +432,9 @@ void CanisMajor::menuUpdate(float dt, bool reset)
 				else {
 					audio->playCue(BG);
 #if defined(DEBUG) || defined(DEBUG)		//Use this for testing a specific level
-					loadAttic();
+					loadFirstFloor();
 #else				//Use this to run the full game
-					loadAttic();
+					loadFirstFloor();
 #endif
 				}
 				break;
