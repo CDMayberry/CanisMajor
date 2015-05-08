@@ -12,7 +12,6 @@ cbuffer cbPerFrame
 	Light pLight;
 	Light ambient;
 	Light negaLight;
-	Light fireglowLight;
 	Light gLight;
 	Light eyes;
 	bool gLightType; 
@@ -129,8 +128,6 @@ float4 PS(VS_OUT pIn) : SV_Target
 	}
 
 	litColor += PointLight(v, eyes, gEyePosW);
-
-	litColor += PointLight(v, fireglowLight, gEyePosW);
 
 	//Dark emitter
 	litColor += PointLight(v, negaLight, gEyePosW);
