@@ -5,36 +5,23 @@ const wstring helpUs =  L"We couldn't get out...\nSomeone help us";
 void CanisMajor::loadAttic()
 {
 	state.level = ATTIC;
+	state.bestLevel = ATTIC;
 	clearLevel();
 	int iter = 0;
-	if(!state.gameStarted)
-	{
-		setStoryText(10,L"Where am I?");
-		audio->playCue(BG);
-		state.gameStarted = true;
-		camera.setPosition(Vector3(5,0,5));
-		camera.setDirection(Vector3(1,0,0));
-	}
-	else
-	{
-		camera.setPosition(Vector3(38,0,27));
-		camera.setDirection(Vector3(-1,0,0));
-	}
+	setStoryText(10,L"Where am I?");
+	audio->playCue(BG);
+	camera.setPosition(Vector3(5,0,5));
+	camera.setDirection(Vector3(1,0,0));
 
 	QuestItem* k = nullptr;
-	if(!state.atticKeyTaken)
-	{
-		k=spawnQuestItem(&mKey,L"GOLD KEY",Vector3(37.3,2,53),Vector3(0,0,0),Vector3(4,4,4));
-		k->setStateSwitch(&state,&GameState::atticKeyTaken);
-	}
 
-	if(!state.tookFlashlight)
-	{
-		flashlight.setPosition(Vector3(18,-2,15));
-		flashlight.setDirection(Vector3(1,0,-.5));
-		flashlight.isActive = true;
-		flashlight.setStateSwitch(&state,&GameState::tookFlashlight);
-	}
+	k=spawnQuestItem(&mKey,L"GOLD KEY",Vector3(37.3,2,53),Vector3(0,0,0),Vector3(4,4,4));
+
+
+	flashlight.setPosition(Vector3(18,-2,15));
+	flashlight.setDirection(Vector3(1,0,-.5));
+	flashlight.isActive = true;
+
 
 	spawnScenery(&mFloor,Vector3(0,-4,0),Vector3(0,0,0),Vector3(40,1,60));
 
@@ -142,8 +129,7 @@ void CanisMajor::loadAttic()
 	spawnSearchable(&mBox,L"Inconspicuous Cube",nullptr,Vector3(22,-2,6),Vector3(0,PI/2,0),CM::BOX_SCALE);
 
 
-	Door *d = spawnDoor(Vector3(39.9,-3.5,29),Vector3(0,0,0),Vector3(1.4,3.5,2.1),k,state.atticDoorUnlocked);
-	d->setStateSwitch(&state,&GameState::atticDoorUnlocked);
+	Door *d = spawnDoor(Vector3(39.9,-3.5,29),Vector3(0,0,0),Vector3(1.4,3.5,2.1),k);
 
 	//negaLight.pos = Vector3(20, 0, 30);
 	pLight.pos = Vector3(20, -212, 20);

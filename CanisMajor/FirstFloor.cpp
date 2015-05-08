@@ -11,6 +11,7 @@ const wstring theEnd = L"";
 void CanisMajor::loadFirstFloor()
 {
 	state.level = FIRST_FLOOR;
+	state.bestLevel = FIRST_FLOOR;
 	clearLevel();
 	flashlight.isActive = true;
 	camera.setPosition(Vector3(35,0,55));
@@ -145,8 +146,9 @@ void CanisMajor::loadFirstFloor()
 	//spawnSprite(Vector3(105,12.5,28),L".\\textures\\chandelier.png");
 
 	//Stairwell
-	Staircase *sec = spawnStaircase(L"Upstairs",&CanisMajor::loadSecondFloor,Vector3(35,8,69),Vector3(0,PI/2,0),Vector3(2,2,1.2));
-	sec->setStateSwitch(&state,&GameState::firstFloorSairsUsed);
+	//Staircase *sec = spawnStaircase(L"Upstairs",&CanisMajor::loadSecondFloor,Vector3(35,8,69),Vector3(0,PI/2,0),Vector3(2,2,1.2));
+	//sec->setStateSwitch(&state,&GameState::firstFloorSairsUsed);
+	spawnScenery(&mStaircase,Vector3(35,8,69),Vector3(0,PI/2,0),Vector3(2,2,1.2));
 	spawnScenery(&mWallpanel,Vector3(31.5,0,60),Vector3(0,0,0),CM::WALL_SCALE);
 	spawnScenery(&mWallpanel,Vector3(35,8.5,62),Vector3(0,0,PI/2),Vector3(1,2,1.5));
 	spawnScenery(&mWallpanel,Vector3(35,-4,62),Vector3(0,0,PI/2),Vector3(1,2,1.5));

@@ -19,7 +19,8 @@ struct GameState
 	void reset()
 	{
 		level = MENU;
-		atticDoorUnlocked = false;
+		bestLevel = MENU;
+		/*atticDoorUnlocked = false;
 		balconyDoorUnlocked = false;
 		arrowPlaced=SRPlaced=MRPlaced=LRPlaced=pedestalInteractedWith = false;
 		atticStairsUsed = false;
@@ -28,11 +29,12 @@ struct GameState
 		tookFlashlight = false;
 		secondFloorSairsUsed=false;
 		secondFloorMainStairDoorUnlocked=false;
-		firstFloorSairsUsed = false;
+		firstFloorSairsUsed = false;*/
 	}
 
 	Level level;
-	bool atticDoorUnlocked;
+	Level bestLevel;
+	/*bool atticDoorUnlocked;
 	bool atticKeyTaken, balconyKeyTaken, secondFloorMainKeyTaken;
 	bool balconyDoorUnlocked;
 	bool secondFloorMainStairDoorUnlocked;
@@ -41,5 +43,6 @@ struct GameState
 	bool gameStarted;
 	bool tookFlashlight;
 	bool secondFloorSairsUsed;
-	bool firstFloorSairsUsed;
+	bool firstFloorSairsUsed;*/
+	//NOT GONNA HAPPEN
 };

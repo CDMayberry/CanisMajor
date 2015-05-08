@@ -7,7 +7,7 @@
 
 namespace PedestalNS{
 	const Vector3 RING_LOCATION(0,3.5,0);
-	const Vector3 HIDDEN_LOCATION(2,2,0);
+	const Vector3 HIDDEN_LOCATION(0,2,2);
 };
 
 class Pedestal: public virtual Actor, public virtual Interactable

@@ -421,7 +421,14 @@ void CanisMajor::menuUpdate(float dt, bool reset)
 			{
 			case 1://play
 				if(state.level==SPLASH)
-					menuLoad();
+				{
+					if(state.bestLevel==ATTIC)
+						loadAttic();
+					if(state.bestLevel==FIRST_FLOOR)
+						loadFirstFloor();
+					if(state.bestLevel==SECOND_FLOOR)
+						loadSecondFloor();
+				}
 				else {
 					audio->playCue(BG);
 #if defined(DEBUG) || defined(DEBUG)		//Use this for testing a specific level
@@ -432,6 +439,9 @@ void CanisMajor::menuUpdate(float dt, bool reset)
 				}
 				break;
 			case 2://quit
+				if(state.level==SPLASH)
+					menuLoad();
+				else 
 				PostQuitMessage(0);
 				break;
 			}
@@ -1030,8 +1040,8 @@ void CanisMajor::loadSplashScreen(bool status)
 		menuText[0] = L"VICTORY";
 	else
 		menuText[0] = L"DEFEAT";
-	menuText[1] = L"CONTINUE";
-	menuText[2] = L"QUIT";
+	menuText[1] = L"RELOAD LEVEL";
+	menuText[2] = L"MAIN MENU";
 }
 
 void CanisMajor::menuLoad()

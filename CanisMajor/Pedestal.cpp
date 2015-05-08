@@ -59,7 +59,6 @@ void Pedestal::interactWith(Camera* player)
 		hasArrow = true;
 		game->playSound(ACTIVATION, position);
 		game->setNoteText(3,L"You place the golden arrow on the pedestal");
-		state->arrowPlaced = true;
 	}
 	else if(player->checkItem(LRing))
 	{
@@ -71,7 +70,6 @@ void Pedestal::interactWith(Camera* player)
 		hasLR = true;
 		game->playSound(ACTIVATION, position);
 		game->setNoteText(3,L"You place the largest ring on the pedestal");
-		state->LRPlaced = true;
 	}
 	else if(player->checkItem(MRing))
 	{
@@ -83,7 +81,6 @@ void Pedestal::interactWith(Camera* player)
 		hasMR = true;
 		game->playSound(ACTIVATION, position);
 		game->setNoteText(3,L"You place the ring on the pedestal");
-		state->MRPlaced = true;
 	}
 	else if(player->checkItem(SRing))
 	{
@@ -95,7 +92,6 @@ void Pedestal::interactWith(Camera* player)
 		hasSR = true;
 		game->playSound(ACTIVATION, position);
 		game->setNoteText(3,L"You place the smallest ring on the pedestal");
-		state->SRPlaced = true;
 	}
 	else
 		game->setNoteText(3,L"The inscription of 3 rings revolving around an arrow can be faintly seen.");
@@ -113,9 +109,9 @@ std::wstring Pedestal::getUtilText()
 
 void Pedestal::load(GameState *s)
 {
-	hasArrow = s->arrowPlaced;
-	hasLR = s->LRPlaced;
-	hasMR = s->MRPlaced;
-	hasSR = s->SRPlaced;
+	hasArrow = false;
+	hasLR = false;
+	hasMR = false;
+	hasSR = false;
 	state=s;
 }
