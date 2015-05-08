@@ -1105,10 +1105,10 @@ void CanisMajor::updateStoryText(float dt)
 		storyTextAge+=dt;
 	}
 }
-void CanisMajor::setStoryText(float durration,wstring s, D3DXCOLOR c)
+void CanisMajor::setStoryText(float duration,wstring s, D3DXCOLOR c)
 {
 	storyText = s;
-	storyTextLifespan = durration;
+	storyTextLifespan = duration;
 	storyTextAge = 0;
 	storyTextColor = c;
 }
@@ -1131,7 +1131,7 @@ void CanisMajor::drawNoteText()
 }
 void CanisMajor::updateNoteText(float dt)
 {
-	if(noteTextAge<noteTextLifespan)
+	if(noteTextAge<noteTextLifespan && !reading)
 	{
 		noteTextAge+=dt;
 	}

@@ -4,6 +4,7 @@
 void ReadableActor::interactWith(Camera* player)
 {
 	Interactable::interactWith(player);
+	game->reading = true;
 	if(concealedItem != nullptr)
 	{
 		Vector3 pos= concealedItem->getPosition();
