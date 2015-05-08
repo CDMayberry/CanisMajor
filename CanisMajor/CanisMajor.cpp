@@ -420,6 +420,7 @@ void CanisMajor::menuUpdate(float dt, bool reset)
 		birminghamMode=true;
 		menuText[1]=L"BIRMINGHAM MODE";
 	}
+	//birminghamMode = true;
 
 	if(GetAsyncKeyState(VK_RETURN)||GetAsyncKeyState(' '))
 	{ 
