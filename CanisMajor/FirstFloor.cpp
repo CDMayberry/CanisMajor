@@ -5,7 +5,7 @@ const wstring dolan = L"Dolan said daddy's gonna put him down soon.\n Dolan said
 const wstring pic1 = L"An artist's drawing of a man and his dog,\n with a triumphant posing over his find.\nThe Nile can be seen in the background.";
 const wstring pic2 = L"temp";
 const wstring book3 = L"welp";
-const wstring forgotten = L"\"The fool will find it, and in his arrogance\n he will free that which was meant to remain chained.\"";
+const wstring forgotten = L"The upper half of a ripped note:\n\"The fool will find it, and in his arrogance\n he will free that which was meant to remain chained.\"";
 const wstring theEnd = L"";
 
 void CanisMajor::loadFirstFloor()
@@ -302,5 +302,5 @@ void CanisMajor::loadFirstFloor()
 	spawnScenery(&mTeaCup,Vector3(105,.6,23),Vector3(0,0,0),Vector3(.1,.1,.1));
 	spawnScenery(&mTeaSaucer,Vector3(108.5,.6,12.5),Vector3(0,0,0),Vector3(.1,.1,.1));
 	spawnScenery(&mTeaCup,Vector3(102,1,13),Vector3(PI,0,0),Vector3(.1,.1,.1));
-	spawnReadable(&mBook3, L"Book", nullptr,Vector3(101,.8,23),Vector3(0,PI,0),Vector3(1.5,1.5,1.5));
+	spawnReadable(&mBook3, L"Book", nullptr,Vector3(101,.8,23),Vector3(0,PI,0),Vector3(1.5,1.5,1.5),forgotten);
 }

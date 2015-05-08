@@ -5,6 +5,7 @@ const wstring theDog = L"August 19th:\n I'll have to put down that dog soon,\n i
 const wstring arrowLoc =  L"Scrawled in child's writing:\nDolan loves it when we hide daddy's things!\n We even hid one in his dresser.";
 const wstring thieves =  L"August 20th:\nBloody hell, where have those children hidden my artifacts???";
 const wstring constellation = L"Canis Major can be seen rising just over the horizon";
+const wstring failure = L"The lower half of a damaged note:\n-What have I brought back with me?";
 
 void CanisMajor::loadSecondFloor()
 {
@@ -144,6 +145,7 @@ void CanisMajor::loadSecondFloor()
 	//master bed decor
 	spawnScenery(&mMasterbed,Vector3(49,-3,39),Vector3(0,1.5707963268f,0), Vector3(5,4,5));
 	spawnScenery(&mTable,Vector3(42,-3,43),Vector3(0,0,0), Vector3(.8f,1.5f,.8f));
+	spawnReadable(&mBook3, L"Book", nullptr,Vector3(42,-0.4,43),Vector3(PI/16,PI,0),Vector3(1,1,1), failure);
 	spawnScenery(&mTable,Vector3(55.5f,-3,43),Vector3(0,0,0), Vector3(.8f,1.5f,.8f));
 	spawnReadable(&mBook2, L"Book", nullptr,Vector3(55.5,-0.4,43),Vector3(PI/16,PI,0),Vector3(1,1,1), theDog);
 	spawnSearchable(&mDresser,L"Dresser",a,Vector3(40,-3,11),Vector3(0,-PI/2,0), Vector3(2,2,2));
