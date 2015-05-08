@@ -2,6 +2,11 @@
 
 const wstring lastWords = L"Servant's Journal:\n The master has us holding onto the book.\n He told us to keep it in here,\n out of the twins' reach.";
 const wstring dolan = L"Dolan said daddy's gonna put him down soon.\n Dolan said we could save him by hiding daddy's key,\n so we put in the servant's room!\n\n Scrawled in blood beneath:\n Thank you, children.";
+const wstring pic1 = L"An artist's drawing of a man and his dog,\n with a triumphant posing over his find.\nThe Nile can be seen in the background.";
+const wstring pic2 = L"temp";
+const wstring book3 = L"welp";
+const wstring forgotten = L"\"The fool will find it, and in his arrogance\n he will free that which was meant to remain chained.\"";
+const wstring theEnd = L"";
 
 void CanisMajor::loadFirstFloor()
 {
@@ -162,7 +167,7 @@ void CanisMajor::loadFirstFloor()
 	spawnSearchable(&mServantbed,L"Bed",nullptr,Vector3(13,-3,50),Vector3(0,0,0),Vector3(1,1,1.5));
 	spawnSearchable(&mDresser,L"Dresser",nullptr,Vector3(3,-3,37),Vector3(0,-PI/2,0),Vector3(1.5,1.5,1));
 	spawnSearchable(&mDresser,L"Dresser",nullptr,Vector3(16,-3,37),Vector3(0,-PI/2,0),Vector3(1.5,1.5,1));
-	spawnReadable(&mBook,L"Child's Notes",nullptr,Vector3(16,2.2,37),Vector3(0,0,0),Vector3(.75,.75,.75), dolan, 7.0f, GIGGLE2, true);
+	spawnReadable(&mBook,L"Child's Notes",nullptr,Vector3(16,2.2,37),Vector3(0,0,0),Vector3(.75,.75,.75), dolan, 2.0f, GIGGLE2, true);
 
 	//Bathroom
 	spawnScenery(&mTub,Vector3(3,-1.2,25),Vector3(0,PI/2,0),Vector3(1.5,2,1.5));
@@ -262,7 +267,7 @@ void CanisMajor::loadFirstFloor()
 	spawnSearchable(&mServantbed,L"Servant Bed",nullptr,Vector3(61,-3,59),Vector3(0,0,0),Vector3(1,1,1.5));
 
 	spawnSearchable(&mTable,L"Table",nullptr,Vector3(72,-2.5,67),Vector3(0,0,0),Vector3(0.75,0.75,0.75));
-	spawnReadable(&mBook2,L"Journal",nullptr,Vector3(72,-1,67),Vector3(0,0,0),Vector3(0.75,0.75,0.75), lastWords, 6.0f);
+	spawnReadable(&mBook2,L"Journal",nullptr,Vector3(72,-1,67),Vector3(0,0,0),Vector3(0.75,0.75,0.75), lastWords, 2.0f);
 	spawnSearchable(&mDresser,L"Dresser",sbK,Vector3(42,-2.5,67),Vector3(0,0,0),Vector3(1,1.5,1));
 
 	spawnSearchable(&mBookcase,L"Bookcase",nullptr,Vector3(61,2,69.5),Vector3(0,0,0),CM::BOOKCASE_SCALE);

@@ -79,19 +79,23 @@ void Camera::update(float dt)
 	if(GetAsyncKeyState(controls.up))
 	{
 		input += forward;
+		game->reading = false;
 	}
 	if(GetAsyncKeyState(controls.down))
 	{
 		input -= forward;
 		walkingBackwards = true;
+		game->reading = false;
 	}
 	if(GetAsyncKeyState(controls.left))
 	{
 		input -= right;
+		game->reading = false;
 	}
 	if(GetAsyncKeyState(controls.right))
 	{
 		input += right;
+		game->reading = false;
 	}
 
 	Normalize(&input,&input);
