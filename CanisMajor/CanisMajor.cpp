@@ -186,7 +186,7 @@ void CanisMajor::threadInit()
 	loadingStatus++; //3
 	mFrame.init(md3dDevice,".\\geometry\\pictureframe.geo");
 	loadingStatus++; //4
-	mBookcase.init(md3dDevice,".\\geometry\\bookcase.geo", L".\\textures\\wood2.dds",true);
+	mBookcase.init(md3dDevice,".\\geometry\\bookcase.geo", L".\\textures\\bookcase2.dds",true);
 	loadingStatus++; //5
 	mChair.init(md3dDevice,".\\geometry\\chair.geo", L".\\textures\\wood3.dds",true);
 	loadingStatus++; //6
@@ -425,7 +425,7 @@ void CanisMajor::menuUpdate(float dt, bool reset)
 				else {
 					audio->playCue(BG);
 #if defined(DEBUG) || defined(DEBUG)		//Use this for testing a specific level
-					loadFirstFloor();
+					loadAttic();
 #else				//Use this to run the full game
 					loadAttic();
 #endif
