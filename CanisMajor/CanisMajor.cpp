@@ -5,7 +5,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 				   PSTR cmdLine, int showCmd)
 {
 	// Enable run-time memory check for debug builds.
-#if defined(DEBUG) | defined(_DEBUG)
+#if defined(DEBUG) | defined(DEBUG)
 	_CrtSetDbgFlag( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
 #endif
 
@@ -223,13 +223,13 @@ void CanisMajor::threadInit()
 	mBook2.init(md3dDevice,".\\geometry\\book3.geo",L".\\textures\\Book1.dds", true);
 	mBook3.init(md3dDevice,".\\geometry\\book4.geo",L".\\textures\\Book2.dds", true);
 	loadingStatus++; //21
-#if !defined(_DEBUG) || !defined(DEBUG)
+#if !defined(DEBUG) || !defined(DEBUG)
 	mToilet.init(md3dDevice,".\\geometry\\toilet.geo");
 #else
 	mToilet.init(md3dDevice,".\\geometry\\cardboardBox.geo", L".\\textures\\paper.dds");
 #endif
 	loadingStatus++; //22
-#if  !defined(_DEBUG) || !defined(DEBUG)
+#if  !defined(DEBUG) || !defined(DEBUG)
 	mDog.init(md3dDevice,".\\geometry\\dog.geo");
 #else
 	mDog.init(md3dDevice,".\\geometry\\cardboardBox.geo", L".\\textures\\paper.dds");
@@ -261,13 +261,13 @@ void CanisMajor::threadInit()
 	loadingStatus++; //28
 	mDesk.init(md3dDevice,".\\geometry\\desk.geo");
 	loadingStatus++; //29
-#if !defined(_DEBUG) || !defined(DEBUG)
+#if !defined(DEBUG) || !defined(DEBUG)
 	mSink.init(md3dDevice,".\\geometry\\sink.geo");
 #else
 	mSink.init(md3dDevice,".\\geometry\\cardboardBox.geo", L".\\textures\\paper.dds");
 #endif
 	loadingStatus++; //30
-#if !defined(_DEBUG) || !defined(DEBUG)
+#if !defined(DEBUG) || !defined(DEBUG)
 	mTub.init(md3dDevice,".\\geometry\\tub.geo");
 #else
 	mTub.init(md3dDevice,".\\geometry\\cardboardBox.geo", L".\\textures\\paper.dds");
@@ -301,7 +301,12 @@ void CanisMajor::threadInit()
 	loadingStatus++;
 	mTeaCup.init(md3dDevice,".\\geometry\\teaCup.geo");//Teacup, spoon and suacer models made by oenvoyage of blendswap.com
 	loadingStatus++;
+	#if !defined(DEBUG) || !defined(DEBUG)
 	mTeaSaucer.init(md3dDevice,".\\geometry\\teaSaucer.geo");//Teacup, spoon and suacer models made by oenvoyage of blendswap.com
+#else
+	mTeaSaucer.init(md3dDevice,".\\geometry\\cardboardBox.geo", L".\\textures\\paper.dds");
+#endif
+	
 	loadingStatus++;
 	for(int i = 0 ; i < CM::NUM_QUEST_ITEMS; i++)
 	{
@@ -348,7 +353,7 @@ void CanisMajor::threadInit()
 
 	flashlight.toggle();
 
-#if defined(_DEBUG) || defined(DEBUG)
+#if defined(DEBUG) || defined(DEBUG)
 	mRedCube.init(md3dDevice,".\\geometry\\cube.geo", L".\\textures\\metal.dds", true);
 	AABBHelper.init(this,&mRedCube,1);
 	AABBHelper.isActive = true;
@@ -419,7 +424,7 @@ void CanisMajor::menuUpdate(float dt, bool reset)
 					menuLoad();
 				else {
 					audio->playCue(BG);
-#if defined(_DEBUG) || defined(DEBUG)		//Use this for testing a specific level
+#if defined(DEBUG) || defined(DEBUG)		//Use this for testing a specific level
 					loadFirstFloor();
 #else				//Use this to run the full game
 					loadAttic();
@@ -533,7 +538,7 @@ void CanisMajor::levelsUpdate(float dt)
 	}
 
 	//displays the player's current location. Use for mapping/debugging
-	#if defined(_DEBUG) || defined(DEBUG)
+	#if defined(DEBUG) || defined(DEBUG)
 		wstring xzpos = std::to_wstring((int)camera.getPosition().x) + L", "+ std::to_wstring((int)camera.getPosition().z);
 		drawUtilText(xzpos);
 	#endif
@@ -857,7 +862,7 @@ void CanisMajor::levelsDraw()
 
 	slidingBookcase.draw(mfxWVPVar,mView,mProj,mTech);
 
-#if defined(_DEBUG) || defined(DEBUG)
+#if defined(DEBUG) || defined(DEBUG)
 	AABBHelper.draw(mfxWVPVar,mView,mProj,mTech);
 #endif
 
@@ -873,7 +878,7 @@ void CanisMajor::levelsDraw()
 	}
 
 	
-	//#ifdef_DEBUG || DEBUG
+	//#ifdefDEBUG || DEBUG
 	//RECT r = {mClientWidth/2,mClientHeight/2,mClientWidth/2,mClientHeight/2};
 	//utilFont->DrawText(0,L"\u25CF",-1,&r,DT_NOCLIP|DT_CENTER|DT_VCENTER,WHITE);
 	//#endif
@@ -882,7 +887,7 @@ void CanisMajor::levelsDraw()
 void CanisMajor::buildFX()
 {
 	DWORD shaderFlags = D3D10_SHADER_ENABLE_STRICTNESS;
-#if defined( DEBUG ) || defined( _DEBUG )
+#if defined( DEBUG ) || defined( DEBUG )
 	shaderFlags |= D3D10_SHADER_DEBUG;
 	shaderFlags |= D3D10_SHADER_SKIP_OPTIMIZATION;
 #endif
@@ -1298,7 +1303,7 @@ Sprite* CanisMajor::spawnSprite(const D3DXVECTOR3 center, std::wstring filename)
 }
 
 
-#if defined(_DEBUG) || defined(DEBUG)
+#if defined(DEBUG) || defined(DEBUG)
 void CanisMajor::updateDebugAABB(Actor* a)
 {
 	Vector3 min = a->getGeometry()->getAABBMin(), max=a->getGeometry()->getAABBMax();

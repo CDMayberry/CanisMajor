@@ -7,7 +7,7 @@
 
 namespace dogNS{
 	const float WALK_SPEED = 7.0;
-	const float RUN_SPEED = 32.0f;
+	const float RUN_SPEED = 20.0f;
 	const float AGRO_DIST = 2200;//distance to start dog agro
 	const float NEUTRAL_DIST = 20.0f;//distance to leave agro field
 	const int DIR_CHANGE_CHANCE = 10;// 10 percent chance of changing direction at any given waypoint
