@@ -106,9 +106,9 @@ void Dog::update(float dt){
 				game->playSound(BITE,position);
 				game->onPlayerDeath();//the dog caught the player, died
 			}
-				}
+				
 			#endif
-	
+		}
 		else if (playerNearby == &game->camera && following == false){
 			following = true;
 			game->audio->updateCue(&audioData3D,BARKING);
