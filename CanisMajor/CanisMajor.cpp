@@ -363,6 +363,11 @@ void CanisMajor::threadInit()
 
 	camera.update(0);
 
+	for(int i = 0 ; i < CM::NUM_WALLS; i++)
+	{
+		walls[i]=nullptr;
+	}
+
 	//buildFX();
 	buildVertexLayouts();
 
@@ -560,6 +565,15 @@ void CanisMajor::collisions()
 	camera.resetNearbyInteractable();
 	dog.resetNearest();
 	float dist;
+
+	for(int i = 0; i<CM::NUM_WALLS;i++)
+	{
+		if(walls[i]!=nullptr){
+			if(camera.isPicked(walls[i],dist)){
+				camera.setNearbyInteractable(nullptr,dist);
+			}
+		}
+	}
 
 	for(int i = 0; i< CM::MAX_SEARCHABLE_ACTORS; i++)
 	{
@@ -1028,6 +1042,10 @@ void CanisMajor::clearLevel()
 	negaLight.pos = Vector3(200,200,200);
 	eyes.pos = Vector3(200,200,200);
 	slidingBookcase.isActive=false;
+	for(int i = 0 ; i < CM::NUM_WALLS; i++)
+	{
+		walls[i]=nullptr;
+	}
 }
 
 void CanisMajor::loadSplashScreen(bool status)
@@ -1157,6 +1175,8 @@ void CanisMajor::setNoteText(float duration,wstring s, D3DXCOLOR c)
 
 Actor* CanisMajor::spawnScenery(Geometry* g, Vector3 pos, Vector3 rot, Vector3 scale)
 {
+	
+	Actor* ret = nullptr;
 	for(int i = 0 ; i < CM::MAX_SCENERY; i++)
 	{
 		if(!scenery[i].isActive)
@@ -1166,10 +1186,22 @@ Actor* CanisMajor::spawnScenery(Geometry* g, Vector3 pos, Vector3 rot, Vector3 s
 			scenery[i].setPosition(pos);
 			scenery[i].setRotation(rot);
 			scenery[i].setScale(scale);
-			return &scenery[i];
+			ret = &scenery[i];
+			break;
 		}
 	}
-	return nullptr;
+
+	if(g==&mWallpanel || g==&mWindowPanel){
+		for(int i = 0 ; i < CM::NUM_WALLS; i++)
+		{
+			if(walls[i]==nullptr)
+			{
+				walls[i]=ret;
+				break;
+			}
+		}
+	}
+	return ret;
 }
 
 QuestItem* CanisMajor::spawnQuestItem(Geometry* g, wstring name, Vector3 pos, Vector3 rot, Vector3 scale)
