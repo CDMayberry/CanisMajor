@@ -179,7 +179,7 @@ void CanisMajor::threadInit()
 
 	mTelescope.init(md3dDevice,".\\geometry\\telescope.geo");
 	loadingStatus++; //1
-	mDresser.init(md3dDevice,".\\geometry\\dresser.geo", L".\\textures\\lightwood.dds");
+	mDresser.init(md3dDevice,".\\geometry\\dresser.geo", L".\\textures\\wood.dds",true);
 	loadingStatus++; //2
 	mFlashlight.init(md3dDevice,".\\geometry\\flashlight.geo", L".\\textures\\grey.dds");
 	flashlight.init(this,&mFlashlight,&fLight);
@@ -420,6 +420,7 @@ void CanisMajor::menuUpdate(float dt, bool reset)
 		birminghamMode=true;
 		menuText[1]=L"BIRMINGHAM MODE";
 	}
+	//birminghamMode=true;
 
 	if(GetAsyncKeyState(VK_RETURN)||GetAsyncKeyState(' '))
 	{ 
