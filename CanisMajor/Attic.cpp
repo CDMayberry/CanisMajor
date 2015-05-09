@@ -8,6 +8,7 @@ void CanisMajor::loadAttic()
 	state.bestLevel = ATTIC;
 	clearLevel();
 	int iter = 0;
+	flashlight.isOn = true;
 	setStoryText(10,L"Where am I?");
 	audio->playCue(BG);
 	camera.setPosition(Vector3(5,0,5));
