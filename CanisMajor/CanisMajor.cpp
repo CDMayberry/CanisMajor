@@ -183,8 +183,6 @@ void CanisMajor::threadInit()
 	loadingStatus++; //2
 	mFlashlight.init(md3dDevice,".\\geometry\\flashlight.geo", L".\\textures\\grey.dds");
 	flashlight.init(this,&mFlashlight,&fLight);
-	loadingStatus++; //3
-	mFrame.init(md3dDevice,".\\geometry\\pictureframe.geo");
 	loadingStatus++; //4
 	mBookcase.init(md3dDevice,".\\geometry\\bookcase.geo", L".\\textures\\bookcase2.dds",true);
 	loadingStatus++; //5
@@ -205,7 +203,7 @@ void CanisMajor::threadInit()
 	loadingStatus++; //12
 	mLock.init(md3dDevice,".\\geometry\\lock.geo");
 	loadingStatus++; //13
-	mPictureframe.init(md3dDevice,".\\geometry\\pictureframe.geo",L".\\textures\\picture1.dds");
+	mPictureframe.init(md3dDevice,".\\geometry\\pictureframe.geo",L".\\textures\\pictureframe.dds",true);
 	loadingStatus++; //14
 	mRail.init(md3dDevice,".\\geometry\\rail.geo");
 	loadingStatus++; //15
@@ -443,7 +441,7 @@ void CanisMajor::menuUpdate(float dt, bool reset)
 #if defined(DEBUG) || defined(DEBUG)		//Use this for testing a specific level
 					loadFirstFloor();
 #else				//Use this to run the full game
-					loadAttic();
+					loadFirstFloor();
 #endif
 				}
 				break;
