@@ -69,7 +69,7 @@ float3 PointLight(SurfaceInfo v, Light L, float3 eyePos)
 		return float3(0.0f, 0.0f, 0.0f);
 		
 	// Normalize the light vector.
-	lightVec /= d; 
+	lightVec /= d;
 	
 	// Add the ambient light term.
 	litColor += v.diffuse * L.ambient;	
