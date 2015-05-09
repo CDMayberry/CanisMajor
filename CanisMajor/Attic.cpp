@@ -15,7 +15,7 @@ void CanisMajor::loadAttic()
 
 	QuestItem* k = nullptr;
 
-	k=spawnQuestItem(&mKey,L"GOLD KEY",Vector3(37.3,2,53),Vector3(0,0,0),Vector3(4,4,4));
+	k=spawnQuestItem(&mKey,L"GOLD KEY",Vector3(37.2,2.5,53),Vector3(0,-PI/4,0),Vector3(4,4,4));
 
 
 	flashlight.setPosition(Vector3(18,-2,15));
