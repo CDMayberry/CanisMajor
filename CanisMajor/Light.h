@@ -94,7 +94,7 @@ struct Light
 			
 			att.x    = 0.3f;	//Flat increase/decrease
 			att.y    = .01f;		//Linear increase/decrease
-			att.z    = 0.5f; //Exponential increase/decrease
+			att.z    = 0.6f; //Exponential increase/decrease
 			range    = 5.0f;
 			fadedir = -1;
 			return 6;
