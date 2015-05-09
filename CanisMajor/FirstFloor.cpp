@@ -2,7 +2,7 @@
 
 const wstring lastWords = L"Servant's Journal:\n The master has us holding onto the book.\n He told us to keep it in here,\n out of the twins' reach.";
 const wstring dolan = L"Dolan said daddy's gonna put him down soon.\n Dolan said we could save him by hiding daddy's key,\n so we put in the servant's room!\n\n Scrawled in blood beneath:\n Thank you, children.";
-const wstring pic1 = L"An artist's drawing of a man and his dog,\n with a triumphant posing over his find.\nThe Nile can be seen in the background.";
+const wstring pic1 = L"An artist's drawing of a man and his dog,\n striking a triumphant pose over his find.\nThe Nile can be seen in the background.";
 const wstring pic2 = L"temp";
 const wstring book3 = L"welp";
 const wstring forgotten = L"The upper half of a ripped note:\n\"The fool will find it, and in his arrogance\n he will free that which was meant to remain chained.\"";
@@ -316,7 +316,7 @@ void CanisMajor::loadFirstFloor()
 
 	//Parlor Decor
 	spawnReadable(&mPictureframe,L"Picture",nullptr,Vector3(64.5,3,24),Vector3(0,PI,PI/2),Vector3(1,1,1), L"A scratched picture");
-	spawnReadable(&mPictureframe,L"Picture",nullptr,Vector3(64.5,3,38),Vector3(0,PI,PI/2),Vector3(1,1,1), L"A scratched picture");
+	spawnReadable(&mPictureframe,L"Picture",nullptr,Vector3(64.5,3,38),Vector3(0,PI,PI/2),Vector3(1,1,1), L"A worn of drawing of the pyramids.");
 	spawnReadable(&mPictureframe,L"Picture",nullptr,Vector3(30.3,3,24),Vector3(0,PI,PI/2),Vector3(1,1,1), L"A scratched picture");
-	spawnReadable(&mPictureframe,L"Picture",nullptr,Vector3(30.3,3,38),Vector3(0,PI,PI/2),Vector3(1,1,1), L"A scratched picture");
+	spawnReadable(&mPictureframe,L"Picture",nullptr,Vector3(30.3,3,38),Vector3(0,PI,PI/2),Vector3(1,1,1), L"A family portrait, showing a man, his wife, \n their two children, and the family dog");
 }

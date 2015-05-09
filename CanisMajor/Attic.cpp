@@ -128,7 +128,6 @@ void CanisMajor::loadAttic()
 	spawnSearchable(&mBox,L"Conspicuous Cube",nullptr,Vector3(10,-2,15),Vector3(0,0,0),CM::BOX_SCALE);
 	spawnSearchable(&mBox,L"Inconspicuous Cube",nullptr,Vector3(22,-2,6),Vector3(0,PI/2,0),CM::BOX_SCALE);
 
-
 	Door *d = spawnDoor(Vector3(39.9,-3.5,29),Vector3(0,0,0),Vector3(1.4,3.5,2.1),k);
 
 	//negaLight.pos = Vector3(20, 0, 30);
