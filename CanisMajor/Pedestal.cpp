@@ -104,7 +104,7 @@ void Pedestal::interactWith(Camera* player)
 
 std::wstring Pedestal::getUtilText()
 {
-	return L"Press E to examine the " + name;
+	return L"Press LMB to examine the " + name;
 }
 
 void Pedestal::load(GameState *s)
