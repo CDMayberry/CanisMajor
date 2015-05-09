@@ -1253,6 +1253,7 @@ Door* CanisMajor::spawnDoor(Vector3 pos, Vector3 rot,Vector3 scale, QuestItem* k
 		if(!doors[i].isActive)
 		{
 			doors[i].create(pos,rot,scale,k,open);
+			doors[i].setGeometry(&mDoor);
 			return &doors[i];
 		}
 	}
