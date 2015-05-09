@@ -93,7 +93,7 @@ void Dog::update(float dt){
 		if(game->birminghamMode)
 			playerNearby = nullptr;
 
-		#if defined(DEBUG) || defined(DEBUG)
+#if defined(DEBUG) || defined(DEBUG)
 		playerNearby = nullptr;
 
 #endif
@@ -220,8 +220,12 @@ bool Dog::isPicked(Actor* o, float & distance)
 {
 	if(o->isActive && o->isVisible)
 	{
+		float aggro = dogNS::AGRO_DIST;
+		if(!game->flashlight.isOn)
+			aggro /= 2;
+
 		//if they are close
-		if(D3DXVec3LengthSq(&(position - o->getPosition())) <= dogNS::AGRO_DIST)
+		if(D3DXVec3LengthSq(&(position - o->getPosition())) <= aggro)
 		{
 			return o->rayCollidesWith(getPosition(),dirToPlayer,distance);
 		}
@@ -231,6 +235,8 @@ bool Dog::isPicked(Actor* o, float & distance)
 
 void Dog::setNearest(Actor* isPlayer, float dist)
 {
+	
+	//dist < distToNearestObj
 	if(distToNearestObj > dist)
 	{
 		distToNearestObj = dist;
