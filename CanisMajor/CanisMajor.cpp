@@ -294,7 +294,7 @@ void CanisMajor::threadInit()
 
 	mStaff.init(md3dDevice,".\\geometry\\staff.geo",L".\\textures\\gold.dds");
 	staff.init(this,&mStaff);
-	mSofa.init(md3dDevice,".\\geometry\\sofa.geo", L".\\textures\\paper.dds");
+	mSofa.init(md3dDevice,".\\geometry\\sofa.geo", L".\\textures\\dirtBrown.png");
 	loadingStatus++;
 	mSphere.init(md3dDevice,".\\geometry\\sphere.geo",L".\\textures\\white.bmp");
 	loadingStatus++;
@@ -1058,10 +1058,15 @@ void CanisMajor::loadSplashScreen(bool status)
 	menuUpdate(0,true);
 
 	if(status)
+	{
 		menuText[0] = L"VICTORY";
+		menuText[1] = L"I'm Feeling Lucky";
+	}
 	else
+	{
 		menuText[0] = L"DEFEAT";
-	menuText[1] = L"RELOAD LEVEL";
+		menuText[1] = L"RELOAD LEVEL";
+	}
 	menuText[2] = L"MAIN MENU";
 }
 
