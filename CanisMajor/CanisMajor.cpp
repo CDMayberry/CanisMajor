@@ -420,7 +420,6 @@ void CanisMajor::menuUpdate(float dt, bool reset)
 		birminghamMode=true;
 		menuText[1]=L"BIRMINGHAM MODE";
 	}
-	//birminghamMode = true;
 
 	if(GetAsyncKeyState(VK_RETURN)||GetAsyncKeyState(' '))
 	{ 
@@ -443,7 +442,7 @@ void CanisMajor::menuUpdate(float dt, bool reset)
 #if defined(DEBUG) || defined(DEBUG)		//Use this for testing a specific level
 					loadFirstFloor();
 #else				//Use this to run the full game
-					loadFirstFloor();
+					loadAttic();
 #endif
 				}
 				break;
