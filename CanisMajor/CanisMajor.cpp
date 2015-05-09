@@ -441,7 +441,7 @@ void CanisMajor::menuUpdate(float dt, bool reset)
 #if defined(DEBUG) || defined(DEBUG)		//Use this for testing a specific level
 					loadFirstFloor();
 #else				//Use this to run the full game
-					loadFirstFloor();
+					loadAttic();
 #endif
 				}
 				break;

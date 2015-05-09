@@ -25,7 +25,7 @@ public:
 	bool isPicked(Actor* o, float &distance);
 	void resetNearest();
 	void setNearest(Actor* isPlayer, float distance);
-	void setTargetWPStage(int s){TargetWPStage = s;}
+	void setTargetWPStage(int s){TargetWPStage = s;TargetWaypoint = 0;}
 	Vector3 getDirection(){return direction;}
 	void giveItem(QuestItem* q){heldItem=q;}
 	void onDeath();
