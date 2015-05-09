@@ -1261,6 +1261,8 @@ Door* CanisMajor::spawnDoor(Vector3 pos, Vector3 rot,Vector3 scale, QuestItem* k
 }
 
 
+
+
 SearchableActor* CanisMajor::spawnSearchable(Geometry* g, std::wstring name, Actor* in, Vector3 pos, Vector3 rot, Vector3 scale, const char* cue, bool playOnce)
 {
 	for(int i = 0 ; i < CM::MAX_SEARCHABLE_ACTORS; i++)
