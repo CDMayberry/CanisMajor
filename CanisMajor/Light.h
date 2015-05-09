@@ -88,14 +88,16 @@ struct Light
 			return 0;
 		}
 		else if (settings == 6){//Stove-fireglow light
-			ambient  = D3DXCOLOR(0.2f, 0.04f, 0.0f, 1.0f);
-			diffuse  = D3DXCOLOR(.1f, .1f ,.1f, 1.0f);
+			ambient  = D3DXCOLOR(0.4f, 0.08f, 0.0f, 1.0f);
+			diffuse  = D3DXCOLOR(.2f, .2f ,.2f, 1.0f);
 			specular = D3DXCOLOR(.00001f, .00001f, .00001f, 1.0f);
+			
 			att.x    = 0.3f;	//Flat increase/decrease
 			att.y    = .01f;		//Linear increase/decrease
-			att.z    = 0.05f; //Exponential increase/decrease
-			range    = 10.0f;
-			return 0;
+			att.z    = 0.5f; //Exponential increase/decrease
+			range    = 5.0f;
+			fadedir = -1;
+			return 6;
 		}
 
 		else { //Pointlight, mostly our room lights
@@ -131,6 +133,7 @@ struct Light
 	D3DXVECTOR3 att;
 	float spotPow;
 	float range;
+	int fadedir;
 };
 
 struct Material

@@ -132,7 +132,7 @@ void CanisMajor::loadSecondFloor()
 
 	//Staircase to main floor
 	spawnScenery(&mWallpanel, Vector3(28,-4,15),Vector3(0,0,0),Vector3(1,4,1.2f));
-	spawnDoor(Vector3(28,-3,25.3f),Vector3(0,0,0),Vector3(2,4,2.2f),nullptr);
+	spawnDoor(Vector3(28,-3,25.3f),Vector3(0,0,0),Vector3(2,4,2.2f),mainKey);
 	spawnScenery(&mWallpanel, Vector3(32,-4,9),Vector3(0,PI/2,0),Vector3(1,4,.8f));
 	spawnScenery(&mWallpanel, Vector3(36,-18,15),Vector3(0,0,0),Vector3(1,3,1.2f));
 	spawnScenery(&mStaircase, Vector3(32,-9,14),Vector3(0,PI/2,0),Vector3(1,1,1));

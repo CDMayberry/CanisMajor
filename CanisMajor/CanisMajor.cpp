@@ -179,7 +179,7 @@ void CanisMajor::threadInit()
 
 	mTelescope.init(md3dDevice,".\\geometry\\telescope.geo");
 	loadingStatus++; //1
-	mDresser.init(md3dDevice,".\\geometry\\dresser.geo", L".\\textures\\lightwood.dds");
+	mDresser.init(md3dDevice,".\\geometry\\dresser.geo", L".\\textures\\wood.dds",true);
 	loadingStatus++; //2
 	mFlashlight.init(md3dDevice,".\\geometry\\flashlight.geo", L".\\textures\\grey.dds");
 	flashlight.init(this,&mFlashlight,&fLight);
@@ -294,7 +294,7 @@ void CanisMajor::threadInit()
 
 	mStaff.init(md3dDevice,".\\geometry\\staff.geo",L".\\textures\\gold.dds");
 	staff.init(this,&mStaff);
-	mSofa.init(md3dDevice,".\\geometry\\sofa.geo", L".\\textures\\paper.dds");
+	mSofa.init(md3dDevice,".\\geometry\\sofa.geo", L".\\textures\\dirtBrown.png");
 	loadingStatus++;
 	mSphere.init(md3dDevice,".\\geometry\\sphere.geo",L".\\textures\\white.bmp");
 	loadingStatus++;
@@ -420,6 +420,7 @@ void CanisMajor::menuUpdate(float dt, bool reset)
 		birminghamMode=true;
 		menuText[1]=L"BIRMINGHAM MODE";
 	}
+	//birminghamMode=true;
 
 	if(GetAsyncKeyState(VK_RETURN)||GetAsyncKeyState(' '))
 	{ 
@@ -505,6 +506,23 @@ void CanisMajor::levelsUpdate(float dt)
 		readableActors[i].update(dt);
 	}
 
+	D3DXCOLOR ambientchange = D3DXCOLOR(0.08f, 0.016f, 0.0f, 0.0f);
+	D3DXCOLOR diffusechange = D3DXCOLOR(0.04f, 0.04f, 0.04f, 0.0f);
+	for (int i=0;i<MAX_LIGHTS;i++){
+		if (lightType[i]==6){
+			rLights[i].ambient.r += ambientchange.r*rLights[i].fadedir*dt;
+			rLights[i].ambient.g += ambientchange.g*rLights[i].fadedir*dt;
+			rLights[i].ambient.b += ambientchange.b*rLights[i].fadedir*dt;
+
+			rLights[i].diffuse.r += diffusechange.r*rLights[i].fadedir*dt;
+			rLights[i].diffuse.g += diffusechange.g*rLights[i].fadedir*dt;
+			rLights[i].diffuse.b += diffusechange.b*rLights[i].fadedir*dt;
+
+			if (rLights[i].ambient.r < 0.2 || rLights[i].ambient.r > 0.4){
+				rLights[i].fadedir *= -1;
+			}
+		}
+	}
 
 	//for initial sound effect with howling door
 	if(!howl && doors[0].getOpen()) {
@@ -1058,10 +1076,15 @@ void CanisMajor::loadSplashScreen(bool status)
 	menuUpdate(0,true);
 
 	if(status)
+	{
 		menuText[0] = L"VICTORY";
+		menuText[1] = L"I'm Feeling Lucky";
+	}
 	else
+	{
 		menuText[0] = L"DEFEAT";
-	menuText[1] = L"RELOAD LEVEL";
+		menuText[1] = L"RELOAD LEVEL";
+	}
 	menuText[2] = L"MAIN MENU";
 }
 
