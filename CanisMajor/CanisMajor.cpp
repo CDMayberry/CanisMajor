@@ -1102,8 +1102,8 @@ void CanisMajor::menuLoad()
 	menuText[1] = L"PLAY";
 	menuText[2] = L"QUIT";
 	menuText[3] = L"";
-	menuText[4] = L"WASD-move     SHIFT-run     CTRL-crouch";
-	menuText[5] = L"E-use     F-flashlight on/off     R-recharge";
+	menuText[4] = L"WASD-move     SHIFT-run     LMB/E-use  ";
+	menuText[5] = L"CTRL-crouch    F-flashlight on/off     R-shake";
 }
 
 void CanisMajor::loadBasement()
