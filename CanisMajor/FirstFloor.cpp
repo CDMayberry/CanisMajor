@@ -311,12 +311,12 @@ void CanisMajor::loadFirstFloor()
 	spawnSearchable(&mSofa,L"Sofa",nullptr,Vector3(85,0,40),Vector3(0,-2,0),Vector3(4,4,4));
 	spawnSearchable(&mSofa,L"Sofa",nullptr,Vector3(85,0,25),Vector3(0,-1,0),Vector3(4,4,4));
 	spawnSearchable(&mFireplace,L"Fireplace",nullptr,Vector3(65.8,-3,35),Vector3(0,PI/2,0),Vector3(1,1,1));
-	spawnReadable(&mPictureframe,L"Picture",nullptr,Vector3(65.5,3,24),Vector3(0,0,PI/2),Vector3(1,1,1), pic1);
-	spawnReadable(&mPictureframe,L"Picture",nullptr,Vector3(89.3,3,32),Vector3(0,PI,PI/2),Vector3(1,1,1), L"A scratched picture");
+	spawnReadable(&mPictureframe,L"Picture",nullptr,Vector3(65.5,3,24),Vector3(0,PI,PI/2),Vector3(1,1,1), pic1);
+	spawnReadable(&mPictureframe,L"Picture",nullptr,Vector3(89.3,3,32),Vector3(0,0,PI/2),Vector3(1,1,1), L"A scratched picture");
 
 	//Parlor Decor
-	spawnReadable(&mPictureframe,L"Picture",nullptr,Vector3(64.5,3,24),Vector3(0,PI,PI/2),Vector3(1,1,1), L"A scratched picture");
-	spawnReadable(&mPictureframe,L"Picture",nullptr,Vector3(64.5,3,38),Vector3(0,PI,PI/2),Vector3(1,1,1), L"A worn of drawing of the pyramids.");
+	spawnReadable(&mPictureframe,L"Picture",nullptr,Vector3(64.5,3,24),Vector3(0,0,PI/2),Vector3(1,1,1), L"A scratched picture");
+	spawnReadable(&mPictureframe,L"Picture",nullptr,Vector3(64.5,3,38),Vector3(0,0,PI/2),Vector3(1,1,1), L"A worn of drawing of the pyramids.");
 	spawnReadable(&mPictureframe,L"Picture",nullptr,Vector3(30.3,3,24),Vector3(0,PI,PI/2),Vector3(1,1,1), L"A scratched picture");
 	spawnReadable(&mPictureframe,L"Picture",nullptr,Vector3(30.3,3,38),Vector3(0,PI,PI/2),Vector3(1,1,1), L"A family portrait, showing a man, his wife, \n their two children, and the family dog");
 }
