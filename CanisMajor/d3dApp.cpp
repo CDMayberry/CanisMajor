@@ -38,7 +38,7 @@ D3DApp::D3DApp(HINSTANCE hInstance)
 	mhMainWnd   = 0;
 	mAppPaused  = false;
 	mMinimized  = false;
-	mMaximized  = false;
+	mMaximized  = true;
 	mResizing   = false;
 
 	mFrameStats = L"";
@@ -54,8 +54,8 @@ D3DApp::D3DApp(HINSTANCE hInstance)
 	mMainWndCaption = L"Canis Major";
 	md3dDriverType  = D3D10_DRIVER_TYPE_HARDWARE;
 	mClearColor     = D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f); //TODO:: might need to change
-	mClientWidth    = 800;
-	mClientHeight   = 600;
+	mClientWidth    = 1280;
+	mClientHeight   = 1024;
 }
 
 D3DApp::~D3DApp()

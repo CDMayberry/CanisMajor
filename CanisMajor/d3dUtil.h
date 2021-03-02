@@ -94,7 +94,7 @@ D3DX10INLINE float RandF(float a, float b)
 // Returns random float in [a, b), by a min distance +r
 D3DX10INLINE float RandF(float a, float b, float r)
 {
-	r = abs(r);
+	r = fabsf(r);
 	float ret = a + RandF()*(b-a);
 	if(ret > -r && ret < r) {
 		if(ret < 0)
@@ -142,7 +142,7 @@ D3DX10INLINE T Clamp(const T& x, const T& low, const T& high)
 // Constants
 //*****************************************************************************
 
-const float INFINITY = FLT_MAX;
+//const float INFINITY = FLT_MAX;
 const float PI       = 3.14159265358979323f;
 const float MATH_EPS = 0.0001f;
 
